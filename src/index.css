@@ -1,1 +1,73 @@
 @import "tailwindcss";
+
+@theme {
+  /* Neutral */
+  --color-gray-10: #1b1f33;
+  --color-gray-20: #4e5266;
+  --color-gray-30: #878a99;
+  --color-gray-40: #c0c2cc;
+  --color-gray-50: #d0d2d9;
+  --color-gray-60: #e1e2e5;
+  --color-gray-70: #eeeff2;
+  --color-gray-80: #fafbff;
+
+  /* Primary */
+  --color-pink-10: #ff0051;
+  --color-primary: #ff3776;
+  --color-pink-50: #ff6f93;
+  --color-pink-70: #ff91b4;
+  --color-pink-90: #ffbdd2;
+
+  /* Secondary */
+  --color-green-10: #1a521d;
+  --color-secondary: #2c8f31;
+  --color-green-90: #72c877;
+
+  /* Background */
+  --color-bg-light: #eef2f7;
+  --color-bg-dark: #1b1f33;
+
+  /* Neumorphism sizes */
+  --size-neumorphism-sm-x: 1rem;
+  --size-neumorphism-sm-y: 0.5rem;
+  --size-neumorphism-md-x: 1.25rem;
+  --size-neumorphism-md-y: 0.75rem;
+  --size-neumorphism-lg-x: 1.5rem;
+  --size-neumorphism-lg-y: 1rem;
+
+  /* Neumorphism shadows */
+  --shadow-glass:
+    0 8px 32px 0 rgba(31, 38, 135, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  --shadow-glass-inset:
+    inset 0 4px 12px rgba(31, 38, 135, 0.05),
+    inset 0 1px 4px rgba(255, 255, 255, 0.4);
+
+  --shadow-neumorphism:
+    6px 6px 12px rgba(163, 177, 198, 0.5), -6px -6px 12px rgba(255, 255, 255, 1);
+  --shadow-neumorphism-inset:
+    inset 6px 6px 12px rgba(163, 177, 198, 0.5),
+    inset -6px -6px 12px rgba(255, 255, 255, 1);
+
+  --shadow-glass-neumorphism:
+    8px 8px 16px rgba(163, 177, 198, 0.35),
+    -8px -8px 16px rgba(255, 255, 255, 0.9),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.6);
+  --shadow-glass-neumorphism-inset:
+    inset 6px 6px 12px rgba(163, 177, 198, 0.4),
+    inset -6px -6px 12px rgba(255, 255, 255, 0.8);
+}
+.neumorphism-size-sm {
+  padding: var(--size-neumorphism-sm-y) var(--size-neumorphism-sm-x);
+}
+.neumorphism-size-md {
+  padding: var(--size-neumorphism-md-y) var(--size-neumorphism-md-x);
+}
+.neumorphism-size-lg {
+  padding: var(--size-neumorphism-lg-y) var(--size-neumorphism-lg-x);
+}
+.neumorphism-hover:hover {
+  background-color: var(--color-bg-light);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: var(--shadow-neumorphism);
+}
