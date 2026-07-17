@@ -11,8 +11,10 @@ const NAV_ITEMS = [
 
 const Header = () => {
   return (
-    <header className="flex justify-between items-center  py-10">
-      <img src="/logo.png" alt="logo" className="flex-1 flex justify-start" />
+    <header className="sticky top-0 z-50 flex justify-between items-center py-5 bg-bg-light/80 backdrop-blur-md px-4">
+      <div className="flex-1 flex justify-start">
+        <img src="/logo.png" alt="logo" />
+      </div>
       <Panel
         variant="neumorphism"
         inset
