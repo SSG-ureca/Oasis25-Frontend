@@ -1,7 +1,10 @@
 import { NavLink } from "react-router-dom";
+
 import { Panel } from "./Panel";
 import { neumophismVariants } from "../../types/neumophismVariants";
 import { cn } from "../../utils/cn";
+import { Button } from "./Button";
+import { Sun, UserRound } from "lucide-react";
 const NAV_ITEMS = [
   { to: "/", label: "홈(대시보드)" },
   { to: "/retrospect", label: "회고" },
@@ -13,7 +16,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 flex justify-between items-center py-5 bg-bg-light/80 backdrop-blur-md px-4">
       <div className="flex-1 flex justify-start">
-        <img src="/logo.png" alt="logo" />
+        <img src="/OASIS25.png" alt="logo" />
       </div>
       <Panel
         variant="neumorphism"
@@ -38,9 +41,15 @@ const Header = () => {
         })}
       </Panel>
       <div className="flex-1 flex justify-end gap-5">
-        <button>라이트</button>
-        <button>명언</button>
-        <button>마이페이지</button>
+        <Button variant="neumorphism" className="rounded-full w-12 h-12 p-0">
+          <Sun className="w-8 h-8" />
+        </Button>
+        <Button variant="neumorphism" className="rounded-full w-12 h-12 p-0">
+          명언
+        </Button>
+        <Button variant="neumorphism" className="rounded-full w-12 h-12 p-0">
+          <UserRound className="w-8 h-8" />
+        </Button>
       </div>
     </header>
   );

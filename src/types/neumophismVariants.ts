@@ -18,7 +18,7 @@ export const neumophismVariants = cva(
         neumorphism: [
           "bg-bg-light",
           "border",
-          "border-white/30",
+          "border-white/20",
           "shadow-[var(--shadow-neumorphism)]",
         ],
 
