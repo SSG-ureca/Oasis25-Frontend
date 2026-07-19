@@ -1,6 +1,46 @@
 @import "tailwindcss";
 
+/* 로컬 public/fonts/ 폴더에 담긴 Pretendard 웹폰트 로드 */
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local("Pretendard Regular"),
+    url("/fonts/Pretendard-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local("Pretendard Medium"),
+    url("/fonts/Pretendard-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local("Pretendard SemiBold"),
+    url("/fonts/Pretendard-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local("Pretendard Bold"),
+    url("/fonts/Pretendard-Bold.woff2") format("woff2");
+}
+
 @theme {
+  /* 기본 폰트 패밀리를 Pretendard로 매핑 */
+  --font-sans: "Pretendard", system-ui, -apple-system, sans-serif;
+
   /* Neutral */
   --color-gray-10: #1b1f33;
   --color-gray-20: #4e5266;
