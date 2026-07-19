@@ -1,7 +1,13 @@
 import { cva } from "class-variance-authority";
 
 export const neumophismVariants = cva(
-  ["transition-all", "duration-200", "select-none", "ease-in-out"],
+  [
+    "transition-all",
+    "duration-200",
+    "select-none",
+    "ease-in-out",
+    "rounded-3xl",
+  ],
   {
     variants: {
       variant: {
