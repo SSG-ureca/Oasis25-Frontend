@@ -4,7 +4,7 @@ import { Panel } from "./Panel";
 import { neumophismVariants } from "../../types/neumophismVariants";
 import { cn } from "../../utils/cn";
 import { Button } from "./Button";
-import { Sun, UserRound } from "lucide-react";
+import { Sun } from "lucide-react";
 const NAV_ITEMS = [
   { to: "/", label: "홈" },
   { to: "/retrospect", label: "회고" },
@@ -44,7 +44,7 @@ const Header = () => {
       </Panel>
       <div className="flex-1 flex justify-end gap-5">
         <Button variant="neumorphism" className="rounded-full w-12 h-12 p-0">
-          <Sun className="w-8 h-8" />
+          <Sun className="w-6 h-6 text-[#718096]" />
         </Button>
         <Button variant="neumorphism" className="rounded-full w-12 h-12 p-0">
           명언
