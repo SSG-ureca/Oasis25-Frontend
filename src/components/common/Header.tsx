@@ -4,7 +4,7 @@ import { Panel } from "./Panel";
 import { neumophismVariants } from "../../types/neumophismVariants";
 import { cn } from "../../utils/cn";
 import { Button } from "./Button";
-import { Sun, UserRound } from "lucide-react";
+import { Sun, User } from "lucide-react";
 const NAV_ITEMS = [
   { to: "/", label: "홈" },
   { to: "/retrospect", label: "회고" },
@@ -50,16 +50,10 @@ const Header = () => {
         <Button
           variant="neumorphism"
           className="rounded-full w-12 h-12 p-0 overflow-hidden relative group">
-          <img
-            src="/default_profile.png"
-            alt="Profile"
-            className="w-full h-full object-cover"
-          />
-          {/* <UserRound
-            className="w-8 h-8 text-[#6c757d] fill-[#6c757d]"
+          <User
+            className="w-10 h-10 text-[#6c757d] fill-[#6c757d]"
             strokeWidth={0}
-          /> */}
-          <div className="absolute inset-0 rounded-full pointer-events-none transition-all duration-200 group-active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.5),_inset_-6px_-6px_12px_rgba(255,255,255,1)]"></div>
+          />
         </Button>
       </div>
     </header>
