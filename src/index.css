@@ -106,6 +106,7 @@
 .neumorphism-size-lg {
   padding: var(--size-neumorphism-lg-y) var(--size-neumorphism-lg-x);
 }
+.neumorphism-active,
 .neumorphism-hover:hover {
   background-color: var(--color-bg-light);
   border-color: rgba(255, 255, 255, 0.3);

@@ -1,6 +1,7 @@
 // [pages] 대시보드, 로그인 등 독립된 개별 화면 페이지들을 담는 공간입니다.
 
 import { Panel } from "../components/common/Panel";
+import PomodoroTimer from "../components/pomodoro/PomodoroTimer";
 
 export default function Dashboard() {
   return (
@@ -20,7 +21,7 @@ export default function Dashboard() {
           미정
         </Panel>
         <Panel variant="neumorphism" className="p-4">
-          뽀모도로 타이머
+          <PomodoroTimer />
         </Panel>
       </div>
       {/* 오른쪽 열 : 잔디심기랑 밸런스 케어 (카페인 수분) + 선인장 */}

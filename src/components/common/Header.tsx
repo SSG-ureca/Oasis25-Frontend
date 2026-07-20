@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 
 import { Panel } from "./Panel";
-import { neumophismVariants } from "../../types/neumophismVariants";
 import { cn } from "../../utils/cn";
 import { Button } from "./Button";
 import { Sun, User } from "lucide-react";
@@ -30,9 +29,9 @@ const Header = () => {
               end
               className={({ isActive }) =>
                 cn(
-                  "rounded-4xl neumorphism-size-sm  border border-transparent transition-all duration-300 select-none ",
-                  !isActive && "neumorphism-hover",
-                  isActive && neumophismVariants({ variant: "neumorphism" }),
+                  "rounded-4xl neumorphism-size-sm border border-transparent transition-all duration-200 select-none",
+                  "neumorphism-hover",
+                  isActive && "neumorphism-active",
                 )
               }>
               {item.label}
@@ -51,7 +50,7 @@ const Header = () => {
           variant="neumorphism"
           className="rounded-full w-12 h-12 p-0 overflow-hidden relative group">
           <User
-            className="w-10 h-10 text-[#6c757d] fill-[#6c757d]"
+            className="w-9 h-9 text-[#6c757d] fill-[#6c757d]"
             strokeWidth={0}
           />
         </Button>
