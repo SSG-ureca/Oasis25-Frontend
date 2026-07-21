@@ -1,2 +1,10 @@
-// [services] 백엔드 API 및 외부 API 통신용 함수들을 모아두는 공간입니다.
-export {};
+import axios from "axios";
+
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+
+export const api = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
