@@ -10,7 +10,15 @@ export const RetrospectSearchPanel = () => {
             title="회고 찾아보기"
             header={
                 <div className="flex items-center gap-2">
-                    <Button variant="neumorphism">📅</Button>
+                    <Button
+                        variant="neumorphism"
+                        className="
+                            h-10
+                            px-4
+                        "
+                    >
+                        📅
+                    </Button>
                 </div>
             }
             footer={
