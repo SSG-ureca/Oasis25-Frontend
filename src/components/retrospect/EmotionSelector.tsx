@@ -1,9 +1,20 @@
-//회고 작성 패널 감정 버튼 컴포넌트
+// 회고 작성 패널 감정 버튼 컴포넌트
 import { Button } from "../common/Button";
 
-const emotions = ["😀", "😊", "😐", "😢", "😡"];
+const emotions = [
+    { score: 1, icon: "😡" },
+    { score: 2, icon: "😢" },
+    { score: 3, icon: "😐" },
+    { score: 4, icon: "😊" },
+    { score: 5, icon: "😀" },
+];
 
-export const EmotionSelector = () => {
+interface EmotionSelectorProps {
+    value: number | null;
+    onChange: (score: number) => void;
+}
+
+export const EmotionSelector = ({ value, onChange }: EmotionSelectorProps) => {
     return (
         <div
             className="
@@ -14,16 +25,21 @@ export const EmotionSelector = () => {
         >
             {emotions.map((emotion) => (
                 <Button
-                    key={emotion}
-                    variant="neumorphism"
+                    key={emotion.score}
+                    variant={
+                        value === emotion.score
+                            ? "glassNeumorphism"
+                            : "neumorphism"
+                    }
                     className="
                         w-10
                         h-10
                         p-0
                         rounded-full
                     "
+                    onClick={() => onChange(emotion.score)}
                 >
-                    {emotion}
+                    {emotion.icon}
                 </Button>
             ))}
         </div>
