@@ -112,3 +112,23 @@
   border-color: rgba(255, 255, 255, 0.3);
   box-shadow: var(--shadow-neumorphism);
 }
+
+/* 콕핏 뷰를 위한 브라우저 강제 스크롤 비활성화 및 미세 스크롤바 디자인 */
+html, body, #root {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  margin: 0;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(163, 177, 198, 0.4);
+  border-radius: 99px;
+}
+
