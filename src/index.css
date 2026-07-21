@@ -1,13 +1,22 @@
 @import "tailwindcss";
 
-/* 로컬 public/fonts/ 폴더에 담긴 Pretendard 웹폰트 로드 */
+/* 로컬 src/assets/fonts/ 폴더에 담긴 Pretendard 웹폰트 5종 로드 */
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 300;
+  font-display: swap;
+  src:
+    local("Pretendard Light"),
+    url("./assets/fonts/Pretendard-Light.woff2") format("woff2");
+}
+
 @font-face {
   font-family: "Pretendard";
   font-weight: 400;
   font-display: swap;
   src:
     local("Pretendard Regular"),
-    url("/fonts/Pretendard-Regular.woff2") format("woff2");
+    url("./assets/fonts/Pretendard-Regular.woff2") format("woff2");
 }
 
 @font-face {
@@ -16,7 +25,7 @@
   font-display: swap;
   src:
     local("Pretendard Medium"),
-    url("/fonts/Pretendard-Medium.woff2") format("woff2");
+    url("./assets/fonts/Pretendard-Medium.woff2") format("woff2");
 }
 
 @font-face {
@@ -25,7 +34,7 @@
   font-display: swap;
   src:
     local("Pretendard SemiBold"),
-    url("/fonts/Pretendard-SemiBold.woff2") format("woff2");
+    url("./assets/fonts/Pretendard-SemiBold.woff2") format("woff2");
 }
 
 @font-face {
@@ -34,7 +43,7 @@
   font-display: swap;
   src:
     local("Pretendard Bold"),
-    url("/fonts/Pretendard-Bold.woff2") format("woff2");
+    url("./assets/fonts/Pretendard-Bold.woff2") format("woff2");
 }
 
 @theme {
