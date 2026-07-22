@@ -123,10 +123,12 @@ const Header = () => {
       </div>
 
       {/* 피드백 모달 */}
-      <FeedbackModal
-        isOpen={isFeedbackOpen}
-        onClose={() => setIsFeedbackOpen(false)}
-      />
+      {isFeedbackOpen && (
+        <FeedbackModal
+          isOpen={isFeedbackOpen}
+          onClose={() => setIsFeedbackOpen(false)}
+        />
+      )}
     </header>
   );
 };
