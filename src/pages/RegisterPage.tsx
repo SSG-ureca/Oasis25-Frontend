@@ -3,40 +3,52 @@ import { useNavigate } from "react-router-dom";
 import { Panel } from "../components/common/Panel";
 import { Button } from "../components/common/Button";
 import { InputField } from "../components/common/InputField";
-import { loginApi } from "../services/authApi";
-import { Sparkles, Mail, Lock } from "lucide-react";
+import { registerApi } from "../services/authApi";
+import { Sparkles, Mail, Lock, User } from "lucide-react";
 
-export const LoginPage: React.FC = () => {
+export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
+
+  // 상태 선언 (이메일, 닉네임, 비밀번호, 비밀번호 확인, 로딩, 에러/성공 메시지)
   const [email, setEmail] = useState("");
+  const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const handleLoginSubmit = async (e: React.FormEvent) => {
+  // 회원가입 제출 처리
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim() || !password.trim()) {
-      setErrorMessage("이메일과 비밀번호를 모두 입력해 주세요.");
+    if (!email.trim() || !password.trim() || !nickname.trim()) {
+      setErrorMessage("모든 정보를 입력해 주세요.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setErrorMessage("비밀번호가 일치하지 않습니다.");
       return;
     }
 
     setIsLoading(true);
     setErrorMessage(null);
+    setSuccessMessage(null);
 
     try {
-      const response = await loginApi({ email, password });
-
-      // JWT 토큰 로컬 스토리지에 저장
-      localStorage.setItem("accessToken", response.accessToken);
-      localStorage.setItem("refreshToken", response.refreshToken);
-      localStorage.setItem("tokenType", response.tokenType);
-
-      navigate("/");
+      // 회원가입 API 호출
+      await registerApi({ email, password, nickname });
+      setSuccessMessage(
+        "회원가입이 완료되었습니다! 잠시 후 로그인 페이지로 이동합니다.",
+      );
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (err: any) {
-      console.error("Login Error:", err);
+      console.error("Register Error:", err);
       setErrorMessage(
         err.response?.data?.message ||
-          "로그인에 실패했습니다. 정보를 다시 확인해 주세요.",
+          "회원가입에 실패했습니다. 입력한 정보를 확인해 주세요.",
       );
     } finally {
       setIsLoading(false);
@@ -50,17 +62,19 @@ export const LoginPage: React.FC = () => {
           variant="neumorphism"
           className="p-8 rounded-[36px] flex flex-col space-y-4"
         >
+          {/* 헤더 영역 */}
           <div className="text-center space-y-2">
             <div className="w-16 h-16 rounded-full flex items-center justify-center bg-bg-light shadow-[var(--shadow-neumorphism)] mx-auto text-2xl">
               로고
             </div>
             <h2 className="text-xl font-bold text-gray-20 tracking-tight">
-              Login
+              Sign Up
             </h2>
           </div>
 
-          {/* 로그인 폼 */}
-          <form onSubmit={handleLoginSubmit} className="space-y-3">
+          {/* 회원가입 폼 */}
+          <form onSubmit={handleRegisterSubmit} className="space-y-3">
+            {/* 이메일 입력 */}
             <InputField
               label="EMAIL ADDRESS"
               icon={Mail}
@@ -71,6 +85,18 @@ export const LoginPage: React.FC = () => {
               required
             />
 
+            {/* 닉네임 입력 */}
+            <InputField
+              label="NICKNAME"
+              icon={User}
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              placeholder="닉네임"
+              required
+            />
+
+            {/* 비밀번호 입력 */}
             <InputField
               label="PASSWORD"
               icon={Lock}
@@ -81,7 +107,18 @@ export const LoginPage: React.FC = () => {
               required
             />
 
-            {/* 로그인 버튼*/}
+            {/* 비밀번호 확인 입력 */}
+            <InputField
+              label="CONFIRM PASSWORD"
+              icon={Lock}
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+            />
+
+            {/* 가입 완료 버튼 */}
             <Button
               type="submit"
               disabled={isLoading}
@@ -93,30 +130,35 @@ export const LoginPage: React.FC = () => {
               ) : (
                 <>
                   <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-                  ENTER OASIS
+                  JOIN OASIS
                 </>
               )}
             </Button>
 
-            {/* 에러 메시지 영역*/}
-            <div className="h-5 flex items-center justify-center mt-1">
+            {/* 알림 메시지 노출 */}
+            <div className="h-5 flex items-center justify-center mt-1 text-center px-2">
               {errorMessage && (
                 <p className="text-[11px] text-primary font-semibold animate-pulse">
                   ⚠️ {errorMessage}
                 </p>
               )}
+              {successMessage && (
+                <p className="text-[11px] text-green-50 font-semibold">
+                  🎉 {successMessage}
+                </p>
+              )}
             </div>
           </form>
 
-          {/* 회원가입 페이지 유도 링크 */}
+          {/* 로그인 링크 */}
           <p className="text-[10px] text-center text-gray-30 -mt-2">
-            계정이 없으신가요?{" "}
+            이미 계정이 있으신가요?{" "}
             <button
               type="button"
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/login")}
               className="text-primary font-bold hover:underline cursor-pointer ml-1"
             >
-              회원가입하기
+              로그인하기
             </button>
           </p>
         </Panel>
@@ -125,4 +167,4 @@ export const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
