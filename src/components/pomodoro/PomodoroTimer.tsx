@@ -3,7 +3,7 @@ import { Clock, ChevronDown, Plus, X } from "lucide-react";
 import { Button } from "../common/Button";
 import { usePomodoro } from "../../hooks/usePomodoro";
 import { MAX_CUSTOM_PRESETS } from "../../types/pomodoro";
-import ProgressRing from "./ProgressRing";
+import PomodoroOrb from "./PomodoroOrb";
 
 function formatTime(ms: number) {
   const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
@@ -37,9 +37,6 @@ export default function PomodoroTimer() {
   const customPresetCount = presets.filter((p) => !p.isDefault).length;
   const canAddPreset = customPresetCount < MAX_CUSTOM_PRESETS;
 
-  const totalMs =
-    (mode === "focus" ? settings.focusMinutes : settings.breakMinutes) * 60_000;
-  const progress = totalMs > 0 ? remaining / totalMs : 0;
   const isFocus = mode === "focus";
 
   return (
@@ -55,21 +52,12 @@ export default function PomodoroTimer() {
         />
       </button>
 
-      <ProgressRing
-        progress={progress}
-        size={240}
-        strokeWidth={10}
-        progressClassName={isFocus ? "stroke-primary" : "stroke-green-50"}
-        dotClassName={isFocus ? "fill-primary" : "fill-green-50"}>
-        <div className="flex flex-col items-center">
-          <span className="text-5xl font-bold tabular-nums text-gray-10">
-            {formatTime(remaining)}
-          </span>
-          <span className="text-sm text-gray-30 mt-1">
-            {isFocus ? "집중 세션" : "휴식 세션"}
-          </span>
-        </div>
-      </ProgressRing>
+      <PomodoroOrb
+        timeLabel={formatTime(remaining)}
+        subLabel={isFocus ? "집중 모드" : "휴식 모드"}
+        isFocus={isFocus}
+        isRunning={isRunning}
+      />
 
       <div className="flex gap-3">
         <Button
@@ -82,7 +70,7 @@ export default function PomodoroTimer() {
           variant="neumorphism"
           onClick={skip}
           className="rounded-full px-6 py-2 text-sm font-semibold text-gray-20">
-          휴식
+          {isFocus ? "휴식" : "집중"}
         </Button>
         <Button
           variant="neumorphism"
