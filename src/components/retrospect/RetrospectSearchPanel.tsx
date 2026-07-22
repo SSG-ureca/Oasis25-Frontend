@@ -99,8 +99,12 @@ export const RetrospectSearchPanel = () => {
             }
             footer={
                 <div className="flex justify-end gap-3">
-                    <Button onClick={handleUpdate}>수정</Button>
-                    <Button onClick={handleDelete}>삭제</Button>
+                    <Button variant="neumorphism" onClick={handleUpdate}>
+                        수정
+                    </Button>
+                    <Button variant="neumorphism" onClick={handleDelete}>
+                        삭제
+                    </Button>
                 </div>
             }
         >

@@ -58,8 +58,10 @@ export const RetrospectWritePanel = () => {
             }
             footer={
                 <div className="flex justify-end gap-3">
-                    <Button>사진 추가</Button>
-                    <Button onClick={handleSubmit}>작성</Button>
+                    <Button variant="neumorphism">사진 추가</Button>
+                    <Button variant="neumorphism" onClick={handleSubmit}>
+                        작성
+                    </Button>
                 </div>
             }
         >
