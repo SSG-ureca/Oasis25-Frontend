@@ -169,25 +169,28 @@
   box-shadow: var(--shadow-neumorphism);
 }
 
-/* 콕핏 뷰를 위한 브라우저 강제 스크롤 비활성화 및 미세 스크롤바 디자인 */
-html,
-body,
-#root {
+/* 콕핏 뷰를 위한 브라우저 강제 스크롤 비활성화 */
+html, body, #root {
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
   margin: 0;
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
+/* 글로벌 스크롤바 */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
 }
-.custom-scrollbar::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background: transparent;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(163, 177, 198, 0.4);
+::-webkit-scrollbar-thumb {
+  background: rgba(113, 128, 150, 0.2);
   border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(113, 128, 150, 0.4);
 }
 
 /* (PomodoroOrb) 전용 애니메이션 */

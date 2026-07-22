@@ -7,7 +7,11 @@ import { Toaster } from "react-hot-toast";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Toaster />
+    <Toaster
+      containerStyle={{
+        zIndex: 99999,
+      }}
+    />
     <RouterProvider router={router} />
   </StrictMode>,
 );
