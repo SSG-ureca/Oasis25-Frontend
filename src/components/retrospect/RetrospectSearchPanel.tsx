@@ -9,6 +9,7 @@ import {
     updateRetrospect,
     deleteRetrospect,
 } from "../../services/retrospectApi";
+import toast from "react-hot-toast";
 
 // props 필요 title: 패널 이름, header: 상단 버튼, footer:하단버튼, 컨텐츠
 export const RetrospectSearchPanel = () => {
@@ -46,10 +47,10 @@ export const RetrospectSearchPanel = () => {
 
             setRetrospect(updated);
 
-            alert("수정되었습니다.");
+            toast.success("회고가 저장되었습니다.");
         } catch (error) {
             console.error(error);
-            alert("수정 실패");
+            toast.error("수정 실패");
         }
     };
     // Delete API 호출 함수
@@ -70,10 +71,10 @@ export const RetrospectSearchPanel = () => {
             setRetrospect(null);
             setEditContent("");
 
-            alert("삭제되었습니다.");
+            toast.success("삭제되었습니다.");
         } catch (error) {
             console.error(error);
-            alert("삭제 실패");
+            toast.error("삭제 실패");
         }
     };
     return (
