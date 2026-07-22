@@ -1,6 +1,6 @@
 // 회고 페이지에서 사용하는 패널의 틀 컴포넌트
 
-import type { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Panel } from "../common/Panel";
 
 interface RetrospectPanelProps {
