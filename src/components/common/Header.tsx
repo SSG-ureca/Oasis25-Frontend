@@ -6,6 +6,7 @@ import { cn } from "../../utils/cn";
 import { Button } from "./Button";
 import { Sun, User, LogOut } from "lucide-react";
 import { logoutApi } from "../../services/authApi";
+import { FeedbackModal } from "./FeedbackModal";
 
 const NAV_ITEMS = [
   { to: "/", label: "홈" },
@@ -17,13 +18,17 @@ const NAV_ITEMS = [
 const Header = () => {
   // 프로필 드롭다운 열림 여부 상태 및 참조
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   // 외부 영역 클릭 시 드롭다운 닫기
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
@@ -58,7 +63,8 @@ const Header = () => {
       <Panel
         variant="neumorphism"
         inset
-        className="px-5 py-2.5 flex gap-5 rounded-4xl">
+        className="px-5 py-2.5 flex gap-5 rounded-4xl"
+      >
         {NAV_ITEMS.map((item) => {
           return (
             <NavLink
@@ -71,7 +77,8 @@ const Header = () => {
                   "neumorphism-hover",
                   isActive && "neumorphism-active",
                 )
-              }>
+              }
+            >
               {item.label}
             </NavLink>
           );
@@ -81,14 +88,19 @@ const Header = () => {
         <Button variant="neumorphism" className="rounded-full w-12 h-12 p-0">
           <Sun className="w-6 h-6 text-[#718096]" />
         </Button>
-        <Button variant="neumorphism" className="rounded-full w-12 h-12 p-0">
-          명언
+        <Button
+          variant="neumorphism"
+          onClick={() => setIsFeedbackOpen(true)}
+          className="rounded-full px-4 h-12 text-xs font-bold text-[#718096]"
+        >
+          VOC
         </Button>
         <div className="relative" ref={dropdownRef}>
           <Button
             variant="neumorphism"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="rounded-full w-12 h-12 p-0 overflow-hidden relative group">
+            className="rounded-full w-12 h-12 p-0 overflow-hidden relative group"
+          >
             <User
               className="w-9 h-9 text-[#6c757d] fill-[#6c757d]"
               strokeWidth={0}
@@ -109,9 +121,14 @@ const Header = () => {
           )}
         </div>
       </div>
+
+      {/* 피드백 모달 */}
+      <FeedbackModal
+        isOpen={isFeedbackOpen}
+        onClose={() => setIsFeedbackOpen(false)}
+      />
     </header>
   );
 };
 
 export default Header;
-
