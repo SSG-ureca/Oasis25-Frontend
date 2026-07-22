@@ -11,10 +11,19 @@ import {
   Palette, 
   TrendingUp 
 } from "lucide-react";
+import { useStats } from "../hooks/useStats";
 
 export const StatsPage = () => {
   const username = "오아시스";
   const [activeTab, setActiveTab] = useState<number>(0);
+  const {
+    loading,
+    hourlyPaths,
+    getWeatherData,
+    getBarHeight,
+    diaryScores,
+    trendPaths
+  } = useStats();
 
   return (
     <div className="w-full h-full flex flex-col gap-4 min-h-0 bg-transparent">
@@ -71,191 +80,206 @@ export const StatsPage = () => {
               inset
               className="flex-1 h-full rounded-[28px] p-6 sm:p-8 flex flex-col min-h-0 justify-between relative overflow-hidden"
             >
-              
-              {/* 시간대별 몰입 분석 */}
-              {activeTab === 0 && (
-                <div className="w-full h-full flex flex-col justify-between relative">
-                  <div className="z-10 space-y-1.5">
-                    <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">Peak Focus Hours</span>
-                    <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">시간대별 몰입 분석</h2>
-                    <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed max-w-[450px]">
-                      <span className="text-emerald-600 font-extrabold">{username}</span> 님은 최근 <span className="text-gray-900 font-extrabold">새벽 1시 - 2시</span> 사이의 집중도가 가장 높은 경향을 보였습니다.
-                    </p>
-                  </div>
-
-                  <div className="absolute inset-x-0 bottom-0 h-[60%] w-full opacity-80 pointer-events-none select-none">
-                    <svg viewBox="0 0 400 150" className="w-full h-full" preserveAspectRatio="none">
-                      <defs>
-                        <linearGradient id="grad-wave1" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#10b981" stopOpacity="0.3" />
-                          <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
-                        </linearGradient>
-                        <linearGradient id="grad-wave2" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#047857" stopOpacity="0.25" />
-                          <stop offset="100%" stopColor="#047857" stopOpacity="0" />
-                        </linearGradient>
-                      </defs>
-                      <path d="M0,90 C120,60 200,120 280,75 C340,40 380,95 400,85 L400,150 L0,150 Z" fill="url(#grad-wave2)" />
-                      <path d="M0,105 C80,80 150,130 220,95 C290,60 330,100 400,80 L400,150 L0,150 Z" fill="url(#grad-wave1)" />
-                    </svg>
-                  </div>
-
-                  <div className="z-10 flex justify-between px-2 pb-1 text-[9px] font-bold text-gray-400/80">
-                    <span>00시</span>
-                    <span>06시</span>
-                    <span>12시</span>
-                    <span>18시</span>
-                    <span>24시</span>
-                  </div>
+              {loading ? (
+                <div className="w-full h-full flex flex-col items-center justify-center text-gray-500 font-bold text-sm">
+                  <span>데이터를 불러오는 중입니다...</span>
                 </div>
+              ) : (
+                <>
+                  {/* 시간대별 몰입 분석 */}
+                  {activeTab === 0 && (
+                    <div className="w-full h-full flex flex-col justify-between relative">
+                      <div className="z-10 space-y-1.5">
+                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">Peak Focus Hours</span>
+                        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">시간대별 몰입 분석</h2>
+                        <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed max-w-[450px]">
+                          최근 7일간 <span className="text-emerald-600 font-extrabold">{username}</span> 님의 시간대별 총 집중 시간입니다.
+                        </p>
+                      </div>
+
+                      <div className="absolute inset-x-0 bottom-8 h-[60%] w-full opacity-80 pointer-events-none select-none">
+                        <svg viewBox="0 0 400 150" className="w-full h-full" preserveAspectRatio="none">
+                          <defs>
+                            <linearGradient id="grad-wave1" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stopColor="#10b981" stopOpacity="0.3" />
+                              <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+                            </linearGradient>
+                            <linearGradient id="grad-wave2" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stopColor="#047857" stopOpacity="0.25" />
+                              <stop offset="100%" stopColor="#047857" stopOpacity="0" />
+                            </linearGradient>
+                          </defs>
+                          <path d={hourlyPaths.fill2} fill="url(#grad-wave2)" />
+                          <path d={hourlyPaths.fill1} fill="url(#grad-wave1)" />
+                        </svg>
+                      </div>
+
+                      <div className="z-10 flex justify-between px-2 pb-1 text-[9px] font-bold text-gray-400/80">
+                        <span>00시</span>
+                        <span>06시</span>
+                        <span>12시</span>
+                        <span>18시</span>
+                        <span>24시</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 날씨별 몰입도 비교 */}
+                  {activeTab === 1 && (
+                    <div className="w-full h-full flex flex-col justify-between">
+                      <div className="space-y-1.5">
+                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">Weather Focus Analytics</span>
+                        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">날씨별 몰입도 비교</h2>
+                        <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed max-w-[450px]">
+                          날씨 환경에 따른 평균 집중 시간(분)입니다. 날씨에 적합한 몰입 상태를 확인해보세요.
+                        </p>
+                      </div>
+
+                      <div className="flex items-end justify-around h-[58%] pb-2">
+                        <div className="flex flex-col items-center gap-2 w-14">
+                          <span className="text-[9px] font-bold text-emerald-600">{getWeatherData("비")?.avgFocusMinutes.toFixed(1) || 0}분</span>
+                          <div 
+                            className="w-5 bg-gradient-to-t from-emerald-600 to-[#10b981] rounded-full shadow-[0_4px_12px_rgba(16,185,129,0.2)] transition-all duration-500" 
+                            style={{ height: `${getBarHeight("비")}px` }}
+                          />
+                          <CloudRain className="w-5 h-5 text-emerald-600" />
+                          <span className="text-[11px] font-bold text-gray-700">비</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-2 w-14">
+                          <span className="text-[9px] font-bold text-gray-500">{getWeatherData("맑음")?.avgFocusMinutes.toFixed(1) || 0}분</span>
+                          <div 
+                            className="w-5 bg-gray-300/60 rounded-full transition-all duration-500" 
+                            style={{ height: `${getBarHeight("맑음")}px` }}
+                          />
+                          <Sun className="w-5 h-5 text-gray-400" />
+                          <span className="text-[11px] font-bold text-gray-400">맑음</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-2 w-14">
+                          <span className="text-[9px] font-bold text-emerald-600">{getWeatherData("흐림")?.avgFocusMinutes.toFixed(1) || 0}분</span>
+                          <div 
+                            className="w-5 bg-gradient-to-t from-emerald-600 to-[#10b981] rounded-full opacity-80 transition-all duration-500" 
+                            style={{ height: `${getBarHeight("흐림")}px` }}
+                          />
+                          <Cloud className="w-5 h-5 text-emerald-600" />
+                          <span className="text-[11px] font-bold text-gray-700">흐림</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-2 w-14">
+                          <span className="text-[9px] font-bold text-gray-500">{getWeatherData("눈")?.avgFocusMinutes.toFixed(1) || 0}분</span>
+                          <div 
+                            className="w-5 bg-gray-300/60 rounded-full transition-all duration-500" 
+                            style={{ height: `${getBarHeight("눈")}px` }}
+                          />
+                          <Snowflake className="w-5 h-5 text-gray-400" />
+                          <span className="text-[11px] font-bold text-gray-400">눈</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 감정 흐름 달력 */}
+                  {activeTab === 2 && (
+                    <div className="w-full h-full flex flex-col justify-between relative">
+                      <div className="space-y-1.5 z-10">
+                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">Watercolor Emotion Flow</span>
+                        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">감정 흐름 달력</h2>
+                        <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed max-w-[450px]">
+                          최근 35일간의 회고 기록에 근거한 기분 지표 수채화 번짐 흐름입니다.
+                        </p>
+                      </div>
+
+                      <div className="flex-1 flex items-center justify-center py-2 min-h-0 z-10">
+                        <div className="w-[280px] aspect-[7/5] md:w-[322px] mx-auto grid grid-cols-7 gap-0 rounded-[12px] overflow-hidden bg-[#e5e9f0]/40 shadow-inner">
+                          {diaryScores.map((score, idx) => {
+                            let colorClass = "";
+                            if (score === 1) {
+                              colorClass = "bg-[#ef4444]/30";
+                            } else if (score === 2) {
+                              colorClass = "bg-[#6366f1]/30";
+                            } else if (score === 3) {
+                              colorClass = "bg-[#94a3b8]/35";
+                            } else if (score === 4) {
+                              colorClass = "bg-[#10b981]/30";
+                            } else if (score === 5) {
+                              colorClass = "bg-[#f59e0b]/30";
+                            }
+                            return (
+                              <div key={idx} className="relative w-full h-full flex items-center justify-center overflow-visible">
+                                {colorClass && (
+                                  <div
+                                      className={`absolute w-[240%] h-[240%] rounded-full filter blur-[12px] sm:blur-[18px] pointer-events-none ${colorClass}`}
+                                  />
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <div className="flex justify-around items-center text-[9px] sm:text-[10px] font-bold text-gray-500/80 border-t border-black/5 pt-2.5 shrink-0 w-full px-1 z-10">
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#ef4444]/80 shadow-[0_0_6px_rgba(239,68,68,0.3)]" />
+                          <span>스트레스</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#6366f1]/80 shadow-[0_0_6px_rgba(99,102,241,0.3)]" />
+                          <span>불안/슬픔</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#94a3b8]/80 shadow-[0_0_6px_rgba(148,163,184,0.3)]" />
+                          <span>보통</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]/80 shadow-[0_0_6px_rgba(16,185,129,0.3)]" />
+                          <span>차분함</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]/80 shadow-[0_0_6px_rgba(245,158,11,0.3)]" />
+                          <span>행복</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 30일 집중력 트렌드 */}
+                  {activeTab === 3 && (
+                    <div className="w-full h-full flex flex-col justify-between relative">
+                      <div className="z-10 space-y-1.5">
+                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">30-Day Monthly Trend</span>
+                        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">30일 몰입도 변화 트렌드</h2>
+                        <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed max-w-[450px]">
+                          최근 30일 동안의 평균 집중 지표 추이가 점진적인 우상향의 안정적인 성장을 나타내고 있습니다.
+                        </p>
+                      </div>
+
+                      <div className="absolute inset-x-0 bottom-8 h-[60%] w-full opacity-80 pointer-events-none select-none">
+                        <svg viewBox="0 0 400 150" className="w-full h-full" preserveAspectRatio="none">
+                          <defs>
+                            <linearGradient id="grad-upward-wave1" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stopColor="#10b981" stopOpacity="0.35" />
+                              <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+                            </linearGradient>
+                            <linearGradient id="grad-upward-wave2" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stopColor="#047857" stopOpacity="0.25" />
+                              <stop offset="100%" stopColor="#047857" stopOpacity="0" />
+                            </linearGradient>
+                          </defs>
+                          <path d={trendPaths.fill2} fill="url(#grad-upward-wave2)" />
+                          <path d={trendPaths.fill1} fill="url(#grad-upward-wave1)" />
+                        </svg>
+                      </div>
+
+                      <div className="z-10 flex justify-between px-2 pb-1 text-[9px] font-bold text-gray-400/80">
+                        <span>1일</span>
+                        <span>1주차</span>
+                        <span>2주차</span>
+                        <span>3주차</span>
+                        <span>4주차</span>
+                        <span>30일</span>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
-
-              {/* 날씨별 몰입도 비교 */}
-              {activeTab === 1 && (
-                <div className="w-full h-full flex flex-col justify-between">
-                  <div className="space-y-1.5">
-                    <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">Weather Focus Analytics</span>
-                    <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">날씨별 몰입도 비교</h2>
-                    <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed max-w-[450px]">
-                      <span className="text-emerald-600 font-extrabold">{username}</span> 님은 비오는 날 가장 짙은 몰입 상태를 기록했습니다. 빗소리가 천연 집중 보조제 역할을 해줍니다.
-                    </p>
-                  </div>
-
-                  <div className="flex items-end justify-around h-[58%] pb-2">
-                    <div className="flex flex-col items-center gap-2 w-14">
-                      <div className="w-5 bg-gradient-to-t from-emerald-600 to-[#10b981] rounded-full h-32 shadow-[0_4px_12px_rgba(16,185,129,0.2)] animate-pulse" />
-                      <CloudRain className="w-5 h-5 text-emerald-600" />
-                      <span className="text-[11px] font-bold text-gray-700">비</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 w-14">
-                      <div className="w-5 bg-gray-300/60 rounded-full h-16" />
-                      <Sun className="w-5 h-5 text-gray-400" />
-                      <span className="text-[11px] font-bold text-gray-400">맑음</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 w-14">
-                      <div className="w-5 bg-gradient-to-t from-emerald-600 to-[#10b981] rounded-full h-24 opacity-80" />
-                      <Cloud className="w-5 h-5 text-emerald-600" />
-                      <span className="text-[11px] font-bold text-gray-700">흐림</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 w-14">
-                      <div className="w-5 bg-gray-300/60 rounded-full h-10" />
-                      <Snowflake className="w-5 h-5 text-gray-400" />
-                      <span className="text-[11px] font-bold text-gray-400">눈</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* 감정 흐름 달력 */}
-              {activeTab === 2 && (
-                <div className="w-full h-full flex flex-col justify-between relative">
-                  <div className="space-y-1.5 z-10">
-                    <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">Watercolor Emotion Flow</span>
-                    <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">감정 흐름 달력</h2>
-                    <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed max-w-[450px]">
-                      회고가 기록된 일자를 중심으로 감정 상태의 수채화 번짐 틴트가 유기적으로 흘러 다닙니다.
-                    </p>
-                  </div>
-
-                  <div className="flex-1 flex items-center justify-center py-2 min-h-0 z-10">
-                    <div className="w-[280px] aspect-[7/5] md:w-[322px] mx-auto grid grid-cols-7 gap-0 rounded-[12px] overflow-hidden bg-[#e5e9f0]/40 shadow-inner">
-                      {[
-                        { score: 5 }, { score: 5 }, { score: 2 }, { score: "none" }, { score: 4 }, { score: 4 }, { score: 5 },
-                        { score: "none" }, { score: 3 }, { score: 3 }, { score: 1 }, { score: 4 }, { score: 4 }, { score: "none" },
-                        { score: 5 }, { score: 1 }, { score: "none" }, { score: 2 }, { score: 2 }, { score: "none" }, { score: 5 },
-                        { score: "none" }, { score: 4 }, { score: 4 }, { score: 3 }, { score: "none" }, { score: 4 }, { score: "none" },
-                        { score: "none" }, { score: "none" }, { score: 5 }, { score: 5 }, { score: 2 }, { score: "none" }, { score: "none" },
-                      ].map((item, idx) => {
-                        let colorClass = "";
-                        if (item.score === 1) {
-                          colorClass = "bg-[#ef4444]/30";
-                        } else if (item.score === 2) {
-                          colorClass = "bg-[#6366f1]/30";
-                        } else if (item.score === 3) {
-                          colorClass = "bg-[#94a3b8]/35";
-                        } else if (item.score === 4) {
-                          colorClass = "bg-[#10b981]/30";
-                        } else if (item.score === 5) {
-                          colorClass = "bg-[#f59e0b]/30";
-                        }
-                        return (
-                          <div key={idx} className="relative w-full h-full flex items-center justify-center overflow-visible">
-                            {colorClass && (
-                              <div
-                                  className={`absolute w-[240%] h-[240%] rounded-full filter blur-[12px] sm:blur-[18px] pointer-events-none ${colorClass}`}
-                              />
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* 설명 범례 */}
-                  <div className="flex justify-around items-center text-[9px] sm:text-[10px] font-bold text-gray-500/80 border-t border-black/5 pt-2.5 shrink-0 w-full px-1 z-10">
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#ef4444]/80 shadow-[0_0_6px_rgba(239,68,68,0.3)]" />
-                      <span>스트레스</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#6366f1]/80 shadow-[0_0_6px_rgba(99,102,241,0.3)]" />
-                      <span>불안/슬픔</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#94a3b8]/80 shadow-[0_0_6px_rgba(148,163,184,0.3)]" />
-                      <span>보통</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]/80 shadow-[0_0_6px_rgba(16,185,129,0.3)]" />
-                      <span>차분함</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]/80 shadow-[0_0_6px_rgba(245,158,11,0.3)]" />
-                      <span>행복</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* 30일 집중력 트렌드 */}
-              {activeTab === 3 && (
-                <div className="w-full h-full flex flex-col justify-between relative">
-                  <div className="z-10 space-y-1.5">
-                    <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">30-Day Monthly Trend</span>
-                    <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">30일 몰입도 변화 트렌드</h2>
-                    <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed max-w-[450px]">
-                      최근 30일 동안의 평균 집중 지표 추이가 점진적인 우상향의 안정적인 성장을 나타내고 있습니다.
-                    </p>
-                  </div>
-
-                  <div className="absolute inset-x-0 bottom-0 h-[60%] w-full opacity-80 pointer-events-none select-none">
-                    <svg viewBox="0 0 400 150" className="w-full h-full" preserveAspectRatio="none">
-                      <defs>
-                        <linearGradient id="grad-upward-wave1" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#10b981" stopOpacity="0.35" />
-                          <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
-                        </linearGradient>
-                        <linearGradient id="grad-upward-wave2" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#047857" stopOpacity="0.25" />
-                          <stop offset="100%" stopColor="#047857" stopOpacity="0" />
-                        </linearGradient>
-                      </defs>
-                      <path d="M0,120 C80,110 160,95 240,65 C320,35 360,25 400,10 L400,150 L0,150 Z" fill="url(#grad-upward-wave2)" />
-                      <path d="M0,135 C80,125 160,110 240,75 C320,40 360,20 400,5 L400,150 L0,150 Z" fill="url(#grad-upward-wave1)" />
-                    </svg>
-                  </div>
-
-                  <div className="z-10 flex justify-between px-2 pb-1 text-[9px] font-bold text-gray-400/80">
-                    <span>1일</span>
-                    <span>1주차</span>
-                    <span>2주차</span>
-                    <span>3주차</span>
-                    <span>4주차</span>
-                    <span>30일</span>
-                  </div>
-                </div>
-              )}
-
             </Panel>
           </div>
         </Panel>
