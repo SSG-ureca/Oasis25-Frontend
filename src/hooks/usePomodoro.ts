@@ -213,13 +213,13 @@ export function usePomodoro() {
   );
 
   const saveCurrentAsPreset = useCallback(
-    async (name: string) => {
+    async (name: string, settingsOverride?: PomodoroSettings) => {
       if (!isLoggedIn()) {
         toast.error("프리셋 저장은 로그인 후 사용할 수 있습니다.");
         return;
       }
       try {
-        const created = await createPreset(name, settings);
+        const created = await createPreset(name, settingsOverride ?? settings);
         setPresets((prev) => [...prev, created]);
         toast.success("프리셋이 저장되었습니다.");
       } catch (e) {
