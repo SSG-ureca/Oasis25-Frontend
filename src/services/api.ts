@@ -8,3 +8,14 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+// API 요청 시 자동으로 Access Token 추가
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+
