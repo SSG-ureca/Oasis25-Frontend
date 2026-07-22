@@ -17,4 +17,11 @@ export const registerApi = async (data: RegisterRequest): Promise<RegisterRespon
   return response.data;
 };
 
+// 토큰 재발급 API 호출
+export const reissueApi = async (refreshToken: string): Promise<LoginResponse> => {
+  const response = await api.post<LoginResponse>("/api/auth/reissue", { refreshToken });
+  return response.data;
+};
+
+
 
