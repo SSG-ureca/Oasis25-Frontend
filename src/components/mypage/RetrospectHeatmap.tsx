@@ -4,7 +4,7 @@ import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 import "../mypage/RetrospectHeatmap.css";
 
-export const Grass = () => {
+export const RetrospectHeatmap = () => {
     const values = [
         {
             date: "2026-07-21",
