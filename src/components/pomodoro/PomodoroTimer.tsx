@@ -1,16 +1,9 @@
 import { useState } from "react";
-import {
-  Play,
-  Pause,
-  RotateCcw,
-  SkipForward,
-  Settings,
-  Plus,
-  X,
-} from "lucide-react";
+import { Clock, ChevronDown, Plus, X } from "lucide-react";
 import { Button } from "../common/Button";
 import { usePomodoro } from "../../hooks/usePomodoro";
 import { MAX_CUSTOM_PRESETS } from "../../types/pomodoro";
+import PomodoroOrb from "./PomodoroOrb";
 
 function formatTime(ms: number) {
   const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
@@ -44,55 +37,46 @@ export default function PomodoroTimer() {
   const customPresetCount = presets.filter((p) => !p.isDefault).length;
   const canAddPreset = customPresetCount < MAX_CUSTOM_PRESETS;
 
+  const isFocus = mode === "focus";
+
   return (
-    <div className="flex flex-col items-center gap-4 w-full">
-      <span
-        className={
-          "px-3 py-1 rounded-full text-sm font-semibold " +
-          (mode === "focus"
-            ? "bg-pink-90 text-pink-10"
-            : "bg-green-90 text-green-10")
-        }>
-        {mode === "focus" ? "🍅 집중 시간" : "☕ 휴식 시간"}
-      </span>
+    <div className="flex flex-col items-center gap-6 w-full">
+      <button
+        type="button"
+        onClick={() => setShowSettings((v) => !v)}
+        className="flex items-center gap-2 text-sm font-semibold text-gray-30 uppercase tracking-wide">
+        <Clock className="w-4 h-4" />
+        Pomodoro Timer
+        <ChevronDown
+          className={`w-4 h-4 transition-transform ${showSettings ? "rotate-180" : ""}`}
+        />
+      </button>
 
-      <span className="text-5xl font-bold tabular-nums">
-        {formatTime(remaining)}
-      </span>
+      <PomodoroOrb
+        timeLabel={formatTime(remaining)}
+        subLabel={isFocus ? "집중 모드" : "휴식 모드"}
+        isFocus={isFocus}
+        isRunning={isRunning}
+      />
 
-      <div className="flex gap-2">
-        {isRunning ? (
-          <Button
-            variant="neumorphism"
-            onClick={pause}
-            className="rounded-full w-12 h-12 p-0">
-            <Pause className="w-5 h-5" />
-          </Button>
-        ) : (
-          <Button
-            variant="neumorphism"
-            onClick={start}
-            className="rounded-full w-12 h-12 p-0">
-            <Play className="w-5 h-5" />
-          </Button>
-        )}
+      <div className="flex gap-3">
         <Button
           variant="neumorphism"
-          onClick={reset}
-          className="rounded-full w-12 h-12 p-0">
-          <RotateCcw className="w-5 h-5" />
+          onClick={isRunning ? pause : start}
+          className="rounded-full px-6 py-2 text-sm font-semibold text-primary">
+          {isRunning ? "일시정지" : "시작"}
         </Button>
         <Button
           variant="neumorphism"
           onClick={skip}
-          className="rounded-full w-12 h-12 p-0">
-          <SkipForward className="w-5 h-5" />
+          className="rounded-full px-6 py-2 text-sm font-semibold text-gray-20">
+          {isFocus ? "휴식" : "집중"}
         </Button>
         <Button
           variant="neumorphism"
-          onClick={() => setShowSettings((v) => !v)}
-          className="rounded-full w-12 h-12 p-0">
-          <Settings className="w-5 h-5" />
+          onClick={reset}
+          className="rounded-full px-6 py-2 text-sm font-semibold text-gray-20">
+          종료
         </Button>
       </div>
 
