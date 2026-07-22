@@ -2,22 +2,47 @@
 import { RetrospectPanel } from "./RetrospectPannel";
 import { Panel } from "../common/Panel";
 import { Button } from "../common/Button";
+import { useState } from "react";
+import type { RetrospectResponse } from "../../types/retrospect";
+import { getRetrospect } from "../../services/retrospectApi";
 
 // props 필요 title: 패널 이름, header: 상단 버튼, footer:하단버튼, 컨텐츠
 export const RetrospectSearchPanel = () => {
+    const [selectedDate, setSelectedDate] = useState(
+        new Date().toISOString().slice(0, 10),
+    );
+    const [retrospect, setRetrospect] = useState<RetrospectResponse | null>(
+        null,
+    );
+
+    // Get API 호출 함수
+    const handleSearch = async () => {
+        try {
+            const data = await getRetrospect(selectedDate);
+
+            setRetrospect(data);
+        } catch (error) {
+            console.error(error);
+            setRetrospect(null);
+        }
+    };
     return (
         <RetrospectPanel
             title="회고 찾아보기"
             header={
                 <div className="flex items-center gap-2">
-                    <Button
-                        variant="neumorphism"
+                    <input
+                        type="date"
+                        value={selectedDate}
+                        onChange={(e) => setSelectedDate(e.target.value)}
                         className="
                             h-10
-                            px-4
+                            rounded-lg
+                            px-3
                         "
-                    >
-                        📅
+                    />
+                    <Button variant="neumorphism" onClick={handleSearch}>
+                        조회
                     </Button>
                 </div>
             }
@@ -46,7 +71,11 @@ export const RetrospectSearchPanel = () => {
                         flex-[1.5]
                     "
                 >
-                    회고 내용
+                    {retrospect ? (
+                        <div>{retrospect.content}</div>
+                    ) : (
+                        <div>조회할 회고가 없습니다.</div>
+                    )}
                 </Panel>
 
                 <Panel

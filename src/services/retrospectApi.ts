@@ -13,7 +13,17 @@ export const createRetrospect = async (
     return response.data;
 };
 // 조회
-export const getRetrospect = async (date: string) => {};
+export const getRetrospect = async (
+    date: string,
+): Promise<RetrospectResponse> => {
+    const response = await api.get(DIARY_API, {
+        params: {
+            date,
+        },
+    });
+
+    return response.data;
+};
 
 // 수정
 export const updateRetrospect = async () => {};
