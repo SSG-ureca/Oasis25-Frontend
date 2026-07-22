@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
-import { ThumbsUp, ThumbsDown, MessageSquare, X } from "lucide-react";
-import { Panel } from "./Panel";
-import { Button } from "./Button";
+import { ThumbsUp, ThumbsDown, X } from "lucide-react";
 import { createFeedback } from "../../services/feedbackApi";
 import { toast } from "react-hot-toast";
 
