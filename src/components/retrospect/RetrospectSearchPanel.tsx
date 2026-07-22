@@ -4,7 +4,11 @@ import { Panel } from "../common/Panel";
 import { Button } from "../common/Button";
 import { useState } from "react";
 import type { RetrospectResponse } from "../../types/retrospect";
-import { getRetrospect } from "../../services/retrospectApi";
+import {
+    getRetrospect,
+    updateRetrospect,
+    deleteRetrospect,
+} from "../../services/retrospectApi";
 
 // props 필요 title: 패널 이름, header: 상단 버튼, footer:하단버튼, 컨텐츠
 export const RetrospectSearchPanel = () => {
@@ -14,6 +18,7 @@ export const RetrospectSearchPanel = () => {
     const [retrospect, setRetrospect] = useState<RetrospectResponse | null>(
         null,
     );
+    const [editContent, setEditContent] = useState("");
 
     // Get API 호출 함수
     const handleSearch = async () => {
@@ -21,9 +26,54 @@ export const RetrospectSearchPanel = () => {
             const data = await getRetrospect(selectedDate);
 
             setRetrospect(data);
+            setEditContent(data.content);
         } catch (error) {
             console.error(error);
             setRetrospect(null);
+        }
+    };
+    //Put API로 수정 함수
+    const handleUpdate = async () => {
+        if (!retrospect) {
+            return;
+        }
+
+        try {
+            const updated = await updateRetrospect(retrospect.id, {
+                content: editContent,
+                emotionScore: retrospect.emotionScore,
+            });
+
+            setRetrospect(updated);
+
+            alert("수정되었습니다.");
+        } catch (error) {
+            console.error(error);
+            alert("수정 실패");
+        }
+    };
+    // Delete API 호출 함수
+    const handleDelete = async () => {
+        if (!retrospect) {
+            return;
+        }
+
+        const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        try {
+            await deleteRetrospect(retrospect.id);
+
+            setRetrospect(null);
+            setEditContent("");
+
+            alert("삭제되었습니다.");
+        } catch (error) {
+            console.error(error);
+            alert("삭제 실패");
         }
     };
     return (
@@ -48,8 +98,8 @@ export const RetrospectSearchPanel = () => {
             }
             footer={
                 <div className="flex justify-end gap-3">
-                    <Button>수정</Button>
-                    <Button>삭제</Button>
+                    <Button onClick={handleUpdate}>수정</Button>
+                    <Button onClick={handleDelete}>삭제</Button>
                 </div>
             }
         >
@@ -72,7 +122,17 @@ export const RetrospectSearchPanel = () => {
                     "
                 >
                     {retrospect ? (
-                        <div>{retrospect.content}</div>
+                        <textarea
+                            value={editContent}
+                            onChange={(e) => setEditContent(e.target.value)}
+                            className="
+            w-full
+            h-full
+            resize-none
+            bg-transparent
+            outline-none
+        "
+                        />
                     ) : (
                         <div>조회할 회고가 없습니다.</div>
                     )}
