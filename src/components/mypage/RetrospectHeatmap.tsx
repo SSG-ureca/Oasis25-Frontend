@@ -3,6 +3,7 @@ import { Panel } from "../common/Panel";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 import "../mypage/RetrospectHeatmap.css";
+import { Button } from "../common/Button";
 
 export const RetrospectHeatmap = () => {
     const values = [
@@ -49,14 +50,14 @@ export const RetrospectHeatmap = () => {
                 />
             </Panel>
 
-            <Panel
+            <Button
                 variant="glassNeumorphism"
                 className="
                     flex-[1]
                     p-2
                     min-h-0
                 "
-            ></Panel>
+            ></Button>
         </div>
     );
 };

@@ -12,8 +12,6 @@ export const ProfileEditor = () => {
                 h-full
                 
             "
-        >
-            프로필
-        </Panel>
+        ></Panel>
     );
 };
