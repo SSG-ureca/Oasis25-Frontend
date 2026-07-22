@@ -4,6 +4,7 @@ import Dashboard from "../pages/Dashboard";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import { RetrospectPage } from "../pages/RetrospectPage";
 
 export const router = createBrowserRouter([
     {
@@ -19,7 +20,7 @@ export const router = createBrowserRouter([
         element: <MainLayout />,
         children: [
             { index: true, element: <Dashboard /> },
-            { path: "/retrospect", element: <Dashboard /> },
+            { path: "/retrospect", element: <RetrospectPage /> },
             { path: "/stats", element: <Dashboard /> },
             { path: "/mypage", element: <Dashboard /> },
             { path: "*", element: <NotFoundPage /> },

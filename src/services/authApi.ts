@@ -22,6 +22,3 @@ export const reissueApi = async (refreshToken: string): Promise<LoginResponse> =
   const response = await api.post<LoginResponse>("/api/auth/reissue", { refreshToken });
   return response.data;
 };
-
-
-
