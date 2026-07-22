@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Panel } from "../components/common/Panel";
 import { Button } from "../components/common/Button";
+import { InputField } from "../components/common/InputField";
 import { loginApi } from "../services/authApi";
 import { Sparkles, Mail, Lock } from "lucide-react";
 
@@ -60,40 +61,25 @@ export const LoginPage: React.FC = () => {
 
           {/* 로그인 폼 */}
           <form onSubmit={handleLoginSubmit} className="space-y-3">
-            <div className="space-y-1.5">
-              <label className="text-[10px] text-gray-30 font-bold tracking-widest block uppercase font-mono pl-1">
-                EMAIL ADDRESS
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-30" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="user@example.com"
-                  required
-                  className="w-full pl-11 pr-4 py-3.5 text-xs bg-bg-light shadow-[var(--shadow-neumorphism-inset)] border border-transparent rounded-2xl focus:outline-none focus:border-gray-40 text-gray-10 font-sans"
-                />
-              </div>
-            </div>
+            <InputField
+              label="EMAIL ADDRESS"
+              icon={Mail}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="user@example.com"
+              required
+            />
 
-            {/* 비밀번호 입력창*/}
-            <div className="space-y-1.5">
-              <label className="text-[10px] text-gray-30 font-bold tracking-widest block uppercase font-mono pl-1">
-                PASSWORD
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-30" />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  className="w-full pl-11 pr-4 py-3.5 text-xs bg-bg-light shadow-[var(--shadow-neumorphism-inset)] border border-transparent rounded-2xl focus:outline-none focus:border-gray-40 text-gray-10 font-mono"
-                />
-              </div>
-            </div>
+            <InputField
+              label="PASSWORD"
+              icon={Lock}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+            />
 
             {/* 로그인 버튼*/}
             <Button

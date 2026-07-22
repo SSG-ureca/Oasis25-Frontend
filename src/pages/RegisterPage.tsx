@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Panel } from "../components/common/Panel";
 import { Button } from "../components/common/Button";
+import { InputField } from "../components/common/InputField";
 import { registerApi } from "../services/authApi";
 import { Sparkles, Mail, Lock, User } from "lucide-react";
 
@@ -74,76 +75,48 @@ export const RegisterPage: React.FC = () => {
           {/* 회원가입 폼 */}
           <form onSubmit={handleRegisterSubmit} className="space-y-3">
             {/* 이메일 입력 */}
-            <div className="space-y-1.5">
-              <label className="text-[10px] text-gray-30 font-bold tracking-widest block uppercase font-mono pl-1">
-                EMAIL ADDRESS
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-30" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="user@example.com"
-                  required
-                  className="w-full pl-11 pr-4 py-3.5 text-xs bg-bg-light shadow-[var(--shadow-neumorphism-inset)] border border-transparent rounded-2xl focus:outline-none focus:border-gray-40 text-gray-10 font-sans"
-                />
-              </div>
-            </div>
+            <InputField
+              label="EMAIL ADDRESS"
+              icon={Mail}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="user@example.com"
+              required
+            />
 
             {/* 닉네임 입력 */}
-            <div className="space-y-1.5">
-              <label className="text-[10px] text-gray-30 font-bold tracking-widest block uppercase font-mono pl-1">
-                NICKNAME
-              </label>
-              <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-30" />
-                <input
-                  type="text"
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
-                  placeholder="닉네임"
-                  required
-                  className="w-full pl-11 pr-4 py-3.5 text-xs bg-bg-light shadow-[var(--shadow-neumorphism-inset)] border border-transparent rounded-2xl focus:outline-none focus:border-gray-40 text-gray-10 font-sans"
-                />
-              </div>
-            </div>
+            <InputField
+              label="NICKNAME"
+              icon={User}
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              placeholder="닉네임"
+              required
+            />
 
             {/* 비밀번호 입력 */}
-            <div className="space-y-1.5">
-              <label className="text-[10px] text-gray-30 font-bold tracking-widest block uppercase font-mono pl-1">
-                PASSWORD
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-30" />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  className="w-full pl-11 pr-4 py-3.5 text-xs bg-bg-light shadow-[var(--shadow-neumorphism-inset)] border border-transparent rounded-2xl focus:outline-none focus:border-gray-40 text-gray-10 font-mono"
-                />
-              </div>
-            </div>
+            <InputField
+              label="PASSWORD"
+              icon={Lock}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+            />
 
             {/* 비밀번호 확인 입력 */}
-            <div className="space-y-1.5">
-              <label className="text-[10px] text-gray-30 font-bold tracking-widest block uppercase font-mono pl-1">
-                CONFIRM PASSWORD
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-30" />
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  className="w-full pl-11 pr-4 py-3.5 text-xs bg-bg-light shadow-[var(--shadow-neumorphism-inset)] border border-transparent rounded-2xl focus:outline-none focus:border-gray-40 text-gray-10 font-mono"
-                />
-              </div>
-            </div>
+            <InputField
+              label="CONFIRM PASSWORD"
+              icon={Lock}
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+            />
 
             {/* 가입 완료 버튼 */}
             <Button
