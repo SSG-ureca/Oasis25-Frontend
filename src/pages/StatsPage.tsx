@@ -19,7 +19,8 @@ export const StatsPage = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
   const {
     loading,
-    hourlyPaths,
+    weeklyHourlyPaths,
+    dailyHourDataList,
     getWeatherData,
     getBarHeight,
     diaryScores,
@@ -89,7 +90,11 @@ export const StatsPage = () => {
                 <>
                   {/* 시간대별 몰입 분석 */}
                   {activeTab === 0 && (
-                    <HourlyFocusChart username={username} hourlyPaths={hourlyPaths} />
+                    <HourlyFocusChart 
+                      username={username} 
+                      weeklyHourlyPaths={weeklyHourlyPaths} 
+                      dailyHourDataList={dailyHourDataList} 
+                    />
                   )}
 
                   {/* 날씨별 몰입도 비교 */}

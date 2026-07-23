@@ -1,74 +1,17 @@
 import { useState, useEffect } from "react";
-import { getPomodoroLogs, getWeatherStats, getAllDiaries } from "../services/statsApi";
+import { getWeeklyLogs, type WeeklyLogResponse } from "../services/statsApi";
 import { generateSvgPath } from "../utils/statsUtils";
-import type { WeatherStatsResponse, PomodoroLogResponse } from "../types/stats";
-import type { RetrospectResponse } from "../types/retrospect";
 
 export function useStats() {
   const [loading, setLoading] = useState<boolean>(true);
-  const [weatherStats, setWeatherStats] = useState<WeatherStatsResponse[]>([]);
-  const [weeklyLogs, setWeeklyLogs] = useState<PomodoroLogResponse[]>([]);
-  const [monthlyLogs, setMonthlyLogs] = useState<{ [date: string]: PomodoroLogResponse[] }>({});
-  const [diaries, setDiaries] = useState<RetrospectResponse[]>([]);
+  const [weeklyLogs, setWeeklyLogs] = useState<WeeklyLogResponse[]>([]);
 
   useEffect(() => {
     async function initData() {
       try {
         setLoading(true);
-        const [weatherData, diariesData] = await Promise.all([
-          getWeatherStats(),
-          getAllDiaries()
-        ]);
-
-        setWeatherStats(weatherData);
-        setDiaries(diariesData);
-
-        const getLocalDateString = (date: Date) => {
-          const year = date.getFullYear();
-          const month = String(date.getMonth() + 1).padStart(2, '0');
-          const day = String(date.getDate()).padStart(2, '0');
-          return `${year}-${month}-${day}`;
-        };
-
-        // Fetch logs for the past 7 days (including today)
-        const past7Days = Array.from({ length: 7 }, (_, i) => {
-          const d = new Date();
-          d.setDate(d.getDate() - (6 - i));
-          return getLocalDateString(d);
-        });
-
-        const weeklyPromises = past7Days.map(async (dStr) => {
-          try {
-            return await getPomodoroLogs(dStr);
-          } catch (e) {
-            return [];
-          }
-        });
-        const weeklyLogsList = await Promise.all(weeklyPromises);
-        setWeeklyLogs(weeklyLogsList.flat());
-
-        // Fetch logs for the past 30 days
-        const pastDates = Array.from({ length: 30 }, (_, i) => {
-          const d = new Date();
-          d.setDate(d.getDate() - (29 - i));
-          return getLocalDateString(d);
-        });
-
-        const logsPromises = pastDates.map(async (dStr) => {
-          try {
-            const logs = await getPomodoroLogs(dStr);
-            return { date: dStr, logs };
-          } catch (e) {
-            return { date: dStr, logs: [] };
-          }
-        });
-
-        const allLogs = await Promise.all(logsPromises);
-        const logsMap: { [date: string]: PomodoroLogResponse[] } = {};
-        allLogs.forEach(item => {
-          logsMap[item.date] = item.logs;
-        });
-        setMonthlyLogs(logsMap);
+        const data = await getWeeklyLogs();
+        setWeeklyLogs(data);
       } catch (err) {
         console.error("Failed to load stats:", err);
       } finally {
@@ -78,53 +21,75 @@ export function useStats() {
     initData();
   }, []);
 
-  // Hour stats aggregation (00시 - 23시) for the past 7 days
-  const hourData = Array(24).fill(0);
-  weeklyLogs.forEach(log => {
-    if (log.completed && log.createdAt) {
-      const date = new Date(log.createdAt);
-      const hour = date.getHours();
-      hourData[hour] += log.focusMinutes;
-    }
-  });
-  const hourlyPaths = generateSvgPath(hourData);
-
-  // Weather stats logic
-  const maxAvgFocus = Math.max(...weatherStats.map(w => w.avgFocusMinutes), 1);
-  const getWeatherData = (cond: string) => weatherStats.find(w => w.weatherCondition === cond);
-  const getBarHeight = (cond: string) => {
-    const data = getWeatherData(cond);
-    if (!data) return 10;
-    return Math.max(10, (data.avgFocusMinutes / maxAvgFocus) * 100);
+  const getLocalDateString = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
 
-  // Emotion score calendar logic (past 35 days)
-  const calendarDays = Array.from({ length: 35 }, (_, i) => {
+  // 오늘을 포함한 최근 7일의 로컬 날짜 문자열 배열 생성 (연대기 순)
+  const past7Days = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
-    d.setDate(d.getDate() - (34 - i));
-    return d.toISOString().split("T")[0];
-  });
-  const diaryScores = calendarDays.map(dateStr => {
-    const diary = diaries.find(d => d.diaryDate === dateStr);
-    return diary ? diary.emotionScore : "none";
+    d.setDate(d.getDate() - (6 - i));
+    return getLocalDateString(d);
   });
 
-  // 30-Day trend aggregation
-  const trendData = Array.from({ length: 30 }, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - (29 - i));
-    const dStr = d.toISOString().split("T")[0];
-    const logs = monthlyLogs[dStr] || [];
-    return logs.reduce((sum, log) => sum + (log.completed ? log.focusMinutes : 0), 0);
+  // 최근 7일 각각의 24시간 몰입 누적 시간(분) 계산
+  const dailyHourDataList = past7Days.map(dateStr => {
+    const hours = Array(24).fill(0);
+    weeklyLogs.forEach(log => {
+      if (log.createdAt) {
+        const logDate = new Date(log.createdAt);
+        const logDateStr = getLocalDateString(logDate);
+        if (logDateStr === dateStr) {
+          const hour = logDate.getHours();
+          hours[hour] += log.focusMinutes;
+        }
+      }
+    });
+    return hours;
   });
-  const trendPaths = generateSvgPath(trendData);
+
+  // 전역 최대치 설정을 위한 사전 가우시안 스무딩 헬퍼 함수
+  const smooth = (data: number[]) => {
+    const smoothed = new Array(24).fill(0);
+    const kernel = [0.05, 0.12, 0.2, 0.26, 0.2, 0.12, 0.05];
+    const kernelRadius = Math.floor(kernel.length / 2);
+    for (let i = 0; i < 24; i++) {
+      let sum = 0;
+      let weightSum = 0;
+      for (let k = 0; k < kernel.length; k++) {
+        const idx = i + k - kernelRadius;
+        if (idx >= 0 && idx < 24) {
+          sum += data[idx] * kernel[k];
+          weightSum += kernel[k];
+        }
+      }
+      smoothed[i] = sum / weightSum;
+    }
+    return smoothed;
+  };
+
+  const smoothedDailyHourDataList = dailyHourDataList.map(hours => smooth(hours));
+  const globalMax = Math.max(...smoothedDailyHourDataList.flatMap(h => h), 1);
+
+  // 모든 요일이 일관된 스케일로 렌더링되도록 전역 최대치(globalMax)를 반영하여 SVG 경로 생성
+  const weeklyHourlyPaths = dailyHourDataList.map(hours => generateSvgPath(hours, globalMax));
+
+  const getWeatherData = (_cond: string): any => undefined;
+  const getBarHeight = (_cond: string): number => 10;
+  const diaryScores = Array(35).fill("none");
+  const trendPaths = { fill1: "M 0,130 L 400,130", fill2: "M 0,130 L 400,130" };
 
   return {
     loading,
-    hourlyPaths,
+    weeklyHourlyPaths,
+    dailyHourDataList,
     getWeatherData,
     getBarHeight,
     diaryScores,
-    trendPaths
+    trendPaths,
   };
 }
+export default useStats;
