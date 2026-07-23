@@ -1,4 +1,3 @@
-import React from "react";
 import { Panel } from "../common/Panel";
 
 export const MusicController = () => {
