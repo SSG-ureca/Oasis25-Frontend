@@ -201,8 +201,6 @@
   box-shadow: var(--shadow-neumorphism);
 }
 
-/* 콕핏 뷰를 위한 브라우저 강제 스크롤 비활성화 */
-html, body, #root {
 /* 사막 모래 질감: 노이즈 + 은은한 그라데이션 오버레이 */
 .desert-grain {
   background: var(--color-clay-bg);

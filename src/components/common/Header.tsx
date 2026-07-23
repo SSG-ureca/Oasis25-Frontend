@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import { Panel } from "./Panel";
-import { RestrictedArea } from "./RestrictedArea";
 import { cn } from "../../utils/cn";
 import { Button } from "./Button";
 import { Sun, LogOut, Menu, X, LogIn, User } from "lucide-react";
@@ -10,66 +9,63 @@ import { logoutApi } from "../../services/authApi";
 import { FeedbackModal } from "./FeedbackModal";
 
 const NAV_ITEMS = [
-    { to: "/main", label: "홈" },
-    { to: "/main/retrospect", label: "회고" },
-    { to: "/main/stats", label: "통계" },
-    { to: "/main/mypage", label: "마이페이지" },
+  { to: "/main", label: "홈" },
+  { to: "/main/retrospect", label: "회고" },
+  { to: "/main/stats", label: "통계" },
+  { to: "/main/mypage", label: "마이페이지" },
 ];
 
 const Header = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   // 모바일 메뉴(820px 미만 햄버거) 펼침 여부 상태 및 참조
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const token = localStorage.getItem("accessToken");
-    const isGuest = !token;
+  const token = localStorage.getItem("accessToken");
+  const isGuest = !token;
 
-    // 외부 영역 클릭 시 드롭다운/모바일 메뉴 닫기
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (
-        
-                dropdownRef.current &&
-       
-                !dropdownRef.current.contains(event.target as Node)
-      
-            ) {
-                setIsDropdownOpen(false);
-            }
+  // 외부 영역 클릭 시 드롭다운/모바일 메뉴 닫기
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target as Node)
       ) {
         setIsMobileMenuOpen(false);
       }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
-
-    // 로그아웃 처리 (API 호출 후 로컬 저장소 토큰 제거 및 로그인 페이지 이동)
-    const handleLogout = async () => {
-        try {
-            const refreshToken = localStorage.getItem("refreshToken");
-            if (refreshToken) {
-                await logoutApi(refreshToken);
-            }
-        } catch (error) {
-            console.error("Logout failed:", error);
-        } finally {
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
-            localStorage.removeItem("tokenType");
-      setIsMobileMenuOpen(false);
-            navigate("/login");
-        }
     };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // 로그아웃 처리 (API 호출 후 로컬 저장소 토큰 제거 및 로그인 페이지 이동)
+  const handleLogout = async () => {
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (refreshToken) {
+        await logoutApi(refreshToken);
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("tokenType");
+      setIsMobileMenuOpen(false);
+      navigate("/login");
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 flex justify-between items-center h-13 px-4">
@@ -171,45 +167,44 @@ const Header = () => {
               />
             </Button>
 
-                    {isDropdownOpen && (
-                        <div className="absolute right-0 mt-3 w-40 bg-bg-light shadow-[var(--shadow-neumorphism)] rounded-2xl p-2 border border-white/40 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
-                            {isGuest ? (
-                                <button
-                                    onClick={() => {
-                                        setIsDropdownOpen(false);
-                                        navigate("/login");
-                                    }}
-                                    className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-700 hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5"
-                                >
-                                    <LogIn className="w-4 h-4 transition-colors" />
-                                    로그인
-                                </button>
-                            ) : (
-                                <button
-                                    onClick={() => {
-                                        setIsDropdownOpen(false);
-                                        handleLogout();
-                                    }}
-                                    className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-700 hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5"
-                                >
-                                    <LogOut className="w-4 h-4 transition-colors" />
-                                    로그아웃
-                                </button>
-                            )}
-                        </div>
-                    )}
-                </div>
-            </div>
-
-            {/* 피드백 모달 */}
-            {isFeedbackOpen && (
-                <FeedbackModal
-                    isOpen={isFeedbackOpen}
-                    onClose={() => setIsFeedbackOpen(false)}
-                />
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-3 w-40 bg-bg-light shadow-[var(--shadow-neumorphism)] rounded-2xl p-2 border border-white/40 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                {isGuest ? (
+                  <button
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      navigate("/login");
+                    }}
+                    className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-700 hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
+                    <LogIn className="w-4 h-4 transition-colors" />
+                    로그인
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      handleLogout();
+                    }}
+                    className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-700 hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
+                    <LogOut className="w-4 h-4 transition-colors" />
+                    로그아웃
+                  </button>
+                )}
+              </div>
             )}
-        </header>
-    );
+          </div>
+        </div>
+      </div>
+
+      {/* 피드백 모달 */}
+      {isFeedbackOpen && (
+        <FeedbackModal
+          isOpen={isFeedbackOpen}
+          onClose={() => setIsFeedbackOpen(false)}
+        />
+      )}
+    </header>
+  );
 };
 
 export default Header;
