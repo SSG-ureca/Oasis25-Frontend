@@ -5,6 +5,7 @@ import type {
 } from "../types/retrospect";
 const DIARY_API = "/api/diaries";
 
+//생성
 export const createRetrospect = async (
     data: RetrospectCreateRequest,
 ): Promise<RetrospectResponse> => {
@@ -41,4 +42,20 @@ export const updateRetrospect = async (
 // 삭제
 export const deleteRetrospect = async (id: number): Promise<void> => {
     await api.delete(`${DIARY_API}/${id}`);
+};
+
+//사진 첨부
+export const uploadAttachment = async (
+    id: number,
+    file: File,
+): Promise<void> => {
+    const formData = new FormData();
+
+    formData.append("attachment", file);
+
+    await api.post(`${DIARY_API}/${id}/attachment`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
 };

@@ -151,7 +151,15 @@ export const RetrospectSearchPanel = () => {
                         flex-1
                     "
                 >
-                    회고 사진
+                    {retrospect?.attachmentUrl ? (
+                        <img
+                            src={retrospect.attachmentUrl}
+                            alt="첨부 이미지"
+                            className="w-full h-full object-cover rounded-xl"
+                        />
+                    ) : (
+                        <div>첨부된 사진이 없습니다.</div>
+                    )}
                 </Panel>
             </div>
         </RetrospectPanel>
