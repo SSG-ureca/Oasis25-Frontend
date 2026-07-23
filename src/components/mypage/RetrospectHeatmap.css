@@ -2,6 +2,18 @@
     fill: #ebdfd7;
 }
 
-.react-calendar-heatmap .color-filled {
+.react-calendar-heatmap .color-level-1 {
+    fill: #b8e7f5;
+}
+
+.react-calendar-heatmap .color-level-2 {
     fill: #67c7e8;
+}
+
+.react-calendar-heatmap .color-level-3 {
+    fill: #329fc4;
+}
+
+.react-calendar-heatmap .color-level-4 {
+    fill: #176a85;
 }
