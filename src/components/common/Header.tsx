@@ -64,7 +64,7 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 flex justify-between items-center h-13.5 bg-clay-bg backdrop-blur-md px-4">
+    <header className="sticky top-0 z-50 flex justify-between items-center h-13 px-4">
       <div className="flex-1 flex justify-start">
         <img src="/src/assets/images/oasis25.png" alt="logo" />
       </div>
@@ -105,7 +105,7 @@ const Header = () => {
           </Button>
 
           {isMobileMenuOpen && (
-            <div className="absolute right-0 top-full mt-3 w-48 bg-clay-bg shadow-[var(--shadow-clay)] rounded-2xl p-2 border border-white/40 animate-in fade-in slide-in-from-top-2 duration-150 z-50 flex flex-col gap-1">
+            <div className="absolute right-0 top-full mt-3 w-48 shadow-[var(--shadow-clay)] rounded-2xl p-2 border border-white/40 animate-in fade-in slide-in-from-top-2 duration-150 z-50 flex flex-col gap-1">
               {NAV_ITEMS.map((item) => (
                 <NavLink
                   key={item.to}
