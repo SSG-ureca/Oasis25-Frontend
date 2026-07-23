@@ -25,13 +25,6 @@ export const StatsPage = () => {
     dailyFocusMinutes = []
   } = useStats();
 
-  // 30일 트렌드 마지막 포인터(오늘) Y좌표 계산
-  const lastY = (() => {
-    if (!dailyFocusMinutes || dailyFocusMinutes.length === 0) return 145;
-    const maxVal = Math.max(...dailyFocusMinutes, 60);
-    const lastVal = dailyFocusMinutes[dailyFocusMinutes.length - 1] || 0;
-    return Math.min(145, Math.max(5, 145 - (lastVal / maxVal) * 130));
-  })();
 
   useEffect(() => {
     if (activeTab === 3) {

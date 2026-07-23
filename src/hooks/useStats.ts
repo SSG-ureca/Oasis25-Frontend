@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getWeeklyLogs, getWeatherStats, getEmotionStats, getFocusTrend, type WeeklyLogResponse, type EmotionStatsResponse, type FocusTrendResponse } from "../services/statsApi";
 import { type WeatherStatsResponse } from "../types/stats";
-import { generateSvgPath, smoothData, generateTrendPath, smoothTrendData } from "../utils/statsUtils";
+import { generateSvgPath, smoothData, generateTrendPath } from "../utils/statsUtils";
 
 export function useStats() {
   const [loading, setLoading] = useState<boolean>(true);
