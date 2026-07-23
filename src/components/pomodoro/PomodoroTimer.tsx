@@ -142,7 +142,8 @@ export default function PomodoroTimer() {
       <div className="flex items-center gap-2">
         {/* 프리셋 선택 드롭다운 */}
         <div ref={presetMenuRef} className="relative">
-          <button
+          <Button
+            variant="clay"
             type="button"
             disabled={isRunning}
             onClick={() => {
@@ -155,12 +156,13 @@ export default function PomodoroTimer() {
             <ChevronDown
               className={`w-4 h-4 transition-transform ${presetMenuOpen ? "rotate-180" : ""}`}
             />
-          </button>
+          </Button>
 
           {presetMenuOpen && (
             <div className="absolute left-0 top-full mt-2 z-30 w-56 rounded-xl border border-gray-100 bg-white shadow-lg py-1">
               {selectablePresets.map((preset) => (
-                <button
+                <Button
+                  variant="clay"
                   key={preset.id}
                   type="button"
                   onClick={() => handleSelectPreset(preset)}
@@ -173,7 +175,7 @@ export default function PomodoroTimer() {
                   <span className="text-xs text-gray-30">
                     {preset.focusMinutes}/{preset.breakMinutes}분
                   </span>
-                </button>
+                </Button>
               ))}
               {loadingPresets && (
                 <div className="px-3 py-2 text-xs text-gray-30">
@@ -186,7 +188,8 @@ export default function PomodoroTimer() {
 
         {/* 프리셋 설정(추가/수정/삭제) 드롭다운 */}
         <div ref={manageMenuRef} className="relative">
-          <button
+          <Button
+            variant="clay"
             type="button"
             aria-label="프리셋 설정"
             onClick={() => {
@@ -195,7 +198,7 @@ export default function PomodoroTimer() {
             }}
             className="flex items-center justify-center w-8 h-8 rounded-full text-gray-30 hover:bg-gray-70">
             <Settings className="w-4 h-4" />
-          </button>
+          </Button>
 
           {manageMenuOpen && (
             <div className="absolute right-0 top-full mt-2 z-30 w-72 rounded-xl border border-gray-100 bg-white shadow-lg p-3 text-sm">
@@ -261,20 +264,22 @@ export default function PomodoroTimer() {
                                 }
                                 className="w-14 px-2 py-1 rounded-md border border-gray-300 text-center text-xs"
                               />
-                              <button
+                              <Button
+                                variant="clay"
                                 type="button"
                                 onClick={handleSaveEdit}
                                 className="ml-auto text-primary hover:opacity-80"
                                 aria-label="프리셋 저장">
                                 <Check className="w-4 h-4" />
-                              </button>
-                              <button
+                              </Button>
+                              <Button
+                                variant="clay"
                                 type="button"
                                 onClick={() => setEditingId(null)}
                                 className="text-gray-30 hover:text-gray-10"
                                 aria-label="편집 취소">
                                 <X className="w-4 h-4" />
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         ) : (
@@ -286,20 +291,22 @@ export default function PomodoroTimer() {
                               <span className="text-xs text-gray-30">
                                 {preset.focusMinutes}/{preset.breakMinutes}분
                               </span>
-                              <button
+                              <Button
+                                variant="clay"
                                 type="button"
                                 onClick={() => startEdit(preset)}
                                 className="text-gray-30 hover:text-primary"
                                 aria-label="프리셋 수정">
                                 <Pencil className="w-3.5 h-3.5" />
-                              </button>
-                              <button
+                              </Button>
+                              <Button
+                                variant="clay"
                                 type="button"
                                 onClick={() => handleRemovePreset(preset)}
                                 className="text-gray-30 hover:text-red-500"
                                 aria-label="프리셋 삭제">
                                 <X className="w-3.5 h-3.5" />
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         ),
@@ -339,7 +346,7 @@ export default function PomodoroTimer() {
                           className="w-14 px-2 py-1 rounded-md border border-gray-300 text-center text-xs"
                         />
                         <Button
-                          variant="neumorphism"
+                          variant="clay"
                           onClick={handleAddPreset}
                           className="ml-auto px-2 py-1 text-xs rounded-md flex items-center gap-1">
                           <Plus className="w-3 h-3" />
@@ -369,19 +376,19 @@ export default function PomodoroTimer() {
 
       <div className="flex gap-3">
         <Button
-          variant="neumorphism"
+          variant="clay"
           onClick={isRunning ? pause : start}
           className="rounded-full px-6 py-2 text-sm font-semibold text-primary">
           {isRunning ? "일시정지" : "시작"}
         </Button>
         <Button
-          variant="neumorphism"
+          variant="clay"
           onClick={skip}
           className="rounded-full px-6 py-2 text-sm font-semibold text-gray-20">
           {isFocus ? "휴식" : "집중"}
         </Button>
         <Button
-          variant="neumorphism"
+          variant="clay"
           onClick={reset}
           className="rounded-full px-6 py-2 text-sm font-semibold text-gray-20">
           종료
