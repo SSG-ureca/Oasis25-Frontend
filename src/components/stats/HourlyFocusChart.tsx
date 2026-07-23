@@ -99,9 +99,7 @@ export const HourlyFocusChart = ({ weeklyHourlyPaths, dailyHourDataList }: Hourl
       >
         <svg 
           viewBox="0 0 400 150" 
-          className={`w-full h-full pointer-events-none select-none transition-all duration-[800ms] ease-out ${
-            isLoaded ? "opacity-80 translate-y-0" : "opacity-0 translate-y-4"
-          }`} 
+          className="w-full h-full pointer-events-none select-none opacity-80" 
           preserveAspectRatio="none"
         >
           {weeklyHourlyPaths.map((paths, idx) => {
@@ -122,7 +120,15 @@ export const HourlyFocusChart = ({ weeklyHourlyPaths, dailyHourDataList }: Hourl
             }
 
             return (
-              <g key={idx} className="transition-all duration-300">
+              <g 
+                key={idx} 
+                className="transition-all duration-[750ms] ease-out origin-bottom"
+                style={{
+                  transform: isLoaded ? "scaleY(1)" : "scaleY(0)",
+                  opacity: isLoaded ? 1 : 0,
+                  transitionDelay: `${idx * 80}ms`
+                }}
+              >
                 <path d={paths.fill} fill={fillColor} fillOpacity={fillOpacity} />
               </g>
             );
@@ -168,7 +174,11 @@ export const HourlyFocusChart = ({ weeklyHourlyPaths, dailyHourDataList }: Hourl
         <div className="text-[10px] sm:text-[11px] text-gray-400 font-medium text-center select-none">
           {selectedDayInfo ? (
             <span className="cursor-pointer hover:text-emerald-600 transition-colors" onClick={handleChartClick}>
-              {selectedDayInfo.dayLabel} ({selectedDayInfo.dateString})의 곡선을 강조 표시 중입니다. (총 {selectedDayInfo.totalFocusMin}분 몰입)
+              {selectedDayInfo.totalFocusMin > 0 ? (
+                `${selectedDayInfo.dayLabel} (${selectedDayInfo.dateString})의 곡선을 강조 표시 중입니다. (총 ${selectedDayInfo.totalFocusMin}분 몰입)`
+              ) : (
+                `${selectedDayInfo.dayLabel} (${selectedDayInfo.dateString})에는 기록된 몰입 데이터가 없습니다.`
+              )}
             </span>
           ) : (
             <span className="cursor-pointer hover:text-gray-500 transition-colors" onClick={handleChartClick}>

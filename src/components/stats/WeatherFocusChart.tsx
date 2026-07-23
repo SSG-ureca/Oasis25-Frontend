@@ -109,16 +109,16 @@ export const WeatherFocusChart = ({ getWeatherData }: WeatherFocusChartProps) =>
         </p>
       </div>
 
-      <div className="relative flex-1 min-h-[240px] mt-4 mb-2 flex items-end justify-between px-6 sm:px-12">
+      <div className="relative flex-1 min-h-[200px] sm:min-h-[240px] mt-4 mb-2 flex items-end justify-between px-2 sm:px-6 md:px-12">
         <div className="absolute inset-x-0 top-0 bottom-8 flex flex-col justify-between pointer-events-none select-none">
           {gridLines.map((val, idx) => (
-            <div key={idx} className="w-full flex items-center gap-2">
-              <span className="text-[8px] font-bold text-gray-400/80 w-6 text-right shrink-0">{val}분</span>
+            <div key={idx} className="w-full flex items-center gap-1 sm:gap-2">
+              <span className="text-[7.5px] sm:text-[8px] font-bold text-gray-400/80 w-6 text-right shrink-0">{val}분</span>
               <div className="flex-1 border-b border-dashed border-gray-200/60" />
             </div>
           ))}
-          <div className="w-full flex items-center gap-2">
-            <span className="text-[8px] font-bold text-gray-400/80 w-6 text-right shrink-0">0분</span>
+          <div className="w-full flex items-center gap-1 sm:gap-2">
+            <span className="text-[7.5px] sm:text-[8px] font-bold text-gray-400/80 w-6 text-right shrink-0">0분</span>
             <div className="flex-1 border-b border-gray-200/80" />
           </div>
         </div>
@@ -131,13 +131,12 @@ export const WeatherFocusChart = ({ getWeatherData }: WeatherFocusChartProps) =>
             const Icon = item.icon;
 
             return (
-              <div key={item.key} className="flex flex-col items-center gap-2 w-12 group relative">
-                {/* 호버 시 노출되는 분 수치 라벨 */}
-                <span className="text-[10px] font-extrabold text-emerald-600 tracking-tight transition-opacity duration-200 opacity-0 group-hover:opacity-100 h-4 flex items-center justify-center whitespace-nowrap">
+              <div key={item.key} className="flex flex-col items-center gap-1.5 w-8 sm:w-12 group relative">
+                <span className="text-[8.5px] sm:text-[10px] font-extrabold text-emerald-600 tracking-tight transition-opacity duration-200 opacity-0 group-hover:opacity-100 h-4 flex items-center justify-center whitespace-nowrap">
                   {avgFocus > 0 ? `${avgFocus.toFixed(1)}분` : "기록 없음"}
                 </span>
 
-                <div className={`w-6 h-[180px] ${item.trackBg} rounded-full flex items-end overflow-hidden border border-gray-200/40 relative shadow-[inset_1px_2px_4px_rgba(0,0,0,0.06)]`}>
+                <div className={`w-4 sm:w-6 h-[140px] sm:h-[180px] ${item.trackBg} rounded-full flex items-end overflow-hidden border border-gray-200/40 relative shadow-[inset_1px_2px_4px_rgba(0,0,0,0.06)]`}>
                   <div
                     className={`w-full bg-gradient-to-t ${item.gradient} ${item.shadow} rounded-full transition-all duration-[1000ms] ease-out origin-bottom group-hover:scale-y-[1.03]`}
                     style={{ height: isLoaded ? `${Math.min(100, Math.max(0, percent))}%` : "0%" }}

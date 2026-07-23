@@ -51,18 +51,18 @@ export const StatsPage = () => {
           variant="neumorphism"
           className="w-full h-full p-3 sm:p-4 rounded-[36px] flex flex-col min-h-0"
         >
-          {/* 스플릿 레이아웃 */}
-          <div className="w-full flex-1 flex gap-3 min-h-0">
+          {/* 스플릿 레이아웃 (모바일에서는 수직, 테블릿/PC(md)에서는 수평 배치) */}
+          <div className="w-full flex-1 flex flex-col md:flex-row gap-3 min-h-0">
             
-            {/* 좌측 수직 네비게이션 독 */}
+            {/* 좌측/상단 네비게이션 독 (반응형 대응) */}
             <Panel
               variant="neumorphism"
               inset
-              className="w-[76px] sm:w-[90px] h-full rounded-[24px] flex flex-col items-center justify-between py-6 shrink-0"
+              className="w-full md:w-[90px] h-auto md:h-full rounded-[20px] md:rounded-[24px] flex flex-row md:flex-col items-center justify-between px-4 py-3 md:px-3 md:py-6 shrink-0"
             >
-              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)] hidden md:block" />
 
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-row md:flex-col gap-4 md:gap-6 justify-around w-full md:w-auto">
                 {[
                   { id: 0, icon: Clock, label: "시간대 분석" },
                   { id: 1, icon: CloudSun, label: "날씨별 몰입" },
@@ -76,26 +76,26 @@ export const StatsPage = () => {
                       key={item.id}
                       onClick={() => setActiveTab(item.id)}
                       title={item.label}
-                      className={`w-11 h-11 sm:w-13 sm:h-13 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                      className={`w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-2xl flex items-center justify-center transition-all duration-300 ${
                         isActive
                           ? "bg-bg-light text-emerald-600 shadow-[inset_-2px_-2px_5px_rgba(255,255,255,0.7),_inset_2px_2px_5px_rgba(0,0,0,0.08)]"
                           : "bg-bg-light text-gray-400 hover:text-gray-600 shadow-[-3px_-3px_7px_rgba(255,255,255,0.8),_3px_3px_7px_rgba(0,0,0,0.08)] hover:scale-105 active:shadow-[inset_-1px_-1px_3px_rgba(255,255,255,0.7),_inset_1px_1px_3px_rgba(0,0,0,0.08)]"
                       }`}
                     >
-                      <Icon className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
+                      <Icon className="w-4.5 h-4.5 sm:w-5 md:w-5.5 md:h-5.5" />
                     </button>
                   );
                 })}
               </div>
 
-              <div className="w-1.5 h-1.5 rounded-full bg-gray-400/40" />
+              <div className="w-1.5 h-1.5 rounded-full bg-gray-400/40 hidden md:block" />
             </Panel>
 
-            {/* 우측 디테일 분석 캔버스 */}
+            {/* 우측/하단 디테일 분석 캔버스 */}
             <Panel
               variant="neumorphism"
               inset
-              className="flex-1 h-full rounded-[28px] p-6 sm:p-8 flex flex-col min-h-0 justify-between relative overflow-hidden"
+              className="flex-1 h-full rounded-[28px] p-4 sm:p-6 md:p-8 flex flex-col min-h-0 justify-between relative overflow-hidden"
             >
               {loading ? (
                 <div className="w-full h-full flex flex-col items-center justify-center text-gray-500 font-bold text-sm">
