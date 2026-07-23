@@ -18,7 +18,7 @@ export const FloatingTooltip = ({
 
   return createPortal(
     <div
-      className="fixed pointer-events-none z-[9999] px-3.5 py-2 bg-white text-[11px] font-bold rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.12)] flex items-center gap-1.5 transition-transform duration-75 ease-out select-none whitespace-nowrap"
+      className="fixed pointer-events-none z-[9999] px-3.5 py-2 bg-white/90 backdrop-blur-sm text-[11px] font-bold rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.12)] flex items-center gap-1.5 transition-transform duration-75 ease-out select-none whitespace-nowrap"
       style={{
         left: `${x}px`,
         top: `${y}px`,
