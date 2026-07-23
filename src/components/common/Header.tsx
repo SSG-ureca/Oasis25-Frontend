@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 import { Panel } from "./Panel";
 import { cn } from "../../utils/cn";
 import { Button } from "./Button";
-import { Sun, User, LogOut } from "lucide-react";
+import { Sun, User, LogOut, LogIn } from "lucide-react";
 import { logoutApi } from "../../services/authApi";
 import { FeedbackModal } from "./FeedbackModal";
 
@@ -21,6 +22,9 @@ const Header = () => {
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  const token = localStorage.getItem("accessToken");
+  const isGuest = !token;
 
   // 외부 영역 클릭 시 드롭다운 닫기
   useEffect(() => {
@@ -69,13 +73,22 @@ const Header = () => {
           return (
             <NavLink
               key={item.to}
-              to={item.to}
+              to={isGuest && item.to !== "/" ? "#" : item.to}
               end
+              onClick={(e) => {
+                if (isGuest && item.to !== "/") {
+                  e.preventDefault();
+                  toast.error(
+                    "로그인이 필요한 기능입니다. 현재 게스트 모드입니다. 🔒",
+                  );
+                }
+              }}
               className={({ isActive }) =>
                 cn(
                   "rounded-4xl neumorphism-size-sm border border-transparent transition-all duration-200 select-none",
                   "neumorphism-hover",
-                  isActive && "neumorphism-active",
+                  isActive && !isGuest && "neumorphism-active",
+                  isGuest && item.to !== "/" && "opacity-50 cursor-not-allowed",
                 )
               }
             >
@@ -100,6 +113,7 @@ const Header = () => {
             variant="neumorphism"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="rounded-full w-12 h-12 p-0 overflow-hidden relative group"
+            title={isGuest ? "로그인" : "마이페이지"}
           >
             <User
               className="w-9 h-9 text-[#6c757d] fill-[#6c757d]"
@@ -109,14 +123,28 @@ const Header = () => {
 
           {isDropdownOpen && (
             <div className="absolute right-0 mt-3 w-40 bg-bg-light shadow-[var(--shadow-neumorphism)] rounded-2xl p-2 border border-white/40 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
-              <Button
-                variant="neumorphism"
-                onClick={handleLogout}
-                className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-20 hover:text-primary rounded-xl transition-all duration-200"
-              >
-                <LogOut className="w-4 h-4 text-primary" />
-                로그아웃
-              </Button>
+              {isGuest ? (
+                <Button
+                  variant="neumorphism"
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    navigate("/login");
+                  }}
+                  className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-20 hover:text-emerald-600 rounded-xl transition-all duration-200"
+                >
+                  <LogIn className="w-4 h-4 text-primary" />
+                  로그인
+                </Button>
+              ) : (
+                <Button
+                  variant="neumorphism"
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-20 hover:text-primary rounded-xl transition-all duration-200"
+                >
+                  <LogOut className="w-4 h-4 text-primary" />
+                  로그아웃
+                </Button>
+              )}
             </div>
           )}
         </div>

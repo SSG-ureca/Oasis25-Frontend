@@ -108,15 +108,28 @@ export const LoginPage: React.FC = () => {
             </div>
           </form>
 
-          {/* 회원가입 페이지 유도 링크 */}
-          <p className="text-[10px] text-center text-gray-30 -mt-2">
-            계정이 없으신가요?{" "}
+          {/* 회원가입 및 게스트 로그인 유도 링크 */}
+          <p className="text-[10px] text-center text-gray-30 -mt-2 flex items-center justify-center gap-1 select-none">
+            <span>계정이 없으신가요?</span>
             <button
               type="button"
               onClick={() => navigate("/register")}
-              className="text-primary font-bold hover:underline cursor-pointer ml-1"
+              className="text-primary font-bold hover:underline cursor-pointer"
             >
-              회원가입하기
+              회원가입
+            </button>
+            <span className="text-gray-30">또는</span>
+            <button
+              type="button"
+              onClick={() => {
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                localStorage.removeItem("tokenType");
+                navigate("/");
+              }}
+              className="text-primary font-bold hover:underline cursor-pointer"
+            >
+              게스트로 입장
             </button>
           </p>
         </Panel>
