@@ -38,22 +38,24 @@ export const ProfileImage = ({
     return (
         <div
             className="
-flex
-flex-col
-items-center
-gap-3
-"
+            flex
+            flex-col
+            items-center
+            gap-3
+            "
         >
             <img
                 src={previewUrl}
                 alt="프로필"
                 className="
-w-28
-h-28
-rounded-full
-object-cover
-border
-"
+                w-28
+                h-28
+                rounded-full
+                object-cover
+                border
+                items-center
+                justify-center
+                "
             />
 
             {isEditMode && (

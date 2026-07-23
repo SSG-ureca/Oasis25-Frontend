@@ -16,8 +16,9 @@ import { ProfileImage } from "./ProfileImage";
 import { ProfileInfo } from "./ProfileInfo";
 import { PasswordForm } from "./PasswordForm";
 import { ProfileActions } from "./ProfileActions";
+import logoImage from "../../../assets/images/logo.png";
 
-const DEFAULT_PROFILE_IMAGE = "https://via.placeholder.com/120?text=Profile";
+const DEFAULT_PROFILE_IMAGE = logoImage;
 
 export const ProfileEditor = () => {
     const [profile, setProfile] = useState<ProfileResponse | null>(null);
@@ -36,7 +37,7 @@ export const ProfileEditor = () => {
 
     const [imageFile, setImageFile] = useState<File | null>(null);
 
-    const [previewUrl, setPreviewUrl] = useState("");
+    const [previewUrl, setPreviewUrl] = useState(DEFAULT_PROFILE_IMAGE);
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 

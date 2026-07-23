@@ -1,4 +1,3 @@
-import { MusicPlayer } from "../components/common/MusicPlayer";
 import { Panel } from "../components/common/Panel";
 import { MusicController } from "../components/mypage/MusicController";
 import { OptionController } from "../components/mypage/OptionController";
@@ -43,8 +42,6 @@ export const MyPage = () => {
                     </div>
                 </Panel>
             </div>
-
-            <MusicPlayer />
         </div>
     );
 };

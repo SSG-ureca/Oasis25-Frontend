@@ -1,4 +1,3 @@
-import { MusicPlayer } from "../components/common/MusicPlayer";
 import { RetrospectSearchPanel } from "../components/retrospect/RetrospectSearchPanel";
 import { RetrospectWritePanel } from "../components/retrospect/RetrospectWritePanel";
 
@@ -8,8 +7,9 @@ export const RetrospectPage = () => {
             className="
                 h-full
                 grid
-                grid-rows-[1fr_auto]
+                grid-cols-[2fr_3fr]
                 gap-4
+                col-span-2
             "
         >
             {/* 이전 회고 조회 패널 */}
@@ -17,15 +17,6 @@ export const RetrospectPage = () => {
 
             {/* 회고 작성 패널 */}
             <RetrospectWritePanel />
-
-            {/* 뮤직 플레이어 */}
-            <div
-                className="
-                    col-span-2
-                "
-            >
-                <MusicPlayer />
-            </div>
         </div>
     );
 };
