@@ -4,7 +4,7 @@ import { Panel } from "../components/common/Panel";
 import { Button } from "../components/common/Button";
 import { InputField } from "../components/common/InputField";
 import { registerApi } from "../services/authApi";
-import { Sparkles, Mail, Lock, User } from "lucide-react";
+import { Sparkles, Mail, Lock, User, Loader2, AlertCircle } from "lucide-react";
 
 export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -126,7 +126,7 @@ export const RegisterPage: React.FC = () => {
               className="w-full py-3 rounded-2xl text-xs font-bold tracking-widest text-gray-20 bg-bg-light shadow-[var(--shadow-neumorphism)] hover:scale-[1.01] active:shadow-[var(--shadow-neumorphism-inset)] transition-all flex items-center justify-center gap-1.5"
             >
               {isLoading ? (
-                <span className="animate-spin text-xs">⏳</span>
+                <Loader2 className="w-4 h-4 animate-spin text-primary" />
               ) : (
                 <>
                   <Sparkles className="w-4 h-4 text-primary animate-pulse" />
@@ -138,8 +138,8 @@ export const RegisterPage: React.FC = () => {
             {/* 알림 메시지 노출 */}
             <div className="h-5 flex items-center justify-center mt-1 text-center px-2">
               {errorMessage && (
-                <p className="text-[11px] text-primary font-semibold animate-pulse">
-                  ⚠️ {errorMessage}
+                <p className="text-[11px] text-primary font-semibold animate-pulse flex items-center gap-1">
+                  <AlertCircle className="w-3.5 h-3.5 text-primary shrink-0" /> {errorMessage}
                 </p>
               )}
               {successMessage && (

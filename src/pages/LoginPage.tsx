@@ -4,7 +4,7 @@ import { Panel } from "../components/common/Panel";
 import { Button } from "../components/common/Button";
 import { InputField } from "../components/common/InputField";
 import { loginApi } from "../services/authApi";
-import { Sparkles, Mail, Lock } from "lucide-react";
+import { Sparkles, Mail, Lock, Loader2, AlertCircle } from "lucide-react";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ export const LoginPage: React.FC = () => {
               className="w-full py-3 rounded-2xl text-xs font-bold tracking-widest text-gray-20 bg-bg-light shadow-[var(--shadow-neumorphism)] hover:scale-[1.01] active:shadow-[var(--shadow-neumorphism-inset)] transition-all flex items-center justify-center gap-1.5"
             >
               {isLoading ? (
-                <span className="animate-spin text-xs">⏳</span>
+                <Loader2 className="w-4 h-4 animate-spin text-primary" />
               ) : (
                 <>
                   <Sparkles className="w-4 h-4 text-primary animate-pulse" />
@@ -101,22 +101,35 @@ export const LoginPage: React.FC = () => {
             {/* 에러 메시지 영역*/}
             <div className="h-5 flex items-center justify-center mt-1">
               {errorMessage && (
-                <p className="text-[11px] text-primary font-semibold animate-pulse">
-                  ⚠️ {errorMessage}
+                <p className="text-[11px] text-primary font-semibold animate-pulse flex items-center gap-1">
+                  <AlertCircle className="w-3.5 h-3.5 text-primary shrink-0" /> {errorMessage}
                 </p>
               )}
             </div>
           </form>
 
-          {/* 회원가입 페이지 유도 링크 */}
-          <p className="text-[10px] text-center text-gray-30 -mt-2">
-            계정이 없으신가요?{" "}
+          {/* 회원가입 및 게스트 로그인 유도 링크 */}
+          <p className="text-[10px] text-center text-gray-400 -mt-2 flex items-center justify-center gap-1 select-none">
+            <span>계정이 없으신가요?</span>
             <button
               type="button"
               onClick={() => navigate("/register")}
-              className="text-primary font-bold hover:underline cursor-pointer ml-1"
+              className="text-primary font-bold hover:underline cursor-pointer"
             >
-              회원가입하기
+              회원가입
+            </button>
+            <span className="text-gray-400">또는</span>
+            <button
+              type="button"
+              onClick={() => {
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                localStorage.removeItem("tokenType");
+                navigate("/");
+              }}
+              className="text-primary font-bold hover:underline cursor-pointer"
+            >
+              게스트로 입장
             </button>
           </p>
         </Panel>

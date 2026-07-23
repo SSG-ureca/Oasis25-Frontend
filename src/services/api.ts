@@ -39,8 +39,9 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // 401 에러가 발생했고 기존 재시도한 요청이 아닌 경우
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // 401 혹은 403 에러가 발생했고 로그인/회원가입 요청이 아니며 기존 재시도한 요청이 아닌 경우
+    const isAuthRequest = originalRequest.url?.includes("/api/auth/login") || originalRequest.url?.includes("/api/auth/register");
+    if ((error.response?.status === 401 || error.response?.status === 403) && !isAuthRequest && !originalRequest._retry) {
       // 재발급 요청 자체가 실패한 경우 리프레시 토큰 만료로 판단하고 로그아웃 처리
       if (originalRequest.url === "/api/auth/reissue") {
         localStorage.clear();

@@ -2,9 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import { Panel } from "./Panel";
+import { RestrictedArea } from "./RestrictedArea";
 import { cn } from "../../utils/cn";
 import { Button } from "./Button";
-import { Sun, User, LogOut } from "lucide-react";
+import { Sun, LogOut, LogIn, User } from "lucide-react";
 import { logoutApi } from "../../services/authApi";
 import { FeedbackModal } from "./FeedbackModal";
 
@@ -16,11 +17,13 @@ const NAV_ITEMS = [
 ];
 
 const Header = () => {
-  // 프로필 드롭다운 열림 여부 상태 및 참조
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  const token = localStorage.getItem("accessToken");
+  const isGuest = !token;
 
   // 외부 영역 클릭 시 드롭다운 닫기
   useEffect(() => {
@@ -66,40 +69,51 @@ const Header = () => {
         className="px-5 py-2.5 flex gap-5 rounded-4xl"
       >
         {NAV_ITEMS.map((item) => {
+          const isItemDisabled = isGuest && item.to !== "/";
           return (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end
-              className={({ isActive }) =>
-                cn(
-                  "rounded-4xl neumorphism-size-sm border border-transparent transition-all duration-200 select-none",
-                  "neumorphism-hover",
-                  isActive && "neumorphism-active",
-                )
-              }
-            >
-              {item.label}
-            </NavLink>
+            <RestrictedArea key={item.to} isRestricted={isItemDisabled}>
+              <NavLink
+                to={item.to}
+                end
+                className={({ isActive }) =>
+                  cn(
+                    "rounded-4xl neumorphism-size-sm border border-transparent transition-all duration-200 select-none block",
+                    "neumorphism-hover",
+                    isActive && !isItemDisabled && "neumorphism-active",
+                    isItemDisabled && "opacity-50 cursor-not-allowed",
+                  )
+                }
+              >
+                {item.label}
+              </NavLink>
+            </RestrictedArea>
           );
         })}
       </Panel>
-      <div className="flex-1 flex justify-end gap-5">
-        <Button variant="neumorphism" className="rounded-full w-12 h-12 p-0">
+      <div className="flex-1 flex justify-end gap-5 items-center">
+        <Button variant="neumorphism" className="rounded-full w-12 h-12 p-0 flex items-center justify-center">
           <Sun className="w-6 h-6 text-[#718096]" />
         </Button>
-        <Button
-          variant="neumorphism"
-          onClick={() => setIsFeedbackOpen(true)}
-          className="rounded-full px-4 h-12 text-xs font-bold text-[#718096]"
-        >
-          VOC
-        </Button>
+        <RestrictedArea isRestricted={isGuest}>
+          <Button
+            variant="neumorphism"
+            onClick={() => setIsFeedbackOpen(true)}
+            className={cn(
+              "rounded-full px-4 h-12 text-xs font-bold text-[#718096]",
+              isGuest && "opacity-50 cursor-not-allowed"
+            )}
+          >
+            VOC
+          </Button>
+        </RestrictedArea>
+
+        {/* 프로필 이미지 (User 버튼) 드롭다운 컴포넌트 */}
         <div className="relative" ref={dropdownRef}>
           <Button
             variant="neumorphism"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="rounded-full w-12 h-12 p-0 overflow-hidden relative group"
+            title={isGuest ? "로그인" : "마이페이지"}
           >
             <User
               className="w-9 h-9 text-[#6c757d] fill-[#6c757d]"
@@ -109,14 +123,29 @@ const Header = () => {
 
           {isDropdownOpen && (
             <div className="absolute right-0 mt-3 w-40 bg-bg-light shadow-[var(--shadow-neumorphism)] rounded-2xl p-2 border border-white/40 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
-              <Button
-                variant="neumorphism"
-                onClick={handleLogout}
-                className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-20 hover:text-primary rounded-xl transition-all duration-200"
-              >
-                <LogOut className="w-4 h-4 text-primary" />
-                로그아웃
-              </Button>
+              {isGuest ? (
+                <button
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    navigate("/login");
+                  }}
+                  className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-700 hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5"
+                >
+                  <LogIn className="w-4 h-4 transition-colors" />
+                  로그인
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    handleLogout();
+                  }}
+                  className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-700 hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5"
+                >
+                  <LogOut className="w-4 h-4 transition-colors" />
+                  로그아웃
+                </button>
+              )}
             </div>
           )}
         </div>
