@@ -13,6 +13,7 @@ import { usePomodoro } from "../../hooks/usePomodoro";
 import { MAX_CUSTOM_PRESETS } from "../../types/pomodoro";
 import type { PomodoroPreset } from "../../types/pomodoro";
 import PomodoroOrb from "./PomodoroOrb";
+import { Panel } from "../common/Panel";
 
 function formatTime(ms: number) {
   const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
@@ -150,7 +151,7 @@ export default function PomodoroTimer() {
               setPresetMenuOpen((v) => !v);
               setManageMenuOpen(false);
             }}
-            className="flex items-center gap-2 text-sm font-semibold text-gray-30 uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed">
+            className="flex items-center gap-2 text-sm font-semibold text-gray-30 uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed border-none">
             <Clock className="w-4 h-4" />
             {selectedPresetName}
             <ChevronDown
@@ -159,14 +160,16 @@ export default function PomodoroTimer() {
           </Button>
 
           {presetMenuOpen && (
-            <div className="absolute left-0 top-full mt-2 z-30 w-56 rounded-xl border border-gray-100 bg-white shadow-lg py-1">
+            <Panel
+              variant="clay"
+              className="absolute left-0 top-full mt-2 z-30 w-56 rounded-xl p-1">
               {selectablePresets.map((preset) => (
                 <Button
                   variant="clay"
                   key={preset.id}
                   type="button"
                   onClick={() => handleSelectPreset(preset)}
-                  className={`flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm hover:bg-gray-70 ${
+                  className={`border-none flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm hover:bg-gray-70 ${
                     preset.name === selectedPresetName
                       ? "text-primary font-semibold"
                       : "text-gray-10"
@@ -182,7 +185,7 @@ export default function PomodoroTimer() {
                   불러오는 중...
                 </div>
               )}
-            </div>
+            </Panel>
           )}
         </div>
 
