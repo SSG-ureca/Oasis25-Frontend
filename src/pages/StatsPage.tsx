@@ -1,11 +1,6 @@
 import { useState, useEffect } from "react";
 import { Panel } from "../components/common/Panel";
-import { 
-  Clock, 
-  CloudSun, 
-  Palette, 
-  TrendingUp 
-} from "lucide-react";
+import { Clock, CloudSun, Palette, TrendingUp } from "lucide-react";
 import { useStats } from "../hooks/useStats";
 import { HourlyFocusChart } from "../components/stats/HourlyFocusChart";
 import { WeatherFocusChart } from "../components/stats/WeatherFocusChart";
@@ -22,9 +17,7 @@ export const StatsPage = () => {
     getBarHeight,
     diaryScores,
     trendPaths,
-    dailyFocusMinutes = []
   } = useStats();
-
 
   useEffect(() => {
     if (activeTab === 3) {
@@ -37,22 +30,18 @@ export const StatsPage = () => {
 
   return (
     <div className="w-full h-full flex flex-col gap-4 min-h-0 bg-transparent">
-      
       {/* 중앙 베이스 플레이트 패널 */}
       <div className="flex-1 min-h-0">
         <Panel
           variant="neumorphism"
-          className="w-full h-full p-3 sm:p-4 rounded-[36px] flex flex-col min-h-0"
-        >
+          className="w-full h-full p-3 sm:p-4 rounded-[36px] flex flex-col min-h-0">
           {/* 스플릿 레이아웃 (모바일에서는 수직, 테블릿/PC(md)에서는 수평 배치) */}
           <div className="w-full flex-1 flex flex-col md:flex-row gap-3 min-h-0">
-            
             {/* 좌측/상단 네비게이션 독 (반응형 대응) */}
             <Panel
               variant="neumorphism"
               inset
-              className="w-full md:w-[90px] h-auto md:h-full rounded-[20px] md:rounded-[24px] flex flex-row md:flex-col items-center justify-between px-4 py-3 md:px-3 md:py-6 shrink-0"
-            >
+              className="w-full md:w-[90px] h-auto md:h-full rounded-[20px] md:rounded-[24px] flex flex-row md:flex-col items-center justify-between px-4 py-3 md:px-3 md:py-6 shrink-0">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)] hidden md:block" />
 
               <div className="flex flex-row md:flex-col gap-4 md:gap-6 justify-around w-full md:w-auto">
@@ -73,8 +62,7 @@ export const StatsPage = () => {
                         isActive
                           ? "bg-bg-light text-emerald-600 shadow-[inset_-2px_-2px_5px_rgba(255,255,255,0.7),_inset_2px_2px_5px_rgba(0,0,0,0.08)]"
                           : "bg-bg-light text-gray-400 hover:text-gray-600 shadow-[-3px_-3px_7px_rgba(255,255,255,0.8),_3px_3px_7px_rgba(0,0,0,0.08)] hover:scale-105 active:shadow-[inset_-1px_-1px_3px_rgba(255,255,255,0.7),_inset_1px_1px_3px_rgba(0,0,0,0.08)]"
-                      }`}
-                    >
+                      }`}>
                       <Icon className="w-4.5 h-4.5 sm:w-5 md:w-5.5 md:h-5.5" />
                     </button>
                   );
@@ -88,8 +76,7 @@ export const StatsPage = () => {
             <Panel
               variant="neumorphism"
               inset
-              className="flex-1 h-full rounded-[28px] p-4 sm:p-6 md:p-8 flex flex-col min-h-0 justify-between relative overflow-y-auto md:overflow-hidden"
-            >
+              className="flex-1 h-full rounded-[28px] p-4 sm:p-6 md:p-8 flex flex-col min-h-0 justify-between relative overflow-y-auto md:overflow-hidden">
               {loading ? (
                 <div className="w-full h-full flex flex-col items-center justify-center text-gray-500 font-bold text-sm">
                   <span>데이터를 불러오는 중입니다...</span>
@@ -98,17 +85,17 @@ export const StatsPage = () => {
                 <>
                   {/* 시간대별 몰입 분석 */}
                   {activeTab === 0 && (
-                    <HourlyFocusChart 
-                      weeklyHourlyPaths={weeklyHourlyPaths} 
-                      dailyHourDataList={dailyHourDataList} 
+                    <HourlyFocusChart
+                      weeklyHourlyPaths={weeklyHourlyPaths}
+                      dailyHourDataList={dailyHourDataList}
                     />
                   )}
 
                   {/* 날씨별 몰입도 비교 */}
                   {activeTab === 1 && (
-                    <WeatherFocusChart 
-                      getWeatherData={getWeatherData} 
-                      getBarHeight={getBarHeight} 
+                    <WeatherFocusChart
+                      getWeatherData={getWeatherData}
+                      getBarHeight={getBarHeight}
                     />
                   )}
 
@@ -119,62 +106,131 @@ export const StatsPage = () => {
 
                   {/* 30일 집중력 트렌드 */}
                   {activeTab === 3 && (
-                    <div className={`w-full h-full flex flex-col justify-between relative transition-all duration-[800ms] ease-out ${trendLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}>
+                    <div
+                      className={`w-full h-full flex flex-col justify-between relative transition-all duration-[800ms] ease-out ${trendLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}>
                       <div className="z-10 space-y-1.5">
-                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">30-Day Monthly Trend</span>
-                        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">30일 몰입도 변화 트렌드</h2>
+                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
+                          30-Day Monthly Trend
+                        </span>
+                        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">
+                          30일 몰입도 변화 트렌드
+                        </h2>
                         <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
-                          최근 30일 동안의 평균 집중 지표 추이가 점진적인 우상향의 안정적인 성장을 나타내고 있습니다.
+                          최근 30일 동안의 평균 집중 지표 추이가 점진적인
+                          우상향의 안정적인 성장을 나타내고 있습니다.
                         </p>
                       </div>
 
                       <div className="absolute inset-x-0 bottom-8 h-[60%] w-full pointer-events-none select-none overflow-visible">
-                        <svg viewBox="0 0 400 150" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+                        <svg
+                          viewBox="0 0 400 150"
+                          className="w-full h-full overflow-visible"
+                          preserveAspectRatio="none">
                           <defs>
-                            <linearGradient id="premium-line-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <linearGradient
+                              id="premium-line-grad"
+                              x1="0%"
+                              y1="0%"
+                              x2="100%"
+                              y2="0%">
                               <stop offset="0%" stopColor="#1a521d" />
                               <stop offset="50%" stopColor="#2c8f31" />
                               <stop offset="100%" stopColor="#72c877" />
                             </linearGradient>
-                            
-                            <linearGradient id="premium-fill-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                              <stop offset="0%" stopColor="#72c877" stopOpacity="0.2" />
-                              <stop offset="50%" stopColor="#2c8f31" stopOpacity="0.05" />
-                              <stop offset="100%" stopColor="#1a521d" stopOpacity="0" />
+
+                            <linearGradient
+                              id="premium-fill-grad"
+                              x1="0%"
+                              y1="0%"
+                              x2="0%"
+                              y2="100%">
+                              <stop
+                                offset="0%"
+                                stopColor="#72c877"
+                                stopOpacity="0.2"
+                              />
+                              <stop
+                                offset="50%"
+                                stopColor="#2c8f31"
+                                stopOpacity="0.05"
+                              />
+                              <stop
+                                offset="100%"
+                                stopColor="#1a521d"
+                                stopOpacity="0"
+                              />
                             </linearGradient>
 
-                            <filter id="neon-glow" x="-10%" y="-10%" width="120%" height="120%">
-                              <feDropShadow dx="0" dy="3" stdDeviation="5" floodColor="#72c877" floodOpacity="0.35" />
+                            <filter
+                              id="neon-glow"
+                              x="-10%"
+                              y="-10%"
+                              width="120%"
+                              height="120%">
+                              <feDropShadow
+                                dx="0"
+                                dy="3"
+                                stdDeviation="5"
+                                floodColor="#72c877"
+                                floodOpacity="0.35"
+                              />
                             </filter>
                           </defs>
 
-                          <line x1="0" y1="35" x2="400" y2="35" stroke="#e2e8f0" strokeOpacity="0.25" strokeDasharray="3, 3" strokeWidth="1" />
-                          <line x1="0" y1="80" x2="400" y2="80" stroke="#e2e8f0" strokeOpacity="0.25" strokeDasharray="3, 3" strokeWidth="1" />
-                          <line x1="0" y1="125" x2="400" y2="125" stroke="#e2e8f0" strokeOpacity="0.25" strokeDasharray="3, 3" strokeWidth="1" />
+                          <line
+                            x1="0"
+                            y1="35"
+                            x2="400"
+                            y2="35"
+                            stroke="#e2e8f0"
+                            strokeOpacity="0.25"
+                            strokeDasharray="3, 3"
+                            strokeWidth="1"
+                          />
+                          <line
+                            x1="0"
+                            y1="80"
+                            x2="400"
+                            y2="80"
+                            stroke="#e2e8f0"
+                            strokeOpacity="0.25"
+                            strokeDasharray="3, 3"
+                            strokeWidth="1"
+                          />
+                          <line
+                            x1="0"
+                            y1="125"
+                            x2="400"
+                            y2="125"
+                            stroke="#e2e8f0"
+                            strokeOpacity="0.25"
+                            strokeDasharray="3, 3"
+                            strokeWidth="1"
+                          />
 
-                          <path 
-                            d={trendPaths.fill} 
-                            fill="url(#premium-fill-grad)" 
+                          <path
+                            d={trendPaths.fill}
+                            fill="url(#premium-fill-grad)"
                             className="transition-opacity duration-[1000ms] ease-out"
-                            style={{ 
-                              opacity: trendLoaded ? 1 : 0, 
-                              transitionDelay: '800ms' 
+                            style={{
+                              opacity: trendLoaded ? 1 : 0,
+                              transitionDelay: "800ms",
                             }}
                           />
 
-                          <path 
-                            d={trendPaths.line} 
-                            fill="none" 
-                            stroke="url(#premium-line-grad)" 
-                            strokeWidth="1.5" 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round" 
+                          <path
+                            d={trendPaths.line}
+                            fill="none"
+                            stroke="url(#premium-line-grad)"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             filter="url(#neon-glow)"
                             className="transition-all duration-[2000ms] ease-out"
                             style={{
                               strokeDasharray: 1200,
                               strokeDashoffset: trendLoaded ? 0 : 1200,
-                              transitionDelay: '100ms'
+                              transitionDelay: "100ms",
                             }}
                           />
                         </svg>
@@ -201,7 +257,6 @@ export const StatsPage = () => {
           </div>
         </Panel>
       </div>
-
     </div>
   );
 };

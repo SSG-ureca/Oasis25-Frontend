@@ -21,11 +21,12 @@ export const neumophismVariants = cva(
 
         // 2. 클레이모피즘 + 사막 (눈이 편안한)
         clay: [
-          "clay-surface",
           "bg-clay-bg",
           "shadow-clay",
           "border border-clay-border/20",
+          "clay-surface",
         ],
+        clayFlat: ["shadow-none", "border-none"],
       },
 
       // 공통 inset 속성 (여기서는 공통 요소인 테두리 제거만 담당)

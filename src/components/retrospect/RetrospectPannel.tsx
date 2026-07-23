@@ -19,7 +19,7 @@ export const RetrospectPanel = ({
 }: RetrospectPanelProps) => {
   return (
     <Panel
-      variant="glassNeumorphism"
+      variant="clay"
       className="
                 p-6
                 h-full

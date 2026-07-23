@@ -25,13 +25,14 @@ export const EmotionSelector = ({ value, onChange }: EmotionSelectorProps) => {
       {emotions.map((emotion) => (
         <Button
           key={emotion.score}
-          variant={value === emotion.score ? "glassNeumorphism" : "neumorphism"}
-          className="
+          variant={value === emotion.score ? "clay" : "clayFlat"}
+          className={`
                         w-10
                         h-10
                         p-0
                         rounded-full
-                    "
+                        ${value === emotion.score ? "" : "shadow-none border-none"}
+                    `}
           onClick={() => onChange(emotion.score)}>
           {emotion.icon}
         </Button>
