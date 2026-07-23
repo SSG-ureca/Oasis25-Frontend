@@ -14,8 +14,8 @@ export const QuoteCard = () => {
                 console.error(error);
 
                 setQuote({
-                    author: "Oasis25",
-                    message: "Small steps every day lead to big results.",
+                    author: "",
+                    message: "",
                 });
             }
         };
