@@ -9,36 +9,42 @@ import { RetrospectPage } from "../pages/RetrospectPage";
 import { StatsPage } from "../pages/StatsPage";
 import { MyPage } from "../pages/MyPage";
 import { SplashPage } from "../pages/SplashPage";
+import ProtectedRoute from "../components/common/ProtectedRoute";
 
 export const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <SplashPage />,
-    },
+  {
+    path: "/",
+    element: <SplashPage />,
+  },
 
-    {
-        path: "/login",
-        element: <LoginPage />,
-    },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
 
-    {
-        path: "/register",
-        element: <RegisterPage />,
-    },
+  {
+    path: "/register",
+    element: <RegisterPage />,
+  },
 
-    {
-        path: "/main",
-        element: <MainLayout />,
+  {
+    path: "/main",
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <Dashboard /> },
+      {
+        element: <ProtectedRoute />,
         children: [
-            { index: true, element: <Dashboard /> },
-            { path: "retrospect", element: <RetrospectPage /> },
-            { path: "stats", element: <StatsPage /> },
-            { path: "mypage", element: <MyPage /> },
+          { path: "retrospect", element: <RetrospectPage /> },
+          { path: "stats", element: <StatsPage /> },
+          { path: "mypage", element: <MyPage /> },
         ],
-    },
+      },
+    ],
+  },
 
-    {
-        path: "*",
-        element: <NotFoundPage />,
-    },
+  {
+    path: "*",
+    element: <NotFoundPage />,
+  },
 ]);

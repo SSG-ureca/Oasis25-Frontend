@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Panel } from "../components/common/Panel";
 import { Button } from "../components/common/Button";
 import { InputField } from "../components/common/InputField";
@@ -8,6 +8,7 @@ import { Sparkles, Mail, Lock, Loader2, AlertCircle } from "lucide-react";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +32,8 @@ export const LoginPage: React.FC = () => {
       localStorage.setItem("refreshToken", response.refreshToken);
       localStorage.setItem("tokenType", response.tokenType);
 
-      navigate("/");
+      const from = (location.state as { from?: string } | null)?.from;
+      navigate(from || "/", { replace: true });
     } catch (err: any) {
       console.error("Login Error:", err);
       setErrorMessage(
@@ -48,8 +50,7 @@ export const LoginPage: React.FC = () => {
       <div className="w-full max-w-md p-4">
         <Panel
           variant="neumorphism"
-          className="p-8 rounded-[36px] flex flex-col space-y-4"
-        >
+          className="p-8 rounded-[36px] flex flex-col space-y-4">
           <div className="text-center space-y-2">
             <div className="w-16 h-16 rounded-full flex items-center justify-center bg-bg-light shadow-[var(--shadow-neumorphism)] mx-auto text-2xl">
               로고
@@ -86,8 +87,7 @@ export const LoginPage: React.FC = () => {
               type="submit"
               disabled={isLoading}
               variant="neumorphism"
-              className="w-full py-3 rounded-2xl text-xs font-bold tracking-widest text-gray-20 bg-bg-light shadow-[var(--shadow-neumorphism)] hover:scale-[1.01] active:shadow-[var(--shadow-neumorphism-inset)] transition-all flex items-center justify-center gap-1.5"
-            >
+              className="w-full py-3 rounded-2xl text-xs font-bold tracking-widest text-gray-20 bg-bg-light shadow-[var(--shadow-neumorphism)] hover:scale-[1.01] active:shadow-[var(--shadow-neumorphism-inset)] transition-all flex items-center justify-center gap-1.5">
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin text-primary" />
               ) : (
@@ -102,7 +102,8 @@ export const LoginPage: React.FC = () => {
             <div className="h-5 flex items-center justify-center mt-1">
               {errorMessage && (
                 <p className="text-[11px] text-primary font-semibold animate-pulse flex items-center gap-1">
-                  <AlertCircle className="w-3.5 h-3.5 text-primary shrink-0" /> {errorMessage}
+                  <AlertCircle className="w-3.5 h-3.5 text-primary shrink-0" />{" "}
+                  {errorMessage}
                 </p>
               )}
             </div>
@@ -114,8 +115,7 @@ export const LoginPage: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate("/register")}
-              className="text-primary font-bold hover:underline cursor-pointer"
-            >
+              className="text-primary font-bold hover:underline cursor-pointer">
               회원가입
             </button>
             <span className="text-gray-400">또는</span>
@@ -127,8 +127,7 @@ export const LoginPage: React.FC = () => {
                 localStorage.removeItem("tokenType");
                 navigate("/");
               }}
-              className="text-primary font-bold hover:underline cursor-pointer"
-            >
+              className="text-primary font-bold hover:underline cursor-pointer">
               게스트로 입장
             </button>
           </p>

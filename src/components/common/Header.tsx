@@ -7,6 +7,9 @@ import { Button } from "./Button";
 import { Sun, LogOut, Menu, X, LogIn, User } from "lucide-react";
 import { logoutApi } from "../../services/authApi";
 import { FeedbackModal } from "./FeedbackModal";
+import toast from "react-hot-toast";
+
+const PROTECTED_PATHS = ["/main/retrospect", "/main/stats", "/main/mypage"];
 
 const NAV_ITEMS = [
   { to: "/main", label: "홈" },
@@ -27,6 +30,16 @@ const Header = () => {
 
   const token = localStorage.getItem("accessToken");
   const isGuest = !token;
+
+  const handleProtectedNav = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    to: string,
+  ) => {
+    if (isGuest && PROTECTED_PATHS.includes(to)) {
+      e.preventDefault();
+      toast.error("로그인 후 이용할 수 있습니다.");
+    }
+  };
 
   // 외부 영역 클릭 시 드롭다운/모바일 메뉴 닫기
   useEffect(() => {
@@ -86,6 +99,7 @@ const Header = () => {
               key={item.to}
               to={item.to}
               end
+              onClick={(e) => handleProtectedNav(e, item.to)}
               className={({ isActive }) =>
                 cn(
                   "rounded-4xl neumorphism-size-sm transition-all duration-200 select-none",
@@ -121,6 +135,10 @@ const Header = () => {
                   key={item.to}
                   variant="clay"
                   onClick={() => {
+                    if (isGuest && PROTECTED_PATHS.includes(item.to)) {
+                      toast.error("로그인 후 이용할 수 있습니다.");
+                      return;
+                    }
                     setIsMobileMenuOpen(false);
                     navigate(item.to);
                   }}
