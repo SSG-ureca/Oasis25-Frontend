@@ -102,58 +102,23 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
   const summary = getEmotionSummary();
 
   return (
-    <div className="w-full h-full flex flex-col md:flex-row justify-between gap-6 relative emotion-calendar-container">
-      <div className="flex flex-col justify-between h-full py-1 z-10 space-y-6 md:w-[32%] shrink-0">
-        {/* 상단: 타이틀 영역 */}
-        <div className="space-y-1.5">
-          <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
-            30-Day Emotion Trend
-          </span>
-          <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">
-            감정 흐름 달력
-          </h2>
-          <p className="text-xs sm:text-sm font-semibold text-gray-500 leading-relaxed whitespace-nowrap">
-            최근 30일간 작성한 일기 기록에 근거한 감정 변화 추이입니다.
-          </p>
-        </div>
-
-        {/* 하단 영역: 한줄평 요약과 범례를 함께 묶어 아래로 배치 */}
-        <div className="space-y-4">
-          {/* 한 달 감정 요약 순수 텍스트 */}
-          <div className="pt-4 border-t border-black/10 space-y-1.5 pb-2">
-            <span className={`text-[10px] font-extrabold uppercase tracking-wider block ${summary.labelColor}`}>{summary.label}</span>
-            <p className="text-xs sm:text-sm font-semibold text-gray-700 leading-relaxed break-keep">
-              {summary.text}
-            </p>
-          </div>
-
-          {/* 감정 범례 목록 (경계선 색상 border-black/10으로 일치화) */}
-          <div className="flex flex-wrap md:flex-col gap-2.5 pt-4 md:border-t border-black/10 text-[9px] sm:text-[10px] font-bold text-gray-500/80">
-            <div className="flex items-center gap-1.5 shrink-0">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#e65959]/80 shadow-[0_0_6px_rgba(230,89,89,0.3)]" />
-              <span>스트레스</span>
-            </div>
-            <div className="flex items-center gap-1.5 shrink-0">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#f19a6c]/80 shadow-[0_0_6px_rgba(241,154,108,0.3)]" />
-              <span>불안/슬픔</span>
-            </div>
-            <div className="flex items-center gap-1.5 shrink-0">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#fcdb94]/80 shadow-[0_0_6px_rgba(252,219,148,0.3)]" />
-              <span>보통</span>
-            </div>
-            <div className="flex items-center gap-1.5 shrink-0">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#b3c69f]/80 shadow-[0_0_6px_rgba(179,198,159,0.3)]" />
-              <span>차분함</span>
-            </div>
-            <div className="flex items-center gap-1.5 shrink-0">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#7d9c68]/80 shadow-[0_0_6px_rgba(125,156,104,0.3)]" />
-              <span>행복</span>
-            </div>
-          </div>
-        </div>
+    <div className="w-full h-auto md:h-full grid grid-cols-1 md:grid-cols-[29%_66%] md:grid-rows-[auto_1fr] justify-between gap-6 relative emotion-calendar-container">
+      
+      {/* 1. 타이틀 영역 (좌측 상단 고정) */}
+      <div className="space-y-1.5 md:col-start-1 md:row-start-1">
+        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
+          30-Day Emotion Trend
+        </span>
+        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">
+          감정 흐름 달력
+        </h2>
+        <p className="text-xs sm:text-sm font-semibold text-gray-500 leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
+          최근 30일간 작성한 일기 기록에 근거한 감정 변화 추이입니다.
+        </p>
       </div>
 
-      <div className="flex-1 flex items-center justify-center py-1 z-10 w-full min-h-0">
+      {/* 2. 감정달력 그리드판 (모바일에서는 타이틀 바로 아래(2번째), 데스크톱에서는 우측 전체 영역 차지) */}
+      <div className="flex-1 flex items-center justify-center py-1 z-10 w-full min-h-0 md:col-start-2 md:row-span-2 md:self-center">
         <div className="w-full max-w-[300px] md:max-w-[480px] aspect-[7/5] grid grid-cols-7 gap-0 rounded-[16px] overflow-hidden bg-[#e5e9f0]/45 shadow-[inset_0_2px_8px_rgba(0,0,0,0.06)] border border-gray-200/30 p-1 relative emotion-grid-container">
           {hoveredCell !== null && (
             <div
@@ -198,6 +163,41 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
               </div>
             );
           })}
+        </div>
+      </div>
+
+      {/* 3. 하단 영역: 한줄평 요약과 범례 (모바일에서는 맨 마지막(3번째), 데스크톱에서는 좌측 하단 고정) */}
+      <div className="space-y-4 md:col-start-1 md:row-start-2 md:self-end">
+        {/* 한 달 감정 요약 순수 텍스트 */}
+        <div className="pt-5 border-t border-black/10 space-y-1.5 pb-3">
+          <span className={`text-[10px] font-extrabold uppercase tracking-wider block ${summary.labelColor}`}>{summary.label}</span>
+          <p className="text-xs sm:text-sm font-semibold text-gray-700 leading-relaxed break-keep">
+            {summary.text}
+          </p>
+        </div>
+
+        {/* 감정 범례 목록 */}
+        <div className="flex flex-wrap md:flex-col gap-2.5 pt-4 md:border-t border-black/10 text-[9px] sm:text-[10px] font-bold text-gray-500/80">
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#e65959]/80 shadow-[0_0_6px_rgba(230,89,89,0.3)]" />
+            <span>스트레스</span>
+          </div>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#f19a6c]/80 shadow-[0_0_6px_rgba(241,154,108,0.3)]" />
+            <span>불안/슬픔</span>
+          </div>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#fcdb94]/80 shadow-[0_0_6px_rgba(252,219,148,0.3)]" />
+            <span>보통</span>
+          </div>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#b3c69f]/80 shadow-[0_0_6px_rgba(179,198,159,0.3)]" />
+            <span>차분함</span>
+          </div>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#7d9c68]/80 shadow-[0_0_6px_rgba(125,156,104,0.3)]" />
+            <span>행복</span>
+          </div>
         </div>
       </div>
 

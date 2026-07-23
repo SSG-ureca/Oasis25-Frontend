@@ -91,11 +91,11 @@ export const StatsPage = () => {
               <div className="w-1.5 h-1.5 rounded-full bg-gray-400/40 hidden md:block" />
             </Panel>
 
-            {/* 우측/하단 디테일 분석 캔버스 */}
+            {/* 우측/하단 디테일 분석 캔버스 (모바일에서 넘치면 스크롤되도록 overflow-y-auto 적용) */}
             <Panel
               variant="neumorphism"
               inset
-              className="flex-1 h-full rounded-[28px] p-4 sm:p-6 md:p-8 flex flex-col min-h-0 justify-between relative overflow-hidden"
+              className="flex-1 h-full rounded-[28px] p-4 sm:p-6 md:p-8 flex flex-col min-h-0 justify-between relative overflow-y-auto md:overflow-hidden"
             >
               {loading ? (
                 <div className="w-full h-full flex flex-col items-center justify-center text-gray-500 font-bold text-sm">
@@ -130,7 +130,7 @@ export const StatsPage = () => {
                       <div className="z-10 space-y-1.5">
                         <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">30-Day Monthly Trend</span>
                         <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">30일 몰입도 변화 트렌드</h2>
-                        <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed whitespace-nowrap">
+                        <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
                           최근 30일 동안의 평균 집중 지표 추이가 점진적인 우상향의 안정적인 성장을 나타내고 있습니다.
                         </p>
                       </div>
