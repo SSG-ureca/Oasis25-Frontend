@@ -1,8 +1,7 @@
 //회고 페이지에서 사용할 타입입니다.
 
 //작성용 타입
-export interface RetrospectCreateRequest {
-    //향후 작성자 로그인 아이디도 저장
+export interface RetrospectCreateRequest {   
     diaryDate: string;
     content: string;
     emotionScore: number;

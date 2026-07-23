@@ -2,46 +2,40 @@
 import { Button } from "../common/Button";
 
 const emotions = [
-    { score: 1, icon: "😡" },
-    { score: 2, icon: "😢" },
-    { score: 3, icon: "😐" },
-    { score: 4, icon: "😊" },
-    { score: 5, icon: "😀" },
+  { score: 1, icon: "😡" },
+  { score: 2, icon: "😢" },
+  { score: 3, icon: "😐" },
+  { score: 4, icon: "😊" },
+  { score: 5, icon: "😀" },
 ];
 
 interface EmotionSelectorProps {
-    value: number | null;
-    onChange: (score: number) => void;
+  value: number | null;
+  onChange: (score: number) => void;
 }
 
 export const EmotionSelector = ({ value, onChange }: EmotionSelectorProps) => {
-    return (
-        <div
-            className="
+  return (
+    <div
+      className="
                 flex
                 items-center
                 gap-2
-            "
-        >
-            {emotions.map((emotion) => (
-                <Button
-                    key={emotion.score}
-                    variant={
-                        value === emotion.score
-                            ? "glassNeumorphism"
-                            : "neumorphism"
-                    }
-                    className="
+            ">
+      {emotions.map((emotion) => (
+        <Button
+          key={emotion.score}
+          variant={value === emotion.score ? "glassNeumorphism" : "neumorphism"}
+          className="
                         w-10
                         h-10
                         p-0
                         rounded-full
                     "
-                    onClick={() => onChange(emotion.score)}
-                >
-                    {emotion.icon}
-                </Button>
-            ))}
-        </div>
-    );
+          onClick={() => onChange(emotion.score)}>
+          {emotion.icon}
+        </Button>
+      ))}
+    </div>
+  );
 };

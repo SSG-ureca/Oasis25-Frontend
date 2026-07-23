@@ -11,16 +11,7 @@ export const neumophismVariants = cva(
   {
     variants: {
       variant: {
-        // 1. 순수 글래스모피즘
-        glass: [
-          "bg-white/30",
-          "backdrop-blur-xl",
-          "border",
-          "border-white/40",
-          "shadow-[var(--shadow-glass)]",
-        ],
-
-        // 2. 순수 뉴모피즘 (기본 상태 - 튀어나온 느낌)
+        // 1. 순수 뉴모피즘 (기본 상태 - 튀어나온 느낌)
         neumorphism: [
           "bg-bg-light",
           "border",
@@ -28,13 +19,12 @@ export const neumophismVariants = cva(
           "shadow-[var(--shadow-neumorphism)]",
         ],
 
-        // 3. 글래스-뉴모피즘 (기본 상태 - 반투명하게 튀어나온 느낌)
-        glassNeumorphism: [
-          "bg-white/25",
-          "backdrop-blur-lg",
-          "border",
-          "border-white/50",
-          "shadow-[var(--shadow-glass-neumorphism)]",
+        // 2. 클레이모피즘 + 사막 (눈이 편안한)
+        clay: [
+          "clay-surface",
+          "bg-clay-bg",
+          "shadow-clay",
+          "border border-clay-border/20",
         ],
       },
 
@@ -53,19 +43,14 @@ export const neumophismVariants = cva(
         className: ["shadow-[var(--shadow-neumorphism-inset)]"],
       },
       {
-        variant: "glassNeumorphism",
+        variant: "clay",
         inset: true,
-        className: ["shadow-[var(--shadow-glass-neumorphism-inset)]"],
-      },
-      {
-        variant: "glass",
-        inset: true,
-        className: ["shadow-[var(--shadow-glass-inset)]"],
+        className: ["shadow-clay-inset"],
       },
     ],
 
     defaultVariants: {
-      variant: "glass",
+      variant: "clay",
       inset: false,
     },
   },
