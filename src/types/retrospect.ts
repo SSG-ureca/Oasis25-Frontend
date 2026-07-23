@@ -14,4 +14,8 @@ export interface RetrospectResponse {
     diaryDate: string;
     content: string;
     emotionScore: number;
+    aiSummary: string;
+    attachmentUrl?: string;
+    createdAt: string;
+    updatedAt: string;
 }

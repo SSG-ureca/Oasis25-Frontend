@@ -6,25 +6,26 @@ import RegisterPage from "../pages/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import { RetrospectPage } from "../pages/RetrospectPage";
 import { StatsPage } from "../pages/StatsPage";
+import { MyPage } from "../pages/MyPage";
 
 export const router = createBrowserRouter([
-    {
-        path: "/login",
-        element: <LoginPage />,
-    },
-    {
-        path: "/register",
-        element: <RegisterPage />,
-    },
-    {
-        path: "/",
-        element: <MainLayout />,
-        children: [
-            { index: true, element: <Dashboard /> },
-            { path: "/retrospect", element: <RetrospectPage /> },
-            { path: "/stats", element: <StatsPage /> },
-            { path: "/mypage", element: <Dashboard /> },
-            { path: "*", element: <NotFoundPage /> },
-        ],
-    },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
+  },
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <Dashboard /> },
+      { path: "/retrospect", element: <RetrospectPage /> },
+      { path: "/stats", element: <StatsPage /> },
+      { path: "/mypage", element: <MyPage /> },
+      { path: "*", element: <NotFoundPage /> },
+    ],
+  },
 ]);

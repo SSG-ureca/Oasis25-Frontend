@@ -99,8 +99,12 @@ export const RetrospectSearchPanel = () => {
             }
             footer={
                 <div className="flex justify-end gap-3">
-                    <Button onClick={handleUpdate}>수정</Button>
-                    <Button onClick={handleDelete}>삭제</Button>
+                    <Button variant="neumorphism" onClick={handleUpdate}>
+                        수정
+                    </Button>
+                    <Button variant="neumorphism" onClick={handleDelete}>
+                        삭제
+                    </Button>
                 </div>
             }
         >
@@ -147,7 +151,15 @@ export const RetrospectSearchPanel = () => {
                         flex-1
                     "
                 >
-                    회고 사진
+                    {retrospect?.attachmentUrl ? (
+                        <img
+                            src={retrospect.attachmentUrl}
+                            alt="첨부 이미지"
+                            className="w-full h-full object-cover rounded-xl"
+                        />
+                    ) : (
+                        <div>첨부된 사진이 없습니다.</div>
+                    )}
                 </Panel>
             </div>
         </RetrospectPanel>

@@ -1,5 +1,6 @@
 // 회고 페이지 작성 패널 내부 요소 컴포넌트
 import { useState } from "react";
+import { useRef } from "react";
 
 import { RetrospectPanel } from "./RetrospectPannel";
 import { EmotionSelector } from "./EmotionSelector";
@@ -7,12 +8,18 @@ import { Panel } from "../common/Panel";
 import { Button } from "../common/Button";
 
 import { createRetrospect } from "../../services/retrospectApi";
+import { uploadAttachment } from "../../services/retrospectApi";
 import toast from "react-hot-toast";
 
 export const RetrospectWritePanel = () => {
     // 상태
     const [content, setContent] = useState("");
     const [emotionScore, setEmotionScore] = useState<number | null>(null);
+    const [attachmentFile, setAttachmentFile] = useState<File | null>(null);
+
+    const [previewUrl, setPreviewUrl] = useState("");
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     // 오늘 날짜
     const diaryDate = new Date().toISOString().slice(0, 10);
@@ -30,11 +37,15 @@ export const RetrospectWritePanel = () => {
         }
 
         try {
-            await createRetrospect({
+            const diary = await createRetrospect({
                 diaryDate,
                 content,
                 emotionScore,
             });
+
+            if (attachmentFile) {
+                await uploadAttachment(diary.id, attachmentFile);
+            }
 
             toast.success("회고가 저장되었습니다.");
 
@@ -45,6 +56,19 @@ export const RetrospectWritePanel = () => {
             console.error(error);
             toast.error("저장에 실패했습니다.");
         }
+    };
+    //사진 추가 로작
+    const handlePhotoClick = () => {
+        fileInputRef.current?.click();
+    };
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+
+        if (!file) return;
+
+        setAttachmentFile(file);
+
+        setPreviewUrl(URL.createObjectURL(file));
     };
 
     return (
@@ -58,8 +82,19 @@ export const RetrospectWritePanel = () => {
             }
             footer={
                 <div className="flex justify-end gap-3">
-                    <Button>사진 추가</Button>
-                    <Button onClick={handleSubmit}>작성</Button>
+                    <Button variant="neumorphism" onClick={handlePhotoClick}>
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            hidden
+                            onChange={handleImageChange}
+                        />
+                        사진 추가
+                    </Button>
+                    <Button variant="neumorphism" onClick={handleSubmit}>
+                        작성
+                    </Button>
                 </div>
             }
         >
@@ -103,7 +138,15 @@ export const RetrospectWritePanel = () => {
                         flex-1
                     "
                 >
-                    사진 첨부
+                    {previewUrl ? (
+                        <img
+                            src={previewUrl}
+                            alt="preview"
+                            className="w-full h-full object-cover rounded-xl"
+                        />
+                    ) : (
+                        "사진 첨부"
+                    )}
                 </Panel>
             </div>
         </RetrospectPanel>
