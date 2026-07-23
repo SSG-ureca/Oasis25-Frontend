@@ -123,14 +123,6 @@
 
   /* Neumorphism shadows */
 
-  --shadow-glass:
-    0 8px 32px 0 rgba(31, 38, 135, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.6);
-
-  --shadow-glass-inset:
-    inset 0 4px 12px rgba(31, 38, 135, 0.05),
-    inset 0 1px 4px rgba(255, 255, 255, 0.4);
-
   --shadow-neumorphism:
     6px 6px 12px rgba(163, 177, 198, 0.5), -6px -6px 12px rgba(255, 255, 255, 1);
 
@@ -138,14 +130,25 @@
     inset 6px 6px 12px rgba(163, 177, 198, 0.5),
     inset -6px -6px 12px rgba(255, 255, 255, 1);
 
-  --shadow-glass-neumorphism:
-    8px 8px 16px rgba(163, 177, 198, 0.35),
-    -8px -8px 16px rgba(255, 255, 255, 0.9),
-    inset 1px 1px 1px rgba(255, 255, 255, 0.6);
+  /* 클레이모피즘 + 사막 (눈이 편안한) */
+  --color-clay-bg: #f8e6ca;
+  --color-clay-border: #c4a27a;
 
-  --shadow-glass-neumorphism-inset:
-    inset 6px 6px 12px rgba(163, 177, 198, 0.4),
-    inset -6px -6px 12px rgba(255, 255, 255, 0.8);
+  --shadow-clay:
+    14px 16px 28px rgba(150, 116, 83, 0.28),
+    5px 7px 12px rgba(150, 116, 83, 0.14),
+    -8px -9px 18px rgba(255, 249, 239, 0.42),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.3),
+    inset -2px -3px 4px rgba(185, 149, 111, 0.12);
+
+  --shadow-clay-inset:
+    inset 8px 9px 16px rgba(150, 116, 83, 0.24),
+    inset -6px -7px 12px rgba(255, 249, 239, 0.42),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.22);
+
+  /* 커스텀 반응형 크기 */
+  --breakpoint-820: 820px;
+  --breakpoint-600: 600px;
 }
 
 .neumorphism-size-sm {
@@ -160,6 +163,35 @@
   padding: var(--size-neumorphism-lg-y) var(--size-neumorphism-lg-x);
 }
 
+.clay-surface {
+  background-image: linear-gradient(
+    145deg,
+    rgba(255, 249, 239, 0.14) 0%,
+    rgba(232, 214, 187, 0.96) 42%,
+    rgba(218, 193, 158, 0.9) 100%
+  );
+  background-clip: padding-box;
+}
+
+.clay-active,
+.clay-hover:hover {
+  background-color: var(--color-clay-bg);
+  background-image: linear-gradient(
+    145deg,
+    rgba(255, 249, 239, 0.18) 0%,
+    rgba(232, 214, 187, 0.98) 45%,
+    rgba(218, 193, 158, 0.92) 100%
+  );
+  box-shadow: var(--shadow-clay);
+  transform: translateY(-1px);
+}
+
+.clay-active:active,
+.clay-hover:active {
+  box-shadow: var(--shadow-clay-inset);
+  transform: translateY(1px);
+}
+
 .neumorphism-active,
 .neumorphism-hover:hover {
   background-color: var(--color-bg-light);
@@ -167,6 +199,22 @@
   border-color: rgba(255, 255, 255, 0.3);
 
   box-shadow: var(--shadow-neumorphism);
+}
+
+/* 사막 모래 질감: 노이즈 + 은은한 그라데이션 오버레이 */
+.desert-grain {
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 247, 234, 0.35) 0%,
+      rgba(232, 210, 180, 0) 55%,
+      rgba(196, 162, 122, 0.18) 100%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29' opacity='0.06'/%3E%3C/svg%3E");
+  background-size:
+    100% 100%,
+    180px 180px;
+  background-repeat: no-repeat, repeat;
 }
 
 /* 콕핏 뷰를 위한 브라우저 강제 스크롤 비활성화 및 미세 스크롤바 디자인 */

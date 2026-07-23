@@ -36,7 +36,7 @@ export default function PomodoroOrb({
       {/* neumophismVariants의 inset 글래스-뉴모피즘 원 안에 타이머 */}
       <div
         className={cn(
-          neumophismVariants({ variant: "neumorphism", inset: true }),
+          neumophismVariants({ variant: "clay", inset: true }),
           "absolute inset-2 rounded-full flex flex-col items-center justify-center",
         )}>
         <span className="text-4xl font-sans tabular-nums text-gray-10 drop-shadow-sm">

@@ -4,23 +4,23 @@ import type { ReactNode } from "react";
 import { Panel } from "../common/Panel";
 
 interface RetrospectPanelProps {
-    title: string;
-    children: ReactNode;
+  title: string;
+  children: ReactNode;
 
-    header: ReactNode;
-    footer: ReactNode;
+  header: ReactNode;
+  footer: ReactNode;
 }
 
 export const RetrospectPanel = ({
-    title,
-    children,
-    header,
-    footer,
+  title,
+  children,
+  header,
+  footer,
 }: RetrospectPanelProps) => {
-    return (
-        <Panel
-            variant="glassNeumorphism"
-            className="
+  return (
+    <Panel
+      variant="glassNeumorphism"
+      className="
                 p-6
                 h-full
                 w-full
@@ -30,41 +30,37 @@ export const RetrospectPanel = ({
                 min-h-0
                 items-start
                 justify-start
-            "
-        >
-            {/* 패널 명, 헤더 버튼 */}
-            <div
-                className="
+            ">
+      {/* 패널 명, 헤더 버튼 */}
+      <div
+        className="
                 w-full
                 flex
                 items-center
                 justify-between
-            "
-            >
-                <h2
-                    className="
+            ">
+        <h2
+          className="
                     text-xl
                     font-semibold
                     text-gray-10
-                "
-                >
-                    {title}
-                </h2>
+                ">
+          {title}
+        </h2>
 
-                {header}
-            </div>
+        {header}
+      </div>
 
-            {/* 패널 내부 요소 */}
-            <div
-                className="
+      {/* 패널 내부 요소 */}
+      <div
+        className="
                     flex-1
                     min-h-0
                     w-full
-                "
-            >
-                {children}
-            </div>
-            <div className="w-full flex justify-end">{footer}</div>
-        </Panel>
-    );
+                ">
+        {children}
+      </div>
+      <div className="w-full flex justify-end">{footer}</div>
+    </Panel>
+  );
 };

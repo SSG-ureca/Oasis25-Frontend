@@ -11,25 +11,23 @@ export interface ButtonProps
 
 function Button({
   className,
-  variant = "glass", // 기본값 설정
+  variant = "clay", // 기본값 설정
   inset = false,
   type = "button",
   ...props
 }: ButtonProps) {
   // 2. 인셋 상태에 따라 마우스 클릭(active) 시의 섀도우 전환 효과 매핑
   const activeShadowClass =
-    variant === "neumorphism"
-      ? "active:shadow-[var(--shadow-neumorphism-inset)]"
-      : variant === "glassNeumorphism"
-        ? "active:shadow-[var(--shadow-glass-neumorphism-inset)]"
-        : "active:shadow-[var(--shadow-glass-inset)]";
+    variant === "clay"
+      ? "active:shadow-[var(--shadow-clay-inset)]"
+      : "active:shadow-clay-inset";
 
   return (
     <button
       type={type}
       className={cn(
         // 공통 정렬 및 트랜지션 효과
-        "inline-flex justify-center items-center font-medium cursor-pointer",
+        "inline-flex justify-center items-center font-medium cursor-pointer ",
         "active:scale-[0.98] active:border-transparent", // 클릭 시 미세하게 눌리는 물리 효과
 
         // CVA 변형 스타일 적용

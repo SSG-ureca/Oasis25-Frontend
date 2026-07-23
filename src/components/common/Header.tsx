@@ -64,12 +64,12 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 flex justify-between items-center h-13.5 bg-bg-light/80 backdrop-blur-md px-4">
+    <header className="sticky top-0 z-50 flex justify-between items-center h-13.5 bg-clay-bg backdrop-blur-md px-4">
       <div className="flex-1 flex justify-start">
         <img src="/src/assets/images/oasis25.png" alt="logo" />
       </div>
       <Panel
-        variant="neumorphism"
+        variant="clay"
         inset
         className="px-5 py-2.5 hidden min-[820px]:flex gap-5 rounded-4xl">
         {NAV_ITEMS.map((item) => {
@@ -80,9 +80,9 @@ const Header = () => {
               end
               className={({ isActive }) =>
                 cn(
-                  "rounded-4xl neumorphism-size-sm border border-transparent transition-all duration-200 select-none",
-                  "neumorphism-hover",
-                  isActive && "neumorphism-active",
+                  "rounded-4xl neumorphism-size-sm transition-all duration-200 select-none",
+                  "clay-hover",
+                  isActive && "clay-active",
                 )
               }>
               {item.label}
@@ -94,7 +94,7 @@ const Header = () => {
         {/* 햄버거 버튼 및 모바일 메뉴: 820px 미만에서만 표시 */}
         <div className="relative flex min-[820px]:hidden" ref={mobileMenuRef}>
           <Button
-            variant="neumorphism"
+            variant="clay"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="rounded-full w-12 h-12 p-0">
             {isMobileMenuOpen ? (
@@ -105,7 +105,7 @@ const Header = () => {
           </Button>
 
           {isMobileMenuOpen && (
-            <div className="absolute right-0 top-full mt-3 w-48 bg-bg-light shadow-[var(--shadow-neumorphism)] rounded-2xl p-2 border border-white/40 animate-in fade-in slide-in-from-top-2 duration-150 z-50 flex flex-col gap-1">
+            <div className="absolute right-0 top-full mt-3 w-48 bg-clay-bg shadow-[var(--shadow-clay)] rounded-2xl p-2 border border-white/40 animate-in fade-in slide-in-from-top-2 duration-150 z-50 flex flex-col gap-1">
               {NAV_ITEMS.map((item) => (
                 <NavLink
                   key={item.to}
@@ -115,8 +115,8 @@ const Header = () => {
                   className={({ isActive }) =>
                     cn(
                       "w-full px-4 py-3 text-xs font-semibold text-gray-20 rounded-xl transition-all duration-200 select-none",
-                      "neumorphism-hover",
-                      isActive && "neumorphism-active",
+                      "clay-hover",
+                      isActive && "clay-active",
                     )
                   }>
                   {item.label}
@@ -124,18 +124,18 @@ const Header = () => {
               ))}
               <div className="my-1 border-t border-white/40" />
               <Button
-                variant="neumorphism"
+                variant="clay"
                 className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-20 rounded-xl transition-all duration-200 justify-start">
                 <Sun className="w-4 h-4 text-[#718096]" />
                 테마
               </Button>
               <Button
-                variant="neumorphism"
+                variant="clay"
                 className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-20 rounded-xl transition-all duration-200 justify-start">
                 명언
               </Button>
               <Button
-                variant="neumorphism"
+                variant="clay"
                 onClick={handleLogout}
                 className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-20 hover:text-primary rounded-xl transition-all duration-200">
                 <LogOut className="w-4 h-4 text-primary" />
@@ -146,15 +146,15 @@ const Header = () => {
         </div>
         {/* 데스크탑 버튼 그룹: 820px 이상에서만 표시 */}
         <div className="hidden min-[820px]:flex items-center gap-5">
-          <Button variant="neumorphism" className="rounded-full w-12 h-12 p-0">
+          <Button variant="clay" className="rounded-full w-12 h-12 p-0">
             <Sun className="w-6 h-6 text-[#718096]" />
           </Button>
-          <Button variant="neumorphism" className="rounded-full w-12 h-12 p-0">
+          <Button variant="clay" className="rounded-full w-12 h-12 p-0">
             명언
           </Button>
           <div className="relative" ref={dropdownRef}>
             <Button
-              variant="neumorphism"
+              variant="clay"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="rounded-full w-12 h-12 p-0 overflow-hidden relative group">
               <User
@@ -166,7 +166,7 @@ const Header = () => {
             {isDropdownOpen && (
               <div className="absolute right-0 mt-3 w-40 bg-bg-light shadow-[var(--shadow-neumorphism)] rounded-2xl p-2 border border-white/40 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
                 <Button
-                  variant="neumorphism"
+                  variant="clay"
                   onClick={handleLogout}
                   className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-20 hover:text-primary rounded-xl transition-all duration-200">
                   <LogOut className="w-4 h-4 text-primary" />
