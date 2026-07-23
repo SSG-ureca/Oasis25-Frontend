@@ -1,8 +1,4 @@
-export const generateSvgPath = (data: number[], globalMax?: number) => {
-  const BASELINE_Y = 145;
-  const MAX_HEIGHT = 135; // 그래프를 높여서 공간을 꽉 채우기 위한 픽셀 높이
-
-  // 1. 24시간 데이터에 가우시안 스무딩을 적용해 완만한 곡선 흐름 생성
+export const smoothData = (data: number[]) => {
   const smoothed = new Array(24).fill(0);
   const kernel = [0.05, 0.12, 0.2, 0.26, 0.2, 0.12, 0.05];
   const kernelRadius = Math.floor(kernel.length / 2);
@@ -19,6 +15,15 @@ export const generateSvgPath = (data: number[], globalMax?: number) => {
     }
     smoothed[i] = sum / weightSum;
   }
+  return smoothed;
+};
+
+export const generateSvgPath = (data: number[], globalMax?: number) => {
+  const BASELINE_Y = 145;
+  const MAX_HEIGHT = 135; // 그래프를 높여서 공간을 꽉 채우기 위한 픽셀 높이
+
+  // 1. 24시간 데이터에 가우시안 스무딩을 적용해 완만한 곡선 흐름 생성
+  const smoothed = smoothData(data);
 
   // 2. 24개 시간 노드를 SVG 좌표계로 매핑 (전역 최대치를 기준으로 요일 간 일관된 스케일 유지)
   const maxVal = globalMax ?? Math.max(...smoothed, 1);

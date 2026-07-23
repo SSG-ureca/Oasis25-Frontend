@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getWeeklyLogs, type WeeklyLogResponse } from "../services/statsApi";
-import { generateSvgPath } from "../utils/statsUtils";
+import { generateSvgPath, smoothData } from "../utils/statsUtils";
 
 export function useStats() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -51,27 +51,7 @@ export function useStats() {
     return hours;
   });
 
-  // 전역 최대치 설정을 위한 사전 가우시안 스무딩 헬퍼 함수
-  const smooth = (data: number[]) => {
-    const smoothed = new Array(24).fill(0);
-    const kernel = [0.05, 0.12, 0.2, 0.26, 0.2, 0.12, 0.05];
-    const kernelRadius = Math.floor(kernel.length / 2);
-    for (let i = 0; i < 24; i++) {
-      let sum = 0;
-      let weightSum = 0;
-      for (let k = 0; k < kernel.length; k++) {
-        const idx = i + k - kernelRadius;
-        if (idx >= 0 && idx < 24) {
-          sum += data[idx] * kernel[k];
-          weightSum += kernel[k];
-        }
-      }
-      smoothed[i] = sum / weightSum;
-    }
-    return smoothed;
-  };
-
-  const smoothedDailyHourDataList = dailyHourDataList.map(hours => smooth(hours));
+  const smoothedDailyHourDataList = dailyHourDataList.map(hours => smoothData(hours));
   const globalMax = Math.max(...smoothedDailyHourDataList.flatMap(h => h), 1);
 
   // 모든 요일이 일관된 스케일로 렌더링되도록 전역 최대치(globalMax)를 반영하여 SVG 경로 생성
