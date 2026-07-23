@@ -1,5 +1,4 @@
 interface HourlyFocusChartProps {
-  username: string;
   weeklyHourlyPaths: Array<{
     line: string;
     fill: string;
@@ -9,7 +8,7 @@ interface HourlyFocusChartProps {
 
 const THEME_COLOR = "#10b981"; // 에메랄드 브랜드 테마 컬러로 통일
 
-export const HourlyFocusChart = ({ username, weeklyHourlyPaths, dailyHourDataList }: HourlyFocusChartProps) => {
+export const HourlyFocusChart = ({ weeklyHourlyPaths, dailyHourDataList }: HourlyFocusChartProps) => {
   // 24시간 중 누적 집중 분이 가장 높은 피크 시간 계산 (7일 전체 기준)
   const hourlySums = Array(24).fill(0);
   dailyHourDataList?.forEach((dayData) => {

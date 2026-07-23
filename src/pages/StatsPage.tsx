@@ -15,7 +15,6 @@ import { useStats } from "../hooks/useStats";
 import { HourlyFocusChart } from "../components/stats/HourlyFocusChart";
 
 export const StatsPage = () => {
-  const username = "오아시스";
   const [activeTab, setActiveTab] = useState<number>(0);
   const {
     loading,
@@ -91,7 +90,6 @@ export const StatsPage = () => {
                   {/* 시간대별 몰입 분석 */}
                   {activeTab === 0 && (
                     <HourlyFocusChart 
-                      username={username} 
                       weeklyHourlyPaths={weeklyHourlyPaths} 
                       dailyHourDataList={dailyHourDataList} 
                     />
