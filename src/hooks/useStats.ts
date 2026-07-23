@@ -114,6 +114,7 @@ export function useStats() {
     getBarHeight,
     diaryScores,
     trendPaths,
+    dailyFocusMinutes,
   };
-}
+};
 export default useStats;

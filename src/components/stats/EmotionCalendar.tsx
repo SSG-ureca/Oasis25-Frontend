@@ -155,7 +155,6 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
 
       <div className="flex-1 flex items-center justify-center py-1 z-10 w-full min-h-0">
         <div className="w-full max-w-[300px] md:max-w-[480px] aspect-[7/5] grid grid-cols-7 gap-0 rounded-[16px] overflow-hidden bg-[#e5e9f0]/45 shadow-[inset_0_2px_8px_rgba(0,0,0,0.06)] border border-gray-200/30 p-1 relative emotion-grid-container">
-          {/* 달력 컨테이너 밖으로 빛이 새어나가지 않도록 overflow-hidden 내부에서 작동하는 포인터 매칭 렌즈 */}
           {hoveredCell !== null && (
             <div
               className={`absolute w-14 h-14 rounded-full pointer-events-none blur-lg mix-blend-overlay transition-all duration-[400ms] ease-out z-20 ${getSpotlightColor(diaryScores[hoveredCell.idx])}`}
