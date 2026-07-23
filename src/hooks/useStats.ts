@@ -1,26 +1,29 @@
 import { useState, useEffect } from "react";
-import { getWeeklyLogs, getWeatherStats, getEmotionStats, type WeeklyLogResponse, type EmotionStatsResponse } from "../services/statsApi";
+import { getWeeklyLogs, getWeatherStats, getEmotionStats, getFocusTrend, type WeeklyLogResponse, type EmotionStatsResponse, type FocusTrendResponse } from "../services/statsApi";
 import { type WeatherStatsResponse } from "../types/stats";
-import { generateSvgPath, smoothData } from "../utils/statsUtils";
+import { generateSvgPath, smoothData, generateTrendPath, smoothTrendData } from "../utils/statsUtils";
 
 export function useStats() {
   const [loading, setLoading] = useState<boolean>(true);
   const [weeklyLogs, setWeeklyLogs] = useState<WeeklyLogResponse[]>([]);
   const [weatherStats, setWeatherStats] = useState<WeatherStatsResponse[]>([]);
   const [emotionStats, setEmotionStats] = useState<EmotionStatsResponse[]>([]);
+  const [trendData, setTrendData] = useState<FocusTrendResponse[]>([]);
 
   useEffect(() => {
     async function initData() {
       try {
         setLoading(true);
-        const [logsData, weatherData, emotionData] = await Promise.all([
+        const [logsData, weatherData, emotionData, trendResponse] = await Promise.all([
           getWeeklyLogs(),
           getWeatherStats(),
-          getEmotionStats()
+          getEmotionStats(),
+          getFocusTrend()
         ]);
         setWeeklyLogs(logsData);
         setWeatherStats(weatherData);
         setEmotionStats(emotionData);
+        setTrendData(trendResponse);
       } catch (err) {
         console.error("Failed to load stats:", err);
       } finally {
@@ -86,7 +89,22 @@ export function useStats() {
     return stat ? stat.emotionScore : "none";
   });
 
-  const trendPaths = { fill1: "M 0,130 L 400,130", fill2: "M 0,130 L 400,130" };
+  const past30Days = Array.from({ length: 30 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (29 - i));
+    return getLocalDateString(d);
+  });
+
+  const dailyFocusMinutes = past30Days.map(dateStr => {
+    const stat = trendData.find(item => item.date === dateStr);
+    return stat ? stat.totalFocusMinutes : 0;
+  });
+
+  const trendResult = generateTrendPath(dailyFocusMinutes);
+  const trendPaths = {
+    fill: trendResult.fill,
+    line: trendResult.line,
+  };
 
   return {
     loading,

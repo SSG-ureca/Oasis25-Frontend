@@ -25,5 +25,12 @@ export const getEmotionStats = async (): Promise<EmotionStatsResponse[]> => {
   const response = await api.get<EmotionStatsResponse[]>("/api/stats/emotions");
   return response.data;
 };
+export interface FocusTrendResponse {
+  date: string;
+  totalFocusMinutes: number;
+}
 
-
+export const getFocusTrend = async (): Promise<FocusTrendResponse[]> => {
+  const response = await api.get<FocusTrendResponse[]>("/api/stats/trend");
+  return response.data;
+};

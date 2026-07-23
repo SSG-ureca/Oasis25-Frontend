@@ -59,6 +59,48 @@ export const generateSvgPath = (data: number[], globalMax?: number) => {
   };
 };
 
+export const smoothTrendData = (data: number[]) => {
+  const smoothed = new Array(data.length).fill(0);
+  const kernel = [0.15, 0.7, 0.15];
+  const radius = 1;
+  for (let i = 0; i < data.length; i++) {
+    let sum = 0;
+    let weight = 0;
+    for (let k = -radius; k <= radius; k++) {
+      const idx = i + k;
+      if (idx >= 0 && idx < data.length) {
+        sum += data[idx] * kernel[k + radius];
+        weight += kernel[k + radius];
+      }
+    }
+    smoothed[i] = sum / weight;
+  }
+  return smoothed;
+};
 
+export const generateTrendPath = (data: number[]) => {
+  if (data.length === 0) {
+    return {
+      fill: "M 0,145 L 400,145 Z",
+      line: "M 0,145 L 400,145"
+    };
+  }
 
+  const BASELINE_Y = 145;
+  const maxVal = Math.max(...data, 60);
+  const points = data.map((val, i) => {
+    const x = (i / (data.length - 1)) * 400;
+    const y = Math.min(BASELINE_Y, Math.max(5, BASELINE_Y - (val / maxVal) * 130));
+    return { x, y };
+  });
 
+  let pathD = `M ${points[0].x},${points[0].y}`;
+  for (let i = 1; i < points.length; i++) {
+    pathD += ` L ${points[i].x},${points[i].y}`;
+  }
+
+  return {
+    line: pathD,
+    fill: `M 0,${BASELINE_Y} L ${points[0].x},${points[0].y} ${pathD.slice(pathD.indexOf('L'))} L 400,${BASELINE_Y} Z`
+  };
+};

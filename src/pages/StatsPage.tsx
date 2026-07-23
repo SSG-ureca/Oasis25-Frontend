@@ -129,8 +129,8 @@ export const StatsPage = () => {
                               <stop offset="100%" stopColor="#047857" stopOpacity="0" />
                             </linearGradient>
                           </defs>
-                          <path d={trendPaths.fill2} fill="url(#grad-upward-wave2)" />
-                          <path d={trendPaths.fill1} fill="url(#grad-upward-wave1)" />
+                          <path d={trendPaths.fill} fill="url(#grad-upward-wave1)" />
+                          <path d={trendPaths.line} fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </div>
 
