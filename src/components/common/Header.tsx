@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
 import { Panel } from "./Panel";
+import { RestrictedArea } from "./RestrictedArea";
 import { cn } from "../../utils/cn";
 import { Button } from "./Button";
 import { Sun, User, LogOut, LogIn } from "lucide-react";
@@ -70,30 +71,24 @@ const Header = () => {
         className="px-5 py-2.5 flex gap-5 rounded-4xl"
       >
         {NAV_ITEMS.map((item) => {
+          const isItemDisabled = isGuest && item.to !== "/";
           return (
-            <NavLink
-              key={item.to}
-              to={isGuest && item.to !== "/" ? "#" : item.to}
-              end
-              onClick={(e) => {
-                if (isGuest && item.to !== "/") {
-                  e.preventDefault();
-                  toast.error(
-                    "로그인이 필요한 기능입니다. 현재 게스트 모드입니다. 🔒",
-                  );
+            <RestrictedArea key={item.to} isRestricted={isItemDisabled}>
+              <NavLink
+                to={item.to}
+                end
+                className={({ isActive }) =>
+                  cn(
+                    "rounded-4xl neumorphism-size-sm border border-transparent transition-all duration-200 select-none block",
+                    "neumorphism-hover",
+                    isActive && !isItemDisabled && "neumorphism-active",
+                    isItemDisabled && "opacity-50 cursor-not-allowed",
+                  )
                 }
-              }}
-              className={({ isActive }) =>
-                cn(
-                  "rounded-4xl neumorphism-size-sm border border-transparent transition-all duration-200 select-none",
-                  "neumorphism-hover",
-                  isActive && !isGuest && "neumorphism-active",
-                  isGuest && item.to !== "/" && "opacity-50 cursor-not-allowed",
-                )
-              }
-            >
-              {item.label}
-            </NavLink>
+              >
+                {item.label}
+              </NavLink>
+            </RestrictedArea>
           );
         })}
       </Panel>
@@ -101,13 +96,18 @@ const Header = () => {
         <Button variant="neumorphism" className="rounded-full w-12 h-12 p-0">
           <Sun className="w-6 h-6 text-[#718096]" />
         </Button>
-        <Button
-          variant="neumorphism"
-          onClick={() => setIsFeedbackOpen(true)}
-          className="rounded-full px-4 h-12 text-xs font-bold text-[#718096]"
-        >
-          VOC
-        </Button>
+        <RestrictedArea isRestricted={isGuest}>
+          <Button
+            variant="neumorphism"
+            onClick={() => setIsFeedbackOpen(true)}
+            className={cn(
+              "rounded-full px-4 h-12 text-xs font-bold text-[#718096]",
+              isGuest && "opacity-50 cursor-not-allowed"
+            )}
+          >
+            VOC
+          </Button>
+        </RestrictedArea>
         <div className="relative" ref={dropdownRef}>
           <Button
             variant="neumorphism"
@@ -132,7 +132,7 @@ const Header = () => {
                   }}
                   className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-20 hover:text-emerald-600 rounded-xl transition-all duration-200"
                 >
-                  <LogIn className="w-4 h-4 text-primary" />
+                  <LogIn className="w-4 h-4 text-emerald-600" />
                   로그인
                 </Button>
               ) : (
