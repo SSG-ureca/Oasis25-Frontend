@@ -1,17 +1,23 @@
 import { useState, useEffect } from "react";
-import { getWeeklyLogs, type WeeklyLogResponse } from "../services/statsApi";
+import { getWeeklyLogs, getWeatherStats, type WeeklyLogResponse } from "../services/statsApi";
+import { type WeatherStatsResponse } from "../types/stats";
 import { generateSvgPath, smoothData } from "../utils/statsUtils";
 
 export function useStats() {
   const [loading, setLoading] = useState<boolean>(true);
   const [weeklyLogs, setWeeklyLogs] = useState<WeeklyLogResponse[]>([]);
+  const [weatherStats, setWeatherStats] = useState<WeatherStatsResponse[]>([]);
 
   useEffect(() => {
     async function initData() {
       try {
         setLoading(true);
-        const data = await getWeeklyLogs();
-        setWeeklyLogs(data);
+        const [logsData, weatherData] = await Promise.all([
+          getWeeklyLogs(),
+          getWeatherStats()
+        ]);
+        setWeeklyLogs(logsData);
+        setWeatherStats(weatherData);
       } catch (err) {
         console.error("Failed to load stats:", err);
       } finally {
@@ -28,14 +34,12 @@ export function useStats() {
     return `${year}-${month}-${day}`;
   };
 
-  // 오늘을 포함한 최근 7일의 로컬 날짜 문자열 배열 생성 (연대기 순)
   const past7Days = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - (6 - i));
     return getLocalDateString(d);
   });
 
-  // 최근 7일 각각의 24시간 몰입 누적 시간(분) 계산
   const dailyHourDataList = past7Days.map(dateStr => {
     const hours = Array(24).fill(0);
     weeklyLogs.forEach(log => {
@@ -54,11 +58,20 @@ export function useStats() {
   const smoothedDailyHourDataList = dailyHourDataList.map(hours => smoothData(hours));
   const globalMax = Math.max(...smoothedDailyHourDataList.flatMap(h => h), 1);
 
-  // 모든 요일이 일관된 스케일로 렌더링되도록 전역 최대치(globalMax)를 반영하여 SVG 경로 생성
+  // 모든 요일 그래프가 동일한 세로 비율을 가지도록 전역 최대값(globalMax) 반영
   const weeklyHourlyPaths = dailyHourDataList.map(hours => generateSvgPath(hours, globalMax));
 
-  const getWeatherData = (_cond: string): any => undefined;
-  const getBarHeight = (_cond: string): number => 10;
+  const getWeatherData = (cond: string): WeatherStatsResponse | undefined => {
+    return weatherStats.find(stat => stat.weatherCondition === cond);
+  };
+
+  const getBarHeight = (cond: string): number => {
+    const data = getWeatherData(cond);
+    if (!data || data.avgFocusMinutes === 0) return 0;
+    const maxAvgFocus = Math.max(...weatherStats.map(s => s.avgFocusMinutes), 1);
+    return (data.avgFocusMinutes / maxAvgFocus) * 120;
+  };
+
   const diaryScores = Array(35).fill("none");
   const trendPaths = { fill1: "M 0,130 L 400,130", fill2: "M 0,130 L 400,130" };
 

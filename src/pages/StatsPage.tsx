@@ -2,10 +2,6 @@ import { useState } from "react";
 import { Panel } from "../components/common/Panel";
 import { MusicPlayer } from "../components/common/MusicPlayer";
 import { 
-  CloudRain, 
-  Sun, 
-  Cloud, 
-  Snowflake, 
   Clock, 
   CloudSun, 
   Palette, 
@@ -13,6 +9,7 @@ import {
 } from "lucide-react";
 import { useStats } from "../hooks/useStats";
 import { HourlyFocusChart } from "../components/stats/HourlyFocusChart";
+import { WeatherFocusChart } from "../components/stats/WeatherFocusChart";
 
 export const StatsPage = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -97,54 +94,10 @@ export const StatsPage = () => {
 
                   {/* 날씨별 몰입도 비교 */}
                   {activeTab === 1 && (
-                    <div className="w-full h-full flex flex-col justify-between">
-                      <div className="space-y-1.5">
-                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">Weather Focus Analytics</span>
-                        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">날씨별 몰입도 비교</h2>
-                        <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed max-w-[450px]">
-                          날씨 환경에 따른 평균 집중 시간(분)입니다. 날씨에 적합한 몰입 상태를 확인해보세요.
-                        </p>
-                      </div>
-
-                      <div className="flex items-end justify-around h-[58%] pb-2">
-                        <div className="flex flex-col items-center gap-2 w-14">
-                          <span className="text-[9px] font-bold text-emerald-600">{getWeatherData("비")?.avgFocusMinutes.toFixed(1) || 0}분</span>
-                          <div 
-                            className="w-5 bg-gradient-to-t from-emerald-600 to-[#10b981] rounded-full shadow-[0_4px_12px_rgba(16,185,129,0.2)] transition-all duration-500" 
-                            style={{ height: `${getBarHeight("비")}px` }}
-                          />
-                          <CloudRain className="w-5 h-5 text-emerald-600" />
-                          <span className="text-[11px] font-bold text-gray-700">비</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-2 w-14">
-                          <span className="text-[9px] font-bold text-gray-500">{getWeatherData("맑음")?.avgFocusMinutes.toFixed(1) || 0}분</span>
-                          <div 
-                            className="w-5 bg-gray-300/60 rounded-full transition-all duration-500" 
-                            style={{ height: `${getBarHeight("맑음")}px` }}
-                          />
-                          <Sun className="w-5 h-5 text-gray-400" />
-                          <span className="text-[11px] font-bold text-gray-400">맑음</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-2 w-14">
-                          <span className="text-[9px] font-bold text-emerald-600">{getWeatherData("흐림")?.avgFocusMinutes.toFixed(1) || 0}분</span>
-                          <div 
-                            className="w-5 bg-gradient-to-t from-emerald-600 to-[#10b981] rounded-full opacity-80 transition-all duration-500" 
-                            style={{ height: `${getBarHeight("흐림")}px` }}
-                          />
-                          <Cloud className="w-5 h-5 text-emerald-600" />
-                          <span className="text-[11px] font-bold text-gray-700">흐림</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-2 w-14">
-                          <span className="text-[9px] font-bold text-gray-500">{getWeatherData("눈")?.avgFocusMinutes.toFixed(1) || 0}분</span>
-                          <div 
-                            className="w-5 bg-gray-300/60 rounded-full transition-all duration-500" 
-                            style={{ height: `${getBarHeight("눈")}px` }}
-                          />
-                          <Snowflake className="w-5 h-5 text-gray-400" />
-                          <span className="text-[11px] font-bold text-gray-400">눈</span>
-                        </div>
-                      </div>
-                    </div>
+                    <WeatherFocusChart 
+                      getWeatherData={getWeatherData} 
+                      getBarHeight={getBarHeight} 
+                    />
                   )}
 
                   {/* 감정 흐름 달력 */}
