@@ -13,7 +13,7 @@ export default function NotFoundPage() {
     return (
         <div className="flex h-full items-center justify-center">
             <Panel
-                variant="neumorphism"
+                variant="clay"
                 className="
           flex
           w-full

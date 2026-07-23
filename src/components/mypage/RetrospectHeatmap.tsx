@@ -71,7 +71,7 @@ export const RetrospectHeatmap = () => {
             </Panel>
 
             <Button
-                variant="glassNeumorphism"
+                variant="clay"
                 className="flex-[1] p-2 min-h-0"
                 onClick={handleYearChange}
             >
