@@ -10,6 +10,7 @@ import {
 import { useStats } from "../hooks/useStats";
 import { HourlyFocusChart } from "../components/stats/HourlyFocusChart";
 import { WeatherFocusChart } from "../components/stats/WeatherFocusChart";
+import { EmotionCalendar } from "../components/stats/EmotionCalendar";
 
 export const StatsPage = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -102,66 +103,7 @@ export const StatsPage = () => {
 
                   {/* 감정 흐름 달력 */}
                   {activeTab === 2 && (
-                    <div className="w-full h-full flex flex-col justify-between relative">
-                      <div className="space-y-1.5 z-10">
-                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">Watercolor Emotion Flow</span>
-                        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">감정 흐름 달력</h2>
-                        <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed max-w-[450px]">
-                          최근 35일간의 회고 기록에 근거한 기분 지표 수채화 번짐 흐름입니다.
-                        </p>
-                      </div>
-
-                      <div className="flex-1 flex items-center justify-center py-2 min-h-0 z-10">
-                        <div className="w-[280px] aspect-[7/5] md:w-[322px] mx-auto grid grid-cols-7 gap-0 rounded-[12px] overflow-hidden bg-[#e5e9f0]/40 shadow-inner">
-                          {diaryScores.map((score, idx) => {
-                            let colorClass = "";
-                            if (score === 1) {
-                              colorClass = "bg-[#ef4444]/30";
-                            } else if (score === 2) {
-                              colorClass = "bg-[#6366f1]/30";
-                            } else if (score === 3) {
-                              colorClass = "bg-[#94a3b8]/35";
-                            } else if (score === 4) {
-                              colorClass = "bg-[#10b981]/30";
-                            } else if (score === 5) {
-                              colorClass = "bg-[#f59e0b]/30";
-                            }
-                            return (
-                              <div key={idx} className="relative w-full h-full flex items-center justify-center overflow-visible">
-                                {colorClass && (
-                                  <div
-                                      className={`absolute w-[240%] h-[240%] rounded-full filter blur-[12px] sm:blur-[18px] pointer-events-none ${colorClass}`}
-                                  />
-                                )}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      <div className="flex justify-around items-center text-[9px] sm:text-[10px] font-bold text-gray-500/80 border-t border-black/5 pt-2.5 shrink-0 w-full px-1 z-10">
-                        <div className="flex items-center gap-1.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#ef4444]/80 shadow-[0_0_6px_rgba(239,68,68,0.3)]" />
-                          <span>스트레스</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#6366f1]/80 shadow-[0_0_6px_rgba(99,102,241,0.3)]" />
-                          <span>불안/슬픔</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#94a3b8]/80 shadow-[0_0_6px_rgba(148,163,184,0.3)]" />
-                          <span>보통</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]/80 shadow-[0_0_6px_rgba(16,185,129,0.3)]" />
-                          <span>차분함</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]/80 shadow-[0_0_6px_rgba(245,158,11,0.3)]" />
-                          <span>행복</span>
-                        </div>
-                      </div>
-                    </div>
+                    <EmotionCalendar diaryScores={diaryScores} />
                   )}
 
                   {/* 30일 집중력 트렌드 */}

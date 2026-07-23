@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getWeeklyLogs, getWeatherStats, type WeeklyLogResponse } from "../services/statsApi";
+import { getWeeklyLogs, getWeatherStats, getEmotionStats, type WeeklyLogResponse, type EmotionStatsResponse } from "../services/statsApi";
 import { type WeatherStatsResponse } from "../types/stats";
 import { generateSvgPath, smoothData } from "../utils/statsUtils";
 
@@ -7,17 +7,20 @@ export function useStats() {
   const [loading, setLoading] = useState<boolean>(true);
   const [weeklyLogs, setWeeklyLogs] = useState<WeeklyLogResponse[]>([]);
   const [weatherStats, setWeatherStats] = useState<WeatherStatsResponse[]>([]);
+  const [emotionStats, setEmotionStats] = useState<EmotionStatsResponse[]>([]);
 
   useEffect(() => {
     async function initData() {
       try {
         setLoading(true);
-        const [logsData, weatherData] = await Promise.all([
+        const [logsData, weatherData, emotionData] = await Promise.all([
           getWeeklyLogs(),
-          getWeatherStats()
+          getWeatherStats(),
+          getEmotionStats()
         ]);
         setWeeklyLogs(logsData);
         setWeatherStats(weatherData);
+        setEmotionStats(emotionData);
       } catch (err) {
         console.error("Failed to load stats:", err);
       } finally {
@@ -72,7 +75,17 @@ export function useStats() {
     return (data.avgFocusMinutes / maxAvgFocus) * 120;
   };
 
-  const diaryScores = Array(35).fill("none");
+  const past35Days = Array.from({ length: 35 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (34 - i));
+    return getLocalDateString(d);
+  });
+
+  const diaryScores = past35Days.map(dateStr => {
+    const stat = emotionStats.find(item => item.date === dateStr);
+    return stat ? stat.emotionScore : "none";
+  });
+
   const trendPaths = { fill1: "M 0,130 L 400,130", fill2: "M 0,130 L 400,130" };
 
   return {

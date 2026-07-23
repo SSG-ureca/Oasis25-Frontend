@@ -16,3 +16,14 @@ export const getWeatherStats = async (): Promise<WeatherStatsResponse[]> => {
   return response.data;
 };
 
+export interface EmotionStatsResponse {
+  date: string;
+  emotionScore: number;
+}
+
+export const getEmotionStats = async (): Promise<EmotionStatsResponse[]> => {
+  const response = await api.get<EmotionStatsResponse[]>("/api/stats/emotions");
+  return response.data;
+};
+
+
