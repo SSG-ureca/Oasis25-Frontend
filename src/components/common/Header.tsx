@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 
 import { Panel } from "./Panel";
 import { cn } from "../../utils/cn";
@@ -23,6 +23,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const token = localStorage.getItem("accessToken");
   const isGuest = !token;
@@ -69,9 +70,12 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 flex justify-between items-center h-13 px-4">
+      {/* 로고 */}
       <div className="flex-1 flex justify-start">
         <img src="/src/assets/images/oasis25.png" alt="logo" />
       </div>
+
+      {/* Nav items */}
       <Panel
         variant="clay"
         inset
@@ -94,6 +98,8 @@ const Header = () => {
           );
         })}
       </Panel>
+
+      {/* 우측 메뉴 */}
       <div className="flex-1 flex justify-end gap-5">
         {/* 햄버거 버튼 및 모바일 메뉴: 820px 미만에서만 표시 */}
         <div className="relative flex min-[820px]:hidden" ref={mobileMenuRef}>
@@ -111,39 +117,55 @@ const Header = () => {
           {isMobileMenuOpen && (
             <div className="absolute right-0 top-full mt-3 w-48 shadow-[var(--shadow-clay)] rounded-2xl p-2 border border-white/40 animate-in fade-in slide-in-from-top-2 duration-150 z-50 flex flex-col gap-1">
               {NAV_ITEMS.map((item) => (
-                <NavLink
+                <Button
                   key={item.to}
-                  to={item.to}
-                  end
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={({ isActive }) =>
-                    cn(
-                      "w-full px-4 py-3 text-xs font-semibold text-gray-20 rounded-xl transition-all duration-200 select-none",
-                      "clay-hover",
-                      isActive && "clay-active",
-                    )
-                  }>
+                  variant="clay"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    navigate(item.to);
+                  }}
+                  className={cn(
+                    "w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold text-gray-20 rounded-xl justify-start clay-hover",
+                    location.pathname === item.to && "clay-active",
+                  )}>
                   {item.label}
-                </NavLink>
+                </Button>
               ))}
               <div className="my-1 border-t border-white/40" />
               <Button
                 variant="clay"
-                className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-20 rounded-xl transition-all duration-200 justify-start">
+                className="w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold text-gray-20 rounded-xl justify-start clay-hover">
                 <Sun className="w-4 h-4 text-[#718096]" />
                 테마
               </Button>
               <Button
                 variant="clay"
-                className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-20 rounded-xl transition-all duration-200 justify-start">
-                명언
+                onClick={() => setIsFeedbackOpen(true)}
+                disabled={isGuest}
+                className={cn(
+                  "w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold text-gray-20 rounded-xl justify-start clay-hover",
+                  isGuest && "opacity-50 cursor-not-allowed",
+                )}>
+                VOC
               </Button>
+              <div className="my-1 border-t border-white/40" />
               <Button
                 variant="clay"
-                onClick={handleLogout}
-                className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-20 hover:text-primary rounded-xl transition-all duration-200">
-                <LogOut className="w-4 h-4 text-primary" />
-                로그아웃
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  if (isGuest) {
+                    navigate("/login");
+                  } else {
+                    handleLogout();
+                  }
+                }}
+                className="w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold text-gray-20 rounded-xl justify-start clay-hover">
+                {isGuest ? (
+                  <LogIn className="w-4 h-4 text-[#718096]" />
+                ) : (
+                  <LogOut className="w-4 h-4 text-[#718096]" />
+                )}
+                {isGuest ? "로그인" : "로그아웃"}
               </Button>
             </div>
           )}
@@ -153,8 +175,15 @@ const Header = () => {
           <Button variant="clay" className="rounded-full w-12 h-12 p-0">
             <Sun className="w-6 h-6 text-[#718096]" />
           </Button>
-          <Button variant="clay" className="rounded-full w-12 h-12 p-0">
-            명언
+          <Button
+            variant="clay"
+            onClick={() => setIsFeedbackOpen(true)}
+            disabled={isGuest}
+            className={cn(
+              "rounded-full px-4 h-12 text-xs font-bold text-[#718096]",
+              isGuest && "opacity-50 cursor-not-allowed",
+            )}>
+            VOC
           </Button>
           <div className="relative" ref={dropdownRef}>
             <Button

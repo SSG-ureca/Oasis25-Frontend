@@ -13,7 +13,6 @@ export default function MainLayout() {
         <main className="flex min-h-0 flex-1">
           <Panel
             variant="clay"
-            inset
             className="flex min-h-0 flex-1 flex-col overflow-x-hidden p-[clamp(1.25rem,3vh,2rem)] custom-scrollbar max-[819px]:overflow-y-auto">
             <div className="min-h-0 min-w-0 w-full flex-1">
               <Outlet />
