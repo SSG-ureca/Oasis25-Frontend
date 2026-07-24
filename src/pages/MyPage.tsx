@@ -1,5 +1,5 @@
 import { Panel } from "../components/common/Panel";
-import { MusicController } from "../components/mypage/MusicController";
+import { MusicController } from "../components/mypage/musicComponent/MusicController";
 import { OptionController } from "../components/mypage/OptionController";
 import { ProfileEditor } from "../components/mypage/profileComponent/ProfileEditor";
 import { RetrospectHeatmap } from "../components/mypage/RetrospectHeatmap";

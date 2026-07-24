@@ -6,12 +6,12 @@ import { router } from "./app/router.tsx";
 import { Toaster } from "react-hot-toast";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <Toaster
-      containerStyle={{
-        zIndex: 99999,
-      }}
-    />
-    <RouterProvider router={router} />
-  </StrictMode>,
+    <StrictMode>
+        <Toaster
+            containerStyle={{
+                zIndex: 99999,
+            }}
+        />
+        <RouterProvider router={router} />
+    </StrictMode>,
 );
