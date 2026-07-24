@@ -7,7 +7,7 @@ import { Button } from "./Button";
 import { Sun, LogOut, Menu, X, LogIn, User } from "lucide-react";
 import { logoutApi } from "../../services/authApi";
 import { FeedbackModal } from "./FeedbackModal";
-import toast from "react-hot-toast";
+import { toast } from "./Toast";
 
 const PROTECTED_PATHS = ["/main/retrospect", "/main/stats", "/main/mypage"];
 

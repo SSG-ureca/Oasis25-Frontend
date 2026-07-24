@@ -3,15 +3,11 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./app/router.tsx";
-import { Toaster } from "react-hot-toast";
+import { ToastContainer } from "./components/common/Toast";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Toaster
-      containerStyle={{
-        zIndex: 99999,
-      }}
-    />
+    <ToastContainer />
     <RouterProvider router={router} />
   </StrictMode>,
 );

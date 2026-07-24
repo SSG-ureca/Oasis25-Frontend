@@ -9,7 +9,7 @@ import { Button } from "../common/Button";
 
 import { createRetrospect } from "../../services/retrospectApi";
 import { uploadAttachment } from "../../services/retrospectApi";
-import toast from "react-hot-toast";
+import { toast } from "../common/Toast";
 
 export const RetrospectWritePanel = () => {
     // 상태

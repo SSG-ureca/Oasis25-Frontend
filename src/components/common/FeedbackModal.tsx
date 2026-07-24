@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import { ThumbsUp, ThumbsDown, X } from "lucide-react";
 import { createFeedback } from "../../services/feedbackApi";
-import { toast } from "react-hot-toast";
+import { toast } from "../common/Toast";
 
 interface FeedbackModalProps {
   isOpen: boolean;
