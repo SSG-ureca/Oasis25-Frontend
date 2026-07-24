@@ -29,12 +29,13 @@ export const MyPage = () => {
                     <RetrospectHeatmap />
                     <div
                         className="
-                    flex
-                    gap-6
-                    w-full
-                    h-7/10
-                    mt-4
-                "
+                        flex
+                        gap-6
+                        w-full
+                        flex-1
+                        min-h-0
+                        mt-4
+                    "
                     >
                         <ProfileEditor />
                         <MusicController />

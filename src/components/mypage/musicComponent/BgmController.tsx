@@ -1,9 +1,9 @@
-import { useEffect, useRef } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { MusicSetting, BgmType } from "../../../types/music";
 import { BGM_LIST } from "../../../types/music";
 import { Panel } from "../../common/Panel";
 import { Button } from "../../common/Button";
+import { useEffect, useRef, useState } from "react";
 
 interface BgmControllerProps {
     musicSetting: MusicSetting;
@@ -17,6 +17,7 @@ export const BgmController = ({
     const { bgmOrder, excludedBgm } = musicSetting;
 
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [playingBgm, setPlayingBgm] = useState<BgmType | null>(null);
 
     // 컴포넌트가 사라질 때 음악 정지
     useEffect(() => {
@@ -66,13 +67,25 @@ export const BgmController = ({
     };
 
     // 미리듣기
-    const handlePreview = (path: string) => {
+    const handlePreview = (bgm: BgmType, path: string) => {
+        // 같은 음악이면 아무것도 안 함
+        if (playingBgm === bgm) {
+            return;
+        }
+
         audioRef.current?.pause();
 
-        audioRef.current = new Audio(path);
-        audioRef.current.volume = 0.4;
+        const audio = new Audio(path);
+        audio.volume = 0.4;
 
-        audioRef.current.play();
+        audio.onended = () => {
+            setPlayingBgm(null);
+        };
+
+        audio.play();
+
+        audioRef.current = audio;
+        setPlayingBgm(bgm);
     };
     const handleStop = () => {
         if (!audioRef.current) {
@@ -81,6 +94,9 @@ export const BgmController = ({
 
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
+        audioRef.current = null;
+
+        setPlayingBgm(null);
     };
 
     return (
@@ -120,12 +136,13 @@ export const BgmController = ({
                         >
                             <Button
                                 variant="clay"
-                                onClick={() => handlePreview(music.path)}
+                                onClick={() =>
+                                    playingBgm === bgm
+                                        ? handleStop()
+                                        : handlePreview(bgm, music.path)
+                                }
                             >
-                                ▶
-                            </Button>
-                            <Button variant="clay" onClick={handleStop}>
-                                ⏹
+                                {playingBgm === bgm ? "⏹" : "▶"}
                             </Button>
 
                             <Button
