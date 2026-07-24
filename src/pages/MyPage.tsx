@@ -18,12 +18,12 @@ export const MyPage = () => {
                 <Panel
                     variant="clay"
                     className="
-                flex-1
-                p-3
-                w-full
-                h-full
-                min-h-0
-            "
+                        flex-1
+                        p-3
+                        w-full
+                        h-full
+                        min-h-0
+                    "
                 >
                     {/* 깃허브 잔디 컴포넌트 */}
                     <RetrospectHeatmap />
