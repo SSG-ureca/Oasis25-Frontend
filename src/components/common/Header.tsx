@@ -92,7 +92,7 @@ const Header = () => {
       <Panel
         variant="clay"
         inset
-        className="px-5 py-2.5 hidden min-[820px]:flex gap-5 rounded-4xl">
+        className="px-5 py-2.5 hidden 880:flex gap-5 rounded-4xl">
         {NAV_ITEMS.map((item) => {
           return (
             <NavLink
@@ -116,7 +116,7 @@ const Header = () => {
       {/* 우측 메뉴 */}
       <div className="flex-1 flex justify-end gap-5">
         {/* 햄버거 버튼 및 모바일 메뉴: 820px 미만에서만 표시 */}
-        <div className="relative flex min-[820px]:hidden" ref={mobileMenuRef}>
+        <div className="relative flex 880:hidden" ref={mobileMenuRef}>
           <Button
             variant="clay"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -191,7 +191,7 @@ const Header = () => {
           )}
         </div>
         {/* 데스크탑 버튼 그룹: 820px 이상에서만 표시 */}
-        <div className="hidden min-[820px]:flex items-center gap-5">
+        <div className="hidden 880:flex items-center gap-5">
           <Button variant="clay" className="rounded-full w-12 h-12 p-0">
             <Sun className="w-6 h-6 text-[#718096]" />
           </Button>

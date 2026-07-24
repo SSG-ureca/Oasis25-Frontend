@@ -6,6 +6,7 @@ import {
   SkipBack,
   SkipForward,
   Volume2,
+  VolumeX,
 } from "lucide-react";
 import { Button } from "./Button";
 import { Panel } from "./Panel";
@@ -29,6 +30,8 @@ export const MusicPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [volume, setVolume] = useState(0.8);
+  const [prevVolume, setPrevVolume] = useState(0.8);
+  const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const currentTrack = TRACKS[currentIndex];
@@ -46,6 +49,17 @@ export const MusicPlayer = () => {
   const togglePlay = useCallback(() => {
     setIsPlaying((p) => !p);
   }, []);
+
+  const toggleMute = useCallback(() => {
+    if (isMuted) {
+      setVolume(prevVolume || 0.8);
+      setIsMuted(false);
+    } else {
+      setPrevVolume(volume > 0 ? volume : 0.8);
+      setVolume(0);
+      setIsMuted(true);
+    }
+  }, [isMuted, prevVolume, volume]);
 
   // 볼륨 제어
   useEffect(() => {
@@ -86,7 +100,7 @@ export const MusicPlayer = () => {
       <audio ref={audioRef} preload="metadata" loop />
 
       {/* 1. 곡 정보 */}
-      <div className="flex items-center gap-4">
+      <div className="hidden 680:flex items-center gap-4">
         <Panel
           variant="clay"
           inset
@@ -132,11 +146,21 @@ export const MusicPlayer = () => {
 
       {/* 3. 볼륨 컨트롤 */}
       <div className="flex items-center gap-3 pr-4">
-        <Volume2 className="h-5 w-5 text-gray-30" />
+        <button
+          type="button"
+          onClick={toggleMute}
+          className="cursor-pointer bg-transparent border-none p-0 focus:outline-none"
+          aria-label={isMuted ? "Unmute" : "Mute"}>
+          {isMuted || volume === 0 ? (
+            <VolumeX className="h-5 w-5 text-gray-30" />
+          ) : (
+            <Volume2 className="h-5 w-5 text-gray-30" />
+          )}
+        </button>
         <Panel
           variant="clay"
           inset
-          className="relative w-28 rounded-full py-1 pl-2 pr-4">
+          className="relative w-20 680:w-28 rounded-full py-1 pl-2 pr-4">
           <div className="relative h-2 w-full">
             <div
               className="pointer-events-none absolute left-0 top-0 h-2 rounded-full bg-primary"
@@ -153,7 +177,11 @@ export const MusicPlayer = () => {
             max={1}
             step={0.01}
             value={volume}
-            onChange={(e) => setVolume(Number(e.target.value))}
+            onChange={(e) => {
+              const next = Number(e.target.value);
+              setVolume(next);
+              if (next > 0) setIsMuted(false);
+            }}
             className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
           />
         </Panel>
