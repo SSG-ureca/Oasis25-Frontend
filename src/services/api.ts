@@ -49,6 +49,15 @@ api.interceptors.response.use(
         return Promise.reject(error);
       }
 
+      // 동시 다발적인 401 에러(예: Promise.all) 발생 시, 
+      // 이미 다른 요청이 토큰을 갱신했는지 확인 (로컬스토리지의 토큰과 요청에 사용된 토큰 비교)
+      const currentAccessToken = localStorage.getItem("accessToken");
+      if (currentAccessToken && originalRequest.headers.Authorization !== `Bearer ${currentAccessToken}`) {
+        // 이미 갱신된 토큰이 있다면 굳이 재발급하지 않고 새 토큰으로 바로 재시도
+        originalRequest.headers.Authorization = `Bearer ${currentAccessToken}`;
+        return api(originalRequest);
+      }
+
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
