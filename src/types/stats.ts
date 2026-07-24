@@ -5,8 +5,5 @@ export type {
 
 export interface WeatherStatsResponse {
   weatherCondition: string;
-  totalSessions: number;
-  completedSessions: number;
-  completionRate: number;
   avgFocusMinutes: number;
 }
