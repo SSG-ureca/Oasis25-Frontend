@@ -6,6 +6,7 @@ import PomodoroTimer from "../components/pomodoro/PomodoroTimer";
 import { AnalogClock } from "../components/clock/AnalogClock";
 import { WeatherPanel } from "../components/weather/WeatherPanel";
 import { Todo } from "../components/todo/Todo";
+import { QuoteCard } from "../components/splash/QuoteCard";
 
 export default function Dashboard() {
   return (
@@ -39,7 +40,7 @@ export default function Dashboard() {
           <div className="background-container">
             <div className="liquid-glass">
               {/* 텍스트나 아이콘을 넣을 수 있습니다 */}
-              <span>Drop</span>
+              <QuoteCard />
             </div>
           </div>
         </Panel>
