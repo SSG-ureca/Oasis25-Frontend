@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "../components/common/Toast";
 import type {
   PomodoroMode,
   PomodoroPreset,
@@ -130,7 +130,7 @@ export function usePomodoro() {
         toast.success("집중 끝! 휴식하세요 🌿");
         switchMode("break", true);
       } else {
-        toast("휴식 끝! 다시 집중해볼까요 💪");
+        toast.info("휴식 끝! 다시 집중해볼까요 💪");
         switchMode("focus", true);
       }
     } else {

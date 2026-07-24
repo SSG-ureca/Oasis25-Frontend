@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import toast from "react-hot-toast";
+import { toast } from "../../common/Toast";
 
 import { Panel } from "../../common/Panel";
 

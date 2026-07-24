@@ -9,7 +9,7 @@ import {
     updateRetrospect,
     deleteRetrospect,
 } from "../../services/retrospectApi";
-import toast from "react-hot-toast";
+import { toast } from "../common/Toast";
 
 // props 필요 title: 패널 이름, header: 상단 버튼, footer:하단버튼, 컨텐츠
 export const RetrospectSearchPanel = () => {
