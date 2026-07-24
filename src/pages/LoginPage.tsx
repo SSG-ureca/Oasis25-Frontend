@@ -6,6 +6,8 @@ import { InputField } from "../components/common/InputField";
 import { loginApi } from "../services/authApi";
 import { toast } from "../components/common/Toast";
 import { Sparkles, Mail, Lock, Loader2 } from "lucide-react";
+import { Tumbleweeds } from "../components/common/Tumbleweeds";
+import OASIS25 from "../assets/images/OASIS25.png";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -45,19 +47,19 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-bg-light animate-in fade-in duration-300">
-      <div className="w-full max-w-md p-4">
+    <div className="w-screen h-screen flex items-center justify-center bg-bg-light overflow-hidden animate-in fade-in duration-300">
+      <Tumbleweeds />
+      <div className="w-full max-w-md p-4 z-10 relative">
         <Panel
           variant="neumorphism"
           className="p-8 rounded-[36px] flex flex-col space-y-4"
         >
-          <div className="text-center space-y-2">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center bg-bg-light shadow-[var(--shadow-neumorphism)] mx-auto text-2xl">
-              로고
-            </div>
-            <h2 className="text-xl font-bold text-gray-20 tracking-tight">
-              Login
-            </h2>
+          <div className="text-center mb-8 mt-2">
+            <img
+              src={OASIS25}
+              alt="OASIS25"
+              className="h-7 object-contain mx-auto drop-shadow-sm"
+            />
           </div>
 
           {/* 로그인 폼 */}
