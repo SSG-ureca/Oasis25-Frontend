@@ -144,7 +144,7 @@ export default function PomodoroTimer() {
         {/* 프리셋 선택 드롭다운 */}
         <div ref={presetMenuRef} className="relative">
           <Button
-            variant="clay"
+            variant="clayFlat"
             type="button"
             disabled={isRunning}
             onClick={() => {
@@ -161,7 +161,7 @@ export default function PomodoroTimer() {
 
           {presetMenuOpen && (
             <Panel
-              variant="clay"
+              variant="clayFlat"
               className="absolute left-0 top-full mt-2 z-30 w-56 rounded-xl p-1">
               {selectablePresets.map((preset) => (
                 <Button
