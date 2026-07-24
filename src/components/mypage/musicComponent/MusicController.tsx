@@ -7,6 +7,7 @@ import {
     saveMusicSetting,
 } from "../../../utils/musicStorage";
 import type { MusicSetting } from "../../../types/music";
+import { Button } from "../../common/Button";
 
 export const MusicController = () => {
     const [musicSetting, setMusicSetting] =
@@ -22,10 +23,12 @@ export const MusicController = () => {
         flex
         flex-col
         gap-4
-        flex-1
+        h-full 
+        min-h-0
         p-4
     "
         >
+            <Button onClick={() => window.location.reload()}>적용</Button>
             <BgmController
                 musicSetting={musicSetting}
                 setMusicSetting={setMusicSetting}
