@@ -106,6 +106,54 @@ export function useStats() {
     line: trendResult.line,
   };
 
+  const getTrendMessage = () => {
+    const n = dailyFocusMinutes.length;
+    const total = dailyFocusMinutes.reduce((a, b) => a + b, 0);
+    if (total === 0 || n === 0) {
+      return "최근 30일 동안 기록된 집중 데이터가 없습니다. 오아시스와 함께 집중을 시작해보세요!";
+    }
+
+    let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+    dailyFocusMinutes.forEach((y, x) => {
+      sumX += x;
+      sumY += y;
+      sumXY += x * y;
+      sumX2 += x * x;
+    });
+
+    const meanX = sumX / n;
+    const meanY = sumY / n;
+
+    // 선형 회귀 기울기 계산 (하루당 집중 시간 증감량)
+    const slope = (sumXY - n * meanX * meanY) / (sumX2 - n * meanX * meanX);
+
+    // 잔차 표준편차를 통한 변동성(Volatility) 측정
+    let sumResidualSq = 0;
+    dailyFocusMinutes.forEach((y, x) => {
+      const predictedY = slope * x + (meanY - slope * meanX);
+      sumResidualSq += (y - predictedY) ** 2;
+    });
+    
+    const stdDev = Math.sqrt(sumResidualSq / n);
+    const isVolatile = meanY > 5 && (stdDev / meanY) > 0.7;
+
+    if (slope > 0.3) {
+      return isVolatile 
+        ? "전반적인 추세는 우상향하고 있으나, 날마다 집중 시간의 기복이 큰 편입니다."
+        : "꾸준히 우상향하는 그래프를 그리고 있습니다! 안정적으로 몰입 시간이 늘어나고 있네요.";
+    } else if (slope < -0.3) {
+      return isVolatile
+        ? "집중 시간이 크게 들쭉날쭉하며 전체적으로 감소하는 우하향 추세입니다. 무리하지 마세요!"
+        : "전체적으로 몰입 시간이 서서히 감소하는 우하향 추세입니다. 충분한 휴식이 필요할 수 있습니다.";
+    } else {
+      return isVolatile
+        ? "뚜렷한 증가/감소 추세 없이 매일매일의 몰입 시간이 크게 들쭉날쭉한 양상을 보입니다."
+        : "큰 기복 없이 매일 일정한 수준의 안정적인 집중력을 유지하고 있습니다.";
+    }
+  };
+
+  const trendMessage = getTrendMessage();
+
   return {
     loading,
     weeklyHourlyPaths,
@@ -115,6 +163,7 @@ export function useStats() {
     diaryScores,
     trendPaths,
     dailyFocusMinutes,
+    trendMessage,
   };
 };
 export default useStats;

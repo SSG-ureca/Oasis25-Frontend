@@ -17,6 +17,7 @@ export const StatsPage = () => {
     getBarHeight,
     diaryScores,
     trendPaths,
+    trendMessage,
   } = useStats();
 
   useEffect(() => {
@@ -116,8 +117,7 @@ export const StatsPage = () => {
                           30일 몰입도 변화 트렌드
                         </h2>
                         <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
-                          최근 30일 동안의 평균 집중 지표 추이가 점진적인
-                          우상향의 안정적인 성장을 나타내고 있습니다.
+                          {trendMessage}
                         </p>
                       </div>
 
