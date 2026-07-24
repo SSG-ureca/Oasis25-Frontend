@@ -37,7 +37,7 @@ const Header = () => {
   ) => {
     if (isGuest && PROTECTED_PATHS.includes(to)) {
       e.preventDefault();
-      toast.error("로그인 후 이용할 수 있습니다.");
+      toast.error("로그인 후 이용할 수 있습니다.", { duration: 2000 });
     }
   };
 
@@ -136,7 +136,9 @@ const Header = () => {
                   variant="clay"
                   onClick={() => {
                     if (isGuest && PROTECTED_PATHS.includes(item.to)) {
-                      toast.error("로그인 후 이용할 수 있습니다.");
+                      toast.error("로그인 후 이용할 수 있습니다.", {
+                        duration: 2000,
+                      });
                       return;
                     }
                     setIsMobileMenuOpen(false);
