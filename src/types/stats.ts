@@ -1,23 +1,7 @@
-export interface PomodoroLogCreateRequest {
-  categoryId?: number;
-  focusMinutes: number;
-  breakMinutes: number;
-  weatherCondition?: string;
-  temperature?: number;
-}
-
-export interface PomodoroLogResponse {
-  id: number;
-  categoryId?: number;
-  categoryName?: string;
-  focusMinutes: number;
-  breakMinutes: number;
-  completed: boolean;
-  endTime?: string;
-  weatherCondition?: string;
-  temperature?: number;
-  createdAt: string;
-}
+export type {
+  PomodoroLogCreateRequest,
+  PomodoroLogResponse,
+} from "../services/pomodoroLogApi";
 
 export interface WeatherStatsResponse {
   weatherCondition: string;

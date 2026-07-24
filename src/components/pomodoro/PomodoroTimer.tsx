@@ -380,19 +380,22 @@ export default function PomodoroTimer() {
       <div className="flex gap-3">
         <Button
           variant="clay"
-          onClick={isRunning ? pause : start}
+          onClick={() => {
+            if (isRunning) void pause();
+            else void start();
+          }}
           className="rounded-full px-6 py-2 text-sm font-semibold text-primary">
           {isRunning ? "일시정지" : "시작"}
         </Button>
         <Button
           variant="clay"
-          onClick={skip}
+          onClick={() => void skip()}
           className="rounded-full px-6 py-2 text-sm font-semibold text-gray-20">
           {isFocus ? "휴식" : "집중"}
         </Button>
         <Button
           variant="clay"
-          onClick={reset}
+          onClick={() => void reset()}
           className="rounded-full px-6 py-2 text-sm font-semibold text-gray-20">
           종료
         </Button>

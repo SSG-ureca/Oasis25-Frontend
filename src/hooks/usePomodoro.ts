@@ -6,6 +6,12 @@ import type {
   PomodoroSettings,
 } from "../types/pomodoro";
 import {
+  createPomodoroLog,
+  updatePomodoroElapsed,
+  completePomodoroLog,
+} from "../services/pomodoroLogApi";
+import type { PomodoroElapsedRequest } from "../services/pomodoroLogApi";
+import {
   createPreset,
   deletePreset,
   getPresets,
@@ -25,6 +31,8 @@ interface StoredState {
   endAt: number | null;
   isRunning: boolean;
   settings: PomodoroSettings;
+  sessionId: number | null;
+  modeStartAt: number | null;
 }
 
 function isLoggedIn(): boolean {
@@ -41,6 +49,8 @@ function loadStoredState(): StoredState {
       endAt: parsed.endAt ?? null,
       isRunning: parsed.isRunning ?? false,
       settings: { ...DEFAULT_SETTINGS, ...parsed.settings },
+      sessionId: parsed.sessionId ?? null,
+      modeStartAt: parsed.modeStartAt ?? null,
     };
   } catch {
     return {
@@ -48,6 +58,8 @@ function loadStoredState(): StoredState {
       endAt: null,
       isRunning: false,
       settings: DEFAULT_SETTINGS,
+      sessionId: null,
+      modeStartAt: null,
     };
   }
 }
@@ -72,12 +84,21 @@ export function usePomodoro() {
 
   const [presets, setPresets] = useState<PomodoroPreset[]>([]);
   const [loadingPresets, setLoadingPresets] = useState(false);
+  const [sessionId, setSessionId] = useState<number | null>(initial.sessionId);
 
   const intervalRef = useRef<number | null>(null);
+  const modeStartAtRef = useRef<number | null>(initial.modeStartAt);
 
   useEffect(() => {
-    saveState({ mode, endAt, isRunning, settings });
-  }, [mode, endAt, isRunning, settings]);
+    saveState({
+      mode,
+      endAt,
+      isRunning,
+      settings,
+      sessionId,
+      modeStartAt: modeStartAtRef.current,
+    });
+  }, [mode, endAt, isRunning, settings, sessionId]);
 
   const loadPresets = useCallback(async () => {
     if (!isLoggedIn()) {
@@ -122,10 +143,33 @@ export function usePomodoro() {
     [durationFor],
   );
 
+  const flushElapsed = useCallback(
+    async (now: number) => {
+      const start = modeStartAtRef.current;
+      if (sessionId == null || start == null || endAt == null) return;
+      const maxElapsedMs = endAt - start;
+      const elapsedMs = Math.min(maxElapsedMs, now - start);
+      const seconds = Math.max(0, Math.round(elapsedMs / 1000));
+      if (seconds <= 0) return;
+      const request: PomodoroElapsedRequest =
+        mode === "focus"
+          ? { elapsedFocusSeconds: seconds, elapsedBreakSeconds: 0 }
+          : { elapsedFocusSeconds: 0, elapsedBreakSeconds: seconds };
+      try {
+        await updatePomodoroElapsed(sessionId, request);
+      } catch {
+        toast.error("시간 저장에 실패했습니다.");
+      }
+    },
+    [mode, endAt, sessionId],
+  );
+
   const tick = useCallback(() => {
     if (!endAt) return;
-    const diff = endAt - Date.now();
+    const now = Date.now();
+    const diff = endAt - now;
     if (diff <= 0) {
+      void flushElapsed(now);
       if (mode === "focus") {
         toast.success("집중 끝! 휴식하세요 🌿");
         switchMode("break", true);
@@ -133,10 +177,11 @@ export function usePomodoro() {
         toast.info("휴식 끝! 다시 집중해볼까요 💪");
         switchMode("focus", true);
       }
+      modeStartAtRef.current = Date.now();
     } else {
       setRemaining(diff);
     }
-  }, [endAt, mode, switchMode]);
+  }, [endAt, mode, switchMode, flushElapsed]);
 
   // interval 관리
   useEffect(() => {
@@ -164,30 +209,65 @@ export function usePomodoro() {
       document.removeEventListener("visibilitychange", handleVisibility);
   }, [tick]);
 
-  const start = useCallback(() => {
+  const start = useCallback(async () => {
+    const now = Date.now();
     const duration = remaining > 0 ? remaining : durationFor(mode);
-    setEndAt(Date.now() + duration);
+    setEndAt(now + duration);
     setIsRunning(true);
-  }, [remaining, durationFor, mode]);
+    modeStartAtRef.current = now;
+    if (!isLoggedIn() || sessionId != null) return;
+    try {
+      const log = await createPomodoroLog({
+        focusMinutes: settings.focusMinutes,
+        breakMinutes: settings.breakMinutes,
+      });
+      setSessionId(log.id);
+    } catch {
+      toast.error("세션 생성에 실패했습니다. 타이머는 로컬에서 계속됩니다.");
+    }
+  }, [remaining, durationFor, mode, sessionId, settings]);
 
-  const pause = useCallback(() => {
+  const pause = useCallback(async () => {
+    const now = Date.now();
+    await flushElapsed(now);
+    const currentRemaining =
+      endAt != null ? Math.max(0, endAt - now) : remaining;
+    setRemaining(currentRemaining);
     setIsRunning(false);
     setEndAt(null);
-  }, []);
+    modeStartAtRef.current = null;
+  }, [endAt, remaining, flushElapsed]);
 
-  const reset = useCallback(() => {
+  const reset = useCallback(async () => {
+    const now = Date.now();
+    await flushElapsed(now);
+    if (sessionId != null) {
+      try {
+        await completePomodoroLog(sessionId);
+      } catch {
+        toast.error("세션 완료 처리에 실패했습니다.");
+      }
+    }
     setIsRunning(false);
     setEndAt(null);
     setRemaining(durationFor(mode));
-  }, [durationFor, mode]);
+    setSessionId(null);
+    modeStartAtRef.current = null;
+  }, [durationFor, mode, sessionId, flushElapsed]);
 
-  const skip = useCallback(() => {
-    switchMode(mode === "focus" ? "break" : "focus", true);
-  }, [mode, switchMode]);
+  const skip = useCallback(async () => {
+    const now = Date.now();
+    await flushElapsed(now);
+    const nextMode = mode === "focus" ? "break" : "focus";
+    switchMode(nextMode, true);
+    modeStartAtRef.current = Date.now();
+  }, [mode, switchMode, flushElapsed]);
 
   const applyPreset = useCallback(
     (preset: PomodoroPreset) => {
       if (isRunning) return;
+      setSessionId(null);
+      modeStartAtRef.current = null;
       setSettings({
         focusMinutes: preset.focusMinutes,
         breakMinutes: preset.breakMinutes,
