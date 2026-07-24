@@ -4,7 +4,8 @@ import { Panel } from "../components/common/Panel";
 import { Button } from "../components/common/Button";
 import { InputField } from "../components/common/InputField";
 import { registerApi } from "../services/authApi";
-import { Sparkles, Mail, Lock, User, Loader2, AlertCircle } from "lucide-react";
+import { toast } from "../components/common/Toast";
+import { Sparkles, Mail, Lock, User, Loader2 } from "lucide-react";
 
 export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -15,38 +16,32 @@ export const RegisterPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   // 회원가입 제출 처리
   const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !password.trim() || !nickname.trim()) {
-      setErrorMessage("모든 정보를 입력해 주세요.");
+      toast.error("모든 정보를 입력해 주세요.");
       return;
     }
 
     if (password !== confirmPassword) {
-      setErrorMessage("비밀번호가 일치하지 않습니다.");
+      toast.error("비밀번호가 일치하지 않습니다.");
       return;
     }
 
     setIsLoading(true);
-    setErrorMessage(null);
-    setSuccessMessage(null);
 
     try {
       // 회원가입 API 호출
       await registerApi({ email, password, nickname });
-      setSuccessMessage(
-        "회원가입이 완료되었습니다! 잠시 후 로그인 페이지로 이동합니다.",
-      );
+      toast.success("회원가입이 완료되었습니다! 잠시 후 로그인 페이지로 이동합니다.", 2500);
       setTimeout(() => {
         navigate("/login");
       }, 2000);
     } catch (err: any) {
       console.error("Register Error:", err);
-      setErrorMessage(
+      toast.error(
         err.response?.data?.message ||
           "회원가입에 실패했습니다. 입력한 정보를 확인해 주세요.",
       );
@@ -134,20 +129,6 @@ export const RegisterPage: React.FC = () => {
                 </>
               )}
             </Button>
-
-            {/* 알림 메시지 노출 */}
-            <div className="h-5 flex items-center justify-center mt-1 text-center px-2">
-              {errorMessage && (
-                <p className="text-[11px] text-primary font-semibold animate-pulse flex items-center gap-1">
-                  <AlertCircle className="w-3.5 h-3.5 text-primary shrink-0" /> {errorMessage}
-                </p>
-              )}
-              {successMessage && (
-                <p className="text-[11px] text-green-50 font-semibold">
-                  🎉 {successMessage}
-                </p>
-              )}
-            </div>
           </form>
 
           {/* 로그인 링크 */}

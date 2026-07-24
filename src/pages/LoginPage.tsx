@@ -4,7 +4,8 @@ import { Panel } from "../components/common/Panel";
 import { Button } from "../components/common/Button";
 import { InputField } from "../components/common/InputField";
 import { loginApi } from "../services/authApi";
-import { Sparkles, Mail, Lock, Loader2, AlertCircle } from "lucide-react";
+import { toast } from "../components/common/Toast";
+import { Sparkles, Mail, Lock, Loader2 } from "lucide-react";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -12,17 +13,15 @@ export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) {
-      setErrorMessage("이메일과 비밀번호를 모두 입력해 주세요.");
+      toast.error("이메일과 비밀번호를 모두 입력해 주세요.");
       return;
     }
 
     setIsLoading(true);
-    setErrorMessage(null);
 
     try {
       const response = await loginApi({ email, password });
@@ -36,7 +35,7 @@ export const LoginPage: React.FC = () => {
       navigate(from || "/", { replace: true });
     } catch (err: any) {
       console.error("Login Error:", err);
-      setErrorMessage(
+      toast.error(
         err.response?.data?.message ||
           "로그인에 실패했습니다. 정보를 다시 확인해 주세요.",
       );
@@ -97,16 +96,6 @@ export const LoginPage: React.FC = () => {
                 </>
               )}
             </Button>
-
-            {/* 에러 메시지 영역*/}
-            <div className="h-5 flex items-center justify-center mt-1">
-              {errorMessage && (
-                <p className="text-[11px] text-primary font-semibold animate-pulse flex items-center gap-1">
-                  <AlertCircle className="w-3.5 h-3.5 text-primary shrink-0" />{" "}
-                  {errorMessage}
-                </p>
-              )}
-            </div>
           </form>
 
           {/* 회원가입 및 게스트 로그인 유도 링크 */}
