@@ -35,7 +35,10 @@ export const RegisterPage: React.FC = () => {
     try {
       // 회원가입 API 호출
       await registerApi({ email, password, nickname });
-      toast.success("회원가입이 완료되었습니다! 잠시 후 로그인 페이지로 이동합니다.", 2500);
+      toast.success(
+        "회원가입이 완료되었습니다! 잠시 후 로그인 페이지로 이동합니다.",
+        2500,
+      );
       setTimeout(() => {
         navigate("/login");
       }, 2000);
@@ -132,8 +135,8 @@ export const RegisterPage: React.FC = () => {
           </form>
 
           {/* 로그인 링크 */}
-          <p className="text-[10px] text-center text-gray-30 -mt-2">
-            이미 계정이 있으신가요?{" "}
+          <p className="text-[10px] text-center text-gray-30">
+            이미 계정이 있으신가요?
             <button
               type="button"
               onClick={() => navigate("/login")}
