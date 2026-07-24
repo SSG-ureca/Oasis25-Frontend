@@ -312,6 +312,11 @@ body,
   background: rgba(113, 128, 150, 0.4);
 }
 
+/* time input에서 오전/오후 필드 숨김 */
+.time-no-ampm::-webkit-datetime-edit-ampm-field {
+  display: none;
+}
+
 /* (PomodoroOrb) 전용 애니메이션 */
 
 @keyframes orb-rotate {

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Plus, Check } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Plus, Check, X, Trash2 } from "lucide-react";
 import { Panel } from "../common/Panel";
 
 interface TodoItem {
@@ -14,10 +14,31 @@ const initialTodos: TodoItem[] = [
   { id: 2, time: "14:00", text: "", done: false },
 ];
 
+const STORAGE_KEY = "oasis-todos";
+
+const loadTodos = (): TodoItem[] => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return initialTodos;
+    const parsed = JSON.parse(raw) as TodoItem[];
+    return Array.isArray(parsed) ? parsed : initialTodos;
+  } catch {
+    return initialTodos;
+  }
+};
+
 export function Todo() {
-  const [todos, setTodos] = useState<TodoItem[]>(initialTodos);
+  const [todos, setTodos] = useState<TodoItem[]>(loadTodos);
   const [newText, setNewText] = useState("");
   const [newTime, setNewTime] = useState("");
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+    } catch {
+      /* storage unavailable */
+    }
+  }, [todos]);
 
   const toggleTodo = (id: number) => {
     setTodos((prev) =>
@@ -27,6 +48,16 @@ export function Todo() {
 
   const updateText = (id: number, text: string) => {
     setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, text } : t)));
+  };
+
+  const deleteTodo = (id: number) => {
+    setTodos((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  const clearAll = () => {
+    if (confirm("모든 할 일을 삭제할까요?")) {
+      setTodos([]);
+    }
   };
 
   const addTodo = () => {
@@ -40,9 +71,19 @@ export function Todo() {
 
   return (
     <div className="flex h-full w-full flex-col">
-      <h2 className="mb-4 text-center text-lg font-semibold text-slate-700">
-        TODO LIST
-      </h2>
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-slate-700">TODO LIST</h2>
+        {todos.length > 0 && (
+          <button
+            type="button"
+            onClick={clearAll}
+            className="flex items-center gap-1 text-xs font-medium text-red-400 hover:text-red-600 transition-colors"
+            aria-label="전체 삭제">
+            <Trash2 className="h-3.5 w-3.5" />
+            전체 삭제
+          </button>
+        )}
+      </div>
 
       <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden pr-1">
         <div className="flex flex-col gap-4">
@@ -73,9 +114,18 @@ export function Todo() {
                   type="text"
                   value={todo.text}
                   onChange={(e) => updateText(todo.id, e.target.value)}
-                  className="min-w-0 flex-1 bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400"
+                  className={`min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400 ${
+                    todo.done ? "text-slate-400 line-through" : "text-slate-700"
+                  }`}
                   placeholder="할 일을 입력하세요"
                 />
+                <button
+                  type="button"
+                  onClick={() => deleteTodo(todo.id)}
+                  className="shrink-0 text-slate-400 hover:text-red-500 transition-colors"
+                  aria-label="삭제">
+                  <X className="h-3.5 w-3.5" />
+                </button>
               </Panel>
             </div>
           ))}
@@ -85,7 +135,7 @@ export function Todo() {
               type="time"
               value={newTime}
               onChange={(e) => setNewTime(e.target.value)}
-              className="mt-2 w-16 shrink-0 bg-transparent p-0 text-sm font-medium text-slate-500 outline-none"
+              className="time-no-ampm mt-2 w-20 shrink-0 bg-transparent p-0 pr-2 text-sm font-medium text-slate-500 outline-none"
             />
             <span className="sr-only">시간 선택</span>
 
