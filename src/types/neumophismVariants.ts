@@ -34,6 +34,12 @@ export const neumophismVariants = cva(
         true: "border-transparent",
         false: "",
       },
+
+      // 전역 테마 (light / dark)
+      theme: {
+        light: "",
+        dark: "dark",
+      },
     },
 
     // 💡 핵심: 특정 조건이 결합했을 때 적용할 섀도우를 분리해 줍니다.
@@ -53,6 +59,7 @@ export const neumophismVariants = cva(
     defaultVariants: {
       variant: "clay",
       inset: false,
+      theme: "light",
     },
   },
 );

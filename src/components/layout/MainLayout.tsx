@@ -6,7 +6,7 @@ import { Panel } from "../common/Panel";
 // [components/layout] Header, Sidebar 등 전체 화면 구조(뼈대)를 구성하는 컴포넌트를 담는 공간입니다.
 export default function MainLayout() {
   return (
-    <div className="min-w-90 w-full bg-clay-bg desert-grain">
+    <div className="min-w-90 w-full bg-[var(--color-app-bg)] desert-grain">
       <div className="sand-overlay"></div>
       <div className="mx-auto flex h-dvh min-h-170 max-w-7xl flex-col gap-y-[clamp(1rem,3vh,2.5rem)] px-4 py-[clamp(1.5rem,4vh,3rem)]">
         <Header />

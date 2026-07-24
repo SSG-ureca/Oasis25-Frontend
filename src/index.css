@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(html.dark, html.dark *));
+
 /* 로컬 src/assets/fonts/ 폴더에 담긴 Pretendard 웹폰트 5종 로드 */
 @font-face {
   font-family: "Pretendard";
@@ -133,6 +135,7 @@
   /* 클레이모피즘 + 사막 (눈이 편안한) */
   --color-clay-bg: #f8e6ca;
   --color-clay-border: #c4a27a;
+  --color-app-bg: #f8e6ca;
 
   --shadow-clay:
     14px 16px 28px rgba(150, 116, 83, 0.28),
@@ -203,7 +206,6 @@
 
 /* 사막 모래 질감: 노이즈 + 은은한 그라데이션 오버레이 */
 .desert-grain {
-  background: var(--color-clay-bg);
   position: relative;
 }
 
@@ -218,6 +220,70 @@
   mix-blend-mode: multiply;
 
   pointer-events: none;
+}
+
+/* 다크모드 변수 오버라이드 */
+html.dark {
+  --color-app-bg: #1b1f33;
+  --color-bg-light: #24283b;
+  --color-clay-bg: #2a3048;
+  --color-clay-border: #4e5266;
+
+  --shadow-neumorphism:
+    6px 6px 12px rgba(0, 0, 0, 0.5), -6px -6px 12px rgba(255, 255, 255, 0.05);
+
+  --shadow-neumorphism-inset:
+    inset 6px 6px 12px rgba(0, 0, 0, 0.5),
+    inset -6px -6px 12px rgba(255, 255, 255, 0.05);
+
+  --shadow-clay:
+    14px 16px 28px rgba(0, 0, 0, 0.35), 5px 7px 12px rgba(0, 0, 0, 0.18),
+    -8px -8px 12px rgba(255, 255, 255, 0.04),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.06),
+    inset -2px -3px 4px rgba(0, 0, 0, 0.2);
+
+  --shadow-clay-inset:
+    inset 8px 9px 16px rgba(0, 0, 0, 0.35),
+    inset -6px -7px 12px rgba(255, 255, 255, 0.04),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.05);
+}
+
+html.dark .clay-surface {
+  background-image: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(60, 66, 92, 0.96) 42%,
+    rgba(45, 52, 75, 0.9) 100%
+  );
+}
+
+html.dark .clay-active,
+html.dark .clay-hover:hover {
+  background-color: var(--color-clay-bg);
+  background-image: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(60, 66, 92, 0.98) 45%,
+    rgba(45, 52, 75, 0.92) 100%
+  );
+  box-shadow: var(--shadow-clay);
+}
+
+html.dark .clay-active:active,
+html.dark .clay-hover:active {
+  box-shadow: var(--shadow-clay-inset);
+}
+
+html.dark .neumorphism-active,
+html.dark .neumorphism-hover:hover {
+  background-color: var(--color-bg-light);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-neumorphism);
+}
+
+html.dark .sand-overlay {
+  opacity: 0.12;
+  mix-blend-mode: screen;
 }
 
 /* 콕핏 뷰를 위한 브라우저 강제 스크롤 비활성화 및 미세 스크롤바 디자인 */

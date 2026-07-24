@@ -4,7 +4,8 @@ import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { Panel } from "./Panel";
 import { cn } from "../../utils/cn";
 import { Button } from "./Button";
-import { Sun, LogOut, Menu, X, LogIn, User } from "lucide-react";
+import { Sun, Moon, LogOut, Menu, X, LogIn, User } from "lucide-react";
+import { useTheme } from "../../hooks/useTheme";
 import { logoutApi } from "../../services/authApi";
 import { FeedbackModal } from "./FeedbackModal";
 import { toast } from "./Toast";
@@ -20,6 +21,7 @@ const NAV_ITEMS = [
 ];
 
 const Header = () => {
+  const { isDark, toggleTheme } = useTheme();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -159,8 +161,13 @@ const Header = () => {
 
               <Button
                 variant="clayFlat"
+                onClick={toggleTheme}
                 className="w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold text-gray-20 rounded-xl justify-start clay-hover">
-                <Sun className="w-4 h-4 text-[#718096]" />
+                {isDark ? (
+                  <Moon className="w-4 h-4 text-[#718096]" />
+                ) : (
+                  <Sun className="w-4 h-4 text-[#718096]" />
+                )}
                 테마
               </Button>
               <Button
@@ -200,8 +207,15 @@ const Header = () => {
         </div>
         {/* 데스크탑 버튼 그룹: 820px 이상에서만 표시 */}
         <div className="hidden 880:flex items-center gap-5">
-          <Button variant="clay" className="rounded-full w-12 h-12 p-0">
-            <Sun className="w-6 h-6 text-[#718096]" />
+          <Button
+            variant="clay"
+            onClick={toggleTheme}
+            className="rounded-full w-12 h-12 p-0">
+            {isDark ? (
+              <Moon className="w-6 h-6 text-[#718096]" />
+            ) : (
+              <Sun className="w-6 h-6 text-[#718096]" />
+            )}
           </Button>
           <RestrictedArea
             isRestricted={isGuest}
