@@ -1,1 +1,259 @@
 @import "tailwindcss";
+
+/* 로컬 src/assets/fonts/ 폴더에 담긴 Pretendard 웹폰트 5종 로드 */
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 300;
+  font-display: swap;
+  src:
+    local("Pretendard Light"),
+    url("./assets/fonts/Pretendard-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+
+  font-weight: 400;
+
+  font-display: swap;
+
+  src:
+    local("Pretendard Regular"),
+    url("./assets/fonts/Pretendard-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+
+  font-weight: 500;
+
+  font-display: swap;
+
+  src:
+    local("Pretendard Medium"),
+    url("./assets/fonts/Pretendard-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+
+  font-weight: 600;
+
+  font-display: swap;
+
+  src:
+    local("Pretendard SemiBold"),
+    url("./assets/fonts/Pretendard-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+
+  font-weight: 700;
+
+  font-display: swap;
+
+  src:
+    local("Pretendard Bold"),
+    url("./assets/fonts/Pretendard-Bold.woff2") format("woff2");
+}
+
+@theme {
+  /* 기본 폰트 패밀리를 Pretendard로 매핑 */
+
+  --font-sans: "Pretendard", system-ui, -apple-system, sans-serif;
+
+  /* Neutral */
+
+  --color-gray-10: #1b1f33;
+
+  --color-gray-20: #4e5266;
+
+  --color-gray-30: #878a99;
+
+  --color-gray-40: #c0c2cc;
+
+  --color-gray-50: #d0d2d9;
+
+  --color-gray-60: #e1e2e5;
+
+  --color-gray-70: #eeeff2;
+
+  --color-gray-80: #fafbff;
+
+  /* Primary */
+
+  --color-pink-10: #ff0051;
+
+  --color-primary: #ff3776;
+
+  --color-pink-50: #ff6f93;
+
+  --color-pink-70: #ff91b4;
+
+  --color-pink-90: #ffbdd2;
+
+  /* Secondary */
+
+  --color-green-10: #1a521d;
+
+  --color-green-50: #2c8f31;
+
+  --color-green-90: #72c877;
+
+  /* Background */
+
+  --color-bg-light: #d9d9d9;
+
+  --color-bg-dark: #1b1f33;
+
+  /* Neumorphism sizes */
+
+  --size-neumorphism-sm-x: 1rem;
+
+  --size-neumorphism-sm-y: 0.5rem;
+
+  --size-neumorphism-md-x: 1.25rem;
+
+  --size-neumorphism-md-y: 0.75rem;
+
+  --size-neumorphism-lg-x: 1.5rem;
+
+  --size-neumorphism-lg-y: 1rem;
+
+  /* Neumorphism shadows */
+
+  --shadow-neumorphism:
+    6px 6px 12px rgba(163, 177, 198, 0.5), -6px -6px 12px rgba(255, 255, 255, 1);
+
+  --shadow-neumorphism-inset:
+    inset 6px 6px 12px rgba(163, 177, 198, 0.5),
+    inset -6px -6px 12px rgba(255, 255, 255, 1);
+
+  /* 클레이모피즘 + 사막 (눈이 편안한) */
+  --color-clay-bg: #f8e6ca;
+  --color-clay-border: #c4a27a;
+
+  --shadow-clay:
+    14px 16px 28px rgba(150, 116, 83, 0.28),
+    5px 7px 12px rgba(150, 116, 83, 0.14),
+    -8px -8px 12px rgba(255, 249, 239, 0.42),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.3),
+    inset -2px -3px 4px rgba(185, 149, 111, 0.12);
+
+  --shadow-clay-inset:
+    inset 8px 9px 16px rgba(150, 116, 83, 0.24),
+    inset -6px -7px 12px rgba(255, 249, 239, 0.42),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.22);
+
+  /* 커스텀 반응형 크기 */
+  --breakpoint-880: 880px;
+  --breakpoint-680: 680px;
+}
+
+.neumorphism-size-sm {
+  padding: var(--size-neumorphism-sm-y) var(--size-neumorphism-sm-x);
+}
+
+.neumorphism-size-md {
+  padding: var(--size-neumorphism-md-y) var(--size-neumorphism-md-x);
+}
+
+.neumorphism-size-lg {
+  padding: var(--size-neumorphism-lg-y) var(--size-neumorphism-lg-x);
+}
+
+.clay-surface {
+  background-image: linear-gradient(
+    145deg,
+    rgba(255, 249, 239, 0.14) 0%,
+    rgba(232, 214, 187, 0.96) 42%,
+    rgba(218, 193, 158, 0.9) 100%
+  );
+  background-clip: padding-box;
+}
+
+.clay-active,
+.clay-hover:hover {
+  background-color: var(--color-clay-bg);
+  background-image: linear-gradient(
+    145deg,
+    rgba(255, 249, 239, 0.18) 0%,
+    rgba(232, 214, 187, 0.98) 45%,
+    rgba(218, 193, 158, 0.92) 100%
+  );
+  box-shadow: var(--shadow-clay);
+  transform: translateY(-1px);
+}
+
+.clay-active:active,
+.clay-hover:active {
+  box-shadow: var(--shadow-clay-inset);
+  transform: translateY(1px);
+}
+
+.neumorphism-active,
+.neumorphism-hover:hover {
+  background-color: var(--color-bg-light);
+
+  border-color: rgba(255, 255, 255, 0.3);
+
+  box-shadow: var(--shadow-neumorphism);
+}
+
+/* 사막 모래 질감: 노이즈 + 은은한 그라데이션 오버레이 */
+.desert-grain {
+  background: var(--color-clay-bg);
+  position: relative;
+}
+
+.sand-overlay {
+  position: absolute;
+  inset: 0;
+
+  background: url("/textures/3.png");
+  background-size: 500px;
+
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+
+  pointer-events: none;
+}
+
+/* 콕핏 뷰를 위한 브라우저 강제 스크롤 비활성화 및 미세 스크롤바 디자인 */
+html,
+body,
+#root {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  margin: 0;
+}
+
+/* 글로벌 스크롤바 */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(113, 128, 150, 0.2);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(113, 128, 150, 0.4);
+}
+
+/* (PomodoroOrb) 전용 애니메이션 */
+
+@keyframes orb-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-orb-rotate {
+  animation: orb-rotate 12s linear infinite;
+}
