@@ -8,6 +8,7 @@ import { Sun, LogOut, Menu, X, LogIn, User } from "lucide-react";
 import { logoutApi } from "../../services/authApi";
 import { FeedbackModal } from "./FeedbackModal";
 import { toast } from "./Toast";
+import { RestrictedArea } from "./RestrictedArea";
 
 const PROTECTED_PATHS = ["/main/retrospect", "/main/stats", "/main/mypage"];
 
@@ -31,14 +32,12 @@ const Header = () => {
   const token = localStorage.getItem("accessToken");
   const isGuest = !token;
 
-  const handleProtectedNav = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    to: string,
-  ) => {
+  const handleProtectedNav = (to: string): boolean => {
     if (isGuest && PROTECTED_PATHS.includes(to)) {
-      e.preventDefault();
-      toast.error("로그인 후 이용할 수 있습니다.", { duration: 2000 });
+      toast.error("로그인 후 이용할 수 있습니다.", 2000);
+      return true;
     }
+    return false;
   };
 
   // 외부 영역 클릭 시 드롭다운/모바일 메뉴 닫기
@@ -94,21 +93,30 @@ const Header = () => {
         inset
         className="px-5 py-2.5 hidden 880:flex gap-5 rounded-4xl">
         {NAV_ITEMS.map((item) => {
+          const isProtected = isGuest && PROTECTED_PATHS.includes(item.to);
           return (
-            <NavLink
+            <RestrictedArea
               key={item.to}
-              to={item.to}
-              end
-              onClick={(e) => handleProtectedNav(e, item.to)}
-              className={({ isActive }) =>
-                cn(
-                  "rounded-4xl neumorphism-size-sm transition-all duration-200 select-none",
-                  "clay-hover",
-                  isActive && "clay-active",
-                )
+              isRestricted={isProtected}
+              className="rounded-4xl"
+              tooltipText={
+                <span className="text-gray-30">
+                  로그인 후 이용할 수 있습니다
+                </span>
               }>
-              {item.label}
-            </NavLink>
+              <NavLink
+                to={item.to}
+                end
+                className={({ isActive }) =>
+                  cn(
+                    "rounded-4xl neumorphism-size-sm transition-all duration-200 select-none",
+                    "clay-hover",
+                    isActive && "clay-active",
+                  )
+                }>
+                {item.label}
+              </NavLink>
+            </RestrictedArea>
           );
         })}
       </Panel>
@@ -129,18 +137,15 @@ const Header = () => {
           </Button>
 
           {isMobileMenuOpen && (
-            <div className="absolute right-0 top-full mt-3 w-48 shadow-[var(--shadow-clay)] rounded-2xl p-2 border border-white/40 animate-in fade-in slide-in-from-top-2 duration-150 z-50 flex flex-col gap-1">
+            <Panel
+              variant="clayFlat"
+              className="absolute right-0 top-full mt-3 w-48 bg-clay-bg rounded-2xl p-2 border border-white/20 z-50 flex flex-col gap-2">
               {NAV_ITEMS.map((item) => (
                 <Button
                   key={item.to}
-                  variant="clay"
+                  variant="clayFlat"
                   onClick={() => {
-                    if (isGuest && PROTECTED_PATHS.includes(item.to)) {
-                      toast.error("로그인 후 이용할 수 있습니다.", {
-                        duration: 2000,
-                      });
-                      return;
-                    }
+                    if (handleProtectedNav(item.to)) return;
                     setIsMobileMenuOpen(false);
                     navigate(item.to);
                   }}
@@ -151,26 +156,29 @@ const Header = () => {
                   {item.label}
                 </Button>
               ))}
-              <div className="my-1 border-t border-white/40" />
+
               <Button
-                variant="clay"
+                variant="clayFlat"
                 className="w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold text-gray-20 rounded-xl justify-start clay-hover">
                 <Sun className="w-4 h-4 text-[#718096]" />
                 테마
               </Button>
               <Button
-                variant="clay"
-                onClick={() => setIsFeedbackOpen(true)}
-                disabled={isGuest}
+                variant="clayFlat"
+                onClick={() => {
+                  if (isGuest) {
+                    toast.error("로그인 후 이용할 수 있습니다.", 2000);
+                    return;
+                  }
+                  setIsFeedbackOpen(true);
+                }}
                 className={cn(
                   "w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold text-gray-20 rounded-xl justify-start clay-hover",
-                  isGuest && "opacity-50 cursor-not-allowed",
                 )}>
                 VOC
               </Button>
-              <div className="my-1 border-t border-white/40" />
               <Button
-                variant="clay"
+                variant="clayFlat"
                 onClick={() => {
                   setIsMobileMenuOpen(false);
                   if (isGuest) {
@@ -187,7 +195,7 @@ const Header = () => {
                 )}
                 {isGuest ? "로그인" : "로그아웃"}
               </Button>
-            </div>
+            </Panel>
           )}
         </div>
         {/* 데스크탑 버튼 그룹: 820px 이상에서만 표시 */}
@@ -195,16 +203,19 @@ const Header = () => {
           <Button variant="clay" className="rounded-full w-12 h-12 p-0">
             <Sun className="w-6 h-6 text-[#718096]" />
           </Button>
-          <Button
-            variant="clay"
-            onClick={() => setIsFeedbackOpen(true)}
-            disabled={isGuest}
-            className={cn(
-              "rounded-full px-4 h-12 text-xs font-bold text-[#718096]",
-              isGuest && "opacity-50 cursor-not-allowed",
-            )}>
-            VOC
-          </Button>
+          <RestrictedArea
+            isRestricted={isGuest}
+            className="rounded-full"
+            tooltipText={
+              <span className="text-gray-30">로그인 후 이용할 수 있습니다</span>
+            }>
+            <Button
+              variant="clay"
+              onClick={() => setIsFeedbackOpen(true)}
+              className="rounded-full px-4 h-12 text-xs font-bold text-[#718096]">
+              VOC
+            </Button>
+          </RestrictedArea>
           <div className="relative" ref={dropdownRef}>
             <Button
               variant="clay"
@@ -217,7 +228,9 @@ const Header = () => {
             </Button>
 
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-3 w-40 bg-bg-light shadow-[var(--shadow-neumorphism)] rounded-2xl p-2 border border-white/40 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+              <Panel
+                variant="clay"
+                className="absolute right-0 mt-3 w-40 rounded-2xl p-2 border border-white/40 z-50">
                 {isGuest ? (
                   <button
                     onClick={() => {
@@ -239,7 +252,7 @@ const Header = () => {
                     로그아웃
                   </button>
                 )}
-              </div>
+              </Panel>
             )}
           </div>
         </div>
