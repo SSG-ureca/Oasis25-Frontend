@@ -68,7 +68,7 @@ export const ProfileImage = ({
                         onChange={handleChange}
                     />
 
-                    <Button variant="neumorphism" onClick={handleClick}>
+                    <Button variant="clay" onClick={handleClick}>
                         사진 변경
                     </Button>
                 </>

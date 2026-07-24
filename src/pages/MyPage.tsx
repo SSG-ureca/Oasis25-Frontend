@@ -16,7 +16,7 @@ export const MyPage = () => {
         >
             <div className="flex-1 min-h-0">
                 <Panel
-                    variant="neumorphism"
+                    variant="clay"
                     className="
                 flex-1
                 p-3

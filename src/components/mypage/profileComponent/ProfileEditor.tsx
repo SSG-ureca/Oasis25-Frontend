@@ -117,7 +117,7 @@ export const ProfileEditor = () => {
 
     return (
         <Panel
-            variant="neumorphism"
+            variant="clay"
             inset
             className="
                 flex

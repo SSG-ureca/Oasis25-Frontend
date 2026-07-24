@@ -23,10 +23,7 @@ gap-2
         >
             {isEditMode ? (
                 <>
-                    <Button
-                        variant="neumorphism"
-                        onClick={() => setIsEditMode(false)}
-                    >
+                    <Button variant="clay" onClick={() => setIsEditMode(false)}>
                         취소
                     </Button>
 

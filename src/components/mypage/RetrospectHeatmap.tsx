@@ -37,7 +37,7 @@ export const RetrospectHeatmap = () => {
     return (
         <div className="flex gap-4">
             <Panel
-                variant="neumorphism"
+                variant="clay"
                 inset
                 className="flex-[9] p-2 min-h-0 justify-center items-center"
             >

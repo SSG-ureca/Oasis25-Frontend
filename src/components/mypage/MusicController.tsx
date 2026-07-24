@@ -3,7 +3,7 @@ import { Panel } from "../common/Panel";
 export const MusicController = () => {
     return (
         <Panel
-            variant="neumorphism"
+            variant="clay"
             inset
             className="
                 flex-1

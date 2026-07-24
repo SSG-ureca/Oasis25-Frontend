@@ -82,7 +82,7 @@ export const RetrospectWritePanel = () => {
             }
             footer={
                 <div className="flex justify-end gap-3">
-                    <Button variant="neumorphism" onClick={handlePhotoClick}>
+                    <Button variant="clay" onClick={handlePhotoClick}>
                         <input
                             ref={fileInputRef}
                             type="file"
@@ -92,7 +92,7 @@ export const RetrospectWritePanel = () => {
                         />
                         사진 추가
                     </Button>
-                    <Button variant="neumorphism" onClick={handleSubmit}>
+                    <Button variant="clay" onClick={handleSubmit}>
                         작성
                     </Button>
                 </div>
@@ -109,7 +109,7 @@ export const RetrospectWritePanel = () => {
                 "
             >
                 <Panel
-                    variant="neumorphism"
+                    variant="clay"
                     inset
                     className="
                         p-4
@@ -131,7 +131,7 @@ export const RetrospectWritePanel = () => {
                 </Panel>
 
                 <Panel
-                    variant="neumorphism"
+                    variant="clay"
                     inset
                     className="
                         p-4

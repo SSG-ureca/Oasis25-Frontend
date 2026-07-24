@@ -92,17 +92,17 @@ export const RetrospectSearchPanel = () => {
                             px-3
                         "
                     />
-                    <Button variant="neumorphism" onClick={handleSearch}>
+                    <Button variant="clay" onClick={handleSearch}>
                         조회
                     </Button>
                 </div>
             }
             footer={
                 <div className="flex justify-end gap-3">
-                    <Button variant="neumorphism" onClick={handleUpdate}>
+                    <Button variant="clay" onClick={handleUpdate}>
                         수정
                     </Button>
-                    <Button variant="neumorphism" onClick={handleDelete}>
+                    <Button variant="clay" onClick={handleDelete}>
                         삭제
                     </Button>
                 </div>
@@ -119,7 +119,7 @@ export const RetrospectSearchPanel = () => {
                 "
             >
                 <Panel
-                    variant="neumorphism"
+                    variant="clay"
                     inset
                     className="
                         p-4
@@ -144,7 +144,7 @@ export const RetrospectSearchPanel = () => {
                 </Panel>
 
                 <Panel
-                    variant="neumorphism"
+                    variant="clay"
                     inset
                     className="
                         p-4
