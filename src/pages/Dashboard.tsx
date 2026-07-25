@@ -7,6 +7,7 @@ import { AnalogClock } from "../components/clock/AnalogClock";
 import { WeatherPanel } from "../components/weather/WeatherPanel";
 import { Todo } from "../components/todo/Todo";
 import { QuoteCard } from "../components/splash/QuoteCard";
+import { WaterCaffeinePanel } from "../components/waterCaffeine";
 
 export default function Dashboard() {
   return (
@@ -53,7 +54,7 @@ export default function Dashboard() {
           <AnalogClock />
         </Panel>
         <Panel variant="clay" className="flex-1 p-4">
-          선인장
+          <WaterCaffeinePanel />
         </Panel>
       </div>
     </div>
