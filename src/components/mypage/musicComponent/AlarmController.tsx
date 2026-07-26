@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { AlarmType, MusicSetting } from "../../../types/music";
 import { ALARM_LIST } from "../../../types/music";
-import { Panel } from "../../common/Panel";
+
 import { Button } from "../../common/Button";
 
 interface AlarmControllerProps {
@@ -53,28 +53,22 @@ export const AlarmController = ({
     };
 
     return (
-        <Panel
-            variant="clay"
-            inset
+        <div
             className="
-        flex-1
-        min-h-0
-
-        flex
-        flex-col
-
-        overflow-auto
-
-        p-3
-    "
+            h-full
+            min-h-0
+            flex
+            flex-col
+        "
         >
-            <h3 className="text-lg font-semibold">알람음 관리</h3>
+            <h3 className="text-lg font-semibold shrink-0 mb-3">알람음</h3>
+
             <div
                 className="
-        flex-1
-        overflow-y-auto
-        space-y-2
-    "
+                flex-1
+                overflow-y-auto
+                space-y-2
+            "
             >
                 {ALARM_LIST.map((alarm) => (
                     <div
@@ -83,16 +77,17 @@ export const AlarmController = ({
                         flex
                         items-center
                         justify-between
+                        rounded-xl
+                        px-3
+                        py-2
+
+                        bg-[var(--color-clay-bg)]
+                        border
+                        border-[var(--color-clay-border)]
+                        shadow-[var(--shadow-clay-inset)]
                     "
                     >
-                        <label
-                            className="
-                            flex
-                            items-center
-                            gap-2
-                            cursor-pointer
-                        "
-                        >
+                        <label className="flex items-center gap-2 cursor-pointer text-sm">
                             <input
                                 type="radio"
                                 name="alarm"
@@ -102,27 +97,20 @@ export const AlarmController = ({
                                 onChange={() => handleSelectAlarm(alarm.id)}
                             />
 
-                            <span>{alarm.name}</span>
+                            {alarm.name}
                         </label>
 
-                        <div
-                            className="
-                            flex
-                            items-center
-                            gap-2
-                        "
+                        <Button
+                            variant="clay"
+                            className="h-8 w-8 p-0"
+                            onClick={() => handlePreview(alarm.path)}
+                            disabled={isPlaying}
                         >
-                            <Button
-                                variant="clay"
-                                onClick={() => handlePreview(alarm.path)}
-                                disabled={isPlaying}
-                            >
-                                ▶
-                            </Button>
-                        </div>
+                            ▶
+                        </Button>
                     </div>
                 ))}
             </div>
-        </Panel>
+        </div>
     );
 };

@@ -117,6 +117,8 @@ export const ProfileEditor = () => {
 
     return (
         <Panel
+            variant="clay"
+            inset
             className="
         flex
         flex-col

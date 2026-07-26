@@ -16,8 +16,6 @@ import {
     arrayMove,
 } from "@dnd-kit/sortable";
 
-import { Panel } from "../../common/Panel";
-
 import { SortableBgmItem } from "./SortableBgmItem";
 
 import type { MusicSetting, BgmType } from "../../../types/music";
@@ -123,26 +121,23 @@ export const BgmController = ({
     };
 
     return (
-        <Panel
-            variant="clay"
-            inset
+        <div
             className="
-        flex
-        flex-col
-        h-full
-        min-h-0
-        p-4
-        gap-4
-    "
+            h-full
+            min-h-0
+            flex
+            flex-col
+        "
         >
-            <h3 className="text-lg font-semibold">BGM 관리</h3>
+            <h3 className="text-lg font-semibold shrink-0 mb-3">BGM 관리</h3>
+
             <div
                 className="
-        flex-1
-        overflow-y-auto
-        space-y-3
-        pr-1
-    "
+                flex-1
+                overflow-y-auto
+                space-y-2
+                pr-1
+            "
             >
                 <DndContext
                     sensors={sensors}
@@ -180,6 +175,6 @@ export const BgmController = ({
                     </SortableContext>
                 </DndContext>
             </div>
-        </Panel>
+        </div>
     );
 };
