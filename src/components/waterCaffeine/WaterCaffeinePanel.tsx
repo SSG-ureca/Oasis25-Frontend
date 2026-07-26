@@ -96,7 +96,7 @@ export function WaterCaffeinePanel() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-700">
+      <div className="mb-3 flex items-center gap-2 text-sm font-bold ">
         <Heart className="h-4 w-4 fill-primary text-primary" />
         <span>웰빙 밸런스 케어</span>
       </div>

@@ -39,10 +39,10 @@ export default function PomodoroOrb({
           neumophismVariants({ variant: "clay", inset: true }),
           "absolute inset-2 rounded-full flex flex-col items-center justify-center",
         )}>
-        <span className="text-4xl font-sans tabular-nums text-gray-10 drop-shadow-sm">
+        <span className="text-4xl font-sans tabular-nums drop-shadow-sm">
           {timeLabel}
         </span>
-        <span className="text-xs text-gray-20 mt-1 font-medium">
+        <span className="text-xs text-text-muted mt-1 font-medium">
           {subLabel}
         </span>
       </div>

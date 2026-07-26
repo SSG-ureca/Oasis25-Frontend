@@ -7,7 +7,7 @@ import { AnalogClock } from "../components/clock/AnalogClock";
 import { WeatherPanel } from "../components/weather/WeatherPanel";
 import { Todo } from "../components/todo/Todo";
 import { QuoteCard } from "../components/splash/QuoteCard";
-import { WaterCaffeinePanel } from "../components/waterCaffeine";
+import { WaterCaffeinePanel } from "../components/waterCaffeine/WaterCaffeinePanel";
 
 export default function Dashboard() {
   return (

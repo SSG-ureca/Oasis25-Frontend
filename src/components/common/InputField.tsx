@@ -19,22 +19,22 @@ export const InputField: React.FC<InputFieldProps> = ({
   return (
     <div className="space-y-1.5 text-left">
       {label && (
-        <label className="text-[10px] text-gray-30 font-bold tracking-widest block uppercase font-mono pl-1">
+        <label className="text-[10px] text-text-muted font-bold tracking-widest block uppercase font-mono pl-1">
           {label}
         </label>
       )}
       <div className="relative">
         {/* 아이콘이 있을 경우에만 절대 위치로 렌더링 */}
         {Icon && (
-          <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-30" />
+          <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
         )}
         {/* 인풋 태그 (아이콘이 없을 때는 왼쪽 패딩을 px-4로 자동 조절) */}
         <input
           type={type}
           className={cn(
-            "w-full pr-4 py-3.5 text-xs bg-bg-light shadow-[var(--shadow-neumorphism-inset)] border border-transparent rounded-2xl focus:outline-none focus:border-gray-40 text-gray-10 transition-all",
+            "w-full pr-4 py-3.5 text-xs bg-bg-light shadow-[var(--shadow-neumorphism-inset)] border border-transparent rounded-2xl focus:outline-none focus:border-gray-40 text-text transition-all",
             Icon ? "pl-11" : "px-4",
-            className
+            className,
           )}
           {...props}
         />

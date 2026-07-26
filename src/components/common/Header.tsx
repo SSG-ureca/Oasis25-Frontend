@@ -102,7 +102,7 @@ const Header = () => {
               isRestricted={isProtected}
               className="rounded-4xl"
               tooltipText={
-                <span className="text-gray-30">
+                <span className="text-text-muted">
                   로그인 후 이용할 수 있습니다
                 </span>
               }>
@@ -132,9 +132,9 @@ const Header = () => {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="rounded-full w-12 h-12 p-0">
             {isMobileMenuOpen ? (
-              <X className="w-6 h-6 text-[#718096]" />
+              <X className="w-6 h-6 text-text-muted" />
             ) : (
-              <Menu className="w-6 h-6 text-[#718096]" />
+              <Menu className="w-6 h-6 text-text-muted" />
             )}
           </Button>
 
@@ -152,7 +152,7 @@ const Header = () => {
                     navigate(item.to);
                   }}
                   className={cn(
-                    "w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold text-gray-20 rounded-xl justify-start clay-hover",
+                    "w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold  rounded-xl justify-start clay-hover",
                     location.pathname === item.to && "clay-active",
                   )}>
                   {item.label}
@@ -162,11 +162,11 @@ const Header = () => {
               <Button
                 variant="clayFlat"
                 onClick={toggleTheme}
-                className="w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold text-gray-20 rounded-xl justify-start clay-hover">
+                className="w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold rounded-xl justify-start clay-hover">
                 {isDark ? (
-                  <Moon className="w-4 h-4 text-[#718096]" />
+                  <Moon className="w-4 h-4 text-text-muted" />
                 ) : (
-                  <Sun className="w-4 h-4 text-[#718096]" />
+                  <Sun className="w-4 h-4 text-text-muted" />
                 )}
                 테마
               </Button>
@@ -180,7 +180,7 @@ const Header = () => {
                   setIsFeedbackOpen(true);
                 }}
                 className={cn(
-                  "w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold text-gray-20 rounded-xl justify-start clay-hover",
+                  "w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold rounded-xl justify-start clay-hover",
                 )}>
                 VOC
               </Button>
@@ -194,11 +194,11 @@ const Header = () => {
                     handleLogout();
                   }
                 }}
-                className="w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold text-gray-20 rounded-xl justify-start clay-hover">
+                className="w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold rounded-xl justify-start clay-hover">
                 {isGuest ? (
-                  <LogIn className="w-4 h-4 text-[#718096]" />
+                  <LogIn className="w-4 h-4 text-text-muted" />
                 ) : (
-                  <LogOut className="w-4 h-4 text-[#718096]" />
+                  <LogOut className="w-4 h-4 text-text-muted" />
                 )}
                 {isGuest ? "로그인" : "로그아웃"}
               </Button>
@@ -212,21 +212,23 @@ const Header = () => {
             onClick={toggleTheme}
             className="rounded-full w-12 h-12 p-0">
             {isDark ? (
-              <Moon className="w-6 h-6 text-[#718096]" />
+              <Moon className="w-6 h-6 text-text-muted" />
             ) : (
-              <Sun className="w-6 h-6 text-[#718096]" />
+              <Sun className="w-6 h-6 text-text-muted" />
             )}
           </Button>
           <RestrictedArea
             isRestricted={isGuest}
             className="rounded-full"
             tooltipText={
-              <span className="text-gray-30">로그인 후 이용할 수 있습니다</span>
+              <span className="text-text-muted">
+                로그인 후 이용할 수 있습니다
+              </span>
             }>
             <Button
               variant="clay"
               onClick={() => setIsFeedbackOpen(true)}
-              className="rounded-full px-4 h-12 text-xs font-bold text-[#718096]">
+              className="rounded-full px-4 h-12 text-xs font-bold text-text-muted">
               VOC
             </Button>
           </RestrictedArea>
@@ -236,7 +238,7 @@ const Header = () => {
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="rounded-full w-12 h-12 p-0 overflow-hidden relative group">
               <User
-                className="w-9 h-9 text-[#6c757d] fill-[#6c757d]"
+                className="w-9 h-9 text-text-muted fill-current"
                 strokeWidth={0}
               />
             </Button>
@@ -251,7 +253,7 @@ const Header = () => {
                       setIsDropdownOpen(false);
                       navigate("/login");
                     }}
-                    className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-700 hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
+                    className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold  hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
                     <LogIn className="w-4 h-4 transition-colors" />
                     로그인
                   </button>
@@ -261,7 +263,7 @@ const Header = () => {
                       setIsDropdownOpen(false);
                       handleLogout();
                     }}
-                    className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold text-gray-700 hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
+                    className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
                     <LogOut className="w-4 h-4 transition-colors" />
                     로그아웃
                   </button>

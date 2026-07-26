@@ -22,10 +22,10 @@ export function IntakeCounter({
 }: IntakeCounterProps) {
   return (
     <div className="flex flex-col items-center gap-2">
-      <span className="text-sm font-medium text-slate-600">{label}</span>
-      <div className="text-lg font-bold text-slate-800">
+      <span className="text-sm font-medium text-text-muted">{label}</span>
+      <div className="text-lg font-bold ">
         {value.toLocaleString()}
-        <span className="ml-0.5 text-xs font-normal text-slate-500">
+        <span className="ml-0.5 text-xs font-normal text-text-muted">
           {unit}
         </span>
       </div>
@@ -41,7 +41,7 @@ export function IntakeCounter({
               ? "cursor-not-allowed opacity-50 shadow-clay-inset"
               : "shadow-clay clay-hover",
           )}>
-          <Plus className="h-4 w-4 text-slate-700" />
+          <Plus className="h-4 w-4 " />
         </button>
         <button
           type="button"
@@ -54,7 +54,7 @@ export function IntakeCounter({
               ? "shadow-clay clay-hover"
               : "cursor-not-allowed opacity-50 shadow-clay-inset",
           )}>
-          <Minus className="h-4 w-4 text-slate-700" />
+          <Minus className="h-4 w-4 " />
         </button>
       </div>
     </div>

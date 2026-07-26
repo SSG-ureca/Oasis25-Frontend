@@ -52,8 +52,7 @@ export const LoginPage: React.FC = () => {
       <div className="w-full max-w-md p-4 z-10 relative">
         <Panel
           variant="neumorphism"
-          className="p-8 rounded-[36px] flex flex-col space-y-4"
-        >
+          className="p-8 rounded-[36px] flex flex-col space-y-4">
           <div className="text-center mb-8 mt-2">
             <img
               src={OASIS25}
@@ -89,8 +88,7 @@ export const LoginPage: React.FC = () => {
               type="submit"
               disabled={isLoading}
               variant="neumorphism"
-              className="w-full py-3 rounded-2xl text-xs font-bold tracking-widest text-gray-20 bg-bg-light shadow-[var(--shadow-neumorphism)] hover:scale-[1.01] active:shadow-[var(--shadow-neumorphism-inset)] transition-all flex items-center justify-center gap-1.5"
-            >
+              className="w-full py-3 rounded-2xl text-xs font-bold tracking-widest text-text bg-bg-light shadow-[var(--shadow-neumorphism)] hover:scale-[1.01] active:shadow-[var(--shadow-neumorphism-inset)] transition-all flex items-center justify-center gap-1.5">
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin text-primary" />
               ) : (
@@ -103,16 +101,15 @@ export const LoginPage: React.FC = () => {
           </form>
 
           {/* 회원가입 및 게스트 로그인 유도 링크 */}
-          <p className="text-[10px] text-center text-gray-400 flex items-center justify-center gap-1 select-none">
+          <p className="text-[10px] text-center text-text-muted flex items-center justify-center gap-1 select-none">
             <span>계정이 없으신가요?</span>
             <button
               type="button"
               onClick={() => navigate("/register")}
-              className="text-primary font-bold hover:underline cursor-pointer"
-            >
+              className="text-primary font-bold hover:underline cursor-pointer">
               회원가입
             </button>
-            <span className="text-gray-400">또는</span>
+            <span className="text-text-muted">또는</span>
             <button
               type="button"
               onClick={() => {
@@ -121,8 +118,7 @@ export const LoginPage: React.FC = () => {
                 localStorage.removeItem("tokenType");
                 navigate("/");
               }}
-              className="text-primary font-bold hover:underline cursor-pointer"
-            >
+              className="text-primary font-bold hover:underline cursor-pointer">
               게스트로 입장
             </button>
           </p>

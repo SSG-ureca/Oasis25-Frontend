@@ -31,7 +31,7 @@ const WEATHER_ITEMS = [
     label: "흐림",
     icon: Cloud,
     gradient: "from-slate-500 to-gray-400",
-    iconColor: "text-slate-500",
+    iconColor: "text-text-muted",
     shadow:
       "shadow-[inset_-2px_-2px_6px_rgba(0,0,0,0.12),_inset_2px_2px_6px_rgba(255,255,255,0.45),_0_4px_10px_rgba(100,116,139,0.2)]",
     trackBg: "bg-slate-100/40",
@@ -41,7 +41,7 @@ const WEATHER_ITEMS = [
     label: "안개",
     icon: CloudFog,
     gradient: "from-zinc-400 to-slate-300",
-    iconColor: "text-zinc-500",
+    iconColor: "text-text-muted",
     shadow:
       "shadow-[inset_-2px_-2px_6px_rgba(0,0,0,0.12),_inset_2px_2px_6px_rgba(255,255,255,0.45),_0_4px_10px_rgba(161,161,170,0.2)]",
     trackBg: "bg-zinc-50/50",
@@ -114,10 +114,10 @@ export const WeatherFocusChart = ({
         <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
           Weather Focus Analytics
         </span>
-        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">
+        <h2 className="text-base sm:text-lg font-extrabold text-text tracking-tight">
           날씨별 몰입도 비교
         </h2>
-        <p className="text-xs sm:text-sm font-semibold text-gray-500 leading-relaxed break-keep max-w-[500px]">
+        <p className="text-xs sm:text-sm font-semibold text-text-muted leading-relaxed break-keep max-w-[500px]">
           날씨 환경에 따른 평균 집중 시간(분)입니다. 날씨에 적합한 몰입 상태를
           확인해보세요.
         </p>
@@ -127,14 +127,14 @@ export const WeatherFocusChart = ({
         <div className="absolute inset-x-0 top-0 bottom-8 flex flex-col justify-between pointer-events-none select-none">
           {gridLines.map((val, idx) => (
             <div key={idx} className="w-full flex items-center gap-1 sm:gap-2">
-              <span className="text-[7.5px] sm:text-[8px] font-bold text-gray-400/80 w-6 text-right shrink-0">
+              <span className="text-[7.5px] sm:text-[8px] font-bold text-text-muted/80 w-6 text-right shrink-0">
                 {val}분
               </span>
               <div className="flex-1 border-b border-dashed border-gray-200/60" />
             </div>
           ))}
           <div className="w-full flex items-center gap-1 sm:gap-2">
-            <span className="text-[7.5px] sm:text-[8px] font-bold text-gray-400/80 w-6 text-right shrink-0">
+            <span className="text-[7.5px] sm:text-[8px] font-bold text-text-muted/80 w-6 text-right shrink-0">
               0분
             </span>
             <div className="flex-1 border-b border-gray-200/80" />
@@ -172,7 +172,7 @@ export const WeatherFocusChart = ({
                   <Icon
                     className={`w-4 h-4 ${item.iconColor} transition-all group-hover:scale-115 group-hover:-translate-y-0.5 duration-300`}
                   />
-                  <span className="text-[11px] font-bold text-gray-600 transition-colors group-hover:text-gray-900">
+                  <span className="text-[11px] font-bold text-text-muted transition-colors group-hover:text-text">
                     {item.label}
                   </span>
                 </div>

@@ -61,8 +61,7 @@ export const RegisterPage: React.FC = () => {
       <div className="w-full max-w-md p-4 z-10 relative">
         <Panel
           variant="neumorphism"
-          className="p-8 rounded-[36px] flex flex-col space-y-4"
-        >
+          className="p-8 rounded-[36px] flex flex-col space-y-4">
           {/* 헤더 영역 */}
           <div className="text-center mb-8 mt-2">
             <img
@@ -123,8 +122,7 @@ export const RegisterPage: React.FC = () => {
               type="submit"
               disabled={isLoading}
               variant="neumorphism"
-              className="w-full py-3 rounded-2xl text-xs font-bold tracking-widest text-gray-20 bg-bg-light shadow-[var(--shadow-neumorphism)] hover:scale-[1.01] active:shadow-[var(--shadow-neumorphism-inset)] transition-all flex items-center justify-center gap-1.5"
-            >
+              className="w-full py-3 rounded-2xl text-xs font-bold tracking-widest text-text bg-bg-light shadow-[var(--shadow-neumorphism)] hover:scale-[1.01] active:shadow-[var(--shadow-neumorphism-inset)] transition-all flex items-center justify-center gap-1.5">
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin text-primary" />
               ) : (
@@ -137,13 +135,12 @@ export const RegisterPage: React.FC = () => {
           </form>
 
           {/* 로그인 링크 */}
-          <p className="text-[10px] text-center text-gray-30">
+          <p className="text-[10px] text-center text-text-muted">
             이미 계정이 있으신가요?
             <button
               type="button"
               onClick={() => navigate("/login")}
-              className="text-primary font-bold hover:underline cursor-pointer ml-1"
-            >
+              className="text-primary font-bold hover:underline cursor-pointer ml-1">
               로그인하기
             </button>
           </p>

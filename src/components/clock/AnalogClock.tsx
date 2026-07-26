@@ -75,7 +75,7 @@ export const AnalogClock: React.FC = () => {
       </Panel>
 
       {/* 디지털 시간 표시 (시 : 분) */}
-      <div className="text-3xl font-bold font-mono tracking-wider text-slate-800">
+      <div className="text-3xl font-bold font-mono tracking-wider ">
         {digitalTime}
       </div>
     </div>

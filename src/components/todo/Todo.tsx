@@ -72,7 +72,7 @@ export function Todo() {
   return (
     <div className="flex h-full w-full flex-col">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-700">TODO LIST</h2>
+        <h2 className="text-lg font-semibold ">TODO LIST</h2>
         {todos.length > 0 && (
           <button
             type="button"
@@ -91,7 +91,7 @@ export function Todo() {
             <div
               key={todo.id}
               className="flex w-full min-w-0 items-start gap-3">
-              <span className="mt-2 w-12 shrink-0 text-sm font-medium text-slate-500">
+              <span className="mt-2 w-12 shrink-0 text-sm font-medium text-text-muted">
                 {todo.time}
               </span>
 
@@ -114,15 +114,15 @@ export function Todo() {
                   type="text"
                   value={todo.text}
                   onChange={(e) => updateText(todo.id, e.target.value)}
-                  className={`min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400 ${
-                    todo.done ? "text-slate-400 line-through" : "text-slate-700"
+                  className={`min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-text-muted ${
+                    todo.done ? "text-text-muted line-through" : ""
                   }`}
                   placeholder="할 일을 입력하세요"
                 />
                 <button
                   type="button"
                   onClick={() => deleteTodo(todo.id)}
-                  className="shrink-0 text-slate-400 hover:text-red-500 transition-colors"
+                  className="shrink-0 text-text-muted hover:text-red-500 transition-colors"
                   aria-label="삭제">
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -135,7 +135,7 @@ export function Todo() {
               type="time"
               value={newTime}
               onChange={(e) => setNewTime(e.target.value)}
-              className="time-no-ampm mt-2 w-20 shrink-0 bg-transparent p-0 pr-2 text-sm font-medium text-slate-500 outline-none"
+              className="time-no-ampm mt-2 w-20 shrink-0 bg-transparent p-0 pr-2 text-sm font-medium text-text-muted outline-none"
             />
             <span className="sr-only">시간 선택</span>
 
@@ -150,7 +150,7 @@ export function Todo() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") addTodo();
                 }}
-                className="min-w-0 flex-1 bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400"
+                className="min-w-0 flex-1 bg-transparent text-sm  outline-none placeholder:text-text-muted"
                 placeholder="새로운 할 일 추가"
               />
 

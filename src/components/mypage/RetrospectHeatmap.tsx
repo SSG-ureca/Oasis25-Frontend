@@ -70,7 +70,7 @@ export const RetrospectHeatmap = () => {
         inset
         className="flex-[9] p-2 min-h-0 justify-center items-center">
         {loading ? (
-          <div className="text-center text-gray-500 text-sm">
+          <div className="text-center text-text-muted text-sm">
             데이터를 불러오는 중입니다...
           </div>
         ) : year ? (
@@ -102,7 +102,7 @@ export const RetrospectHeatmap = () => {
             }}
           />
         ) : (
-          <div className="text-center text-gray-500 text-sm">
+          <div className="text-center text-text-muted text-sm">
             기록된 데이터가 없습니다.
           </div>
         )}

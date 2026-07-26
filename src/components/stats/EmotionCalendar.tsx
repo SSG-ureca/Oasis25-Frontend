@@ -81,7 +81,7 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
     if (validScores.length === 0) {
       return {
         text: "최근 기록된 감정이 없어 한줄평이 준비 중입니다. 감정 일기를 작성해 보세요.",
-        labelColor: "text-gray-500",
+        labelColor: "text-text-muted",
         label: "분석 대기 중",
       };
     }
@@ -118,10 +118,10 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
         <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
           30-Day Emotion Trend
         </span>
-        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">
+        <h2 className="text-base sm:text-lg font-extrabold text-text tracking-tight">
           감정 흐름 달력
         </h2>
-        <p className="text-xs sm:text-sm font-semibold text-gray-500 leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
+        <p className="text-xs sm:text-sm font-semibold text-text-muted leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
           최근 30일간 작성한 회고 기록에 따른 감정 달력입니다.
         </p>
       </div>
@@ -159,8 +159,7 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
                 key={idx}
                 className="relative w-full h-full flex items-center justify-center overflow-visible cursor-pointer"
                 onMouseMove={(e) => handleMouseMove(e, idx)}
-                onMouseLeave={() => setHoveredCell(null)}
-              >
+                onMouseLeave={() => setHoveredCell(null)}>
                 {colorHex && (
                   <div
                     className={`absolute w-[220%] h-[220%] rounded-full filter blur-[12px] sm:blur-[16px] pointer-events-none transition-all duration-[800ms] ease-out ${colorHex} ${
@@ -180,17 +179,16 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
         {/* 한 달 감정 요약 순수 텍스트 */}
         <div className="pt-5 border-t border-black/10 space-y-1.5 pb-3">
           <span
-            className={`text-[10px] font-extrabold uppercase tracking-wider block ${summary.labelColor}`}
-          >
+            className={`text-[10px] font-extrabold uppercase tracking-wider block ${summary.labelColor}`}>
             {summary.label}
           </span>
-          <p className="text-xs sm:text-sm font-semibold text-gray-700 leading-relaxed break-keep">
+          <p className="text-xs sm:text-sm font-semibold text-text leading-relaxed break-keep">
             {summary.text}
           </p>
         </div>
 
         {/* 감정 범례 목록 */}
-        <div className="flex flex-wrap md:flex-col gap-2.5 pt-4 md:border-t border-black/10 text-[9px] sm:text-[10px] font-bold text-gray-500/80">
+        <div className="flex flex-wrap md:flex-col gap-2.5 pt-4 md:border-t border-black/10 text-[9px] sm:text-[10px] font-bold text-text-muted/80">
           <div className="flex items-center gap-1.5 shrink-0">
             <span className="w-2.5 h-2.5 rounded-full bg-[#e65959]/80 shadow-[0_0_6px_rgba(230,89,89,0.3)]" />
             <span>스트레스</span>
@@ -216,21 +214,20 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
 
       {hoveredCell !== null && (
         <div
-          className="absolute pointer-events-none bg-white/35 backdrop-blur-md border border-white/40 text-gray-800 rounded-xl px-3 py-1.5 text-[9px] font-bold shadow-[0_8px_20px_rgba(0,0,0,0.06)] z-50 flex flex-col items-center whitespace-nowrap transition-[left,top] duration-[400ms] ease-out"
+          className="absolute pointer-events-none bg-bg-light/80 backdrop-blur-md border border-white/40 text-text rounded-xl px-3 py-1.5 text-[9px] font-bold shadow-[0_8px_20px_rgba(0,0,0,0.06)] z-50 flex flex-col items-center whitespace-nowrap transition-[left,top] duration-[400ms] ease-out"
           style={{
             left: `${hoveredCell.parentX}px`,
             top: `${hoveredCell.parentY - 28}px`,
             transform: "translate(-50%, -50%)",
-          }}
-        >
-          <span className="text-gray-400 font-semibold">
+          }}>
+          <span className="text-text-muted font-semibold">
             {(() => {
               const dateStr = past35Days[hoveredCell.idx];
               const dateObj = new Date(dateStr);
               return `${dateObj.getMonth() + 1}월 ${dateObj.getDate()}일`;
             })()}
           </span>
-          <span className="text-gray-700 mt-0.5 font-extrabold text-[10px]">
+          <span className="text-text mt-0.5 font-extrabold text-[10px]">
             {emotionMap[diaryScores[hoveredCell.idx]] ?? "기록 없음"}
           </span>
         </div>

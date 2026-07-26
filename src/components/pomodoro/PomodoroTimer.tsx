@@ -151,7 +151,7 @@ export default function PomodoroTimer() {
               setPresetMenuOpen((v) => !v);
               setManageMenuOpen(false);
             }}
-            className="flex items-center gap-2 text-sm font-semibold text-gray-30 uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed border-none">
+            className="flex items-center gap-2 text-sm font-semibold text-text-muted uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed border-none">
             <Clock className="w-4 h-4" />
             {selectedPresetName}
             <ChevronDown
@@ -172,16 +172,16 @@ export default function PomodoroTimer() {
                   className={`border-none flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm hover:bg-gray-70 ${
                     preset.name === selectedPresetName
                       ? "text-primary font-semibold"
-                      : "text-gray-10"
+                      : ""
                   }`}>
                   <span>{preset.name}</span>
-                  <span className="text-xs text-gray-30">
+                  <span className="text-xs text-text-muted">
                     {preset.focusMinutes}/{preset.breakMinutes}분
                   </span>
                 </Button>
               ))}
               {loadingPresets && (
-                <div className="px-3 py-2 text-xs text-gray-30">
+                <div className="px-3 py-2 text-xs text-text-muted">
                   불러오는 중...
                 </div>
               )}
@@ -199,34 +199,32 @@ export default function PomodoroTimer() {
               setManageMenuOpen((v) => !v);
               setPresetMenuOpen(false);
             }}
-            className="flex items-center justify-center w-8 h-8 rounded-full text-gray-30 hover:bg-gray-70">
+            className="flex items-center justify-center w-8 h-8 rounded-full text-text-muted hover:bg-gray-70">
             <Settings className="w-4 h-4" />
           </Button>
 
           {manageMenuOpen && (
-            <div className="absolute right-0 top-full mt-2 z-30 w-72 rounded-xl border border-gray-100 bg-white shadow-lg p-3 text-sm">
+            <div className="absolute right-0 top-full mt-2 z-30 w-72 rounded-xl border border-gray-100 bg-clay-bg shadow-lg p-3 text-sm">
               {!isLoggedIn ? (
-                <p className="text-xs text-center text-gray-400 py-2">
+                <p className="text-xs text-center text-text-muted py-2">
                   프리셋 저장/수정은 로그인 후 사용할 수 있습니다.
                 </p>
               ) : (
                 <>
-                  <span className="font-medium text-gray-700">프리셋 관리</span>
+                  <span className="font-medium text-text">프리셋 관리</span>
 
                   <div className="flex flex-col gap-1 mt-2">
                     {/* 기본 프리셋: 수정/삭제 불가 */}
                     <div className="flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg bg-gray-70">
-                      <span className="text-gray-10">
-                        {DEFAULT_PRESET.name}
-                      </span>
-                      <span className="text-xs text-gray-30">
+                      <span className="">{DEFAULT_PRESET.name}</span>
+                      <span className="text-xs text-text-muted">
                         {DEFAULT_PRESET.focusMinutes}/
                         {DEFAULT_PRESET.breakMinutes}분
                       </span>
                     </div>
 
                     {loadingPresets ? (
-                      <span className="text-gray-400 text-xs py-1">
+                      <span className="text-text-muted text-xs py-1">
                         불러오는 중...
                       </span>
                     ) : (
@@ -254,7 +252,7 @@ export default function PomodoroTimer() {
                                 }
                                 className="w-14 px-2 py-1 rounded-md border border-gray-300 text-center text-xs"
                               />
-                              <span className="text-xs text-gray-30">/</span>
+                              <span className="text-xs text-text-muted">/</span>
                               <input
                                 type="number"
                                 min={1}
@@ -279,7 +277,7 @@ export default function PomodoroTimer() {
                                 variant="clay"
                                 type="button"
                                 onClick={() => setEditingId(null)}
-                                className="text-gray-30 hover:text-gray-10"
+                                className="text-text-muted hover:text-text"
                                 aria-label="편집 취소">
                                 <X className="w-4 h-4" />
                               </Button>
@@ -289,16 +287,16 @@ export default function PomodoroTimer() {
                           <div
                             key={preset.id}
                             className="flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-70">
-                            <span className="text-gray-10">{preset.name}</span>
+                            <span className="">{preset.name}</span>
                             <div className="flex items-center gap-2">
-                              <span className="text-xs text-gray-30">
+                              <span className="text-xs text-text-muted">
                                 {preset.focusMinutes}/{preset.breakMinutes}분
                               </span>
                               <Button
                                 variant="clay"
                                 type="button"
                                 onClick={() => startEdit(preset)}
-                                className="text-gray-30 hover:text-primary"
+                                className="text-text-muted hover:text-primary"
                                 aria-label="프리셋 수정">
                                 <Pencil className="w-3.5 h-3.5" />
                               </Button>
@@ -306,7 +304,7 @@ export default function PomodoroTimer() {
                                 variant="clay"
                                 type="button"
                                 onClick={() => handleRemovePreset(preset)}
-                                className="text-gray-30 hover:text-red-500"
+                                className="text-text-muted hover:text-red-500"
                                 aria-label="프리셋 삭제">
                                 <X className="w-3.5 h-3.5" />
                               </Button>
@@ -337,7 +335,7 @@ export default function PomodoroTimer() {
                           }
                           className="w-14 px-2 py-1 rounded-md border border-gray-300 text-center text-xs"
                         />
-                        <span className="text-xs text-gray-30">/</span>
+                        <span className="text-xs text-text-muted">/</span>
                         <input
                           type="number"
                           min={1}
@@ -358,7 +356,7 @@ export default function PomodoroTimer() {
                       </div>
                     </div>
                   ) : (
-                    <span className="block text-xs text-gray-400 mt-3 pt-3 border-t border-gray-100">
+                    <span className="block text-xs text-text-muted mt-3 pt-3 border-t border-gray-100">
                       커스텀 프리셋은 최대 {MAX_CUSTOM_PRESETS}개까지 저장할 수
                       있습니다.
                     </span>
@@ -390,13 +388,13 @@ export default function PomodoroTimer() {
         <Button
           variant="clay"
           onClick={() => void skip()}
-          className="rounded-full px-6 py-2 text-sm font-semibold text-gray-20">
+          className="rounded-full px-6 py-2 text-sm font-semibold ">
           {isFocus ? "휴식" : "집중"}
         </Button>
         <Button
           variant="clay"
           onClick={() => void reset()}
-          className="rounded-full px-6 py-2 text-sm font-semibold text-gray-20">
+          className="rounded-full px-6 py-2 text-sm font-semibold">
           종료
         </Button>
       </div>

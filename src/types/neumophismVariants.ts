@@ -17,6 +17,7 @@ export const neumophismVariants = cva(
           "border",
           "border-white/20",
           "shadow-[var(--shadow-neumorphism)]",
+          "text-text",
         ],
 
         // 2. 클레이모피즘 + 사막 (눈이 편안한)
@@ -25,6 +26,7 @@ export const neumophismVariants = cva(
           "shadow-clay",
           "border border-clay-border/20",
           "clay-surface",
+          "text-text",
         ],
         clayFlat: ["shadow-none", "border-none"],
       },

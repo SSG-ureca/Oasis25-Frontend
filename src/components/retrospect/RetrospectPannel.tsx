@@ -43,7 +43,7 @@ export const RetrospectPanel = ({
           className="
                     text-xl
                     font-semibold
-                    text-gray-10
+                    text-text
                 ">
           {title}
         </h2>

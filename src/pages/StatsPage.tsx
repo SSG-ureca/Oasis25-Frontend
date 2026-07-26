@@ -62,7 +62,7 @@ export const StatsPage = () => {
                       className={`w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-2xl flex items-center justify-center transition-all duration-300 ${
                         isActive
                           ? "bg-bg-light text-emerald-600 shadow-[inset_-2px_-2px_5px_rgba(255,255,255,0.7),_inset_2px_2px_5px_rgba(0,0,0,0.08)]"
-                          : "bg-bg-light text-gray-400 hover:text-gray-600 shadow-[-3px_-3px_7px_rgba(255,255,255,0.8),_3px_3px_7px_rgba(0,0,0,0.08)] hover:scale-105 active:shadow-[inset_-1px_-1px_3px_rgba(255,255,255,0.7),_inset_1px_1px_3px_rgba(0,0,0,0.08)]"
+                          : "bg-bg-light text-text-muted hover:text-text shadow-[-3px_-3px_7px_rgba(255,255,255,0.8),_3px_3px_7px_rgba(0,0,0,0.08)] hover:scale-105 active:shadow-[inset_-1px_-1px_3px_rgba(255,255,255,0.7),_inset_1px_1px_3px_rgba(0,0,0,0.08)]"
                       }`}>
                       <Icon className="w-4.5 h-4.5 sm:w-5 md:w-5.5 md:h-5.5" />
                     </button>
@@ -79,7 +79,7 @@ export const StatsPage = () => {
               inset
               className="flex-1 h-full rounded-[28px] p-4 sm:p-6 md:p-8 flex flex-col min-h-0 justify-between relative overflow-y-auto md:overflow-hidden">
               {loading ? (
-                <div className="w-full h-full flex flex-col items-center justify-center text-gray-500 font-bold text-sm">
+                <div className="w-full h-full flex flex-col items-center justify-center text-text-muted font-bold text-sm">
                   <span>데이터를 불러오는 중입니다...</span>
                 </div>
               ) : (
@@ -113,10 +113,10 @@ export const StatsPage = () => {
                         <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
                           30-Day Monthly Trend
                         </span>
-                        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">
+                        <h2 className="text-base sm:text-lg font-extrabold text-text tracking-tight">
                           30일 몰입도 변화 트렌드
                         </h2>
-                        <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
+                        <p className="text-xs sm:text-sm font-semibold text-text-muted leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
                           {trendMessage}
                         </p>
                       </div>
@@ -236,7 +236,7 @@ export const StatsPage = () => {
                         </svg>
                       </div>
 
-                      <div className="z-10 flex justify-between px-1 pb-1 text-[8.5px] sm:text-[9px] font-bold text-gray-400/80">
+                      <div className="z-10 flex justify-between px-1 pb-1 text-[8.5px] sm:text-[9px] font-bold text-text-muted/80">
                         <span>1일</span>
                         <span>3일</span>
                         <span>6일</span>

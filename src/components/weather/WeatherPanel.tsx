@@ -44,24 +44,24 @@ export function WeatherPanel() {
 
   return (
     <div className="flex h-full w-full flex-col justify-between p-1">
-      <div className="text-sm font-medium text-slate-500">서울, 대한민국</div>
+      <div className="text-sm font-medium text-text-muted">서울, 대한민국</div>
       <div className="flex items-center justify-between p-2">
         {weather.loading ? (
-          <Loader2 className="h-10 w-10 animate-spin text-slate-500" />
+          <Loader2 className="h-10 w-10 animate-spin text-text-muted" />
         ) : (
           <>
             <Panel variant="clay" inset className="p-2 rounded-full">
-              <Icon className="h-14 w-14 text-slate-700" />
+              <Icon className="h-14 w-14 " />
             </Panel>
 
-            <div className="text-3xl font-bold text-slate-800">
+            <div className="text-3xl font-bold ">
               {weather.temp !== null ? `${weather.temp}°` : "--"}
-              <span className="text-sm text-slate-600">{weather.skyText}</span>
+              <span className="text-sm text-text-muted">{weather.skyText}</span>
             </div>
           </>
         )}
       </div>
-      <div className="flex items-center justify-between p-2 text-xs text-slate-600">
+      <div className="flex items-center justify-between p-2 text-xs text-text-muted">
         <div className="flex items-center">
           <Droplets className="h-4 w-4" />
           <span>

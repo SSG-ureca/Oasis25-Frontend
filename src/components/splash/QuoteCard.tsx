@@ -31,7 +31,7 @@ export const QuoteCard = () => {
                 w-full
                 rounded-2xl flex flex-col
             ">
-      <p className="text-gray-10 text-lg leading-relaxed text-center italic">
+      <p className=" text-lg leading-relaxed text-center italic">
         {quote ? (
           <>
             &ldquo;{quote.message}&rdquo;
