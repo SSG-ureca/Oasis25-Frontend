@@ -28,15 +28,26 @@ export const MusicController = () => {
         p-4
     "
         >
-            <Button onClick={() => window.location.reload()}>적용</Button>
-            <BgmController
-                musicSetting={musicSetting}
-                setMusicSetting={setMusicSetting}
-            />
-            <AlarmController
-                musicSetting={musicSetting}
-                setMusicSetting={setMusicSetting}
-            />
+            <Button
+                className="shrink-0"
+                onClick={() => window.location.reload()}
+            >
+                설정 적용
+            </Button>
+
+            <div className="flex-[7] min-h-0">
+                <BgmController
+                    musicSetting={musicSetting}
+                    setMusicSetting={setMusicSetting}
+                />
+            </div>
+
+            <div className="flex-[3] min-h-0">
+                <AlarmController
+                    musicSetting={musicSetting}
+                    setMusicSetting={setMusicSetting}
+                />
+            </div>
         </Panel>
     );
 };

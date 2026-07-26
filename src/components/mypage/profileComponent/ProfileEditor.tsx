@@ -117,15 +117,17 @@ export const ProfileEditor = () => {
 
     return (
         <Panel
-            variant="clay"
-            inset
             className="
-                flex
-                flex-1
-                flex-col
-                gap-6
-                p-6
-            "
+        flex
+        flex-col
+        flex-1
+
+        min-h-0
+        overflow-auto
+
+        gap-6
+        p-6
+    "
         >
             <ProfileImage
                 previewUrl={previewUrl}

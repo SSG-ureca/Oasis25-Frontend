@@ -7,20 +7,24 @@ export const Logo = () => {
             {/* 로고 */}
             <div
                 className="
-                    flex
-                    h-32
-                    w-32
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-bg-light
-                    shadow-glass-neumorphism
-                "
+                flex
+                h-70
+                w-70
+                items-center
+                justify-center
+                rounded-full
+
+                bg-[var(--color-clay-bg)]
+                border
+                border-[var(--color-clay-border)]
+
+                shadow-[var(--shadow-clay)]
+            "
             >
                 <img
                     src={splashLogo}
                     alt="Oasis25 Logo"
-                    className="h-20 w-20 object-contain"
+                    className="h-56 w-56 object-contain"
                 />
             </div>
 

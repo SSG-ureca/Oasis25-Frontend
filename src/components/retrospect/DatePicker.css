@@ -1,0 +1,91 @@
+/* 전체 달력 */
+.react-datepicker {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 249, 239, 0.14) 0%,
+            rgba(232, 214, 187, 0.3) 42%,
+            rgba(218, 193, 158, 0.25) 100%
+        ),
+        var(--color-clay-bg);
+}
+
+/* 상단 헤더 */
+.react-datepicker__header {
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 16px 0 12px;
+}
+
+/* 현재 월 */
+.react-datepicker__current-month {
+    color: var(--color-text);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* 요일 */
+.react-datepicker__day-name {
+    color: var(--color-text-muted);
+    font-weight: 600;
+    width: 2.4rem;
+    line-height: 2.4rem;
+}
+
+/* 날짜 */
+.react-datepicker__day {
+    width: 2.4rem;
+    line-height: 2.4rem;
+    margin: 0.2rem;
+    border-radius: 14px;
+    transition: 0.2s;
+    color: var(--color-text);
+}
+
+/* Hover */
+.react-datepicker__day:hover {
+    background: var(--color-clay-bg);
+    box-shadow: var(--shadow-clay-inset);
+}
+
+/* 선택 */
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+    background: var(--color-primary);
+    color: white;
+    box-shadow:
+        inset 2px 2px 5px rgba(255, 255, 255, 0.2),
+        4px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* 오늘 */
+.react-datepicker__day--today {
+    font-weight: 700;
+    border: 2px solid var(--color-primary);
+}
+
+/* 다른 달 */
+.react-datepicker__day--outside-month {
+    color: var(--color-gray-40);
+}
+
+/* 비활성 */
+.react-datepicker__day--disabled {
+    color: var(--color-gray-50);
+}
+
+/* 화살표 */
+.react-datepicker__navigation {
+    top: 14px;
+}
+
+.react-datepicker__navigation-icon::before {
+    border-color: var(--color-text);
+    border-width: 2px 2px 0 0;
+}
+
+/* 삼각형 제거 */
+.react-datepicker__triangle {
+    display: none;
+}

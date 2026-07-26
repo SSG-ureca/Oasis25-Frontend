@@ -57,59 +57,72 @@ export const AlarmController = ({
             variant="clay"
             inset
             className="
-                flex
-                flex-col
-                gap-4
-                p-3
-                w-full
-            "
+        flex-1
+        min-h-0
+
+        flex
+        flex-col
+
+        overflow-auto
+
+        p-3
+    "
         >
             <h3 className="text-lg font-semibold">알람음 관리</h3>
-
-            {ALARM_LIST.map((alarm) => (
-                <div
-                    key={alarm.id}
-                    className="
+            <div
+                className="
+        flex-1
+        overflow-y-auto
+        space-y-2
+    "
+            >
+                {ALARM_LIST.map((alarm) => (
+                    <div
+                        key={alarm.id}
+                        className="
                         flex
                         items-center
                         justify-between
                     "
-                >
-                    <label
-                        className="
+                    >
+                        <label
+                            className="
                             flex
                             items-center
                             gap-2
                             cursor-pointer
                         "
-                    >
-                        <input
-                            type="radio"
-                            name="alarm"
-                            checked={musicSetting.selectedAlarm === alarm.id}
-                            onChange={() => handleSelectAlarm(alarm.id)}
-                        />
+                        >
+                            <input
+                                type="radio"
+                                name="alarm"
+                                checked={
+                                    musicSetting.selectedAlarm === alarm.id
+                                }
+                                onChange={() => handleSelectAlarm(alarm.id)}
+                            />
 
-                        <span>{alarm.name}</span>
-                    </label>
+                            <span>{alarm.name}</span>
+                        </label>
 
-                    <div
-                        className="
+                        <div
+                            className="
                             flex
                             items-center
                             gap-2
                         "
-                    >
-                        <Button
-                            variant="clay"
-                            onClick={() => handlePreview(alarm.path)}
-                            disabled={isPlaying}
                         >
-                            ▶
-                        </Button>
+                            <Button
+                                variant="clay"
+                                onClick={() => handlePreview(alarm.path)}
+                                disabled={isPlaying}
+                            >
+                                ▶
+                            </Button>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </Panel>
     );
 };

@@ -37,9 +37,17 @@ export const MyPage = () => {
                         mt-4
                     "
                     >
-                        <ProfileEditor />
-                        <MusicController />
-                        <OptionController />
+                        <div className="flex flex-[1.2] min-w-0">
+                            <ProfileEditor />
+                        </div>
+
+                        <div className="flex flex-1 min-w-0">
+                            <MusicController />
+                        </div>
+
+                        <div className="flex flex-1 min-w-0">
+                            <OptionController />
+                        </div>
                     </div>
                 </Panel>
             </div>

@@ -10,21 +10,24 @@ import {
     deleteRetrospect,
 } from "../../services/retrospectApi";
 import { toast } from "../common/Toast";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import "./DatePicker.css";
 
 // props 필요 title: 패널 이름, header: 상단 버튼, footer:하단버튼, 컨텐츠
 export const RetrospectSearchPanel = () => {
-    const [selectedDate, setSelectedDate] = useState(
-        new Date().toISOString().slice(0, 10),
-    );
     const [retrospect, setRetrospect] = useState<RetrospectResponse | null>(
         null,
     );
     const [editContent, setEditContent] = useState("");
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     // Get API 호출 함수
     const handleSearch = async () => {
         try {
-            const data = await getRetrospect(selectedDate);
+            const formattedDate = selectedDate.toISOString().slice(0, 10);
+
+            const data = await getRetrospect(formattedDate);
 
             setRetrospect(data);
             setEditContent(data.content);
@@ -82,15 +85,26 @@ export const RetrospectSearchPanel = () => {
             title="회고 찾아보기"
             header={
                 <div className="flex items-center gap-2">
-                    <input
-                        type="date"
-                        value={selectedDate}
-                        onChange={(e) => setSelectedDate(e.target.value)}
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date: Date | null) =>
+                            date && setSelectedDate(date)
+                        }
+                        dateFormat="yyyy-MM-dd"
                         className="
-                            h-10
-                            rounded-lg
-                            px-3
-                        "
+                        h-10
+                        w-40
+                        rounded-2xl
+                        px-4
+                        bg-clay-bg
+                        border
+                        border-clay-border
+                        shadow-(--shadow-clay)
+                        text-(--color-text)
+                        outline-none
+                        transition
+                        focus:shadow-(--shadow-clay-inset)
+                    "
                     />
                     <Button variant="clay" onClick={handleSearch}>
                         조회

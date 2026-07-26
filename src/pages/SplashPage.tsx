@@ -11,14 +11,35 @@ export const SplashPage = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             navigate("/main");
-        }, 4000);
+        }, 2500);
 
         return () => clearTimeout(timer);
     }, [navigate]);
     return (
-        <main className="relative flex h-screen w-screen flex-col items-center justify-center bg-bg-light overflow-hidden animate-in fade-in duration-300">
+        <main
+            className="
+        relative
+        flex
+        h-screen
+        w-screen
+        flex-col
+        items-center
+        justify-center
+
+        bg-[var(--color-app-bg)]
+
+        desert-grain
+        overflow-hidden
+        animate-in
+        fade-in
+        duration-300
+    "
+        >
+            <div className="sand-overlay" />
+
             <Tumbleweeds />
-            <div className="z-10 flex flex-col items-center justify-center gap-10">
+
+            <div className="z-10 flex flex-col items-center gap-10">
                 <Logo />
                 <QuoteCard />
                 <Loading />

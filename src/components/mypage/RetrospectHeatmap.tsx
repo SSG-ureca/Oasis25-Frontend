@@ -8,117 +8,125 @@ import { getHeatmap } from "../../services/heatmapApi";
 import { getProfile } from "../../services/profileApi";
 
 interface HeatmapValue {
-  date: string;
-  count: number;
+    date: string;
+    count: number;
 }
 
 export const RetrospectHeatmap = () => {
-  const [year, setYear] = useState<number | null>(null);
-  const [years, setYears] = useState<number[]>([]);
-  const [dataByYear, setDataByYear] = useState<Record<number, HeatmapValue[]>>(
-    {},
-  );
-  const [values, setValues] = useState<HeatmapValue[]>([]);
-  const [loading, setLoading] = useState(true);
+    const [year, setYear] = useState<number | null>(null);
+    const [years, setYears] = useState<number[]>([]);
+    const [dataByYear, setDataByYear] = useState<
+        Record<number, HeatmapValue[]>
+    >({});
+    const [values, setValues] = useState<HeatmapValue[]>([]);
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchHeatmap = async () => {
-      try {
-        const profile = await getProfile();
-        const data = await getHeatmap(profile.email);
+    useEffect(() => {
+        const fetchHeatmap = async () => {
+            try {
+                const profile = await getProfile();
+                const data = await getHeatmap(profile.email);
 
-        const transformed: Record<number, HeatmapValue[]> = {};
-        const yearList: number[] = [];
+                const transformed: Record<number, HeatmapValue[]> = {};
+                const yearList: number[] = [];
 
-        Object.entries(data).forEach(([key, items]) => {
-          const y = Number(key);
-          yearList.push(y);
-          transformed[y] = items.map((item) => ({
-            date: item.date,
-            count: item.focusMinutes,
-          }));
-        });
+                Object.entries(data).forEach(([key, items]) => {
+                    const y = Number(key);
+                    yearList.push(y);
+                    transformed[y] = items.map((item) => ({
+                        date: item.date,
+                        count: item.focusMinutes,
+                    }));
+                });
 
-        yearList.sort((a, b) => a - b);
-        const latestYear = yearList[yearList.length - 1];
+                yearList.sort((a, b) => a - b);
+                const latestYear = yearList[yearList.length - 1];
 
-        setYears(yearList);
-        setDataByYear(transformed);
-        if (latestYear) {
-          setYear(latestYear);
-          setValues(transformed[latestYear]);
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
+                setYears(yearList);
+                setDataByYear(transformed);
+                if (latestYear) {
+                    setYear(latestYear);
+                    setValues(transformed[latestYear]);
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        void fetchHeatmap();
+    }, []);
+
+    const handleYearClick = (selectedYear: number) => {
+        setYear(selectedYear);
+        setValues(dataByYear[selectedYear]);
     };
 
-    void fetchHeatmap();
-  }, []);
+    return (
+        <div
+            className="
+        flex
+        gap-4
+        flex-none
+    "
+        >
+            <Panel
+                variant="clay"
+                inset
+                className="flex-[9] p-2 min-h-0 justify-center items-center"
+            >
+                {loading ? (
+                    <div className="text-center text-text-muted text-sm">
+                        데이터를 불러오는 중입니다...
+                    </div>
+                ) : year ? (
+                    <CalendarHeatmap
+                        startDate={new Date(`${year}-01-01`)}
+                        endDate={new Date(`${year}-12-31`)}
+                        values={values}
+                        showMonthLabels={false}
+                        classForValue={(value) => {
+                            if (!value || !value.count) {
+                                return "color-empty";
+                            }
 
-  const handleYearClick = (selectedYear: number) => {
-    setYear(selectedYear);
-    setValues(dataByYear[selectedYear]);
-  };
+                            const minutes = value.count;
 
-  return (
-    <div className="flex gap-4">
-      <Panel
-        variant="clay"
-        inset
-        className="flex-[9] p-2 min-h-0 justify-center items-center">
-        {loading ? (
-          <div className="text-center text-text-muted text-sm">
-            데이터를 불러오는 중입니다...
-          </div>
-        ) : year ? (
-          <CalendarHeatmap
-            startDate={new Date(`${year}-01-01`)}
-            endDate={new Date(`${year}-12-31`)}
-            values={values}
-            showMonthLabels={false}
-            classForValue={(value) => {
-              if (!value || !value.count) {
-                return "color-empty";
-              }
+                            if (minutes < 30) {
+                                return "color-level-1";
+                            }
 
-              const minutes = value.count;
+                            if (minutes < 60) {
+                                return "color-level-2";
+                            }
 
-              if (minutes < 30) {
-                return "color-level-1";
-              }
+                            if (minutes < 120) {
+                                return "color-level-3";
+                            }
 
-              if (minutes < 60) {
-                return "color-level-2";
-              }
+                            return "color-level-4";
+                        }}
+                    />
+                ) : (
+                    <div className="text-center text-text-muted text-sm">
+                        기록된 데이터가 없습니다.
+                    </div>
+                )}
+            </Panel>
 
-              if (minutes < 120) {
-                return "color-level-3";
-              }
-
-              return "color-level-4";
-            }}
-          />
-        ) : (
-          <div className="text-center text-text-muted text-sm">
-            기록된 데이터가 없습니다.
-          </div>
-        )}
-      </Panel>
-
-      <div className="flex-[1] flex flex-col gap-2">
-        {years.map((y) => (
-          <Button
-            key={y}
-            variant="clay"
-            className={`p-2 ${year === y ? "bg-emerald-200 text-emerald-800 font-bold" : ""}`}
-            onClick={() => handleYearClick(y)}>
-            {y}
-          </Button>
-        ))}
-      </div>
-    </div>
-  );
+            <div className="flex-[1] flex flex-col gap-2">
+                {years.map((y) => (
+                    <Button
+                        key={y}
+                        variant="clay"
+                        className={`p-2 ${year === y ? "bg-emerald-200 text-emerald-800 font-bold" : ""}`}
+                        onClick={() => handleYearClick(y)}
+                    >
+                        {y}
+                    </Button>
+                ))}
+            </div>
+        </div>
+    );
 };
