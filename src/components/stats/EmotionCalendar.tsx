@@ -91,7 +91,7 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
     if (avg >= 3.8) {
       return {
         text: "행복하고 차분한 긍정적 에너지가 주를 이루는 아주 맑고 안정적인 한 달을 보냈습니다.",
-        labelColor: "text-emerald-600",
+        labelColor: "text-green-50",
         label: "긍정 & 평온",
       };
     } else if (avg >= 2.8) {
@@ -115,7 +115,7 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
     <div className="w-full h-auto md:h-full grid grid-cols-1 md:grid-cols-[29%_66%] md:grid-rows-[auto_1fr] justify-between gap-6 relative emotion-calendar-container">
       {/* 1. 타이틀 영역 (좌측 상단 고정) */}
       <div className="space-y-1.5 md:col-start-1 md:row-start-1">
-        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
+        <span className="text-[10px] uppercase tracking-wider font-extrabold text-green-50">
           30-Day Emotion Trend
         </span>
         <h2 className="text-base sm:text-lg font-extrabold text-text tracking-tight">
@@ -176,19 +176,22 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
 
       {/* 3. 하단 영역: 한줄평 요약과 범례 (모바일에서는 맨 마지막(3번째), 데스크톱에서는 좌측 하단 고정) */}
       <div className="space-y-4 md:col-start-1 md:row-start-2 md:self-end">
-        {/* 한 달 감정 요약 순수 텍스트 */}
-        <div className="pt-5 border-t border-black/10 space-y-1.5 pb-3">
-          <span
-            className={`text-[10px] font-extrabold uppercase tracking-wider block ${summary.labelColor}`}>
-            {summary.label}
-          </span>
-          <p className="text-xs sm:text-sm font-semibold text-text leading-relaxed break-keep">
-            {summary.text}
-          </p>
+        {/* 한 달 감정 요약 패널 */}
+        <div className="pt-5 border-t border-black/10 dark:border-white/10 pb-3">
+          <div className="bg-white/40 dark:bg-white/5 border border-gray-200/50 dark:border-white/10 p-3 sm:p-4 rounded-[18px] flex flex-col gap-1.5 shadow-sm">
+            <span
+              className={`text-xs sm:text-sm font-extrabold flex items-center gap-1.5 ${summary.labelColor}`}>
+              <span className="text-[10px] sm:text-xs text-text-muted opacity-80 font-bold">한줄평 |</span>
+              {summary.label}
+            </span>
+            <p className="text-sm sm:text-base font-bold text-text leading-relaxed break-keep mt-0.5">
+              {summary.text}
+            </p>
+          </div>
         </div>
 
         {/* 감정 범례 목록 */}
-        <div className="flex flex-wrap md:flex-col gap-2.5 pt-4 md:border-t border-black/10 text-[9px] sm:text-[10px] font-bold text-text-muted/80">
+        <div className="flex flex-wrap md:flex-col gap-2.5 pt-4 md:border-t border-black/10 dark:border-white/10 text-[9px] sm:text-[10px] font-bold text-text-muted/80">
           <div className="flex items-center gap-1.5 shrink-0">
             <span className="w-2.5 h-2.5 rounded-full bg-[#e65959]/80 shadow-[0_0_6px_rgba(230,89,89,0.3)]" />
             <span>스트레스</span>

@@ -16,7 +16,6 @@ export const StatsPage = () => {
     weeklyHourlyPaths,
     dailyHourDataList,
     getWeatherData,
-    getBarHeight,
     diaryScores,
     trendPaths,
     trendMessage,
@@ -44,13 +43,13 @@ export const StatsPage = () => {
             <Panel
               variant="clay"
               inset
-              className="w-full md:w-[90px] h-auto md:h-full rounded-[20px] md:rounded-[24px] flex flex-row md:flex-col items-center justify-between px-4 py-3 md:px-3 md:py-6 shrink-0">
-              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)] hidden md:block" />
+              className="w-full md:w-[100px] h-auto md:h-full rounded-[20px] md:rounded-[24px] flex flex-row md:flex-col items-center justify-between px-2 py-2 md:px-2 md:py-4 shrink-0">
+              <div className="w-2.5 h-2.5 rounded-full bg-green-50 shadow-[0_0_8px_rgba(44,143,49,0.6)] hidden md:block" />
 
-              <div className="flex flex-row md:flex-col gap-4 md:gap-6 justify-around w-full md:w-auto">
+              <div className="flex flex-row md:flex-col gap-2 md:gap-3 justify-around w-full md:w-auto">
                 {[
                   { id: 0, icon: Clock, label: "시간대 분석" },
-                  { id: 1, icon: CloudSun, label: "날씨별 몰입" },
+                  { id: 1, icon: CloudSun, label: "날씨별 집중" },
                   { id: 2, icon: Palette, label: "감정 흐름" },
                   { id: 3, icon: TrendingUp, label: "성장 트렌드" },
                 ].map((item) => {
@@ -62,13 +61,14 @@ export const StatsPage = () => {
                       onClick={() => setActiveTab(item.id)}
                       title={item.label}
                       className={cn(
-                        "w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 flex items-center justify-center transition-all duration-300 rounded-2xl",
+                        "w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center transition-all duration-300",
                         clayVariants({ variant: "clay", inset: isActive }),
+                        "rounded-xl",
                         isActive
-                          ? "text-emerald-600"
+                          ? "text-green-50"
                           : "text-text-muted hover:text-text hover:scale-105"
                       )}>
-                      <Icon className="w-4.5 h-4.5 sm:w-5 md:w-5.5 md:h-5.5" />
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
                     </button>
                   );
                 })}
@@ -88,7 +88,7 @@ export const StatsPage = () => {
                 </div>
               ) : (
                 <>
-                  {/* 시간대별 몰입 분석 */}
+                  {/* 시간대별 집중 분석 */}
                   {activeTab === 0 && (
                     <HourlyFocusChart
                       weeklyHourlyPaths={weeklyHourlyPaths}
@@ -96,11 +96,10 @@ export const StatsPage = () => {
                     />
                   )}
 
-                  {/* 날씨별 몰입도 비교 */}
+                  {/* 날씨별 집중도 비교 */}
                   {activeTab === 1 && (
                     <WeatherFocusChart
                       getWeatherData={getWeatherData}
-                      getBarHeight={getBarHeight}
                     />
                   )}
 
@@ -114,11 +113,11 @@ export const StatsPage = () => {
                     <div
                       className={`w-full h-full flex flex-col justify-between relative transition-all duration-[800ms] ease-out ${trendLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}>
                       <div className="z-10 space-y-1.5">
-                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
+                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-green-50">
                           30-Day Monthly Trend
                         </span>
                         <h2 className="text-base sm:text-lg font-extrabold text-text tracking-tight">
-                          30일 몰입도 변화 트렌드
+                          30일 집중도 변화 트렌드
                         </h2>
                         <p className="text-xs sm:text-sm font-semibold text-text-muted leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
                           {trendMessage}
