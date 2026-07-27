@@ -44,60 +44,75 @@ export const SortableBgmItem = ({
         <div
             ref={setNodeRef}
             style={style}
+            onClick={onToggleExclude}
             className={`
-        flex
-        items-center
-        justify-between
+                flex
+                items-center
+                justify-between
 
-        h-12
-        px-3
+                h-12
+                px-3
 
-        rounded-xl
+                rounded-xl
+                cursor-pointer
 
-        bg-[var(--color-clay-bg)]
-        border
-        border-[var(--color-clay-border)]
+                bg-[var(--color-clay-bg)]
+                border
+                border-[var(--color-clay-border)]
 
-        transition-all
-        duration-200
+                transition-all
+                duration-200
 
-        ${
-            isDragging
-                ? "shadow-[var(--shadow-clay)] scale-[1.02] z-50"
-                : "shadow-[var(--shadow-clay-inset)]"
-        }
-    `}
+                ${excluded ? "opacity-60" : ""}
+
+                ${
+                    isDragging
+                        ? "shadow-[var(--shadow-clay)] scale-[1.02] z-50"
+                        : "shadow-[var(--shadow-clay-inset)]"
+                }
+            `}
         >
             <div className="flex items-center gap-3">
                 <div
                     {...attributes}
                     {...listeners}
-                    className="cursor-grab active:cursor-grabbing"
+                    onClick={(e) => e.stopPropagation()}
+                    className="
+                        cursor-grab
+                        active:cursor-grabbing
+                    "
                 >
                     <GripVertical size={16} />
                 </div>
 
-                <span className="text-sm font-medium">{name}</span>
-            </div>
+                <span
+                    className={`
+                        text-sm
+                        font-medium
+                        transition
 
-            <div className="flex items-center gap-2">
-                <Button
-                    variant="clay"
-                    className="h-8 w-8 p-0"
-                    onClick={playing ? onStop : onPreview}
+                        ${excluded ? "text-gray-400 line-through" : ""}
+                    `}
                 >
-                    {playing ? <Square size={14} /> : <Play size={14} />}
-                </Button>
-
-                <label className="flex items-center gap-1 text-xs cursor-pointer">
-                    <input
-                        type="checkbox"
-                        checked={excluded}
-                        onChange={onToggleExclude}
-                    />
-                    제외
-                </label>
+                    {name}
+                </span>
             </div>
+
+            <Button
+                variant="clay"
+                className="h-8 w-8 p-0"
+                onClick={(e) => {
+                    e.stopPropagation();
+
+                    if (playing) {
+                        onStop();
+                    } else {
+                        onPreview();
+                    }
+                }}
+            >
+                {playing ? <Square size={14} /> : <Play size={14} />}
+            </Button>
         </div>
     );
 };

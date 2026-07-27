@@ -127,17 +127,21 @@ export const BgmController = ({
             min-h-0
             flex
             flex-col
+            
         "
         >
-            <h3 className="text-lg font-semibold shrink-0 mb-3">BGM 관리</h3>
-
             <div
                 className="
-                flex-1
-                overflow-y-auto
-                space-y-2
-                pr-1
-            "
+        flex-1
+        min-h-0
+        overflow-y-auto
+        space-y-2
+        pr-1
+        
+        flex
+        flex-col
+        justify-center
+    "
             >
                 <DndContext
                     sensors={sensors}
