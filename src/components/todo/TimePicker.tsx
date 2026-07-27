@@ -74,7 +74,7 @@ export function TimePicker({ value, onChange, onClose, anchorEl }: TimePickerPro
                 key={hFormatted}
                 onClick={() => setLocalValue(`${hFormatted}:${minuteStr}`)}
                 className={`w-full py-1.5 shrink-0 rounded-lg text-xs font-bold transition-colors ${
-                  selected ? "bg-gray-20 text-white" : "text-gray-20 hover:bg-black/5"
+                  selected ? "bg-text text-[var(--color-app-bg)]" : "text-text-muted hover:bg-black/5"
                 }`}>
                 {hFormatted}시
               </button>
@@ -98,7 +98,7 @@ export function TimePicker({ value, onChange, onClose, anchorEl }: TimePickerPro
                   onClose();
                 }}
                 className={`w-full py-1.5 shrink-0 rounded-lg text-xs font-bold transition-colors ${
-                  selected ? "bg-gray-20 text-white" : "text-gray-20 hover:bg-black/5"
+                  selected ? "bg-text text-[var(--color-app-bg)]" : "text-text-muted hover:bg-black/5"
                 }`}>
                 {m}분
               </button>

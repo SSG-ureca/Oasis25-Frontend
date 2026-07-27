@@ -10,6 +10,8 @@ import { logoutApi } from "../../services/authApi";
 import { FeedbackModal } from "./FeedbackModal";
 import { toast } from "./Toast";
 import { RestrictedArea } from "./RestrictedArea";
+import oasis25Light from "../../assets/images/Oasis25-lightmode.png";
+import oasis25Dark from "../../assets/images/Oasis25-darkmode.png";
 
 const PROTECTED_PATHS = ["/main/retrospect", "/main/stats", "/main/mypage"];
 
@@ -86,7 +88,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 flex justify-between items-center h-13 px-4">
       {/* 로고 */}
       <div className="flex-1 flex justify-start">
-        <img src="/src/assets/images/oasis25.png" alt="logo" />
+        <img src={isDark ? oasis25Dark : oasis25Light} alt="logo" className="h-6 object-contain" />
       </div>
 
       {/* Nav items */}

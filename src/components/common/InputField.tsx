@@ -32,7 +32,7 @@ export const InputField: React.FC<InputFieldProps> = ({
         <input
           type={type}
           className={cn(
-            "w-full pr-4 py-3.5 text-xs bg-bg-light shadow-[var(--shadow-neumorphism-inset)] border border-transparent rounded-2xl focus:outline-none focus:border-gray-40 text-text transition-all",
+            "w-full pr-4 py-3.5 text-xs bg-[var(--color-clay-bg)] shadow-[var(--shadow-clay-inset)] border border-transparent rounded-2xl focus:outline-none focus:border-gray-40 text-text transition-all",
             Icon ? "pl-11" : "px-4",
             className,
           )}

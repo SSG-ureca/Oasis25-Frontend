@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Panel } from "../components/common/Panel";
+import { clayVariants } from "../types/clayVariants";
+import { cn } from "../utils/cn";
 import { Clock, CloudSun, Palette, TrendingUp } from "lucide-react";
 import { useStats } from "../hooks/useStats";
 import { HourlyFocusChart } from "../components/stats/HourlyFocusChart";
@@ -34,13 +36,13 @@ export const StatsPage = () => {
       {/* 중앙 베이스 플레이트 패널 */}
       <div className="flex-1 min-h-0">
         <Panel
-          variant="neumorphism"
+          variant="clay"
           className="w-full h-full p-3 sm:p-4 rounded-[36px] flex flex-col min-h-0">
           {/* 스플릿 레이아웃 (모바일에서는 수직, 테블릿/PC(md)에서는 수평 배치) */}
           <div className="w-full flex-1 flex flex-col md:flex-row gap-3 min-h-0">
             {/* 좌측/상단 네비게이션 독 (반응형 대응) */}
             <Panel
-              variant="neumorphism"
+              variant="clay"
               inset
               className="w-full md:w-[90px] h-auto md:h-full rounded-[20px] md:rounded-[24px] flex flex-row md:flex-col items-center justify-between px-4 py-3 md:px-3 md:py-6 shrink-0">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)] hidden md:block" />
@@ -59,11 +61,13 @@ export const StatsPage = () => {
                       key={item.id}
                       onClick={() => setActiveTab(item.id)}
                       title={item.label}
-                      className={`w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                      className={cn(
+                        "w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 flex items-center justify-center transition-all duration-300 rounded-2xl",
+                        clayVariants({ variant: "clay", inset: isActive }),
                         isActive
-                          ? "bg-bg-light text-emerald-600 shadow-[inset_-2px_-2px_5px_rgba(255,255,255,0.7),_inset_2px_2px_5px_rgba(0,0,0,0.08)]"
-                          : "bg-bg-light text-text-muted hover:text-text shadow-[-3px_-3px_7px_rgba(255,255,255,0.8),_3px_3px_7px_rgba(0,0,0,0.08)] hover:scale-105 active:shadow-[inset_-1px_-1px_3px_rgba(255,255,255,0.7),_inset_1px_1px_3px_rgba(0,0,0,0.08)]"
-                      }`}>
+                          ? "text-emerald-600"
+                          : "text-text-muted hover:text-text hover:scale-105"
+                      )}>
                       <Icon className="w-4.5 h-4.5 sm:w-5 md:w-5.5 md:h-5.5" />
                     </button>
                   );
@@ -75,7 +79,7 @@ export const StatsPage = () => {
 
             {/* 우측/하단 디테일 분석 캔버스 (모바일에서 넘치면 스크롤되도록 overflow-y-auto 적용) */}
             <Panel
-              variant="neumorphism"
+              variant="clay"
               inset
               className="flex-1 h-full rounded-[28px] p-4 sm:p-6 md:p-8 flex flex-col min-h-0 justify-between relative overflow-y-auto md:overflow-hidden">
               {loading ? (

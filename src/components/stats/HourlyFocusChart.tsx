@@ -79,8 +79,8 @@ export const HourlyFocusChart = ({
         <h2 className="text-base sm:text-lg font-extrabold tracking-tight flex items-center justify-between">
           <span>시간대별 몰입 분석</span>
           {peakHour !== null && (
-            <span className="text-[9px] sm:text-[10px] font-extrabold text-text-muted bg-gray-100/80 px-2 py-0.5 rounded-md tracking-wider">
-              PEAK: {peakHour}시 - {peakHour + 1}시
+            <span className="text-[10px] sm:text-xs font-extrabold text-text bg-black/5 dark:bg-white/10 px-2 py-0.5 rounded-md tracking-wider">
+              PEAK: {peakHour}시 - {peakHour + 1 === 24 ? 0 : peakHour + 1}시
             </span>
           )}
         </h2>
@@ -96,7 +96,7 @@ export const HourlyFocusChart = ({
               <span className=" block mt-0.5">
                 하루 중 몰입 효율은{" "}
                 <span className="text-emerald-600 font-extrabold">
-                  {peakHour}시 ~ {peakHour + 1}시
+                  {peakHour}시 ~ {peakHour + 1 === 24 ? 0 : peakHour + 1}시
                 </span>{" "}
                 사이에 가장 높게 나타납니다.
               </span>
@@ -177,7 +177,7 @@ export const HourlyFocusChart = ({
       </div>
 
       <div className="z-10 w-full space-y-1.5 pt-1">
-        <div className="flex justify-between px-1 text-[7px] sm:text-[9px] font-semibold text-text-muted/80 w-full select-none pointer-events-none pb-0.5">
+        <div className="flex justify-between px-1 text-[9px] sm:text-xs font-semibold text-text-muted/80 w-full select-none pointer-events-none pb-0.5">
           {Array.from({ length: 24 }, (_, i) => (
             <span key={i} className="text-center flex-1">
               {i}시
@@ -185,10 +185,10 @@ export const HourlyFocusChart = ({
           ))}
         </div>
 
-        <div className="text-[10px] sm:text-[11px] text-text-muted font-medium text-center select-none">
+        <div className="text-xs sm:text-sm text-text font-semibold text-center select-none mt-2">
           {selectedDayInfo ? (
             <span
-              className="cursor-pointer hover:text-emerald-600 transition-colors"
+              className="cursor-pointer hover:text-emerald-500 transition-colors"
               onClick={handleChartClick}>
               {selectedDayInfo.totalFocusMin > 0
                 ? `${selectedDayInfo.dayLabel} (${selectedDayInfo.dateString})의 곡선을 강조 표시 중입니다. (총 ${selectedDayInfo.totalFocusMin}분 몰입)`

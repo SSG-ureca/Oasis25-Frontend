@@ -1,7 +1,10 @@
 import splashLogo from "../../assets/images/splashLogo.png";
-import splashName from "../../assets/images/splashName.png";
+import oasis25Light from "../../assets/images/Oasis25-lightmode.png";
+import oasis25Dark from "../../assets/images/Oasis25-darkmode.png";
+import { useTheme } from "../../hooks/useTheme";
 
 export const Logo = () => {
+    const { isDark } = useTheme();
     return (
         <div className="flex flex-col items-center gap-6">
             {/* 로고 */}
@@ -30,7 +33,7 @@ export const Logo = () => {
 
             {/* 글자 로고 */}
             <img
-                src={splashName}
+                src={isDark ? oasis25Dark : oasis25Light}
                 alt="Oasis25"
                 className="
                     h-10

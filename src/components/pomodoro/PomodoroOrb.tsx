@@ -1,5 +1,5 @@
 import { cn } from "../../utils/cn";
-import { neumophismVariants } from "../../types/neumophismVariants";
+import { clayVariants } from "../../types/clayVariants";
 
 interface PomodoroOrbProps {
   timeLabel: string;
@@ -36,7 +36,7 @@ export default function PomodoroOrb({
       {/* neumophismVariants의 inset 글래스-뉴모피즘 원 안에 타이머 */}
       <div
         className={cn(
-          neumophismVariants({ variant: "clay", inset: true }),
+          clayVariants({ variant: "clay", inset: true }),
           "absolute inset-2 rounded-full flex flex-col items-center justify-center",
         )}>
         <span className="text-4xl 880:text-5xl font-sans tabular-nums drop-shadow-sm">
