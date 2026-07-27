@@ -28,6 +28,12 @@ const DEFAULT_SETTINGS: PomodoroSettings = {
 
 const TODAY_TOTALS_KEY = "pomodoro-today-totals";
 
+// [동작 설정] 추후 조정 지점
+// true로 바꾸면 토글 스위치로 모드 전환 시 타이머가 바로 시작됩니다.
+const AUTO_START_ON_MANUAL_SWITCH = false;
+// true로 바꾸면 타이머 종료 시 반대 모드로 자동 전환 + 자동 시작됩니다.
+const AUTO_SWITCH_ON_COMPLETE = false;
+
 interface TodayTotals {
   date: string;
   focusSeconds: number;
@@ -61,6 +67,7 @@ interface StoredState {
   settings: PomodoroSettings;
   sessionId: number | null;
   modeStartAt: number | null;
+  remaining?: number | null;
 }
 
 function loadStoredState(): StoredState {
@@ -75,6 +82,7 @@ function loadStoredState(): StoredState {
       settings: { ...DEFAULT_SETTINGS, ...parsed.settings },
       sessionId: parsed.sessionId ?? null,
       modeStartAt: parsed.modeStartAt ?? null,
+      remaining: parsed.remaining ?? null,
     };
   } catch {
     return {
@@ -84,6 +92,7 @@ function loadStoredState(): StoredState {
       settings: DEFAULT_SETTINGS,
       sessionId: null,
       modeStartAt: null,
+      remaining: null,
     };
   }
 }
@@ -104,7 +113,14 @@ export function usePomodoro() {
     if (initial.endAt && initial.isRunning) {
       return Math.max(0, initial.endAt - Date.now());
     }
-    return initial.settings.focusMinutes * 60_000;
+    if (initial.remaining != null && initial.remaining > 0) {
+      return initial.remaining;
+    }
+    return (
+      (initial.mode === "focus"
+        ? initial.settings.focusMinutes
+        : initial.settings.breakMinutes) * 60_000
+    );
   });
 
   const [presets, setPresets] = useState<PomodoroPreset[]>([]);
@@ -115,6 +131,8 @@ export function usePomodoro() {
   const modeStartAtRef = useRef<number | null>(initial.modeStartAt);
   const todayTotalsRef = useRef<TodayTotals>(loadTodayTotals());
 
+  /* remaining은 1초마다 변하므로 의도적으로 의존성에서 제외; pause/언마운트 시 isRunning 변경으로 저장 */
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     saveState({
       mode,
@@ -123,8 +141,10 @@ export function usePomodoro() {
       settings,
       sessionId,
       modeStartAt: modeStartAtRef.current,
+      remaining: isRunning ? null : remaining,
     });
   }, [mode, endAt, isRunning, settings, sessionId]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const loadPresets = useCallback(async () => {
     if (!isAuthenticated) {
@@ -141,7 +161,7 @@ export function usePomodoro() {
     } finally {
       setLoadingPresets(false);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     // eslint-disable-next-line -- 마운트 시 프리셋 불러오기는 의도된 useEffect 사용
@@ -215,16 +235,49 @@ export function usePomodoro() {
       void flushElapsed(now);
       if (mode === "focus") {
         toast.success("집중 끝! 휴식하세요 🌿");
-        switchMode("break", true);
       } else {
         toast.info("휴식 끝! 다시 집중해볼까요 💪");
-        switchMode("focus", true);
       }
-      modeStartAtRef.current = Date.now();
+
+      if (AUTO_SWITCH_ON_COMPLETE) {
+        switchMode(mode === "focus" ? "break" : "focus", true);
+        modeStartAtRef.current = Date.now();
+      } else {
+        // 자동 전환 없이 현재 모드에서 정지 (다음 세션은 사용자가 직접 시작)
+        setIsRunning(false);
+        setEndAt(null);
+        setRemaining(durationFor(mode));
+        modeStartAtRef.current = null;
+      }
     } else {
       setRemaining(diff);
     }
-  }, [endAt, mode, switchMode, flushElapsed]);
+  }, [endAt, mode, switchMode, flushElapsed, durationFor]);
+
+  // 최신 상태/콜백을 unmount cleanup에서 참조하기 위한 ref
+  const runningStateRef = useRef({
+    isRunning,
+    endAt,
+    remaining,
+    mode,
+    settings,
+    sessionId,
+  });
+  useEffect(() => {
+    runningStateRef.current = {
+      isRunning,
+      endAt,
+      remaining,
+      mode,
+      settings,
+      sessionId,
+    };
+  }, [isRunning, endAt, remaining, mode, settings, sessionId]);
+
+  const flushElapsedRef = useRef(flushElapsed);
+  useEffect(() => {
+    flushElapsedRef.current = flushElapsed;
+  }, [flushElapsed]);
 
   // interval 관리
   useEffect(() => {
@@ -236,6 +289,10 @@ export function usePomodoro() {
       return;
     }
     intervalRef.current = window.setInterval(tick, 1000);
+    // 마운트/복귀 직후 endAt이 이미 지난 경우 다음 tick에서 자동 전환이 처리되도록 스케줄
+    if (endAt <= Date.now()) {
+      window.setTimeout(tick, 0);
+    }
     return () => {
       if (intervalRef.current) window.clearInterval(intervalRef.current);
     };
@@ -267,7 +324,7 @@ export function usePomodoro() {
     } catch {
       toast.error("세션 생성에 실패했습니다. 타이머는 로컬에서 계속됩니다.");
     }
-  }, [remaining, durationFor, mode, sessionId, settings]);
+  }, [remaining, durationFor, mode, sessionId, settings, isAuthenticated]);
 
   const pause = useCallback(async () => {
     const now = Date.now();
@@ -302,8 +359,8 @@ export function usePomodoro() {
     const now = Date.now();
     await flushElapsed(now);
     const nextMode = mode === "focus" ? "break" : "focus";
-    switchMode(nextMode, true);
-    modeStartAtRef.current = Date.now();
+    switchMode(nextMode, AUTO_START_ON_MANUAL_SWITCH);
+    modeStartAtRef.current = AUTO_START_ON_MANUAL_SWITCH ? Date.now() : null;
   }, [mode, switchMode, flushElapsed]);
 
   const applyPreset = useCallback(
@@ -353,20 +410,23 @@ export function usePomodoro() {
         );
       }
     },
-    [settings],
+    [isAuthenticated, settings],
   );
 
-  const removePreset = useCallback(async (id: number) => {
-    if (!isAuthenticated) return;
-    try {
-      await deletePreset(id);
-      setPresets((prev) => prev.filter((p) => p.id !== id));
-    } catch (e) {
-      toast.error(
-        e instanceof Error ? e.message : "프리셋 삭제에 실패했습니다.",
-      );
-    }
-  }, []);
+  const removePreset = useCallback(
+    async (id: number) => {
+      if (!isAuthenticated) return;
+      try {
+        await deletePreset(id);
+        setPresets((prev) => prev.filter((p) => p.id !== id));
+      } catch (e) {
+        toast.error(
+          e instanceof Error ? e.message : "프리셋 삭제에 실패했습니다.",
+        );
+      }
+    },
+    [isAuthenticated],
+  );
 
   const editPreset = useCallback(
     async (id: number, name: string, next: PomodoroSettings) => {
@@ -380,8 +440,29 @@ export function usePomodoro() {
         );
       }
     },
-    [],
+    [isAuthenticated],
   );
+
+  // 언마운트(로그인 페이지 강제 이동 등) 시 타이머를 일시정지하고 저장
+  useEffect(() => {
+    return () => {
+      const state = runningStateRef.current;
+      if (!state.isRunning) return;
+      const now = Date.now();
+      const currentRemaining =
+        state.endAt != null ? Math.max(0, state.endAt - now) : state.remaining;
+      void flushElapsedRef.current(now);
+      saveState({
+        mode: state.mode,
+        endAt: null,
+        isRunning: false,
+        settings: state.settings,
+        sessionId: state.sessionId,
+        modeStartAt: null,
+        remaining: currentRemaining,
+      });
+    };
+  }, []);
 
   return {
     mode,

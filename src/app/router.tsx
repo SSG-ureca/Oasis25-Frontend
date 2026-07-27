@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
 
 import Dashboard from "../pages/Dashboard";
@@ -10,11 +10,12 @@ import { StatsPage } from "../pages/StatsPage";
 import { MyPage } from "../pages/MyPage";
 import { SplashPage } from "../pages/SplashPage";
 import ProtectedRoute from "../components/common/ProtectedRoute";
+import HomeRedirect from "../components/common/HomeRedirect";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navigate to="/login" replace />,
+    element: <HomeRedirect />,
   },
   {
     path: "/splash",

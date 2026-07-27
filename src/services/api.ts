@@ -53,7 +53,9 @@ api.interceptors.response.use(
     ) {
       // 재발급 요청 자체가 실패한 경우 리프레시 토큰 만료로 판단하고 로그인 화면으로
       if (originalRequest.url === "/api/auth/reissue") {
-        window.location.href = "/login";
+        if (!originalRequest.__noRedirect) {
+          window.location.href = "/login";
+        }
         return Promise.reject(error);
       }
 
