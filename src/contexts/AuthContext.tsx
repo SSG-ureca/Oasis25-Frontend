@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { api } from "../services/api";
+import type { AxiosRequestConfig } from "axios";
 import type { AuthStatusResponse, User } from "../types/auth";
 
 interface AuthContextValue {
@@ -32,6 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hasLoggedIn = useRef(false);
 
   const clearRefreshTimeout = useCallback(() => {
     if (timeoutRef.current) {
@@ -42,6 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const handleLogout = useCallback(async () => {
     clearRefreshTimeout();
+    hasLoggedIn.current = false;
     try {
       await api.post("/api/auth/logout");
     } catch {
@@ -52,53 +55,65 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [clearRefreshTimeout]);
 
   const scheduleRefresh = useCallback(
-    (expiresIn: number) => {
+    function doScheduleRefresh(expiresIn: number) {
       clearRefreshTimeout();
       const delay = Math.max(expiresIn * 1000 - REFRESH_BUFFER_MS, 0);
       timeoutRef.current = setTimeout(async () => {
         try {
-          const response = await api.post<AuthStatusResponse>("/api/auth/reissue");
+          const response =
+            await api.post<AuthStatusResponse>("/api/auth/reissue");
           const { expiresIn: newExpiresIn } = response.data;
           setUser(response.data.user);
           setIsAuthenticated(true);
-          scheduleRefresh(newExpiresIn);
+          doScheduleRefresh(newExpiresIn);
         } catch {
           await handleLogout();
         }
       }, delay);
     },
-    [clearRefreshTimeout, handleLogout]
+    [clearRefreshTimeout, handleLogout],
   );
 
   const handleLogin = useCallback(
     (status: AuthStatusResponse) => {
+      hasLoggedIn.current = true;
       setUser(status.user);
       setIsAuthenticated(true);
+      setIsLoading(false);
       scheduleRefresh(status.expiresIn);
     },
-    [scheduleRefresh]
+    [scheduleRefresh],
   );
 
   useEffect(() => {
+    let cancelled = false;
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("tokenType");
 
     api
-      .get<MyProfileResponse>("/api/users/me", { __noRedirect: true } as any)
+      .get<MyProfileResponse>("/api/users/me", {
+        __noRedirect: true,
+      } as AxiosRequestConfig & { __noRedirect?: boolean })
       .then((response) => {
+        if (cancelled || hasLoggedIn.current) return;
         const { email, nickname, profileImage } = response.data;
         setUser({ email, nickname, profileImageUrl: profileImage });
         setIsAuthenticated(true);
       })
       .catch(() => {
+        if (cancelled || hasLoggedIn.current) return;
         setIsAuthenticated(false);
       })
       .finally(() => {
+        if (cancelled || hasLoggedIn.current) return;
         setIsLoading(false);
       });
 
-    return clearRefreshTimeout;
+    return () => {
+      cancelled = true;
+      clearRefreshTimeout();
+    };
   }, [clearRefreshTimeout]);
 
   const value: AuthContextValue = {
@@ -112,6 +127,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {

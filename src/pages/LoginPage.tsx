@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Panel } from "../components/common/Panel";
 import { Button } from "../components/common/Button";
 import { InputField } from "../components/common/InputField";
+import { isAxiosError } from "axios";
 import { loginApi } from "../services/authApi";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "../components/common/Toast";
@@ -35,14 +36,14 @@ export const LoginPage: React.FC = () => {
       auth.login(response);
 
       const from = (location.state as { from?: string } | null)?.from;
-      
+
       // 만약 이전 페이지 경로가 아예 없거나, 기본 경로("/")라면 스플래시로 이동
-      const targetPath = (!from || from === "/") ? "/splash" : from;
+      const targetPath = !from || from === "/" ? "/splash" : from;
       navigate(targetPath, { replace: true });
-    } catch (err: any) {
+    } catch (err) {
       console.error("Login Error:", err);
       toast.error(
-        err.response?.data?.message ||
+        (isAxiosError(err) && err.response?.data?.message) ||
           "로그인에 실패했습니다. 정보를 다시 확인해 주세요.",
       );
     } finally {
@@ -118,7 +119,7 @@ export const LoginPage: React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                navigate("/");
+                navigate("/main");
               }}
               className="text-primary font-bold hover:underline cursor-pointer">
               게스트로 입장
