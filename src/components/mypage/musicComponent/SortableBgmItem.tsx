@@ -37,7 +37,7 @@ export const SortableBgmItem = ({
 
     const style = {
         transform: CSS.Transform.toString(transform),
-        transition,
+        transition: isDragging ? undefined : transition,
     };
 
     return (
@@ -64,14 +64,13 @@ py-2
                 border
                 border-[var(--color-clay-border)]
 
-                transition-all
-                duration-200
-
+                transition-shadow
+                duration-150
                 ${excluded ? "opacity-60" : ""}
 
                 ${
                     isDragging
-                        ? "shadow-[var(--shadow-clay)] scale-[1.02] z-50"
+                        ? "shadow-[var(--shadow-clay)] z-50"
                         : "shadow-[var(--shadow-clay-inset)]"
                 }
             `}

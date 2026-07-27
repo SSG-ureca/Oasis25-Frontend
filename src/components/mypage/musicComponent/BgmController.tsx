@@ -43,7 +43,7 @@ export const BgmController = ({
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: {
-                distance: 5,
+                distance: 0,
             },
         }),
     );
