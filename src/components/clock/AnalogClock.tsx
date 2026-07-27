@@ -53,11 +53,11 @@ export const AnalogClock: React.FC = () => {
         <div className="absolute right-1 top-1/2 -translate-y-1/2 w-1.5 h-0.5 bg-gray-30 rounded-sm z-10" />
 
         {/* === 중앙 핀 (바늘들이 모이는 중심) === */}
-        <div className="absolute w-1 h-1 bg-slate-800 rounded-full z-30 shadow-md" />
+        <div className="absolute w-1 h-1 bg-text rounded-full z-30 shadow-md" />
 
         {/* === 시침 (Hour Hand) === */}
         <div
-          className="absolute bottom-1/2 left-1/2 w-0.5 h-2 bg-slate-800 rounded-full origin-bottom z-10 -translate-x-1/2"
+          className="absolute bottom-1/2 left-1/2 w-0.5 h-2 bg-text rounded-full origin-bottom z-10 -translate-x-1/2"
           style={{ transform: `translateX(-50%) rotate(${hourDeg}deg)` }}
         />
 

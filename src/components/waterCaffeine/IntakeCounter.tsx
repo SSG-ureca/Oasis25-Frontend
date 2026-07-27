@@ -1,5 +1,6 @@
 import { Minus, Plus } from "lucide-react";
 import { cn } from "../../utils/cn";
+import { Button } from "../common/Button";
 
 interface IntakeCounterProps {
   label: string;
@@ -30,32 +31,32 @@ export function IntakeCounter({
         </span>
       </div>
       <div className="flex items-center gap-3">
-        <button
+        <Button
+          variant="clay"
           type="button"
           onClick={onIncrease}
           disabled={disabled}
           aria-label={`${label} 증가`}
           className={cn(
-            "bg-clay-bg flex h-9 w-9 items-center justify-center rounded-full transition-transform active:scale-95",
-            disabled
-              ? "cursor-not-allowed opacity-50 shadow-clay-inset"
-              : "shadow-clay clay-hover",
+            "flex h-9 w-9 items-center justify-center rounded-full ",
+            disabled ? "cursor-not-allowed opacity-50" : "clay-hover",
           )}>
           <Plus className="h-4 w-4 " />
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="clay"
           type="button"
           onClick={onDecrease}
           disabled={!canDecrease || disabled}
           aria-label={`${label} 감소`}
           className={cn(
-            "bg-clay-bg flex h-9 w-9 items-center justify-center rounded-full transition-transform active:scale-95",
+            " flex h-9 w-9 items-center justify-center rounded-full ",
             canDecrease && !disabled
-              ? "shadow-clay clay-hover"
-              : "cursor-not-allowed opacity-50 shadow-clay-inset",
+              ? "clay-hover"
+              : "cursor-not-allowed opacity-50",
           )}>
           <Minus className="h-4 w-4 " />
-        </button>
+        </Button>
       </div>
     </div>
   );

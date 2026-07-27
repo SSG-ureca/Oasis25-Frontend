@@ -1,23 +1,24 @@
 import { useMemo } from "react";
-import { cn } from "../../utils/cn";
 
-export type CactusState = "healthy" | "normal" | "withered";
+export type CactusState = "cactus1" | "cactus2" | "cactus3" | "cactus4";
 
 function getCactusState(water: number, caffeine: number): CactusState {
   const WATER_GOAL = 2000;
-  const CAFFEINE_LIMIT = 300;
-  const waterRatio = water / WATER_GOAL;
-  const caffeineRatio = caffeine / CAFFEINE_LIMIT;
+  const CAFFEINE_LIMIT = 400;
+  const waterAchieved = water >= WATER_GOAL;
+  const caffeineExceeded = caffeine > CAFFEINE_LIMIT;
 
-  if (waterRatio < 0.4 || caffeineRatio > 1.33) return "withered";
-  if (waterRatio >= 0.8 && caffeineRatio <= 0.5) return "healthy";
-  return "normal";
+  if (caffeineExceeded && !waterAchieved) return "cactus1";
+  if (caffeineExceeded) return "cactus2";
+  if (!waterAchieved) return "cactus3";
+  return "cactus4";
 }
 
 const CACTUS_FILES: Record<CactusState, string> = {
-  healthy: "cactus-healthy.png",
-  normal: "cactus-normal.png",
-  withered: "cactus-wilted.png",
+  cactus1: "인장이1.png",
+  cactus2: "인장이2.png",
+  cactus3: "인장이3.png",
+  cactus4: "인장이 4.png",
 };
 
 interface CactusStatusProps {
@@ -29,7 +30,7 @@ export function CactusStatus({ water, caffeine }: CactusStatusProps) {
   const state = getCactusState(water, caffeine);
 
   const modules = import.meta.glob<{ default: string }>(
-    "../../assets/cactus/*.png",
+    "../../assets/images/cactus/*.png",
     { eager: true },
   );
 
@@ -46,29 +47,25 @@ export function CactusStatus({ water, caffeine }: CactusStatusProps) {
     return fallback?.[1].default;
   }, [modules, state]);
 
+  const label = `선인장 ${state.replace("cactus", "")}`;
+
   if (photoSrc) {
     return (
       <img
         src={photoSrc}
-        alt={`cactus-${state}`}
-        className={cn(
-          "mx-auto h-48 w-auto object-contain transition-all duration-500",
-          state === "normal" && "brightness-90 sepia-[0.2]",
-          state === "withered" && "grayscale-[0.4] sepia-[0.4] brightness-75",
-        )}
+        alt={label}
+        className="mx-auto h-48 w-auto object-contain transition-all duration-500"
       />
     );
   }
 
-  const fill =
-    state === "healthy" ? "#2c8f31" : state === "normal" ? "#8ba832" : "#b08d55";
+  const fill = "#b08d55";
 
   return (
     <svg
       viewBox="0 0 120 200"
       className="mx-auto h-48 w-auto transition-all duration-500"
-      aria-label={`cactus-${state}`}
-    >
+      aria-label={label}>
       <ellipse cx="60" cy="185" rx="32" ry="8" fill="#c4a27a" opacity="0.4" />
       <path
         d="M60,10 C45,10 40,30 40,60 L40,160 C40,175 50,185 60,185 C70,185 80,175 80,160 L80,60 C80,30 75,10 60,10 Z"
