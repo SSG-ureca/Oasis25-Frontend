@@ -17,6 +17,7 @@ import { ProfileInfo } from "./ProfileInfo";
 import { PasswordForm } from "./PasswordForm";
 import { ProfileActions } from "./ProfileActions";
 import logoImage from "../../../assets/images/logo.png";
+import { ProfileOptions } from "./ProfileOptions";
 
 const DEFAULT_PROFILE_IMAGE = logoImage;
 
@@ -124,7 +125,6 @@ export const ProfileEditor = () => {
         flex
         flex-col
         min-h-0
-        overflow-auto
         p-6
         gap-6
     "
@@ -144,15 +144,24 @@ export const ProfileEditor = () => {
                 nickname={editNickname}
                 setNickname={setEditNickname}
             />
-
-            {isEditMode && (
-                <PasswordForm
-                    currentPassword={currentPassword}
-                    newPassword={newPassword}
-                    setCurrentPassword={setCurrentPassword}
-                    setNewPassword={setNewPassword}
-                />
-            )}
+            <div
+                className="
+        flex-1
+        min-h-0
+        overflow-hidden
+    "
+            >
+                {isEditMode ? (
+                    <PasswordForm
+                        currentPassword={currentPassword}
+                        newPassword={newPassword}
+                        setCurrentPassword={setCurrentPassword}
+                        setNewPassword={setNewPassword}
+                    />
+                ) : (
+                    <ProfileOptions />
+                )}
+            </div>
 
             <ProfileActions
                 isEditMode={isEditMode}

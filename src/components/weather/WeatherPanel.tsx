@@ -26,20 +26,25 @@ const ICONS: Record<string, LucideIcon> = {
 };
 
 export function WeatherPanel() {
-  const [coords, setCoords] = useState({ lat: 37.5665, lon: 126.978 });
+  const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(
+    null,
+  );
 
   useEffect(() => {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      setCoords({ lat: 37.5665, lon: 126.978 });
+      return;
+    }
 
     navigator.geolocation.getCurrentPosition(
       (pos) =>
         setCoords({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
-      () => {},
+      () => setCoords({ lat: 37.5665, lon: 126.978 }),
       { timeout: 8000 },
     );
   }, []);
 
-  const weather = useWeather(coords.lat, coords.lon);
+  const weather = useWeather(coords?.lat, coords?.lon, coords != null);
   const Icon = ICONS[weather.iconName] ?? Cloud;
 
   return (

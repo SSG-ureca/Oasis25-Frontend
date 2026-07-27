@@ -16,10 +16,13 @@ export const ProfileActions = ({
     return (
         <div
             className="
-flex
-justify-end
-gap-2
-"
+        h-10
+        flex
+        justify-end
+        items-center
+        gap-2
+        shrink-0
+    "
         >
             {isEditMode ? (
                 <>

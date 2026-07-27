@@ -26,6 +26,34 @@ const DEFAULT_SETTINGS: PomodoroSettings = {
   breakMinutes: 5,
 };
 
+const TODAY_TOTALS_KEY = "pomodoro-today-totals";
+
+interface TodayTotals {
+  date: string;
+  focusSeconds: number;
+  breakSeconds: number;
+}
+
+function getTodayKey() {
+  return new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
+}
+
+function loadTodayTotals(): TodayTotals {
+  try {
+    const raw = localStorage.getItem(TODAY_TOTALS_KEY);
+    if (!raw) throw new Error("no stored totals");
+    const parsed = JSON.parse(raw) as Partial<TodayTotals>;
+    if (parsed.date !== getTodayKey()) throw new Error("stale date");
+    return {
+      date: parsed.date ?? getTodayKey(),
+      focusSeconds: parsed.focusSeconds ?? 0,
+      breakSeconds: parsed.breakSeconds ?? 0,
+    };
+  } catch {
+    return { date: getTodayKey(), focusSeconds: 0, breakSeconds: 0 };
+  }
+}
+
 interface StoredState {
   mode: PomodoroMode;
   endAt: number | null;
@@ -88,6 +116,7 @@ export function usePomodoro() {
 
   const intervalRef = useRef<number | null>(null);
   const modeStartAtRef = useRef<number | null>(initial.modeStartAt);
+  const todayTotalsRef = useRef<TodayTotals>(loadTodayTotals());
 
   useEffect(() => {
     saveState({
@@ -118,6 +147,7 @@ export function usePomodoro() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line -- 마운트 시 프리셋 불러오기는 의도된 useEffect 사용
     loadPresets();
   }, [loadPresets]);
 
@@ -146,11 +176,26 @@ export function usePomodoro() {
   const flushElapsed = useCallback(
     async (now: number) => {
       const start = modeStartAtRef.current;
-      if (sessionId == null || start == null || endAt == null) return;
+      if (start == null || endAt == null) return;
       const maxElapsedMs = endAt - start;
       const elapsedMs = Math.min(maxElapsedMs, now - start);
       const seconds = Math.max(0, Math.round(elapsedMs / 1000));
       if (seconds <= 0) return;
+
+      const today = getTodayKey();
+      const base =
+        todayTotalsRef.current.date === today
+          ? { ...todayTotalsRef.current }
+          : { date: today, focusSeconds: 0, breakSeconds: 0 };
+      if (mode === "focus") {
+        base.focusSeconds += seconds;
+      } else {
+        base.breakSeconds += seconds;
+      }
+      todayTotalsRef.current = base;
+      localStorage.setItem(TODAY_TOTALS_KEY, JSON.stringify(base));
+
+      if (sessionId == null) return;
       const request: PomodoroElapsedRequest =
         mode === "focus"
           ? { elapsedFocusSeconds: seconds, elapsedBreakSeconds: 0 }
@@ -192,7 +237,6 @@ export function usePomodoro() {
       }
       return;
     }
-    tick();
     intervalRef.current = window.setInterval(tick, 1000);
     return () => {
       if (intervalRef.current) window.clearInterval(intervalRef.current);
@@ -253,6 +297,7 @@ export function usePomodoro() {
     setRemaining(durationFor(mode));
     setSessionId(null);
     modeStartAtRef.current = null;
+    return todayTotalsRef.current;
   }, [durationFor, mode, sessionId, flushElapsed]);
 
   const skip = useCallback(async () => {

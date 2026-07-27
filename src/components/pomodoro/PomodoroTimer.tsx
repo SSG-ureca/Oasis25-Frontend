@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   Check,
   ChevronDown,
@@ -33,7 +34,13 @@ const DEFAULT_PRESET: PomodoroPreset = {
   createdAt: "",
 };
 
-export default function PomodoroTimer() {
+interface PomodoroTimerProps {
+  onFocusModeChange?: (isFocusMode: boolean) => void;
+}
+
+export default function PomodoroTimer({
+  onFocusModeChange,
+}: PomodoroTimerProps = {}) {
   const {
     mode,
     remaining,
@@ -65,6 +72,10 @@ export default function PomodoroTimer() {
   const [editName, setEditName] = useState("");
   const [editFocusMinutes, setEditFocusMinutes] = useState(25);
   const [editBreakMinutes, setEditBreakMinutes] = useState(5);
+  const [summary, setSummary] = useState<{
+    focusSeconds: number;
+    breakSeconds: number;
+  } | null>(null);
 
   const presetMenuRef = useRef<HTMLDivElement>(null);
   const manageMenuRef = useRef<HTMLDivElement>(null);
@@ -94,6 +105,11 @@ export default function PomodoroTimer() {
   const selectablePresets = [DEFAULT_PRESET, ...customPresets];
 
   const isFocus = mode === "focus";
+  const isFocusMode = isFocus && isRunning;
+
+  useLayoutEffect(() => {
+    onFocusModeChange?.(isFocusMode);
+  }, [isFocusMode, onFocusModeChange]);
 
   function handleSelectPreset(preset: PomodoroPreset) {
     if (isRunning) return;
@@ -137,6 +153,15 @@ export default function PomodoroTimer() {
     setNewPresetName("");
     setNewFocusMinutes(25);
     setNewBreakMinutes(5);
+  }
+
+  async function handleReset() {
+    const totals = await reset();
+    setSummary({
+      focusSeconds: totals.focusSeconds,
+      breakSeconds: totals.breakSeconds,
+    });
+    setTimeout(() => setSummary(null), 3000);
   }
 
   return (
@@ -370,6 +395,22 @@ export default function PomodoroTimer() {
       </div>
 
       <PomodoroAlarm mode={mode} />
+
+      {summary &&
+        createPortal(
+          <Panel
+            variant="clay"
+            className="fixed top-20 left-1/2 -translate-x-1/2 z-50 rounded-2xl px-6 py-4 text-center">
+            <p className="text-(--color-text) font-semibold">
+              오늘의 총 집중시간 : {formatTime(summary.focusSeconds * 1000)}
+            </p>
+            <p className="text-(--color-text) mt-1">
+              휴식시간 : {formatTime(summary.breakSeconds * 1000)}
+            </p>
+          </Panel>,
+          document.body,
+        )}
+
       <PomodoroOrb
         timeLabel={formatTime(remaining)}
         subLabel={isFocus ? "집중 모드" : "휴식 모드"}
@@ -395,7 +436,7 @@ export default function PomodoroTimer() {
         </Button>
         <Button
           variant="clay"
-          onClick={() => void reset()}
+          onClick={() => void handleReset()}
           className="rounded-full px-6 py-2 text-sm font-semibold">
           종료
         </Button>

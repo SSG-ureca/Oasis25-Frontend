@@ -1,5 +1,3 @@
-import { Button } from "../../common/Button";
-
 interface Props {
     previewUrl: string;
 
@@ -22,6 +20,8 @@ export const ProfileImage = ({
     fileInputRef,
 }: Props) => {
     const handleClick = () => {
+        if (!isEditMode) return;
+
         fileInputRef.current?.click();
     };
 
@@ -31,47 +31,43 @@ export const ProfileImage = ({
         if (!file) return;
 
         setImageFile(file);
-
         setPreviewUrl(URL.createObjectURL(file));
     };
 
     return (
         <div
             className="
-            flex
-            flex-col
-            items-center
-            gap-3
+                flex
+                flex-col
+                items-center
+                gap-3
             "
         >
             <img
                 src={previewUrl}
                 alt="프로필"
-                className="
-                w-28
-                h-28
-                rounded-full
-                object-cover
-                border
-                items-center
-                justify-center
-                "
+                onClick={handleClick}
+                title={isEditMode ? "프로필 사진 변경" : undefined}
+                className={`
+                    w-28
+                    h-28
+                    rounded-full
+                    object-cover
+                    border
+                    transition
+
+                    ${isEditMode ? "cursor-pointer hover:opacity-80" : ""}
+                `}
             />
 
             {isEditMode && (
-                <>
-                    <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="image/*"
-                        hidden
-                        onChange={handleChange}
-                    />
-
-                    <Button variant="clay" onClick={handleClick}>
-                        사진 변경
-                    </Button>
-                </>
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    onChange={handleChange}
+                />
             )}
         </div>
     );
