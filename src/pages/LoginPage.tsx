@@ -37,7 +37,10 @@ export const LoginPage: React.FC = () => {
       localStorage.setItem("tokenType", response.tokenType);
 
       const from = (location.state as { from?: string } | null)?.from;
-      navigate(from || "/", { replace: true });
+      
+      // 만약 이전 페이지 경로가 아예 없거나, 기본 경로("/")라면 스플래시로 이동
+      const targetPath = (!from || from === "/") ? "/splash" : from;
+      navigate(targetPath, { replace: true });
     } catch (err: any) {
       console.error("Login Error:", err);
       toast.error(

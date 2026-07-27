@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
 
 import Dashboard from "../pages/Dashboard";
@@ -14,6 +14,10 @@ import ProtectedRoute from "../components/common/ProtectedRoute";
 export const router = createBrowserRouter([
   {
     path: "/",
+    element: <Navigate to="/login" replace />,
+  },
+  {
+    path: "/splash",
     element: <SplashPage />,
   },
 
@@ -28,16 +32,15 @@ export const router = createBrowserRouter([
   },
 
   {
-    path: "/main",
     element: <MainLayout />,
     children: [
-      { index: true, element: <Dashboard /> },
+      { path: "/main", element: <Dashboard /> },
       {
         element: <ProtectedRoute />,
         children: [
-          { path: "retrospect", element: <RetrospectPage /> },
-          { path: "stats", element: <StatsPage /> },
-          { path: "mypage", element: <MyPage /> },
+          { path: "/retrospect", element: <RetrospectPage /> },
+          { path: "/stats", element: <StatsPage /> },
+          { path: "/mypage", element: <MyPage /> },
         ],
       },
     ],
