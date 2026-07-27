@@ -194,6 +194,7 @@ export function usePomodoro() {
       }
       todayTotalsRef.current = base;
       localStorage.setItem(TODAY_TOTALS_KEY, JSON.stringify(base));
+      window.dispatchEvent(new Event("pomodoro-today-totals-updated"));
 
       if (sessionId == null) return;
       const request: PomodoroElapsedRequest =

@@ -54,6 +54,11 @@ export async function updatePomodoroElapsed(
   return res.data;
 }
 
+export async function getDailyPomodoroLogs(dateStr: string): Promise<PomodoroLogResponse[]> {
+  const res = await api.get<PomodoroLogResponse[]>(`/api/pomodoro?date=${dateStr}`);
+  return res.data;
+}
+
 export async function completePomodoroLog(
   id: number,
 ): Promise<PomodoroLogResponse> {
