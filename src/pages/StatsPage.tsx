@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Panel } from "../components/common/Panel";
+import { clayVariants } from "../types/clayVariants";
+import { cn } from "../utils/cn";
 import { Clock, CloudSun, Palette, TrendingUp } from "lucide-react";
 import { useStats } from "../hooks/useStats";
 import { HourlyFocusChart } from "../components/stats/HourlyFocusChart";
@@ -59,11 +61,13 @@ export const StatsPage = () => {
                       key={item.id}
                       onClick={() => setActiveTab(item.id)}
                       title={item.label}
-                      className={`w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                      className={cn(
+                        "w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 flex items-center justify-center transition-all duration-300 rounded-2xl",
+                        clayVariants({ variant: "clay", inset: isActive }),
                         isActive
-                          ? "bg-bg-light text-emerald-600 shadow-[inset_-2px_-2px_5px_rgba(255,255,255,0.7),_inset_2px_2px_5px_rgba(0,0,0,0.08)]"
-                          : "bg-bg-light text-text-muted hover:text-text shadow-[-3px_-3px_7px_rgba(255,255,255,0.8),_3px_3px_7px_rgba(0,0,0,0.08)] hover:scale-105 active:shadow-[inset_-1px_-1px_3px_rgba(255,255,255,0.7),_inset_1px_1px_3px_rgba(0,0,0,0.08)]"
-                      }`}>
+                          ? "text-emerald-600"
+                          : "text-text-muted hover:text-text hover:scale-105"
+                      )}>
                       <Icon className="w-4.5 h-4.5 sm:w-5 md:w-5.5 md:h-5.5" />
                     </button>
                   );
