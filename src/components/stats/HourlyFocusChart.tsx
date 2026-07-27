@@ -105,7 +105,7 @@ export const HourlyFocusChart = ({
   return (
     <div className="w-full h-full flex flex-col justify-between relative select-none">
       <div className="z-10 space-y-1.5">
-        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
+        <span className="text-[10px] uppercase tracking-wider font-extrabold text-green-50">
           Peak Focus Hours
         </span>
         <h2 className="text-base sm:text-lg font-extrabold tracking-tight flex items-center justify-between">
@@ -120,14 +120,14 @@ export const HourlyFocusChart = ({
         <div className="text-xs sm:text-sm font-semibold text-text-muted leading-relaxed max-w-[500px]">
           <p>
             최근 7일간 사용자님의{" "}
-            <span className="text-emerald-600 font-extrabold">
+            <span className="text-green-50 font-extrabold">
               시간대별 총 집중 시간
             </span>
             입니다.
             {peakStart !== null && peakEnd !== null && (
               <span className=" block mt-0.5">
                 하루 중 집중 효율은{" "}
-                <span className="text-emerald-600 font-extrabold">
+                <span className="text-green-50 font-extrabold">
                   {peakStart}시 ~ {peakEnd}시
                 </span>{" "}
                 사이에 가장 높게 나타납니다.
@@ -187,7 +187,7 @@ export const HourlyFocusChart = ({
 
         {/* {hoveredHour !== null && (
           <div
-            className="absolute top-0 bottom-0 border-l-2 border-dashed border-emerald-500/50 pointer-events-none transition-[left] duration-75 ease-out"
+            className="absolute top-0 bottom-0 border-l-2 border-dashed border-green-50/50 pointer-events-none transition-[left] duration-75 ease-out"
             style={{ left: `${(hoveredHour / 23) * 100}%` }}
           />
         )} 
@@ -201,7 +201,7 @@ export const HourlyFocusChart = ({
             <span className="text-text-muted font-semibold text-[8px]">
               {hoveredHour}시 - {hoveredHour + 1}시
             </span>
-            <span className="text-emerald-700 font-bold text-[9px] mt-0.5">
+            <span className="text-green-90 font-bold text-[9px] mt-0.5">
               {selectedDayIdx !== null
                 ? `선택일 ${dailyHourDataList[selectedDayIdx]?.[hoveredHour] ?? 0}분 집중`
                 : `7일 총 ${hourlySums[hoveredHour]}분 집중`}
@@ -223,7 +223,7 @@ export const HourlyFocusChart = ({
         <div className="text-xs sm:text-sm text-text font-semibold text-center select-none mt-2">
           {selectedDayInfo ? (
             <span
-              className="cursor-pointer hover:text-emerald-500 transition-colors"
+              className="cursor-pointer hover:text-green-50 transition-colors"
               onClick={handleChartClick}
             >
               {selectedDayInfo.totalFocusMin > 0

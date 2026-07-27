@@ -53,7 +53,8 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
       {/* 바깥 배경 클릭 시 닫힘 */}
       <div className="absolute inset-0" onClick={onClose} />
       <div className="relative w-full max-w-[400px] p-4 animate-in zoom-in-95 duration-200">
-        <div className="bg-[var(--color-clay-bg)] border border-[var(--color-clay-border)] shadow-[var(--shadow-clay)] rounded-[24px] p-5 flex flex-col space-y-3.5 clay-surface">
+        {/* 모달 컨테이너: 외곽선 제거하고 완전한 클레이모피즘 스타일 적용 */}
+        <div className="bg-clay-bg shadow-clay rounded-[24px] p-5 flex flex-col space-y-3.5 clay-surface">
           {/* 헤더 및 설명 글귀 */}
           <div className="flex justify-between items-start w-full">
             <div className="space-y-0.5">
@@ -76,10 +77,10 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
               <button
                 type="button"
                 onClick={() => setIsGood(true)}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   isGood === true
-                    ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-600 shadow-[0_4px_12px_rgba(16,185,129,0.08)]"
-                    : "bg-black/5 dark:bg-white/5 border-[var(--color-clay-border)] text-text-muted hover:text-text hover:bg-black/10 dark:hover:bg-white/10"
+                    ? "bg-green-50/10 text-green-50 shadow-[0_4px_12px_rgba(44,143,49,0.15)] ring-1 ring-green-50/30"
+                    : "bg-black/5 dark:bg-black/20 shadow-inner text-text-muted hover:text-text hover:bg-black/10 dark:hover:bg-white/5"
                 }`}>
                 <ThumbsUp className="w-3.5 h-3.5" />
                 <span>Good</span>
@@ -88,10 +89,10 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
               <button
                 type="button"
                 onClick={() => setIsGood(false)}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   isGood === false
-                    ? "bg-rose-500/10 border-rose-500/30 text-rose-500 shadow-[0_4px_12px_rgba(244,3,94,0.08)]"
-                    : "bg-black/5 dark:bg-white/5 border-[var(--color-clay-border)] text-text-muted hover:text-text hover:bg-black/10 dark:hover:bg-white/10"
+                    ? "bg-rose-500/10 text-rose-500 shadow-[0_4px_12px_rgba(244,3,94,0.15)] ring-1 ring-rose-500/30"
+                    : "bg-black/5 dark:bg-black/20 shadow-inner text-text-muted hover:text-text hover:bg-black/10 dark:hover:bg-white/5"
                 }`}>
                 <ThumbsDown className="w-3.5 h-3.5" />
                 <span>Bad</span>
@@ -107,7 +108,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="오아시스에 대한 개선사항이나 의견을 적어주세요."
                 rows={5}
-                className="w-full p-3 text-xs bg-black/5 dark:bg-white/5 border border-[var(--color-clay-border)] rounded-xl focus:outline-none focus:border-primary/30 focus:bg-transparent text-text font-sans resize-none transition-all placeholder:text-text-muted/80 leading-relaxed"
+                className="w-full p-3 text-xs bg-black/5 dark:bg-black/20 shadow-inner rounded-xl focus:outline-none focus:ring-1 focus:ring-primary/40 focus:bg-transparent dark:focus:bg-transparent text-text font-sans resize-none transition-all placeholder:text-text-muted/60 leading-relaxed"
               />
             </div>
 

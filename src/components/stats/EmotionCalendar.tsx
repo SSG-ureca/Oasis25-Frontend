@@ -91,7 +91,7 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
     if (avg >= 3.8) {
       return {
         text: "행복하고 차분한 긍정적 에너지가 주를 이루는 아주 맑고 안정적인 한 달을 보냈습니다.",
-        labelColor: "text-emerald-600",
+        labelColor: "text-green-50",
         label: "긍정 & 평온",
       };
     } else if (avg >= 2.8) {
@@ -115,7 +115,7 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
     <div className="w-full h-auto md:h-full grid grid-cols-1 md:grid-cols-[29%_66%] md:grid-rows-[auto_1fr] justify-between gap-6 relative emotion-calendar-container">
       {/* 1. 타이틀 영역 (좌측 상단 고정) */}
       <div className="space-y-1.5 md:col-start-1 md:row-start-1">
-        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
+        <span className="text-[10px] uppercase tracking-wider font-extrabold text-green-50">
           30-Day Emotion Trend
         </span>
         <h2 className="text-base sm:text-lg font-extrabold text-text tracking-tight">
