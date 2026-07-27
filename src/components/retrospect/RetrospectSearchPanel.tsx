@@ -120,9 +120,7 @@ export const RetrospectSearchPanel = () => {
                             )
                         }
                         dayClassName={(date) =>
-                            isHighlightedDate(date)
-                                ? "highlighted-custom"
-                                : undefined
+                            isHighlightedDate(date) ? "highlighted-custom" : ""
                         }
                         dateFormat="yyyy-MM-dd"
                         className="
