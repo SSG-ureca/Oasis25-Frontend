@@ -36,7 +36,9 @@ export default function Dashboard() {
         <Panel
           variant="clay"
           className={`order-first flex-1 p-2 880:order-0 transition-all duration-300 ${
-            isFocusMode ? "min-h-[480px] p-4" : "min-h-[380px] min-w-[290px]"
+            isFocusMode
+              ? "flex min-h-[480px] p-4"
+              : "min-h-[380px] min-w-[290px]"
           }`}>
           <PomodoroTimer onFocusModeChange={setIsFocusMode} />
         </Panel>
