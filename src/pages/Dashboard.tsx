@@ -60,7 +60,7 @@ export default function Dashboard() {
             : "min-w-[175px] 680:col-span-2 880:col-span-1"
         }`}>
         {!isFocusMode && (
-          <Panel variant="clay" className="p-2">
+          <Panel variant="clay" className="p-2 shrink-0 flex flex-col">
             <AnalogClock />
           </Panel>
         )}
