@@ -111,7 +111,7 @@ const Header = () => {
                 end
                 className={({ isActive }) =>
                   cn(
-                    "rounded-4xl neumorphism-size-sm transition-all duration-200 select-none",
+                    "rounded-4xl px-4 py-2 transition-all duration-200 select-none",
                     "clay-hover",
                     isActive && "clay-active",
                   )
