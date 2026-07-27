@@ -14,13 +14,13 @@ import { RestrictedArea } from "./RestrictedArea";
 import oasis25Light from "../../assets/images/Oasis25-lightmode.png";
 import oasis25Dark from "../../assets/images/Oasis25-darkmode.png";
 
-const PROTECTED_PATHS = ["/main/retrospect", "/main/stats", "/main/mypage"];
+const PROTECTED_PATHS = ["/retrospect", "/stats", "/mypage"];
 
 const NAV_ITEMS = [
   { to: "/main", label: "홈" },
-  { to: "/main/retrospect", label: "회고" },
-  { to: "/main/stats", label: "통계" },
-  { to: "/main/mypage", label: "마이페이지" },
+  { to: "/retrospect", label: "회고" },
+  { to: "/stats", label: "통계" },
+  { to: "/mypage", label: "마이페이지" },
 ];
 
 const Header = () => {
