@@ -24,36 +24,56 @@ export const MusicController = () => {
             variant="clay"
             inset
             className="
-        h-full
-        flex
-        flex-col
-        min-h-0
-        p-4
-        gap-5
-    "
-        >
-            <Button
-                className="shrink-0"
-                onClick={() => window.location.reload()}
-            >
-                설정 적용
-            </Button>
+    h-full
+    flex
+    flex-col
+    min-h-0
+    px-6
+    pb-1
+    pt-10
 
+"
+        >
+            {/* 헤더 */}
+            <div
+                className="
+        relative
+        flex
+        items-center
+        justify-center
+        w-full
+        shrink-0
+    "
+            >
+                <h3 className="text-lg font-semibold">BGM 관리</h3>
+
+                <Button
+                    variant="clay"
+                    className="
+            absolute
+            right-0
+            h-9
+            px-4
+            text-sm
+        "
+                    onClick={() => window.location.reload()}
+                >
+                    설정 적용
+                </Button>
+            </div>
+
+            {/* BGM 리스트 */}
             <div
                 className="
                     flex-1
                     min-h-0
-                    flex
-                    flex-col
-                    gap-5
+                    items-center
                 "
             >
-                <div className="flex-1">
-                    <BgmController
-                        musicSetting={musicSetting}
-                        setMusicSetting={setMusicSetting}
-                    />
-                </div>
+                <BgmController
+                    musicSetting={musicSetting}
+                    setMusicSetting={setMusicSetting}
+                />
             </div>
         </Panel>
     );

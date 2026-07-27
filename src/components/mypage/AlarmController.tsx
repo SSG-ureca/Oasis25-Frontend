@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import type { AlarmType, MusicSetting } from "../../../types/music";
-import { ALARM_LIST } from "../../../types/music";
+import type { AlarmType, MusicSetting } from "../../types/music";
+import { ALARM_LIST } from "../../types/music";
 
-import { Button } from "../../common/Button";
+import { Button } from "../common/Button";
 
 interface AlarmControllerProps {
     musicSetting: MusicSetting;
@@ -61,14 +61,18 @@ export const AlarmController = ({
             flex-col
         "
         >
-            <h3 className="text-lg font-semibold shrink-0 mb-3">알람음</h3>
-
             <div
                 className="
-                flex-1
-                overflow-y-auto
-                space-y-2
-            "
+        flex-1
+        min-h-0
+        overflow-y-auto
+        space-y-2
+        pr-1
+        
+        flex
+        flex-col
+        justify-center
+    "
             >
                 {ALARM_LIST.map((alarm) => (
                     <div
