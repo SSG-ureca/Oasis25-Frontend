@@ -47,7 +47,7 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-bg-light overflow-hidden animate-in fade-in duration-300">
+    <div className="w-screen h-screen flex items-center justify-center bg-[var(--color-app-bg)] overflow-hidden animate-in fade-in duration-300">
       <Tumbleweeds />
       <div className="w-full max-w-md p-4 z-10 relative">
         <Panel
