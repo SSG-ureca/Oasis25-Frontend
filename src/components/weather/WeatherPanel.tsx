@@ -48,7 +48,7 @@ export function WeatherPanel() {
   const Icon = ICONS[weather.iconName] ?? Cloud;
 
   return (
-    <div className="relative flex min-h-[110px] w-full items-center py-4 pl-0.5 pr-4">
+    <div className="relative flex min-h-[140px] w-full items-center py-4 pl-0.5 pr-4">
       {/* 위치 (패널 기준 우측 상단 고정) */}
       <div className="absolute top-2 right-4 flex items-center justify-end gap-1 whitespace-nowrap">
         <MapPin className="w-3.5 h-3.5 text-text/70 shrink-0" />
