@@ -34,13 +34,13 @@ export const StatsPage = () => {
       {/* 중앙 베이스 플레이트 패널 */}
       <div className="flex-1 min-h-0">
         <Panel
-          variant="neumorphism"
+          variant="clay"
           className="w-full h-full p-3 sm:p-4 rounded-[36px] flex flex-col min-h-0">
           {/* 스플릿 레이아웃 (모바일에서는 수직, 테블릿/PC(md)에서는 수평 배치) */}
           <div className="w-full flex-1 flex flex-col md:flex-row gap-3 min-h-0">
             {/* 좌측/상단 네비게이션 독 (반응형 대응) */}
             <Panel
-              variant="neumorphism"
+              variant="clay"
               inset
               className="w-full md:w-[90px] h-auto md:h-full rounded-[20px] md:rounded-[24px] flex flex-row md:flex-col items-center justify-between px-4 py-3 md:px-3 md:py-6 shrink-0">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)] hidden md:block" />
@@ -75,7 +75,7 @@ export const StatsPage = () => {
 
             {/* 우측/하단 디테일 분석 캔버스 (모바일에서 넘치면 스크롤되도록 overflow-y-auto 적용) */}
             <Panel
-              variant="neumorphism"
+              variant="clay"
               inset
               className="flex-1 h-full rounded-[28px] p-4 sm:p-6 md:p-8 flex flex-col min-h-0 justify-between relative overflow-y-auto md:overflow-hidden">
               {loading ? (

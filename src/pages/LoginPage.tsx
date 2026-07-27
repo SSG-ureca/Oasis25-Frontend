@@ -51,7 +51,7 @@ export const LoginPage: React.FC = () => {
       <Tumbleweeds />
       <div className="w-full max-w-md p-4 z-10 relative">
         <Panel
-          variant="neumorphism"
+          variant="clay"
           className="p-8 rounded-[36px] flex flex-col space-y-4">
           <div className="text-center mb-8 mt-2">
             <img
@@ -87,8 +87,8 @@ export const LoginPage: React.FC = () => {
             <Button
               type="submit"
               disabled={isLoading}
-              variant="neumorphism"
-              className="w-full py-3 rounded-2xl text-xs font-bold tracking-widest text-text bg-bg-light shadow-[var(--shadow-neumorphism)] hover:scale-[1.01] active:shadow-[var(--shadow-neumorphism-inset)] transition-all flex items-center justify-center gap-1.5">
+              variant="clay"
+              className="w-full py-3 rounded-2xl text-xs font-bold tracking-widest text-text bg-[var(--color-app-bg)] shadow-[var(--shadow-clay)] hover:scale-[1.01] active:shadow-[var(--shadow-clay-inset)] transition-all flex items-center justify-center gap-1.5">
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin text-primary" />
               ) : (
