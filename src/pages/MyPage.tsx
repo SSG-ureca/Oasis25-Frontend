@@ -35,17 +35,18 @@ export const MyPage = () => {
                         flex-1
                         min-h-0
                         mt-4
+                        items-stretch
                     "
                     >
-                        <div className="flex flex-[1.2] min-w-0">
+                        <div className="flex-[1.1] min-w-0">
                             <ProfileEditor />
                         </div>
 
-                        <div className="flex flex-1 min-w-0">
+                        <div className="flex-1 min-w-0">
                             <MusicController />
                         </div>
 
-                        <div className="flex flex-1 min-w-0">
+                        <div className="flex-[0.9] min-w-0">
                             <OptionController />
                         </div>
                     </div>

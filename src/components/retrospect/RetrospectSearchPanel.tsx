@@ -23,9 +23,9 @@ export const RetrospectSearchPanel = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
 
     // Get API 호출 함수
-    const handleSearch = async () => {
+    const handleSearch = async (date: Date) => {
         try {
-            const formattedDate = selectedDate.toISOString().slice(0, 10);
+            const formattedDate = date.toISOString().slice(0, 10);
 
             const data = await getRetrospect(formattedDate);
 
@@ -87,28 +87,28 @@ export const RetrospectSearchPanel = () => {
                 <div className="flex items-center gap-2">
                     <DatePicker
                         selected={selectedDate}
-                        onChange={(date: Date | null) =>
-                            date && setSelectedDate(date)
-                        }
+                        onChange={(date: Date | null) => {
+                            if (!date) return;
+
+                            setSelectedDate(date);
+                            handleSearch(date);
+                        }}
                         dateFormat="yyyy-MM-dd"
                         className="
-                        h-10
-                        w-40
-                        rounded-2xl
-                        px-4
-                        bg-clay-bg
-                        border
-                        border-clay-border
-                        shadow-(--shadow-clay)
-                        text-(--color-text)
-                        outline-none
-                        transition
-                        focus:shadow-(--shadow-clay-inset)
-                    "
+            h-10
+            w-40
+            rounded-2xl
+            px-4
+            bg-clay-bg
+            border
+            border-clay-border
+            shadow-(--shadow-clay)
+            text-(--color-text)
+            outline-none
+            transition
+            focus:shadow-(--shadow-clay-inset)
+        "
                     />
-                    <Button variant="clay" onClick={handleSearch}>
-                        조회
-                    </Button>
                 </div>
             }
             footer={

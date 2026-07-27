@@ -1,5 +1,4 @@
 import { Panel } from "../../common/Panel";
-import { AlarmController } from "./AlarmController";
 import { BgmController } from "./BgmController";
 
 import { useEffect, useState } from "react";
@@ -25,13 +24,13 @@ export const MusicController = () => {
             variant="clay"
             inset
             className="
-                flex
-                flex-col
-                h-full
-                min-h-0
-                p-4
-                gap-5
-            "
+        h-full
+        flex
+        flex-col
+        min-h-0
+        p-4
+        gap-5
+    "
         >
             <Button
                 className="shrink-0"
@@ -51,13 +50,6 @@ export const MusicController = () => {
             >
                 <div className="flex-1">
                     <BgmController
-                        musicSetting={musicSetting}
-                        setMusicSetting={setMusicSetting}
-                    />
-                </div>
-
-                <div className="shrink-0">
-                    <AlarmController
                         musicSetting={musicSetting}
                         setMusicSetting={setMusicSetting}
                     />

@@ -120,15 +120,13 @@ export const ProfileEditor = () => {
             variant="clay"
             inset
             className="
+        h-full
         flex
         flex-col
-        flex-1
-
         min-h-0
         overflow-auto
-
-        gap-6
         p-6
+        gap-6
     "
         >
             <ProfileImage
