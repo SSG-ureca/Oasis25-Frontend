@@ -127,7 +127,6 @@ export const BgmController = ({
             min-h-0
             flex
             flex-col
-            
         "
         >
             <div
@@ -137,7 +136,7 @@ export const BgmController = ({
         overflow-y-auto
         space-y-2
         pr-1
-        
+
         flex
         flex-col
         justify-center

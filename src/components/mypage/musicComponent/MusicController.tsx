@@ -9,7 +9,7 @@ import {
 } from "../../../utils/musicStorage";
 
 import type { MusicSetting } from "../../../types/music";
-import { Button } from "../../common/Button";
+// import { Button } from "../../common/Button";
 
 export const MusicController = () => {
     const [musicSetting, setMusicSetting] =
@@ -24,44 +24,59 @@ export const MusicController = () => {
             variant="clay"
             inset
             className="
-    h-full
-    flex
-    flex-col
-    min-h-0
-    px-6
-    pb-1
-    pt-10
+h-full
+880:h-full
 
+flex
+flex-col
+
+min-h-[420px]
+880:min-h-0
+
+px-3
+sm:px-4
+880:px-6
+
+py-4
+880:pt-8
+880:pb-2
 "
         >
             {/* 헤더 */}
             <div
                 className="
-        relative
-        flex
-        items-center
-        justify-center
-        w-full
-        shrink-0
-    "
-            >
-                <h3 className="text-lg font-semibold">BGM 관리</h3>
+flex
+w-full
+880:w-auto
 
-                <Button
+items-center
+justify-center
+
+gap-3
+
+shrink-0
+"
+            >
+                <Panel
                     variant="clay"
                     className="
-            absolute
-            right-0
-            h-9
-            px-4
-            text-sm
-        "
-                    onClick={() => window.location.reload()}
+px-4
+py-2
+"
                 >
-                    설정 적용
-                </Button>
+                    <h3 className="text-lg font-semibold">ASMR 목록</h3>
+                </Panel>
             </div>
-
+            {/* <Button
+                variant="clay"
+                className="
+w-full
+880:w-auto
+"
+                onClick={() => window.location.reload()}
+            >
+                설정 적용
+            </Button> */}
             {/* BGM 리스트 */}
             <div
                 className="

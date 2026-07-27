@@ -21,3 +21,17 @@
     stroke: transparent;
     outline: none;
 }
+
+.react-calendar-heatmap {
+    width: max-content;
+    min-width: 720px;
+}
+
+.react-calendar-heatmap text {
+    font-size: 10px;
+}
+
+.react-calendar-heatmap rect {
+    rx: 2;
+    ry: 2;
+}

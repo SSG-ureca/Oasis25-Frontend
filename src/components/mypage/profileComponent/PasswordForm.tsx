@@ -17,12 +17,15 @@ export const PasswordForm = ({
     return (
         <div
             className="
-        h-full
-        flex
-        flex-col
-        justify-center
-        gap-4
-    "
+flex
+flex-col
+
+gap-3
+
+justify-start
+
+pt-2
+"
         >
             <input
                 type="password"

@@ -37,20 +37,39 @@ export const ProfileImage = ({
     return (
         <div
             className="
-                flex
-                flex-col
-                items-center
-                gap-3
-            "
+        flex
+        justify-center
+        shrink-0
+    "
         >
-            <img
-                src={previewUrl}
-                alt="프로필"
-                onClick={handleClick}
-                title={isEditMode ? "프로필 사진 변경" : undefined}
-                className={`
-                    w-28
-                    h-28
+            <div
+                className="
+            relative
+
+            w-20
+            h-20
+
+            sm:w-24
+            sm:h-24
+
+            880:w-32
+            880:h-32
+        "
+            >
+                <img
+                    src={previewUrl}
+                    alt="프로필"
+                    onClick={handleClick}
+                    title={isEditMode ? "프로필 사진 변경" : undefined}
+                    className={`
+                    w-20
+                    h-20
+
+                    sm:w-24
+                    sm:h-24
+
+                    880:w-32
+                    880:h-32
                     rounded-full
                     object-cover
                     border
@@ -58,17 +77,18 @@ export const ProfileImage = ({
 
                     ${isEditMode ? "cursor-pointer hover:opacity-80" : ""}
                 `}
-            />
-
-            {isEditMode && (
-                <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    hidden
-                    onChange={handleChange}
                 />
-            )}
+
+                {isEditMode && (
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        hidden
+                        onChange={handleChange}
+                    />
+                )}
+            </div>
         </div>
     );
 };

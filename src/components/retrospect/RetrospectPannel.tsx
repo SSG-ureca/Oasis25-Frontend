@@ -4,63 +4,81 @@ import type { ReactNode } from "react";
 import { Panel } from "../common/Panel";
 
 interface RetrospectPanelProps {
-  title: string;
-  children: ReactNode;
-
-  header: ReactNode;
-  footer: ReactNode;
+    title: string;
+    children: ReactNode;
+    header: ReactNode;
+    footer: ReactNode;
 }
 
 export const RetrospectPanel = ({
-  title,
-  children,
-  header,
-  footer,
+    title,
+    children,
+    header,
+    footer,
 }: RetrospectPanelProps) => {
-  return (
-    <Panel
-      variant="clay"
-      className="
+    return (
+        <Panel
+            variant="clay"
+            className="
                 p-6
                 h-full
                 w-full
+
                 flex
                 flex-col
                 gap-6
                 min-h-0
-                items-start
-                justify-start
-            ">
-      {/* 패널 명, 헤더 버튼 */}
-      <div
-        className="
-                w-full
-                flex
-                items-center
-                justify-between
-            ">
-        <h2
-          className="
-                    text-xl
-                    font-semibold
-                    text-text
-                ">
-          {title}
-        </h2>
-
-        {header}
-      </div>
-
-      {/* 패널 내부 요소 */}
-      <div
-        className="
-                    flex-1
-                    min-h-0
+                overflow-y-auto
+            "
+        >
+            {/* 헤더 */}
+            <div
+                className="
                     w-full
-                ">
-        {children}
-      </div>
-      <div className="w-full flex justify-end">{footer}</div>
-    </Panel>
-  );
+                    flex
+                    items-center
+                    justify-between
+
+                    shrink-0
+                "
+            >
+                <h2
+                    className="
+                        text-xl
+                        font-semibold
+                        text-text
+                    "
+                >
+                    {title}
+                </h2>
+
+                {header}
+            </div>
+
+            {/* 컨텐츠 */}
+            <div
+                className="
+                    flex-1
+                    
+                    w-full
+                    overflow-y-auto
+                "
+            >
+                {children}
+            </div>
+
+            {/* 하단 버튼 */}
+            <div
+                className="
+                    w-full
+                    flex
+                    justify-end
+
+                    shrink-0
+                "
+            >
+                {footer}
+            </div>
+        </Panel>
+    );
 };

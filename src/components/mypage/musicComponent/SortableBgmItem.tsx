@@ -50,8 +50,12 @@ export const SortableBgmItem = ({
                 items-center
                 justify-between
 
-                h-12
                 px-3
+
+py-2
+880:py-0
+
+880:h-12
 
                 rounded-xl
                 cursor-pointer
@@ -72,7 +76,19 @@ export const SortableBgmItem = ({
                 }
             `}
         >
-            <div className="flex items-center gap-3">
+            <div
+                className="
+flex
+
+items-center
+
+gap-3
+
+flex-1
+
+min-w-0
+"
+            >
                 <div
                     {...attributes}
                     {...listeners}
@@ -87,12 +103,12 @@ export const SortableBgmItem = ({
 
                 <span
                     className={`
-                        text-sm
-                        font-medium
-                        transition
+        text-sm
+        font-medium
+        transition
 
-                        ${excluded ? "text-gray-400 line-through" : ""}
-                    `}
+        ${excluded ? "text-gray-400 line-through" : ""}
+    `}
                 >
                     {name}
                 </span>

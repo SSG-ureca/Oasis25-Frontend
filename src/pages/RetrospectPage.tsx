@@ -6,16 +6,19 @@ export const RetrospectPage = () => {
         <div
             className="
                 h-full
+                min-h-0
+                w-full
+
                 grid
-                grid-cols-[2fr_3fr]
+                grid-cols-1
+
                 gap-4
-                col-span-2
+
+                880:grid-cols-[2fr_3fr]
             "
         >
-            {/* 이전 회고 조회 패널 */}
             <RetrospectSearchPanel />
 
-            {/* 회고 작성 패널 */}
             <RetrospectWritePanel />
         </div>
     );

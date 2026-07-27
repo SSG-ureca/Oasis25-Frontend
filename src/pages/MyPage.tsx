@@ -8,49 +8,45 @@ export const MyPage = () => {
     return (
         <div
             className="
-                h-full
-                flex
-                flex-col
-                gap-4
-            "
+        h-full
+        min-h-0
+
+        grid
+        grid-cols-1
+
+        gap-3
+        sm:gap-4
+        880:gap-6
+
+        880:grid-rows-[180px_1fr]
+    "
         >
-            <div className="flex-1 min-h-0">
-                <Panel
-                    variant="clay"
-                    className="
-                        flex-1
-                        p-3
-                        w-full
-                        h-full
-                        min-h-0
-                    "
-                >
-                    {/* 깃허브 잔디 컴포넌트 */}
-                    <RetrospectHeatmap />
-                    <div
-                        className="
-                        flex
-                        gap-6
-                        w-full
-                        flex-1
-                        min-h-0
-                        mt-4
-                        items-stretch
-                    "
-                    >
-                        <div className="flex-[1.1] min-w-0">
-                            <ProfileEditor />
-                        </div>
+            <Panel
+                variant="clay"
+                className="
+                    p-3
+                    min-h-0
+                "
+            >
+                <RetrospectHeatmap />
+            </Panel>
 
-                        <div className="flex-1 min-w-0">
-                            <MusicController />
-                        </div>
+            <div
+                className="
+                    min-h-0
+                    grid
+                    grid-cols-1
+                    gap-3
+                    sm:gap-4
+                    880:gap-6
+                    880:grid-cols-[1.1fr_1fr_0.9fr]
+                "
+            >
+                <ProfileEditor />
 
-                        <div className="flex-[0.9] min-w-0">
-                            <OptionController />
-                        </div>
-                    </div>
-                </Panel>
+                <MusicController />
+
+                <OptionController />
             </div>
         </div>
     );
