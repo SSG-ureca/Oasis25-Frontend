@@ -18,7 +18,7 @@ export default function Dashboard() {
         880:grid-cols-[290px_minmax(290px,2fr)_minmax(175px,1fr)]">
       {/* 왼쪽 열  : 날씨랑 할일목록 */}
       <div className="flex min-h-0 min-w-[290px] flex-col gap-6">
-        <Panel variant="clay" className="min-h-0 flex-1 p-4">
+        <Panel variant="clay" className="shrink-0 p-4">
           <WeatherPanel />
         </Panel>
         <Panel variant="clay" className="min-h-0 flex-1 p-4">
