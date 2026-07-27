@@ -34,8 +34,8 @@ export default function Dashboard() {
       <div className="order-first flex flex-col gap-6 880:order-0">
         <Panel
           variant="clay"
-          className={`order-first flex-1 p-2 880:order-0 transition-all duration-300 items-center ${
-            isFocusMode ? "min-h-[520px] p-4" : "min-h-[380px] min-w-[290px]"
+          className={`order-first flex-1 p-2 880:order-0 transition-all duration-300 justify-center items-center ${
+            isFocusMode ? "min-h-130 p-4 flex" : "min-h-[380px] min-w-[290px]"
           }`}>
           <PomodoroTimer onFocusModeChange={setIsFocusMode} />
         </Panel>
@@ -53,7 +53,7 @@ export default function Dashboard() {
       <div
         className={`flex min-h-0 flex-col gap-6 ${
           isFocusMode
-            ? "min-w-[300px]"
+            ? "min-w-75"
             : "min-w-[175px] 680:col-span-2 880:col-span-1"
         }`}>
         {!isFocusMode && (
