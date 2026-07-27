@@ -233,7 +233,11 @@ function mapWeather(pty: number, sky: number) {
 /**
  * { temp, skyText, iconName, loading, error } 상태를 반환하는 Hook
  */
-export function useWeather(lat = 37.5665, lon = 126.978): WeatherState {
+export function useWeather(
+  lat: number | null = null,
+  lon: number | null = null,
+  enabled = true,
+): WeatherState {
   const [state, setState] = useState<WeatherState>({
     temp: null,
     skyText: "불러오는 중...",
@@ -245,7 +249,12 @@ export function useWeather(lat = 37.5665, lon = 126.978): WeatherState {
   });
 
   useEffect(() => {
+    if (!enabled || lat == null || lon == null) {
+      return;
+    }
+
     let cancelled = false;
+    let timeoutId: number | undefined;
 
     async function load() {
       setState((prev) => ({
@@ -294,6 +303,10 @@ export function useWeather(lat = 37.5665, lon = 126.978): WeatherState {
                 : "날씨 정보를 가져오지 못했습니다.",
           });
         }
+      } finally {
+        if (!cancelled) {
+          timeoutId = window.setTimeout(load, 30 * 60 * 1000);
+        }
       }
     }
 
@@ -301,8 +314,9 @@ export function useWeather(lat = 37.5665, lon = 126.978): WeatherState {
 
     return () => {
       cancelled = true;
+      window.clearTimeout(timeoutId);
     };
-  }, [lat, lon]);
+  }, [lat, lon, enabled]);
 
   return state;
 }

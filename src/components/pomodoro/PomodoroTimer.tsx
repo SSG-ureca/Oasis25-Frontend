@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   Check,
@@ -34,7 +34,13 @@ const DEFAULT_PRESET: PomodoroPreset = {
   createdAt: "",
 };
 
-export default function PomodoroTimer() {
+interface PomodoroTimerProps {
+  onFocusModeChange?: (isFocusMode: boolean) => void;
+}
+
+export default function PomodoroTimer({
+  onFocusModeChange,
+}: PomodoroTimerProps = {}) {
   const {
     mode,
     remaining,
@@ -99,6 +105,11 @@ export default function PomodoroTimer() {
   const selectablePresets = [DEFAULT_PRESET, ...customPresets];
 
   const isFocus = mode === "focus";
+  const isFocusMode = isFocus && isRunning;
+
+  useLayoutEffect(() => {
+    onFocusModeChange?.(isFocusMode);
+  }, [isFocusMode, onFocusModeChange]);
 
   function handleSelectPreset(preset: PomodoroPreset) {
     if (isRunning) return;
