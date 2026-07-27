@@ -17,25 +17,28 @@ export default function Dashboard() {
     <div
       className={`grid h-full w-full gap-6 transition-all duration-300 ${
         isFocusMode
-          ? "grid-cols-1 680:grid-cols-[1fr_300px]"
+          ? "grid-cols-1 880:grid-cols-[300px_1fr_300px]"
           : "grid-cols-1 max-880:h-auto max-880:content-start 680:grid-cols-[290px_minmax(290px,1fr)] 880:grid-cols-[290px_minmax(290px,2fr)_minmax(175px,1fr)]"
       }`}>
-      <div
-        className={`min-h-0 min-w-[290px] flex-col gap-6 ${
-          isFocusMode ? "hidden" : "flex"
-        }`}>
-        <Panel variant="clay" className="min-h-0 flex-1 p-4">
-          <WeatherPanel />
-        </Panel>
-        <Panel variant="clay" className="min-h-0 flex-1 p-4">
-          <Todo />
-        </Panel>
-      </div>
+      {!isFocusMode ? (
+        <div className="flex min-h-0 min-w-[290px] flex-col gap-6">
+          <Panel variant="clay" className="min-h-0 flex-1 p-4">
+            <WeatherPanel />
+          </Panel>
+          <Panel variant="clay" className="min-h-0 flex-1 p-4">
+            <Todo />
+          </Panel>
+        </div>
+      ) : (
+        <div className="hidden 880:block" />
+      )}
       <div className="order-first flex flex-col gap-6 880:order-0">
         <Panel
           variant="clay"
           className={`order-first flex-1 p-2 880:order-0 transition-all duration-300 ${
-            isFocusMode ? "min-h-[480px] p-4" : "min-h-[380px] min-w-[290px]"
+            isFocusMode
+              ? "min-h-[480px] p-4 880:w-full 880:max-w-4xl 880:mx-auto 880:flex"
+              : "min-h-[380px] min-w-[290px]"
           }`}>
           <PomodoroTimer onFocusModeChange={setIsFocusMode} />
         </Panel>
