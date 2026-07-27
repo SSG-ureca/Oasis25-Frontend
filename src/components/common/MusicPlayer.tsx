@@ -102,26 +102,26 @@ export const MusicPlayer = () => {
       <audio ref={audioRef} preload="metadata" onEnded={handleNext} />
 
       {/* 곡 정보 */}
-      <div className="hidden 680:flex items-center gap-4">
+      <div className="hidden 680:flex flex-1 min-w-0 items-center gap-4">
         <Panel
           variant="clay"
           inset
-          className="flex h-10 w-10 items-center justify-center rounded-full">
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
           <Music className="h-6 w-6 text-primary" />
         </Panel>
 
-        <div className="flex flex-col">
-          <span className="font-semibold text-text">
+        <div className="flex flex-col min-w-0">
+          <span className="font-semibold text-text truncate">
             {currentTrack?.name ?? "재생 가능한 음악 없음"}
           </span>
-          <span className="text-sm text-text-muted">
+          <span className="text-sm text-text-muted truncate">
             {currentTrack ? "local mp3" : ""}
           </span>
         </div>
       </div>
 
       {/* 재생 컨트롤 */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center justify-center gap-3 shrink-0">
         <Button
           variant="clay"
           className="h-10 w-10 rounded-full"
@@ -154,7 +154,7 @@ export const MusicPlayer = () => {
       </div>
 
       {/* 볼륨 */}
-      <div className="flex items-center gap-3 pr-4">
+      <div className="flex items-center justify-end gap-3 pr-4 680:flex-1">
         <button
           type="button"
           onClick={toggleMute}
@@ -170,18 +170,12 @@ export const MusicPlayer = () => {
         <Panel
           variant="clay"
           inset
-          className="relative w-20 rounded-full py-1 pl-2 pr-4 680:w-28">
-          <div className="relative h-2 w-full">
+          className="relative w-28 rounded-full py-1 px-3 680:w-40">
+          <div className="relative h-1.5 w-full">
             <div
-              className="pointer-events-none absolute left-0 top-0 h-2 rounded-full bg-primary"
+              className="pointer-events-none absolute left-0 top-0 h-1.5 rounded-full bg-primary"
               style={{
                 width: `${volume * 100}%`,
-              }}
-            />
-            <div
-              className="pointer-events-none absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary shadow-clay"
-              style={{
-                left: `${volume * 100}%`,
               }}
             />
           </div>

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import { Panel } from "./Panel";
 import { cn } from "../../utils/cn";
@@ -95,9 +96,10 @@ const Header = () => {
       <Panel
         variant="clay"
         inset
-        className="px-5 py-2.5 hidden 880:flex gap-5 rounded-4xl bg-panel-bg">
+        className="px-5 py-2.5 hidden 880:flex gap-5 rounded-4xl bg-panel-bg relative">
         {NAV_ITEMS.map((item) => {
           const isProtected = isGuest && PROTECTED_PATHS.includes(item.to);
+          const isActive = location.pathname === item.to || (item.to === "/main" && location.pathname === "/");
           return (
             <RestrictedArea
               key={item.to}
@@ -111,14 +113,26 @@ const Header = () => {
               <NavLink
                 to={item.to}
                 end
-                className={({ isActive }) =>
+                className={
                   cn(
-                    "rounded-4xl px-4 py-2 transition-all duration-200 select-none",
+                    "relative rounded-4xl px-5 py-2 transition-colors duration-200 select-none flex items-center justify-center",
                     "clay-hover",
-                    isActive && "clay-active",
+                    isActive ? "text-primary font-bold" : "text-text-muted hover:text-text",
                   )
                 }>
-                {item.label}
+                {isActive && (
+                  <motion.div
+                    layoutId="desktopNavPill"
+                    className="absolute inset-0 rounded-4xl clay-active bg-panel-bg z-0"
+                    initial={false}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 35,
+                    }}
+                  />
+                )}
+                <span className="relative z-10">{item.label}</span>
               </NavLink>
             </RestrictedArea>
           );
@@ -140,10 +154,17 @@ const Header = () => {
             )}
           </Button>
 
-          {isMobileMenuOpen && (
-            <Panel
-              variant="clayFlat"
-              className="absolute right-0 top-full mt-3 w-48 bg-clay-bg rounded-2xl p-2 border border-white/20 z-50 flex flex-col gap-2">
+          <div
+            className={cn(
+              "absolute right-0 top-full mt-3 w-56 z-50 grid transition-[grid-template-rows,opacity] duration-300 ease-in-out",
+              isMobileMenuOpen
+                ? "grid-rows-[1fr] opacity-100 visible"
+                : "grid-rows-[0fr] opacity-0 invisible pointer-events-none"
+            )}>
+            <div className="overflow-hidden">
+              <Panel
+                variant="clayFlat"
+                className="flex flex-col gap-1 p-2.5 rounded-2xl bg-white/70 dark:bg-[#2a251f]/80 backdrop-blur-md border border-white/20 shadow-xl">
               {NAV_ITEMS.map((item) => (
                 <Button
                   key={item.to}
@@ -154,23 +175,31 @@ const Header = () => {
                     navigate(item.to);
                   }}
                   className={cn(
-                    "w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold  rounded-xl justify-start clay-hover",
-                    location.pathname === item.to && "clay-active",
+                    "w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95",
+                    location.pathname === item.to && "bg-black/5 dark:bg-white/10 text-primary",
                   )}>
                   {item.label}
                 </Button>
               ))}
 
+              {/* 구분선 */}
+              <div className="h-px w-[90%] bg-black/5 dark:bg-white/5 mx-auto my-1" />
+
               <Button
                 variant="clayFlat"
                 onClick={toggleTheme}
-                className="w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold rounded-xl justify-start clay-hover">
+                className="w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95">
                 {isDark ? (
-                  <Moon className="w-4 h-4 text-text-muted" />
+                  <>
+                    <Sun className="w-4 h-4 text-text-muted" />
+                    라이트 모드
+                  </>
                 ) : (
-                  <Sun className="w-4 h-4 text-text-muted" />
+                  <>
+                    <Moon className="w-4 h-4 text-text-muted" />
+                    다크 모드
+                  </>
                 )}
-                테마
               </Button>
               <Button
                 variant="clayFlat"
@@ -182,7 +211,7 @@ const Header = () => {
                   setIsFeedbackOpen(true);
                 }}
                 className={cn(
-                  "w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold rounded-xl justify-start clay-hover",
+                  "w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95",
                 )}>
                 VOC
               </Button>
@@ -196,16 +225,17 @@ const Header = () => {
                     handleLogout();
                   }
                 }}
-                className="w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold rounded-xl justify-start clay-hover">
+                className="w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95 text-red-500 dark:text-red-400 border-none outline-none ring-0">
                 {isGuest ? (
-                  <LogIn className="w-4 h-4 text-text-muted" />
+                  <LogIn className="w-4 h-4" />
                 ) : (
-                  <LogOut className="w-4 h-4 text-text-muted" />
+                  <LogOut className="w-4 h-4" />
                 )}
                 {isGuest ? "로그인" : "로그아웃"}
               </Button>
             </Panel>
-          )}
+            </div>
+          </div>
         </div>
         {/* 데스크탑 버튼 그룹: 820px 이상에서만 표시 */}
         <div className="hidden 880:flex items-center gap-5">
@@ -214,9 +244,9 @@ const Header = () => {
             onClick={toggleTheme}
             className="rounded-full w-12 h-12 p-0 bg-panel-bg">
             {isDark ? (
-              <Moon className="w-6 h-6 text-text-muted" />
-            ) : (
               <Sun className="w-6 h-6 text-text-muted" />
+            ) : (
+              <Moon className="w-6 h-6 text-text-muted" />
             )}
           </Button>
           <RestrictedArea
