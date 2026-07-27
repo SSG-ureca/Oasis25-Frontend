@@ -11,6 +11,7 @@ import {
 } from "../../services/waterCaffeineApi";
 import { IntakeCounter } from "./IntakeCounter";
 import { CactusStatus } from "./CactusStatus";
+import { useAuth } from "../../contexts/AuthContext";
 
 const WATER_STEP = 100;
 const CAFFEINE_STEP = 10;
@@ -19,13 +20,9 @@ function today() {
   return new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
 }
 
-function isAuthenticated() {
-  return typeof window !== "undefined" && !!localStorage.getItem("accessToken");
-}
-
 export function WaterCaffeinePanel() {
+  const { isAuthenticated: authenticated } = useAuth();
   const [logs, setLogs] = useState<WaterCaffeineLogResponse[]>([]);
-  const authenticated = isAuthenticated();
   console.log("[WaterCaffeine] authenticated=", authenticated);
 
   const refresh = async () => {

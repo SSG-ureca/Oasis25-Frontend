@@ -4,6 +4,7 @@ import { Panel } from "../components/common/Panel";
 import { Button } from "../components/common/Button";
 import { InputField } from "../components/common/InputField";
 import { loginApi } from "../services/authApi";
+import { useAuth } from "../contexts/AuthContext";
 import { toast } from "../components/common/Toast";
 import { Sparkles, Mail, Lock, Loader2 } from "lucide-react";
 import { Tumbleweeds } from "../components/common/Tumbleweeds";
@@ -15,6 +16,7 @@ export const LoginPage: React.FC = () => {
   const { isDark } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
+  const auth = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -30,11 +32,7 @@ export const LoginPage: React.FC = () => {
 
     try {
       const response = await loginApi({ email, password });
-
-      // JWT 토큰 로컬 스토리지에 저장
-      localStorage.setItem("accessToken", response.accessToken);
-      localStorage.setItem("refreshToken", response.refreshToken);
-      localStorage.setItem("tokenType", response.tokenType);
+      auth.login(response);
 
       const from = (location.state as { from?: string } | null)?.from;
       navigate(from || "/", { replace: true });
@@ -117,9 +115,6 @@ export const LoginPage: React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                localStorage.removeItem("accessToken");
-                localStorage.removeItem("refreshToken");
-                localStorage.removeItem("tokenType");
                 navigate("/");
               }}
               className="text-primary font-bold hover:underline cursor-pointer">

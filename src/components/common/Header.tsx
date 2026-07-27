@@ -6,7 +6,7 @@ import { cn } from "../../utils/cn";
 import { Button } from "./Button";
 import { Sun, Moon, LogOut, Menu, X, LogIn, User } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
-import { logoutApi } from "../../services/authApi";
+import { useAuth } from "../../contexts/AuthContext";
 import { FeedbackModal } from "./FeedbackModal";
 import { toast } from "./Toast";
 import { RestrictedArea } from "./RestrictedArea";
@@ -32,9 +32,9 @@ const Header = () => {
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { isAuthenticated, logout } = useAuth();
 
-  const token = localStorage.getItem("accessToken");
-  const isGuest = !token;
+  const isGuest = !isAuthenticated;
 
   const handleProtectedNav = (to: string): boolean => {
     if (isGuest && PROTECTED_PATHS.includes(to)) {
@@ -66,19 +66,13 @@ const Header = () => {
     };
   }, []);
 
-  // 로그아웃 처리 (API 호출 후 로컬 저장소 토큰 제거 및 로그인 페이지 이동)
+  // 로그아웃 처리
   const handleLogout = async () => {
     try {
-      const refreshToken = localStorage.getItem("refreshToken");
-      if (refreshToken) {
-        await logoutApi(refreshToken);
-      }
+      await logout();
     } catch (error) {
       console.error("Logout failed:", error);
     } finally {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      localStorage.removeItem("tokenType");
       setIsMobileMenuOpen(false);
       navigate("/login");
     }
@@ -88,7 +82,11 @@ const Header = () => {
     <header className="sticky top-0 z-50 flex justify-between items-center h-13 px-4">
       {/* 로고 */}
       <div className="flex-1 flex justify-start">
-        <img src={isDark ? oasis25Dark : oasis25Light} alt="logo" className="h-6 object-contain" />
+        <img
+          src={isDark ? oasis25Dark : oasis25Light}
+          alt="logo"
+          className="h-6 object-contain"
+        />
       </div>
 
       {/* Nav items */}
@@ -98,6 +96,12 @@ const Header = () => {
         className="px-5 py-2.5 hidden 880:flex gap-5 rounded-4xl bg-panel-bg">
         {NAV_ITEMS.map((item) => {
           const isProtected = isGuest && PROTECTED_PATHS.includes(item.to);
+<<<<<<< Updated upstream
+=======
+          const isActive =
+            location.pathname === item.to ||
+            (item.to === "/main" && location.pathname === "/");
+>>>>>>> Stashed changes
           return (
             <RestrictedArea
               key={item.to}
@@ -111,6 +115,7 @@ const Header = () => {
               <NavLink
                 to={item.to}
                 end
+<<<<<<< Updated upstream
                 className={({ isActive }) =>
                   cn(
                     "rounded-4xl px-4 py-2 transition-all duration-200 select-none",
@@ -119,6 +124,28 @@ const Header = () => {
                   )
                 }>
                 {item.label}
+=======
+                className={cn(
+                  "relative rounded-4xl px-5 py-2 transition-colors duration-200 select-none flex items-center justify-center",
+                  "clay-hover",
+                  isActive
+                    ? "text-primary font-bold"
+                    : "text-text-muted hover:text-text",
+                )}>
+                {isActive && (
+                  <motion.div
+                    layoutId="desktopNavPill"
+                    className="absolute inset-0 rounded-4xl clay-active bg-panel-bg z-0"
+                    initial={false}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 35,
+                    }}
+                  />
+                )}
+                <span className="relative z-10">{item.label}</span>
+>>>>>>> Stashed changes
               </NavLink>
             </RestrictedArea>
           );
@@ -140,25 +167,82 @@ const Header = () => {
             )}
           </Button>
 
+<<<<<<< Updated upstream
           {isMobileMenuOpen && (
             <Panel
               variant="clayFlat"
               className="absolute right-0 top-full mt-3 w-48 bg-clay-bg rounded-2xl p-2 border border-white/20 z-50 flex flex-col gap-2">
               {NAV_ITEMS.map((item) => (
+=======
+          <div
+            className={cn(
+              "absolute right-0 top-full mt-3 w-56 z-50 grid transition-[grid-template-rows,opacity] duration-300 ease-in-out",
+              isMobileMenuOpen
+                ? "grid-rows-[1fr] opacity-100 visible"
+                : "grid-rows-[0fr] opacity-0 invisible pointer-events-none",
+            )}>
+            <div className="overflow-hidden">
+              <Panel
+                variant="clayFlat"
+                className="flex flex-col gap-1 p-2.5 rounded-2xl bg-white/70 dark:bg-[#2a251f]/80 backdrop-blur-md border border-white/20 shadow-xl">
+                {NAV_ITEMS.map((item) => (
+                  <Button
+                    key={item.to}
+                    variant="clayFlat"
+                    onClick={() => {
+                      if (handleProtectedNav(item.to)) return;
+                      setIsMobileMenuOpen(false);
+                      navigate(item.to);
+                    }}
+                    className={cn(
+                      "w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95",
+                      location.pathname === item.to &&
+                        "bg-black/5 dark:bg-white/10 text-primary",
+                    )}>
+                    {item.label}
+                  </Button>
+                ))}
+
+                {/* 구분선 */}
+                <div className="h-px w-[90%] bg-black/5 dark:bg-white/5 mx-auto my-1" />
+
                 <Button
-                  key={item.to}
+                  variant="clayFlat"
+                  onClick={toggleTheme}
+                  className="w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95">
+                  {isDark ? (
+                    <>
+                      <Sun className="w-4 h-4 text-text-muted" />
+                      라이트 모드
+                    </>
+                  ) : (
+                    <>
+                      <Moon className="w-4 h-4 text-text-muted" />
+                      다크 모드
+                    </>
+                  )}
+                </Button>
+>>>>>>> Stashed changes
+                <Button
                   variant="clayFlat"
                   onClick={() => {
-                    if (handleProtectedNav(item.to)) return;
-                    setIsMobileMenuOpen(false);
-                    navigate(item.to);
+                    if (isGuest) {
+                      toast.error("로그인 후 이용할 수 있습니다.", 2000);
+                      return;
+                    }
+                    setIsFeedbackOpen(true);
                   }}
                   className={cn(
+<<<<<<< Updated upstream
                     "w-full flex items-center gap-2.5 px-4 h-12 text-xs font-semibold  rounded-xl justify-start clay-hover",
                     location.pathname === item.to && "clay-active",
+=======
+                    "w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95",
+>>>>>>> Stashed changes
                   )}>
-                  {item.label}
+                  VOC
                 </Button>
+<<<<<<< Updated upstream
               ))}
 
               <Button
@@ -206,6 +290,29 @@ const Header = () => {
               </Button>
             </Panel>
           )}
+=======
+                <Button
+                  variant="clayFlat"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    if (isGuest) {
+                      navigate("/login");
+                    } else {
+                      handleLogout();
+                    }
+                  }}
+                  className="w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95 text-red-500 dark:text-red-400 border-none outline-none ring-0">
+                  {isGuest ? (
+                    <LogIn className="w-4 h-4" />
+                  ) : (
+                    <LogOut className="w-4 h-4" />
+                  )}
+                  {isGuest ? "로그인" : "로그아웃"}
+                </Button>
+              </Panel>
+            </div>
+          </div>
+>>>>>>> Stashed changes
         </div>
         {/* 데스크탑 버튼 그룹: 820px 이상에서만 표시 */}
         <div className="hidden 880:flex items-center gap-5">

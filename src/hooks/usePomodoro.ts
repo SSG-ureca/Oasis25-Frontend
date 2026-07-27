@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 import { toast } from "../components/common/Toast";
 import type {
   PomodoroMode,
@@ -19,7 +20,6 @@ import {
 } from "../services/pomodoroPresetApi";
 
 const STORAGE_KEY = "pomodoro-state";
-const TOKEN_KEY = "accessToken";
 
 const DEFAULT_SETTINGS: PomodoroSettings = {
   focusMinutes: 25,
@@ -63,10 +63,6 @@ interface StoredState {
   modeStartAt: number | null;
 }
 
-function isLoggedIn(): boolean {
-  return typeof window !== "undefined" && !!localStorage.getItem(TOKEN_KEY);
-}
-
 function loadStoredState(): StoredState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -97,6 +93,7 @@ function saveState(state: StoredState) {
 }
 
 export function usePomodoro() {
+  const { isAuthenticated } = useAuth();
   const initial = loadStoredState();
 
   const [mode, setMode] = useState<PomodoroMode>(initial.mode);
@@ -130,7 +127,7 @@ export function usePomodoro() {
   }, [mode, endAt, isRunning, settings, sessionId]);
 
   const loadPresets = useCallback(async () => {
-    if (!isLoggedIn()) {
+    if (!isAuthenticated) {
       setPresets([]);
       return;
     }
@@ -260,7 +257,7 @@ export function usePomodoro() {
     setEndAt(now + duration);
     setIsRunning(true);
     modeStartAtRef.current = now;
-    if (!isLoggedIn() || sessionId != null) return;
+    if (!isAuthenticated || sessionId != null) return;
     try {
       const log = await createPomodoroLog({
         focusMinutes: settings.focusMinutes,
@@ -342,7 +339,7 @@ export function usePomodoro() {
 
   const saveCurrentAsPreset = useCallback(
     async (name: string, settingsOverride?: PomodoroSettings) => {
-      if (!isLoggedIn()) {
+      if (!isAuthenticated) {
         toast.error("프리셋 저장은 로그인 후 사용할 수 있습니다.");
         return;
       }
@@ -360,7 +357,7 @@ export function usePomodoro() {
   );
 
   const removePreset = useCallback(async (id: number) => {
-    if (!isLoggedIn()) return;
+    if (!isAuthenticated) return;
     try {
       await deletePreset(id);
       setPresets((prev) => prev.filter((p) => p.id !== id));
@@ -373,7 +370,7 @@ export function usePomodoro() {
 
   const editPreset = useCallback(
     async (id: number, name: string, next: PomodoroSettings) => {
-      if (!isLoggedIn()) return;
+      if (!isAuthenticated) return;
       try {
         const updated = await updatePreset(id, name, next);
         setPresets((prev) => prev.map((p) => (p.id === id ? updated : p)));
@@ -393,7 +390,7 @@ export function usePomodoro() {
     settings,
     presets,
     loadingPresets,
-    isLoggedIn: isLoggedIn(),
+    isLoggedIn: isAuthenticated,
     start,
     pause,
     reset,
