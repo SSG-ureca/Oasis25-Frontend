@@ -317,9 +317,11 @@ export function usePomodoro() {
         focusMinutes: preset.focusMinutes,
         breakMinutes: preset.breakMinutes,
       });
-      setRemaining(preset.focusMinutes * 60_000);
+      setRemaining(
+        (mode === "focus" ? preset.focusMinutes : preset.breakMinutes) * 60_000,
+      );
     },
-    [isRunning],
+    [isRunning, mode],
   );
 
   const updateSettings = useCallback(
