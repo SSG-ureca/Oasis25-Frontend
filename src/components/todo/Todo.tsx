@@ -9,10 +9,7 @@ interface TodoItem {
   done: boolean;
 }
 
-const initialTodos: TodoItem[] = [
-  { id: 1, time: "12:00", text: "3월 모의고사", done: false },
-  { id: 2, time: "14:00", text: "", done: false },
-];
+const initialTodos: TodoItem[] = [];
 
 const STORAGE_KEY = "oasis-todos";
 
