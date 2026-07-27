@@ -170,18 +170,12 @@ export const MusicPlayer = () => {
         <Panel
           variant="clay"
           inset
-          className="relative w-20 rounded-full py-1 pl-2 pr-4 680:w-28">
-          <div className="relative h-2 w-full">
+          className="relative w-28 rounded-full py-1 px-3 680:w-40">
+          <div className="relative h-1.5 w-full">
             <div
-              className="pointer-events-none absolute left-0 top-0 h-2 rounded-full bg-primary"
+              className="pointer-events-none absolute left-0 top-0 h-1.5 rounded-full bg-primary"
               style={{
                 width: `${volume * 100}%`,
-              }}
-            />
-            <div
-              className="pointer-events-none absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary shadow-clay"
-              style={{
-                left: `${volume * 100}%`,
               }}
             />
           </div>
