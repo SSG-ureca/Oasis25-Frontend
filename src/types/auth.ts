@@ -3,11 +3,18 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface LoginResponse {
-  accessToken: string;
-  refreshToken: string;
-  tokenType: string;
+export interface User {
+  id?: number;
+  email: string;
+  nickname: string;
+  role?: string;
+  profileImageUrl?: string | null;
+}
+
+export interface AuthStatusResponse {
   expiresIn: number;
+  tokenType: string;
+  user: User;
 }
 
 export interface RegisterRequest {
@@ -22,4 +29,3 @@ export interface RegisterResponse {
   nickname: string;
   role: string;
 }
-
