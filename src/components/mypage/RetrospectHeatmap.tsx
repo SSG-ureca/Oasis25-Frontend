@@ -64,49 +64,80 @@ export const RetrospectHeatmap = () => {
     };
 
     return (
-        <div className="flex gap-4">
+        <div
+            className="
+            flex
+            flex-col
+            880:flex-row
+
+            gap-3
+            h-full
+            min-h-0
+            "
+        >
             <Panel
                 variant="clay"
                 inset
-                className="flex-[9] p-2 min-h-0 justify-center items-center"
+                className="
+flex-1
+
+min-h-[180px]
+880:min-h-0
+
+p-2
+
+flex
+items-center
+justify-center
+"
             >
                 {loading ? (
                     <div className="text-center text-text-muted text-sm">
                         데이터를 불러오는 중입니다...
                     </div>
                 ) : year ? (
-                    <CalendarHeatmap
-                        startDate={new Date(`${year}-01-01`)}
-                        endDate={new Date(`${year}-12-31`)}
-                        values={values}
-                        showMonthLabels={false}
-                        classForValue={(value) => {
-                            if (!value || !value.count) {
-                                return "color-empty";
-                            }
+                    <div
+                        className="
+w-full
+overflow-x-auto
 
-                            const minutes = value.count;
+flex
+justify-center
+"
+                    >
+                        <CalendarHeatmap
+                            startDate={new Date(`${year}-01-01`)}
+                            endDate={new Date(`${year}-12-31`)}
+                            values={values}
+                            showMonthLabels={false}
+                            classForValue={(value) => {
+                                if (!value || !value.count) {
+                                    return "color-empty";
+                                }
 
-                            if (minutes < 30) {
-                                return "color-level-1";
-                            }
+                                const minutes = value.count;
 
-                            if (minutes < 60) {
-                                return "color-level-2";
-                            }
+                                if (minutes < 30) {
+                                    return "color-level-1";
+                                }
 
-                            if (minutes < 120) {
-                                return "color-level-3";
-                            }
+                                if (minutes < 60) {
+                                    return "color-level-2";
+                                }
 
-                            return "color-level-4";
-                        }}
-                        titleForValue={(value) => {
-                            if (!value) return "기록 없음";
+                                if (minutes < 120) {
+                                    return "color-level-3";
+                                }
 
-                            return `${value.date}\n집중 시간: ${value.count}분`;
-                        }}
-                    />
+                                return "color-level-4";
+                            }}
+                            titleForValue={(value) => {
+                                if (!value) return "기록 없음";
+
+                                return `${value.date}\n집중 시간: ${value.count}분`;
+                            }}
+                        />
+                    </div>
                 ) : (
                     <div className="text-center text-text-muted text-sm">
                         기록된 데이터가 없습니다.
@@ -114,12 +145,41 @@ export const RetrospectHeatmap = () => {
                 )}
             </Panel>
 
-            <div className="flex-[1] flex flex-col gap-2">
+            <div
+                className="
+flex
+flex-row
+880:flex-col
+
+gap-2
+
+overflow-x-auto
+
+scrollbar-hide
+
+shrink-0
+
+pb-1
+"
+            >
                 {years.map((y) => (
                     <Button
                         key={y}
                         variant="clay"
-                        className={`p-2 ${year === y ? "bg-emerald-200 text-emerald-800 font-bold" : ""}`}
+                        className={`
+px-3
+py-1.5
+
+text-sm
+
+880:px-4
+880:py-2
+880:text-base
+
+whitespace-nowrap
+
+880:w-full
+                         ${year === y ? "bg-emerald-200 text-emerald-800 font-bold" : ""}`}
                         onClick={() => handleYearClick(y)}
                     >
                         {y}

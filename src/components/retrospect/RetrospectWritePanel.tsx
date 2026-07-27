@@ -73,7 +73,7 @@ export const RetrospectWritePanel = () => {
 
     return (
         <RetrospectPanel
-            title="회고 작성하기"
+            title="오늘 하루는 어땠나요?"
             header={
                 <EmotionSelector
                     value={emotionScore}
@@ -93,7 +93,7 @@ export const RetrospectWritePanel = () => {
                         사진 추가
                     </Button>
                     <Button variant="clay" onClick={handleSubmit}>
-                        작성
+                        저장
                     </Button>
                 </div>
             }
@@ -124,7 +124,7 @@ export const RetrospectWritePanel = () => {
                             bg-transparent
                             outline-none
                         "
-                        placeholder="오늘의 회고를 작성해보세요."
+                        placeholder="오늘의 몰입 상태와 컨디션을 간단히 기록해보세요..."
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                     />
@@ -145,7 +145,7 @@ export const RetrospectWritePanel = () => {
                             className="w-full h-full object-cover rounded-xl"
                         />
                     ) : (
-                        "사진 첨부"
+                        "첨부 사진"
                     )}
                 </Panel>
             </div>

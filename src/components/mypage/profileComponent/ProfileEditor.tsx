@@ -6,10 +6,10 @@ import { Panel } from "../../common/Panel";
 import type { ProfileResponse } from "../../../types/profile";
 
 import {
-  getProfile,
-  updateProfile,
-  updateProfileImage,
-  updatePassword,
+    getProfile,
+    updateProfile,
+    updateProfileImage,
+    updatePassword,
 } from "../../../services/profileApi";
 
 import { ProfileImage } from "./ProfileImage";
@@ -22,158 +22,168 @@ import { ProfileOptions } from "./ProfileOptions";
 const DEFAULT_PROFILE_IMAGE = logoImage;
 
 export const ProfileEditor = () => {
-  const [profile, setProfile] = useState<ProfileResponse | null>(null);
+    const [profile, setProfile] = useState<ProfileResponse | null>(null);
 
-  const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
-  const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
-  const [isEditMode, setIsEditMode] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
 
-  const [editNickname, setEditNickname] = useState("");
+    const [editNickname, setEditNickname] = useState("");
 
-  const [currentPassword, setCurrentPassword] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
 
-  const [newPassword, setNewPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
 
-  const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const [previewUrl, setPreviewUrl] = useState(DEFAULT_PROFILE_IMAGE);
+    const [previewUrl, setPreviewUrl] = useState(DEFAULT_PROFILE_IMAGE);
 
-  const [autoPlay, setAutoPlay] = useState(false);
-  const [focusMode, setFocusMode] = useState(false);
+    const [autoPlay, setAutoPlay] = useState(false);
+    const [focusMode, setFocusMode] = useState(false);
 
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // 프로필 데이터 갱신 함수
-  const loadProfile = async () => {
-    const data = await getProfile();
+    // 프로필 데이터 갱신 함수
+    const loadProfile = async () => {
+        const data = await getProfile();
 
-    setProfile(data);
+        setProfile(data);
 
-    setEditNickname(data.nickname);
+        setEditNickname(data.nickname);
 
-    setPreviewUrl(data.profileImage || DEFAULT_PROFILE_IMAGE);
-  };
-
-  // 최초 프로필 조회
-  useEffect(() => {
-    const initProfile = async () => {
-      try {
-        setLoading(true);
-
-        await loadProfile();
-      } catch {
-        setError("프로필을 불러오지 못했습니다.");
-      } finally {
-        setLoading(false);
-      }
+        setPreviewUrl(data.profileImage || DEFAULT_PROFILE_IMAGE);
     };
 
-    initProfile();
-  }, []);
+    // 최초 프로필 조회
+    useEffect(() => {
+        const initProfile = async () => {
+            try {
+                setLoading(true);
 
-  const handleComplete = async () => {
-    try {
-      if (profile && editNickname !== profile.nickname) {
-        await updateProfile({
-          nickname: editNickname,
-        });
-      }
+                await loadProfile();
+            } catch {
+                setError("프로필을 불러오지 못했습니다.");
+            } finally {
+                setLoading(false);
+            }
+        };
 
-      if (imageFile) {
-        await updateProfileImage(imageFile);
-      }
+        initProfile();
+    }, []);
 
-      if (currentPassword && newPassword) {
-        await updatePassword({
-          currentPassword,
-          newPassword,
-        });
-      }
+    const handleComplete = async () => {
+        try {
+            if (profile && editNickname !== profile.nickname) {
+                await updateProfile({
+                    nickname: editNickname,
+                });
+            }
 
-      // 수정 후 최신 데이터 다시 조회
-      await loadProfile();
+            if (imageFile) {
+                await updateProfileImage(imageFile);
+            }
 
-      setImageFile(null);
+            if (currentPassword && newPassword) {
+                await updatePassword({
+                    currentPassword,
+                    newPassword,
+                });
+            }
 
-      setCurrentPassword("");
+            // 수정 후 최신 데이터 다시 조회
+            await loadProfile();
 
-      setNewPassword("");
+            setImageFile(null);
 
-      setIsEditMode(false);
+            setCurrentPassword("");
 
-      toast.success("프로필이 수정되었습니다.");
-    } catch (error) {
-      console.error(error);
+            setNewPassword("");
 
-      toast.error("프로필 수정 실패");
+            setIsEditMode(false);
+
+            toast.success("프로필이 수정되었습니다.");
+        } catch (error) {
+            console.error(error);
+
+            toast.error("프로필 수정 실패");
+        }
+    };
+
+    if (loading) {
+        return <div>로딩중...</div>;
     }
-  };
 
-  if (loading) {
-    return <div>로딩중...</div>;
-  }
+    if (error) {
+        return <div>{error}</div>;
+    }
 
-  if (error) {
-    return <div>{error}</div>;
-  }
+    return (
+        <Panel
+            variant="clay"
+            inset
+            className="
+h-full
 
-  return (
-    <Panel
-      variant="clay"
-      inset
-      className="
-        h-full
-        flex
-        flex-col
-        min-h-0
-        p-6
-        gap-6
-    ">
-      <ProfileImage
-        previewUrl={previewUrl}
-        setPreviewUrl={setPreviewUrl}
-        imageFile={imageFile}
-        setImageFile={setImageFile}
-        isEditMode={isEditMode}
-        fileInputRef={fileInputRef}
-      />
+min-h-[400px]
+880:min-h-0
 
-      <ProfileInfo
-        profile={profile}
-        isEditMode={isEditMode}
-        nickname={editNickname}
-        setNickname={setEditNickname}
-      />
-      <div
-        className="
+flex
+flex-col
+
+p-3
+sm:p-4
+880:p-6
+
+gap-4
+880:gap-6
+"
+        >
+            <ProfileImage
+                previewUrl={previewUrl}
+                setPreviewUrl={setPreviewUrl}
+                imageFile={imageFile}
+                setImageFile={setImageFile}
+                isEditMode={isEditMode}
+                fileInputRef={fileInputRef}
+            />
+
+            <ProfileInfo
+                profile={profile}
+                isEditMode={isEditMode}
+                nickname={editNickname}
+                setNickname={setEditNickname}
+            />
+            <div
+                className="
         flex-1
         min-h-0
         overflow-hidden
-    ">
-        {isEditMode ? (
-          <PasswordForm
-            currentPassword={currentPassword}
-            newPassword={newPassword}
-            setCurrentPassword={setCurrentPassword}
-            setNewPassword={setNewPassword}
-          />
-        ) : (
-          <ProfileOptions
-            autoPlay={autoPlay}
-            setAutoPlay={setAutoPlay}
-            focusMode={focusMode}
-            setFocusMode={setFocusMode}
-          />
-        )}
-      </div>
+    "
+            >
+                {isEditMode ? (
+                    <PasswordForm
+                        currentPassword={currentPassword}
+                        newPassword={newPassword}
+                        setCurrentPassword={setCurrentPassword}
+                        setNewPassword={setNewPassword}
+                    />
+                ) : (
+                    <ProfileOptions
+                        autoPlay={autoPlay}
+                        setAutoPlay={setAutoPlay}
+                        focusMode={focusMode}
+                        setFocusMode={setFocusMode}
+                    />
+                )}
+            </div>
 
-      <ProfileActions
-        isEditMode={isEditMode}
-        setIsEditMode={setIsEditMode}
-        onComplete={handleComplete}
-      />
-    </Panel>
-  );
+            <ProfileActions
+                isEditMode={isEditMode}
+                setIsEditMode={setIsEditMode}
+                onComplete={handleComplete}
+            />
+        </Panel>
+    );
 };
