@@ -20,11 +20,12 @@ export default function Dashboard() {
           ? "grid-cols-1 680:grid-cols-[1fr_300px]"
           : "grid-cols-1 max-880:h-auto max-880:content-start 680:grid-cols-[290px_minmax(290px,1fr)] 880:grid-cols-[290px_minmax(290px,2fr)_minmax(175px,1fr)]"
       }`}>
+      {/* 왼쪽 열 : 날씨랑 할일목록 */}
       <div
         className={`min-h-0 min-w-[290px] flex-col gap-6 ${
           isFocusMode ? "hidden" : "flex"
         }`}>
-        <Panel variant="clay" className="min-h-0 flex-1 p-4">
+        <Panel variant="clay" className="shrink-0 p-4">
           <WeatherPanel />
         </Panel>
         <Panel variant="clay" className="min-h-0 flex-1 p-4">
@@ -34,8 +35,8 @@ export default function Dashboard() {
       <div className="order-first flex flex-col gap-6 880:order-0">
         <Panel
           variant="clay"
-          className={`order-first flex-1 p-2 880:order-0 transition-all duration-300 justify-center items-center ${
-            isFocusMode ? "min-h-130 p-4 flex" : "min-h-[380px] min-w-[290px]"
+          className={`order-first flex-1 p-2 880:order-0 transition-all duration-300 ${
+            isFocusMode ? "min-h-[480px] p-4" : "min-h-[380px] min-w-[290px]"
           }`}>
           <PomodoroTimer onFocusModeChange={setIsFocusMode} />
         </Panel>
@@ -53,7 +54,7 @@ export default function Dashboard() {
       <div
         className={`flex min-h-0 flex-col gap-6 ${
           isFocusMode
-            ? "min-w-75"
+            ? "min-w-[300px]"
             : "min-w-[175px] 680:col-span-2 880:col-span-1"
         }`}>
         {!isFocusMode && (
