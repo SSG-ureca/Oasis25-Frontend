@@ -93,7 +93,7 @@ const Header = () => {
       <Panel
         variant="clay"
         inset
-        className="px-5 py-2.5 hidden 880:flex gap-5 rounded-4xl">
+        className="px-5 py-2.5 hidden 880:flex gap-5 rounded-4xl bg-panel-bg">
         {NAV_ITEMS.map((item) => {
           const isProtected = isGuest && PROTECTED_PATHS.includes(item.to);
           return (
@@ -130,7 +130,7 @@ const Header = () => {
           <Button
             variant="clay"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="rounded-full w-12 h-12 p-0">
+            className="rounded-full w-12 h-12 p-0 bg-panel-bg">
             {isMobileMenuOpen ? (
               <X className="w-6 h-6 text-text-muted" />
             ) : (
@@ -210,7 +210,7 @@ const Header = () => {
           <Button
             variant="clay"
             onClick={toggleTheme}
-            className="rounded-full w-12 h-12 p-0">
+            className="rounded-full w-12 h-12 p-0 bg-panel-bg">
             {isDark ? (
               <Moon className="w-6 h-6 text-text-muted" />
             ) : (
@@ -228,7 +228,7 @@ const Header = () => {
             <Button
               variant="clay"
               onClick={() => setIsFeedbackOpen(true)}
-              className="rounded-full px-4 h-12 text-xs font-bold text-text-muted">
+              className="rounded-full px-4 h-12 text-xs font-bold text-text-muted bg-panel-bg">
               VOC
             </Button>
           </RestrictedArea>
@@ -236,7 +236,7 @@ const Header = () => {
             <Button
               variant="clay"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="rounded-full w-12 h-12 p-0 overflow-hidden relative group">
+              className="rounded-full w-12 h-12 p-0 overflow-hidden relative group bg-panel-bg">
               <User
                 className="w-9 h-9 text-text-muted fill-current"
                 strokeWidth={0}

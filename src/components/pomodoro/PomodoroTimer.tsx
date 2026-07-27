@@ -13,6 +13,7 @@ import { usePomodoro } from "../../hooks/usePomodoro";
 import { MAX_CUSTOM_PRESETS } from "../../types/pomodoro";
 import type { PomodoroPreset } from "../../types/pomodoro";
 import PomodoroOrb from "./PomodoroOrb";
+import PomodoroAlarm from "./PomodoroAlarm";
 import { Panel } from "../common/Panel";
 
 function formatTime(ms: number) {
@@ -368,6 +369,7 @@ export default function PomodoroTimer() {
         </div>
       </div>
 
+      <PomodoroAlarm mode={mode} />
       <PomodoroOrb
         timeLabel={formatTime(remaining)}
         subLabel={isFocus ? "집중 모드" : "휴식 모드"}
