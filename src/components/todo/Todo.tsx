@@ -165,6 +165,7 @@ export function Todo() {
                         onClick={() => {
                           setTodos(todos.map(t => t.id === editData.id ? { ...t, text: editData.text, time: editData.time } : t));
                           setEditData(null);
+                          toast.success("할 일이 수정되었습니다.", 1500);
                         }}
                         className="text-gray-20 hover:text-blue-400 transition-colors"
                         aria-label="저장">
