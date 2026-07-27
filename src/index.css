@@ -89,9 +89,9 @@
   --color-text-muted: #878a99;
 
   /* --- Claymorphism (사막 테마) --- */
-  --color-app-bg: #e4c28f;      /* 앱 전체 배경색 */
-  --color-panel-bg: #e4c28f;    /* 공통 패널 배경색 */
-  --color-clay-bg: #e4c28f;     /* 클레이모피즘 표면색 */
+  --color-app-bg: #e8e2d3;      /* 앱 전체 배경색 */
+  --color-panel-bg: #e8e2d3;    /* 공통 패널 배경색 */
+  --color-clay-bg: #e8e2d3;     /* 클레이모피즘 표면색 */
   --color-clay-border: #c4a27a; /* 클레이모피즘 테두리색 */
 
   /* 클레이모피즘 기본 그림자 (튀어나온 효과) */
@@ -118,28 +118,24 @@
    ========================================================================== */
 html.dark {
   /* 다크모드 전용 배경 및 텍스트 색상 */
-  --color-app-bg: #362f23;
+  --color-app-bg: #342e27;
   --color-bg-light: #24283b;
-  --color-panel-bg: #191511;
-  --color-text: #b5a066;
-  --color-text-muted: #8f7d4c;
+  --color-panel-bg: #342e27;
+  --color-text: #ddd7b9;
+  --color-text-muted: #a6a188;
 
   /* 다크모드 전용 클레이모피즘 색상 */
-  --color-clay-bg: #26231e;
+  --color-clay-bg: #342e27;
   --color-clay-border: #4e5266;
 
   /* 다크모드 클레이모피즘 그림자 */
   --shadow-clay:
-    14px 16px 28px rgba(24, 19, 15, 0.28), 
-    5px 7px 12px rgba(42, 33, 27, 0.14),
-    -8px -8px 14px rgba(181, 160, 102, 0.12),
-    inset 2px 2px 3px rgba(181, 160, 102, 0.3),
-    inset -2px -3px 4px rgba(20, 16, 12, 0.12);
+    14px 16px 28px rgba(0, 0, 0, 0.25),
+    -8px -8px 14px rgba(0, 0, 0, 0.25);
 
   --shadow-clay-inset:
-    inset 8px 9px 16px rgba(24, 19, 15, 0.24),
-    inset -6px -7px 12px rgba(181, 160, 102, 0.29),
-    inset 1px 1px 2px rgba(181, 160, 102, 0.22);
+    inset 8px 9px 16px rgba(0, 0, 0, 0.25),
+    inset -6px -7px 12px rgba(0, 0, 0, 0.25);
 }
 
 /* ==========================================================================
@@ -181,9 +177,9 @@ html.dark {
 html.dark .clay-surface {
   background-image: linear-gradient(
     145deg,
-    rgba(255, 255, 255, 0.04) 0%,
-    rgba(60, 66, 92, 0.3) 42%,
-    rgba(45, 52, 75, 0.15) 100%
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.01) 42%,
+    rgba(0, 0, 0, 0.2) 100%
   );
 }
 
@@ -193,8 +189,8 @@ html.dark .clay-hover:hover {
   background-image: linear-gradient(
     145deg,
     rgba(255, 255, 255, 0.08) 0%,
-    rgba(60, 66, 92, 0.98) 45%,
-    rgba(45, 52, 75, 0.92) 100%
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(0, 0, 0, 0.3) 100%
   );
   box-shadow: var(--shadow-clay);
 }

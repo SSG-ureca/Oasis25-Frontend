@@ -15,7 +15,6 @@ export const clayVariants = cva(
         clay: [
           "bg-clay-bg",
           "shadow-[var(--shadow-clay)]",
-          "border border-[var(--color-clay-border)]",
           "clay-surface",
           "text-text",
         ],
