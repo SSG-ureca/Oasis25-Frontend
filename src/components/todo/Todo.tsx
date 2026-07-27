@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { Plus, Check, X, Trash2, Pencil } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { Check, Trash2, Pencil } from "lucide-react";
 import { Panel } from "../common/Panel";
 import { toast } from "../common/Toast";
+import { TimePicker } from "./TimePicker";
 
 interface TodoItem {
   id: number;
@@ -10,9 +11,9 @@ interface TodoItem {
   done: boolean;
 }
 
-const initialTodos: TodoItem[] = [];
-
 const STORAGE_KEY = "oasis-todos";
+
+const initialTodos: TodoItem[] = [];
 
 const loadTodos = (): TodoItem[] => {
   try {
@@ -27,10 +28,13 @@ const loadTodos = (): TodoItem[] => {
 
 export function Todo() {
   const [todos, setTodos] = useState<TodoItem[]>(loadTodos);
+  const [newTime, setNewTime] = useState("--:--");
   const [newText, setNewText] = useState("");
-  const [newTime, setNewTime] = useState("00:00");
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editData, setEditData] = useState<{ id: number; text: string; time: string } | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [openPickerId, setOpenPickerId] = useState<number | "new" | null>(null);
+  const [pickerAnchorEl, setPickerAnchorEl] = useState<HTMLElement | null>(null);
+  const timeRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   useEffect(() => {
     try {
@@ -50,26 +54,26 @@ export function Todo() {
     );
   };
 
-  const updateText = (id: number, text: string) => {
-    setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, text } : t)));
-  };
-
-  const updateTime = (id: number, time: string) => {
-    setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, time } : t)));
-  };
-
   const deleteTodo = (id: number) => {
     setTodos((prev) => prev.filter((t) => t.id !== id));
     toast.success("할 일이 삭제되었습니다.", 1500);
   };
 
+
+
   const addTodo = () => {
-    const text = newText.trim();
-    if (!text) return;
-    const time = newTime.trim() || "00:00";
-    setTodos((prev) => [...prev, { id: Date.now(), time, text, done: false }]);
+    if (newTime === "--:--") {
+      toast.error("할 일의 시간을 선택하고 추가해주세요.", 3000);
+      return;
+    }
+    if (!newText.trim()) {
+      toast.error("할 일을 입력해주세요.", 3000);
+      return;
+    }
+    setTodos((prev) => [...prev, { id: Date.now(), time: newTime, text: newText, done: false }]);
     setNewText("");
-    setNewTime("00:00");
+    setNewTime("--:--");
+    toast.success("할 일이 추가되었습니다.", 1500);
   };
 
   // 할 일 목록을 시간순으로 정렬
@@ -89,7 +93,10 @@ export function Todo() {
         onScroll={handleScroll}>
         <div className="relative flex flex-col gap-2">
           {sortedTodos.map((todo, index) => {
-            const showTime = index === 0 || sortedTodos[index - 1].time !== todo.time;
+            const isEditingThis = editData?.id === todo.id;
+            const isFirstTimeGroup = index === 0 || sortedTodos[index - 1].time !== todo.time;
+            const showTime = isFirstTimeGroup || isEditingThis;
+            
             return (
               <div
                 key={todo.id}
@@ -97,17 +104,32 @@ export function Todo() {
                 <div className="w-12 shrink-0 relative flex flex-col items-center justify-center">
                   {showTime ? (
                     <div
-                      onClick={(e: React.MouseEvent<HTMLDivElement>) => (e.currentTarget.querySelector("input") as HTMLInputElement)?.showPicker()}
-                      className="w-full flex items-center justify-center cursor-pointer relative z-10">
-                      <span className="text-[12.5px] font-bold text-gray-20 text-center w-full select-none">
-                        {todo.time}
+                      ref={(el) => { timeRefs.current[todo.id] = el; }}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={(e) => {
+                        if (!isEditingThis) return; // 수정 모드일 때만 드롭다운 열기
+                        setOpenPickerId(todo.id);
+                        setPickerAnchorEl(e.currentTarget);
+                      }}
+                      className={`w-full flex items-center justify-center relative z-10 ${
+                        isEditingThis ? "cursor-pointer" : "cursor-default"
+                      }`}>
+                      <span
+                        className={`text-[12.5px] font-bold text-center w-full select-none transition-colors ${
+                          isEditingThis
+                            ? "text-primary hover:brightness-110"
+                            : "text-gray-20"
+                        }`}>
+                        {isEditingThis && editData ? editData.time : todo.time}
                       </span>
-                      <input
-                        type="time"
-                        value={todo.time}
-                        onChange={(e) => updateTime(todo.id, e.target.value)}
-                        className="absolute opacity-0 w-0 h-0 pointer-events-none"
-                      />
+                      {openPickerId === todo.id && (
+                        <TimePicker
+                          value={isEditingThis && editData ? editData.time : todo.time}
+                          onChange={(val) => setEditData(prev => prev ? { ...prev, time: val } : prev)}
+                          onClose={() => { setOpenPickerId(null); setPickerAnchorEl(null); }}
+                          anchorEl={pickerAnchorEl}
+                        />
+                      )}
                     </div>
                   ) : (
                     <div className="absolute top-[-4px] bottom-[-4px] left-1/2 w-[1.5px] border-l-[1.5px] border-dashed border-gray-20 -translate-x-1/2 z-0"></div>
@@ -119,36 +141,44 @@ export function Todo() {
                   inset
                   className="group flex min-w-0 flex-1 items-center gap-2.5 rounded-full px-3.5 py-2.5 my-auto">
                   
-                  {editingId === todo.id ? (
+                  {isEditingThis && editData ? (
                     <input
                       type="text"
-                      autoFocus
-                      value={todo.text}
-                      onChange={(e) => updateText(todo.id, e.target.value)}
-                      onBlur={() => setEditingId(null)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") setEditingId(null);
-                      }}
+                      value={editData.text}
+                      onChange={(e) => setEditData(prev => prev ? { ...prev, text: e.target.value } : prev)}
                       className="min-w-0 flex-1 bg-transparent text-[13px] font-normal outline-none text-gray-10"
                     />
                   ) : (
                     <div
                       onClick={() => toggleTodo(todo.id)}
                       className={`min-w-0 flex-1 cursor-pointer truncate text-[13px] font-normal select-none transition-colors ${
-                        todo.done ? "text-gray-20 line-through" : "text-gray-10"
+                        todo.done ? "text-gray-20 line-through opacity-40" : "text-gray-10"
                       }`}>
                       {todo.text}
                     </div>
                   )}
                   
-                  <div className="shrink-0 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      type="button"
-                      onClick={() => setEditingId(todo.id)}
-                      className="text-gray-20 hover:text-blue-400 transition-colors"
-                      aria-label="수정">
-                      <Pencil className="h-3 w-3" />
-                    </button>
+                  <div className={`shrink-0 flex items-center gap-2 transition-opacity ${isEditingThis ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
+                    {isEditingThis && editData ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setTodos(todos.map(t => t.id === editData.id ? { ...t, text: editData.text, time: editData.time } : t));
+                          setEditData(null);
+                        }}
+                        className="text-gray-20 hover:text-blue-400 transition-colors"
+                        aria-label="저장">
+                        <Check className="h-4 w-4" strokeWidth={3} />
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setEditData({ id: todo.id, text: todo.text, time: todo.time })}
+                        className="text-gray-20 hover:text-blue-400 transition-colors"
+                        aria-label="수정">
+                        <Pencil className="h-3 w-3" />
+                      </button>
+                    )}
                     <button
                       type="button"
                       onClick={() => deleteTodo(todo.id)}
@@ -164,17 +194,23 @@ export function Todo() {
 
           <div className="flex w-full min-w-0 items-center gap-1.5 mt-1 relative z-10">
             <div
-              onClick={(e: React.MouseEvent<HTMLDivElement>) => (e.currentTarget.querySelector("input") as HTMLInputElement)?.showPicker()}
-              className="w-12 shrink-0 flex items-center justify-center cursor-pointer relative">
-              <span className="text-[12.5px] font-bold text-gray-20 text-center w-full select-none">
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={(e) => {
+                setOpenPickerId("new");
+                setPickerAnchorEl(e.currentTarget);
+              }}
+              className="w-12 shrink-0 flex items-center justify-center cursor-pointer relative z-10">
+              <span className="text-[12.5px] font-bold text-gray-20 text-center w-full select-none hover:text-gray-10 transition-colors">
                 {newTime}
               </span>
-              <input
-                type="time"
-                value={newTime}
-                onChange={(e) => setNewTime(e.target.value)}
-                className="absolute opacity-0 w-0 h-0 pointer-events-none"
-              />
+              {openPickerId === "new" && (
+                <TimePicker
+                  value={newTime === "--:--" ? "09:00" : newTime}
+                  onChange={(val) => setNewTime(val)}
+                  onClose={() => { setOpenPickerId(null); setPickerAnchorEl(null); }}
+                  anchorEl={pickerAnchorEl}
+                />
+              )}
             </div>
 
             <Panel
