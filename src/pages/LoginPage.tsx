@@ -7,9 +7,12 @@ import { loginApi } from "../services/authApi";
 import { toast } from "../components/common/Toast";
 import { Sparkles, Mail, Lock, Loader2 } from "lucide-react";
 import { Tumbleweeds } from "../components/common/Tumbleweeds";
-import OASIS25 from "../assets/images/OASIS25.png";
+import oasis25Light from "../assets/images/Oasis25-lightmode.png";
+import oasis25Dark from "../assets/images/Oasis25-darkmode.png";
+import { useTheme } from "../hooks/useTheme";
 
 export const LoginPage: React.FC = () => {
+  const { isDark } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState("");
@@ -47,7 +50,8 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-[var(--color-app-bg)] overflow-hidden animate-in fade-in duration-300">
+    <div className="w-screen h-screen flex items-center justify-center bg-[var(--color-app-bg)] overflow-hidden animate-in fade-in duration-300 desert-grain">
+      <div className="sand-overlay" />
       <Tumbleweeds />
       <div className="w-full max-w-md p-4 z-10 relative">
         <Panel
@@ -55,7 +59,7 @@ export const LoginPage: React.FC = () => {
           className="p-8 rounded-[36px] flex flex-col space-y-4">
           <div className="text-center mb-8 mt-2">
             <img
-              src={OASIS25}
+              src={isDark ? oasis25Dark : oasis25Light}
               alt="OASIS25"
               className="h-7 object-contain mx-auto drop-shadow-sm"
             />

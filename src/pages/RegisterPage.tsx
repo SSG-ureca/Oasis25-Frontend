@@ -6,10 +6,13 @@ import { InputField } from "../components/common/InputField";
 import { registerApi } from "../services/authApi";
 import { toast } from "../components/common/Toast";
 import { Sparkles, Mail, Lock, User, Loader2 } from "lucide-react";
-import OASIS25 from "../assets/images/OASIS25.png";
 import { Tumbleweeds } from "../components/common/Tumbleweeds";
+import oasis25Light from "../assets/images/Oasis25-lightmode.png";
+import oasis25Dark from "../assets/images/Oasis25-darkmode.png";
+import { useTheme } from "../hooks/useTheme";
 
 export const RegisterPage: React.FC = () => {
+  const { isDark } = useTheme();
   const navigate = useNavigate();
 
   // 상태 선언 (이메일, 닉네임, 비밀번호, 비밀번호 확인, 로딩, 에러/성공 메시지)
@@ -56,7 +59,8 @@ export const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-[var(--color-app-bg)] overflow-hidden animate-in fade-in duration-300">
+    <div className="w-screen h-screen flex items-center justify-center bg-[var(--color-app-bg)] overflow-hidden animate-in fade-in duration-300 desert-grain">
+      <div className="sand-overlay" />
       <Tumbleweeds />
       <div className="w-full max-w-md p-4 z-10 relative">
         <Panel
@@ -65,7 +69,7 @@ export const RegisterPage: React.FC = () => {
           {/* 헤더 영역 */}
           <div className="text-center mb-8 mt-2">
             <img
-              src={OASIS25}
+              src={isDark ? oasis25Dark : oasis25Light}
               alt="OASIS25"
               className="h-7 object-contain mx-auto drop-shadow-sm"
             />
