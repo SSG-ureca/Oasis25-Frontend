@@ -85,7 +85,7 @@ export function Todo() {
         className={`shrink-0 flex items-center justify-center pt-1 pb-3 mb-2 relative z-20 transition-all duration-300 ${
           isScrolled ? "shadow-[0_8px_12px_-8px_rgba(0,0,0,0.12)]" : ""
         }`}>
-        <h2 className="text-base font-extrabold text-gray-10 tracking-wider">TODO LIST</h2>
+        <h2 className="text-base font-extrabold text-text tracking-wider">TODO LIST</h2>
       </div>
 
       <div
@@ -118,7 +118,7 @@ export function Todo() {
                         className={`text-[12.5px] font-bold text-center w-full select-none transition-colors ${
                           isEditingThis
                             ? "text-primary hover:brightness-110"
-                            : "text-gray-20"
+                            : "text-text-muted"
                         }`}>
                         {isEditingThis && editData ? editData.time : todo.time}
                       </span>
@@ -146,13 +146,13 @@ export function Todo() {
                       type="text"
                       value={editData.text}
                       onChange={(e) => setEditData(prev => prev ? { ...prev, text: e.target.value } : prev)}
-                      className="min-w-0 flex-1 bg-transparent text-[13px] font-normal outline-none text-gray-10"
+                      className="min-w-0 flex-1 bg-transparent text-[13px] font-normal outline-none text-text"
                     />
                   ) : (
                     <div
                       onClick={() => toggleTodo(todo.id)}
                       className={`min-w-0 flex-1 cursor-pointer truncate text-[13px] font-normal select-none transition-colors ${
-                        todo.done ? "text-gray-20 line-through opacity-40" : "text-gray-10"
+                        todo.done ? "text-text-muted line-through opacity-40" : "text-text"
                       }`}>
                       {todo.text}
                     </div>
@@ -167,7 +167,7 @@ export function Todo() {
                           setEditData(null);
                           toast.success("할 일이 수정되었습니다.", 1500);
                         }}
-                        className="text-gray-20 hover:text-blue-400 transition-colors"
+                        className="text-text-muted hover:text-blue-400 transition-colors"
                         aria-label="저장">
                         <Check className="h-4 w-4" strokeWidth={3} />
                       </button>
@@ -175,7 +175,7 @@ export function Todo() {
                       <button
                         type="button"
                         onClick={() => setEditData({ id: todo.id, text: todo.text, time: todo.time })}
-                        className="text-gray-20 hover:text-blue-400 transition-colors"
+                        className="text-text-muted hover:text-blue-400 transition-colors"
                         aria-label="수정">
                         <Pencil className="h-3 w-3" />
                       </button>
@@ -183,7 +183,7 @@ export function Todo() {
                     <button
                       type="button"
                       onClick={() => deleteTodo(todo.id)}
-                      className="text-gray-20 hover:text-red-400 transition-colors"
+                      className="text-text-muted hover:text-red-400 transition-colors"
                       aria-label="삭제">
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
@@ -201,7 +201,7 @@ export function Todo() {
                 setPickerAnchorEl(e.currentTarget);
               }}
               className="w-12 shrink-0 flex items-center justify-center cursor-pointer relative z-10">
-              <span className="text-[12.5px] font-bold text-gray-20 text-center w-full select-none hover:text-gray-10 transition-colors">
+              <span className="text-[12.5px] font-bold text-text-muted text-center w-full select-none hover:text-text transition-colors">
                 {newTime}
               </span>
               {openPickerId === "new" && (
@@ -225,7 +225,7 @@ export function Todo() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") addTodo();
                 }}
-                className="min-w-0 flex-1 bg-transparent text-[13px] font-normal outline-none text-gray-10 placeholder:text-gray-20"
+                className="min-w-0 flex-1 bg-transparent text-[13px] font-normal outline-none text-text placeholder:text-text-muted"
                 placeholder="새로운 할일을 적고 Enter"
               />
             </Panel>
