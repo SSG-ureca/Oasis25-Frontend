@@ -35,6 +35,7 @@ export const LoginPage: React.FC = () => {
       localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("refreshToken", response.refreshToken);
       localStorage.setItem("tokenType", response.tokenType);
+      localStorage.removeItem("isGuest");
 
       const from = (location.state as { from?: string } | null)?.from;
       
@@ -123,7 +124,8 @@ export const LoginPage: React.FC = () => {
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");
                 localStorage.removeItem("tokenType");
-                navigate("/");
+                localStorage.setItem("isGuest", "true");
+                navigate("/splash");
               }}
               className="text-primary font-bold hover:underline cursor-pointer">
               게스트로 입장

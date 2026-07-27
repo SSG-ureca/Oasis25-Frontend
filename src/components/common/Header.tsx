@@ -80,6 +80,7 @@ const Header = () => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("tokenType");
+      localStorage.removeItem("isGuest");
       setIsMobileMenuOpen(false);
       navigate("/login");
     }
