@@ -73,9 +73,13 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       const refreshToken = localStorage.getItem("refreshToken");
+      const isGuest = localStorage.getItem("isGuest") === "true";
+
       if (!refreshToken) {
-        localStorage.clear();
-        window.location.href = "/login";
+        if (!isGuest) {
+          localStorage.clear();
+          window.location.href = "/login";
+        }
         return Promise.reject(error);
       }
 
