@@ -100,10 +100,10 @@ export const RetrospectWritePanel = () => {
         >
             <div
                 className="
-                    flex
+                     flex
                     flex-col
                     gap-6
-                    h-full
+                    min-w-0
                     w-full
                     min-h-0
                 "
@@ -112,8 +112,8 @@ export const RetrospectWritePanel = () => {
                     variant="clay"
                     inset
                     className="
+                        h-[240px]
                         p-4
-                        flex-[1.5]
                     "
                 >
                     <textarea
@@ -134,8 +134,8 @@ export const RetrospectWritePanel = () => {
                     variant="clay"
                     inset
                     className="
+                        h-[280px]
                         p-4
-                        flex-1
                     "
                 >
                     {previewUrl ? (

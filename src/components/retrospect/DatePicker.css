@@ -50,13 +50,17 @@
 }
 
 /* 선택 */
+/* 선택한 날짜 */
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
-    background: var(--color-primary);
-    color: white;
+    background: transparent;
+    color: var(--color-text);
+
+    border: 2px solid rgba(166, 133, 99, 0.8);
+
     box-shadow:
-        inset 2px 2px 5px rgba(255, 255, 255, 0.2),
-        4px 4px 10px rgba(0, 0, 0, 0.15);
+        inset 1px 1px 2px rgba(255, 255, 255, 0.35),
+        1px 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 /* 오늘 */
@@ -89,6 +93,7 @@
 .react-datepicker__triangle {
     display: none;
 }
+/* 회고가 있는 날짜 */
 .highlighted-custom {
     position: relative;
 }
@@ -96,25 +101,23 @@
 .highlighted-custom::after {
     content: "";
     position: absolute;
-    bottom: 4px;
+
     left: 50%;
+    bottom: 4px;
     transform: translateX(-50%);
 
     width: 4px;
     height: 4px;
 
-    border-radius: 50%;
+    border-radius: 999px;
 
-    background: var(--color-primary);
+    background: rgba(0, 0, 0, 0.28);
+
+    box-shadow:
+        inset 1px 1px 1px rgba(255, 255, 255, 0.35),
+        0 0 2px rgba(0, 0, 0, 0.15);
 }
-.react-datepicker__day--highlighted-custom::after {
-    content: "";
-    position: absolute;
-    bottom: 4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--color-primary);
+.react-datepicker__day--selected.highlighted-custom::after,
+.react-datepicker__day--keyboard-selected.highlighted-custom::after {
+    display: none;
 }

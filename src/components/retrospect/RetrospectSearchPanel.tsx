@@ -92,7 +92,8 @@ export const RetrospectSearchPanel = () => {
         setHighlightDates(dates.map((d) => new Date(d)));
         console.log("API dates:", dates);
     };
-
+    const isHighlightedDate = (date: Date) =>
+        highlightDates.some((d) => d.toDateString() === date.toDateString());
     return (
         <RetrospectPanel
             title="회고 찾아보기"
@@ -118,7 +119,11 @@ export const RetrospectSearchPanel = () => {
                                 selectedDate.getMonth(),
                             )
                         }
-                        highlightDates={highlightDates}
+                        dayClassName={(date) =>
+                            isHighlightedDate(date)
+                                ? "highlighted-custom"
+                                : undefined
+                        }
                         dateFormat="yyyy-MM-dd"
                         className="
             h-10
@@ -153,7 +158,7 @@ export const RetrospectSearchPanel = () => {
                     flex
                     flex-col
                     gap-6
-                    h-full
+                    min-w-0
                     w-full
                     min-h-0
                 "
@@ -162,8 +167,8 @@ export const RetrospectSearchPanel = () => {
                     variant="clay"
                     inset
                     className="
+                        h-[240px]
                         p-4
-                        flex-[1.5]
                     "
                 >
                     {retrospect ? (
@@ -187,8 +192,8 @@ export const RetrospectSearchPanel = () => {
                     variant="clay"
                     inset
                     className="
+                        h-[280px]
                         p-4
-                        flex-1
                     "
                 >
                     {retrospect?.attachmentUrl ? (

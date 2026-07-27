@@ -18,18 +18,16 @@ export const RetrospectPanel = ({
 }: RetrospectPanelProps) => {
     return (
         <Panel
-            variant="clay"
             className="
-                p-6
-                h-full
-                w-full
+        w-full
+        p-6
 
-                flex
-                flex-col
-                gap-6
-                min-h-0
-                overflow-y-auto
-            "
+        flex
+        flex-col
+        gap-6
+
+        overflow-hidden
+    "
         >
             {/* 헤더 */}
             <div
@@ -58,10 +56,10 @@ export const RetrospectPanel = ({
             {/* 컨텐츠 */}
             <div
                 className="
-                    flex-1
+                
                     
                     w-full
-                    overflow-y-auto
+                    
                 "
             >
                 {children}
