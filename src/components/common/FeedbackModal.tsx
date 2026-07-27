@@ -27,6 +27,11 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
       return;
     }
 
+    if (!content.trim()) {
+      toast.warning("피드백 내용을 최소 1자 이상 작성해 주세요!");
+      return;
+    }
+
     setIsLoading(true);
     try {
       await createFeedback({ isGood, content });
@@ -40,6 +45,8 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
         toast.error(
           "로그인이 필요한 기능입니다. 로그인 후 다시 이용해 주세요.",
         );
+      } else if (error.response?.status === 400) {
+        toast.warning("피드백 내용을 작성해 주세요!");
       } else {
         toast.error("피드백 전송에 실패했습니다. 다시 시도해 주세요.");
       }
