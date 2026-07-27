@@ -64,13 +64,7 @@ export const RetrospectHeatmap = () => {
     };
 
     return (
-        <div
-            className="
-        flex
-        gap-4
-        flex-none
-    "
-        >
+        <div className="flex gap-4">
             <Panel
                 variant="clay"
                 inset
@@ -106,6 +100,11 @@ export const RetrospectHeatmap = () => {
                             }
 
                             return "color-level-4";
+                        }}
+                        titleForValue={(value) => {
+                            if (!value) return "기록 없음";
+
+                            return `${value.date}\n집중 시간: ${value.count}분`;
                         }}
                     />
                 ) : (

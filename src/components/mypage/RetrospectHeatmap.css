@@ -3,17 +3,21 @@
 }
 
 .react-calendar-heatmap .color-level-1 {
-    fill: #b8e7f5;
+    fill: #d1fae5;
 }
 
 .react-calendar-heatmap .color-level-2 {
-    fill: #67c7e8;
+    fill: #a7f3d0;
 }
 
 .react-calendar-heatmap .color-level-3 {
-    fill: #329fc4;
+    fill: #6ee7b7;
 }
 
 .react-calendar-heatmap .color-level-4 {
-    fill: #176a85;
+    fill: #059669;
+}
+.react-calendar-heatmap rect:hover {
+    stroke: transparent;
+    outline: none;
 }
