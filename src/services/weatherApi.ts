@@ -234,8 +234,8 @@ function mapWeather(pty: number, sky: number) {
  * { temp, skyText, iconName, loading, error } 상태를 반환하는 Hook
  */
 export function useWeather(
-  lat: number | null = null,
-  lon: number | null = null,
+  lat?: number,
+  lon?: number,
   enabled = true,
 ): WeatherState {
   const [state, setState] = useState<WeatherState>({
