@@ -8,6 +8,7 @@ import {
     getRetrospect,
     updateRetrospect,
     deleteRetrospect,
+    getRetrospectDates,
 } from "../../services/retrospectApi";
 import { toast } from "../common/Toast";
 import "react-datepicker/dist/react-datepicker.css";
@@ -21,6 +22,7 @@ export const RetrospectSearchPanel = () => {
     );
     const [editContent, setEditContent] = useState("");
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [highlightDates, setHighlightDates] = useState<Date[]>([]);
 
     // Get API 호출 함수
     const handleSearch = async (date: Date) => {
@@ -80,6 +82,17 @@ export const RetrospectSearchPanel = () => {
             toast.error("삭제 실패");
         }
     };
+    //달력 날짜 함수
+    const fetchHighlightedDates = async (year: number, month: number) => {
+        const start = new Date(year, month, 1);
+        const end = new Date(year, month + 1, 1); // exclusive end
+        const startStr = start.toISOString().slice(0, 10);
+        const endStr = end.toISOString().slice(0, 10);
+        const dates = await getRetrospectDates(startStr, endStr);
+        setHighlightDates(dates.map((d) => new Date(d)));
+        console.log("API dates:", dates);
+    };
+
     return (
         <RetrospectPanel
             title="회고 찾아보기"
@@ -93,6 +106,19 @@ export const RetrospectSearchPanel = () => {
                             setSelectedDate(date);
                             handleSearch(date);
                         }}
+                        onMonthChange={(date: Date) =>
+                            fetchHighlightedDates(
+                                date.getFullYear(),
+                                date.getMonth(),
+                            )
+                        }
+                        onCalendarOpen={() =>
+                            fetchHighlightedDates(
+                                selectedDate.getFullYear(),
+                                selectedDate.getMonth(),
+                            )
+                        }
+                        highlightDates={highlightDates}
                         dateFormat="yyyy-MM-dd"
                         className="
             h-10
