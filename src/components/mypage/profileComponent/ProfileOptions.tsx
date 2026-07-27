@@ -57,7 +57,8 @@ export const ProfileOptions = ({
             >
                 <span>집중 모드</span>
 
-                <button
+
+                <Button
                     onClick={() => setFocusMode(!focusMode)}
                     className="
                         px-6
@@ -68,7 +69,7 @@ export const ProfileOptions = ({
                     "
                 >
                     {focusMode ? "ON" : "OFF"}
-                </button>
+                </Button>
             </div>
         </div>
     );
