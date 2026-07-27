@@ -25,9 +25,12 @@ export const QuoteCard = () => {
         fetchQuote();
 
         // 5초마다 실행
-        const interval = setInterval(() => {
-            fetchQuote();
-        }, 5000);
+        const interval = setInterval(
+            () => {
+                fetchQuote();
+            },
+            30 * 60 * 1000,
+        );
 
         // 컴포넌트가 사라질 때 interval 정리
         return () => clearInterval(interval);
