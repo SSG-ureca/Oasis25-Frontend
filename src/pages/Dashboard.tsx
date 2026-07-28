@@ -28,12 +28,13 @@ export default function Dashboard() {
         <Panel variant="clay" className="shrink-0 p-4">
           <WeatherPanel />
         </Panel>
-        <Panel variant="clay" className="min-h-0 flex-1 p-4">
+        <Panel id="tour-todo" variant="clay" className="min-h-0 flex-1 p-4">
           <Todo />
         </Panel>
       </div>
       <div className="order-first flex flex-col gap-6 880:order-0">
         <Panel
+          id="tour-pomodoro"
           variant="clay"
           className={`order-first flex-1 p-2 880:order-0 transition-all duration-300 ${
             isFocusMode
@@ -63,7 +64,7 @@ export default function Dashboard() {
             <AnalogClock />
           </Panel>
         )}
-        <Panel variant="clay" className="flex-1 p-4">
+        <Panel id="tour-cactus" variant="clay" className="flex-1 p-4">
           <WaterCaffeinePanel />
         </Panel>
       </div>
