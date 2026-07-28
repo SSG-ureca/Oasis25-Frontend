@@ -5,10 +5,7 @@ import type { Step, TooltipRenderProps } from "react-joyride";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 
-const CustomTooltip = ({
-  step,
-  tooltipProps,
-}: TooltipRenderProps) => {
+const CustomTooltip = ({ step, tooltipProps }: TooltipRenderProps) => {
   const { isDark } = useTheme();
 
   return (
@@ -22,15 +19,13 @@ const CustomTooltip = ({
         isDark
           ? "bg-[#2a251f]/90 text-white border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
           : "bg-white/95 text-black border-black/10 shadow-[0_8px_32px_rgba(0,0,0,0.1)]"
-      }`}
-    >
+      }`}>
       <div
         style={{
           textShadow: isDark
             ? "0 1px 2px rgba(0,0,0,0.8)"
             : "0 1px 2px rgba(255,255,255,0.8)",
-        }}
-      >
+        }}>
         {step.content}
       </div>
     </div>
@@ -68,7 +63,10 @@ const steps: Step[] = [
           나만의 <span className="text-[#72c877]">뽀모도로 프리셋</span>
         </h3>
         <p className="text-[15px] leading-relaxed opacity-90">
-          원하는 집중 시간과 휴식 시간을 설정하여 나만의 타이머를 만들 수 있습니다. 여기를 클릭하여 나에게 딱 맞는 <strong className="font-bold text-[#72c877]">프리셋을 추가</strong>해보세요!
+          원하는 집중 시간과 휴식 시간을 설정하여 나만의 타이머를 만들 수
+          있습니다. 여기를 클릭하여 나에게 딱 맞는{" "}
+          <strong className="font-bold text-[#72c877]">프리셋을 추가</strong>
+          해보세요!
         </p>
       </div>
     ),
@@ -344,26 +342,23 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
     <>
       {run &&
         createPortal(
-          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[10002] w-full max-w-7xl px-8 flex justify-end pointer-events-none">
+          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-10002 w-full max-w-7xl px-8 flex justify-end pointer-events-none">
             <div className="flex gap-2 items-center pointer-events-auto">
               <button
                 onClick={handleSkip}
-                className={`px-4 py-2.5 text-sm rounded-full backdrop-blur-md shadow-lg ${isDark ? "text-[#e0e0e0] bg-black/40 hover:bg-black/60" : "text-[#333] bg-white/60 hover:bg-white/80"} transition-all`}
-              >
+                className={`px-4 py-2.5 text-sm rounded-full backdrop-blur-md shadow-lg ${isDark ? "text-[#e0e0e0] bg-black/40 hover:bg-black/60" : "text-[#333] bg-white/60 hover:bg-white/80"} transition-all`}>
                 건너뛰기
               </button>
               {stepIndex > 0 && (
                 <button
                   onClick={handlePrev}
-                  className={`px-5 py-2.5 text-sm font-medium rounded-full shadow-lg backdrop-blur-md ${isDark ? "text-white bg-white/10 hover:bg-white/20" : "text-black bg-white/80 hover:bg-white"} transition-all`}
-                >
+                  className={`px-5 py-2.5 text-sm font-medium rounded-full shadow-lg backdrop-blur-md ${isDark ? "text-white bg-white/10 hover:bg-white/20" : "text-black bg-white/80 hover:bg-white"} transition-all`}>
                   이전
                 </button>
               )}
               <button
                 onClick={handleNext}
-                className="px-6 py-2.5 text-sm bg-[#72c877] text-white rounded-full font-bold shadow-lg hover:bg-[#2c8f31] transition-colors whitespace-nowrap"
-              >
+                className="px-6 py-2.5 text-sm bg-green-90 text-white rounded-full font-bold shadow-lg hover:bg-green-50 transition-colors whitespace-nowrap">
                 {stepIndex === steps.length - 1 ? "Oasis25 시작하기!" : "다음"}
               </button>
             </div>
