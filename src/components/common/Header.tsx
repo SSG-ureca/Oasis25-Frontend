@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Panel } from "./Panel";
 import { cn } from "../../utils/cn";
 import { Button } from "./Button";
-import { Sun, Moon, LogOut, Menu, X, LogIn, User } from "lucide-react";
+import { Sun, Moon, LogOut, Menu, X, LogIn, User, HelpCircle } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
 import { useAuth } from "../../contexts/AuthContext";
 import { FeedbackModal } from "./FeedbackModal";
@@ -23,7 +23,7 @@ const NAV_ITEMS = [
   { to: "/mypage", label: "마이페이지" },
 ];
 
-const Header = () => {
+const Header = ({ onStartTour }: { onStartTour?: () => void }) => {
   const { isDark, toggleTheme } = useTheme();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
@@ -111,6 +111,7 @@ const Header = () => {
                 </span>
               }>
               <NavLink
+                id={`tour-nav-${item.to.replace("/", "")}`}
                 to={item.to}
                 end
                 className={cn(
@@ -188,6 +189,16 @@ const Header = () => {
 
                 <Button
                   variant="clayFlat"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    onStartTour?.();
+                  }}
+                  className="w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95">
+                  <HelpCircle className="w-4 h-4 text-text-muted" />
+                  도움말
+                </Button>
+                <Button
+                  variant="clayFlat"
                   onClick={toggleTheme}
                   className="w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95">
                   {isDark ? (
@@ -231,6 +242,12 @@ const Header = () => {
             ) : (
               <Moon className="w-6 h-6 text-text-muted" />
             )}
+          </Button>
+          <Button
+            variant="clay"
+            onClick={() => onStartTour?.()}
+            className="rounded-full w-12 h-12 p-0 bg-panel-bg">
+            <HelpCircle className="w-6 h-6 text-text-muted" />
           </Button>
           <RestrictedArea
             isRestricted={isGuest}
