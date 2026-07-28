@@ -4,6 +4,7 @@ import type { AlarmType, MusicSetting } from "../../types/music";
 import { ALARM_LIST } from "../../types/music";
 
 import { Button } from "../common/Button";
+import { Play } from "lucide-react";
 
 interface AlarmControllerProps {
     musicSetting: MusicSetting;
@@ -59,20 +60,21 @@ export const AlarmController = ({
             min-h-0
             flex
             flex-col
+            
         "
         >
             <div
                 className="
-        flex-1
-        min-h-0
-        overflow-y-auto
-        space-y-2
-        pr-1
-        
-        flex
-        flex-col
-        justify-center
-    "
+                flex-1
+                min-h-0
+                overflow-y-auto
+                space-y-2
+                pr-1
+                
+                flex
+                flex-col
+                justify-center
+            "
             >
                 {ALARM_LIST.map((alarm) => (
                     <div
@@ -84,14 +86,21 @@ export const AlarmController = ({
                         rounded-xl
                         px-3
                         py-2
-
                         bg-[var(--color-clay-bg)]
                         border
                         border-[var(--color-clay-border)]
                         shadow-[var(--shadow-clay-inset)]
                     "
                     >
-                        <label className="flex items-center gap-2 cursor-pointer text-sm">
+                        <label
+                            className="
+        flex
+        items-center
+        gap-3
+        cursor-pointer
+        text-sm
+    "
+                        >
                             <input
                                 type="radio"
                                 name="alarm"
@@ -99,6 +108,34 @@ export const AlarmController = ({
                                     musicSetting.selectedAlarm === alarm.id
                                 }
                                 onChange={() => handleSelectAlarm(alarm.id)}
+                                className="peer hidden"
+                            />
+
+                            <span
+                                className="
+                                relative
+
+                                w-5
+                                h-5
+
+                                rounded-lg
+
+                                bg-[var(--color-clay-bg)]
+
+                                border
+                                border-[var(--color-clay-border)]
+
+                                shadow-[var(--shadow-clay-inset)]
+
+                                after:absolute
+                                after:inset-1/4
+                                after:rounded-sm
+                                after:bg-black
+                                after:scale-0
+                                after:transition-transform
+
+                                peer-checked:after:scale-100
+                            "
                             />
 
                             {alarm.name}
@@ -110,7 +147,7 @@ export const AlarmController = ({
                             onClick={() => handlePreview(alarm.path)}
                             disabled={isPlaying}
                         >
-                            ▶
+                            <Play size={14} />
                         </Button>
                     </div>
                 ))}

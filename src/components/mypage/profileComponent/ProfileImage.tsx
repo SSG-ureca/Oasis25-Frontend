@@ -40,20 +40,24 @@ export const ProfileImage = ({
         flex
         justify-center
         shrink-0
+
+        pt-6
+        sm:pt-7
+        880:pt-8
     "
         >
             <div
                 className="
             relative
 
-            w-20
-            h-20
+            w-44
+            h-44
 
-            sm:w-24
-            sm:h-24
+            sm:w-48
+            sm:h-48
 
-            880:w-32
-            880:h-32
+            880:w-60
+            880:h-60
         "
             >
                 <img
@@ -62,14 +66,17 @@ export const ProfileImage = ({
                     onClick={handleClick}
                     title={isEditMode ? "프로필 사진 변경" : undefined}
                     className={`
-                    w-20
-                    h-20
+                    
+                        w-44
+                        h-44
 
-                    sm:w-24
-                    sm:h-24
+                        sm:w-48
+                        sm:h-48
 
-                    880:w-32
-                    880:h-32
+                        880:w-60
+                        880:h-60
+
+                    
                     rounded-full
                     object-cover
                     border

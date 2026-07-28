@@ -46,16 +46,27 @@ export const ProfileInfo = ({
                     value={nickname}
                     onChange={(e) => setNickname(e.target.value)}
                     className="
-                        w-full
+                    w-full
 
-                        rounded-lg
-                        border
+                    rounded-xl
 
-                        px-3
-                        py-2
+                    px-4
+                    py-2
 
-                        text-center
-                    "
+                    bg-clay-bg
+
+                    text-text
+
+                    text-center
+
+                    outline-none
+
+                    shadow-(--shadow-clay-inset)
+
+                    transition
+
+                    placeholder:text-text-muted
+                "
                 />
             ) : (
                 <div

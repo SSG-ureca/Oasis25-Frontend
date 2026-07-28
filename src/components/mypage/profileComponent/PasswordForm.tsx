@@ -17,15 +17,14 @@ export const PasswordForm = ({
     return (
         <div
             className="
-flex
-flex-col
+            flex
+            flex-col
 
-gap-3
+            gap-4
 
-justify-start
-
-pt-2
-"
+            justify-start
+         
+            "
         >
             <input
                 type="password"
@@ -33,10 +32,26 @@ pt-2
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 className="
-rounded-lg
-p-2
-border
-"
+                w-full
+
+                rounded-xl
+                px-4
+                py-3
+
+                bg-clay-bg
+
+                text-text
+
+                outline-none
+
+                shadow-(--shadow-clay-inset)
+
+                transition
+
+                placeholder:text-text-muted
+
+                
+            "
             />
 
             <input
@@ -45,10 +60,26 @@ border
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 className="
-rounded-lg
-p-2
-border
-"
+                w-full
+
+                rounded-xl
+                px-4
+                py-3
+
+                bg-clay-bg
+
+                text-text
+
+                outline-none
+
+                shadow-(--shadow-clay-inset)
+
+                transition
+
+                placeholder:text-text-muted
+
+                
+            "
             />
         </div>
     );

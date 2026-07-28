@@ -1,4 +1,5 @@
 import { Button } from "../../common/Button";
+import { Panel } from "../../common/Panel";
 
 interface ProfileOptionsProps {
     autoPlay: boolean;
@@ -24,53 +25,107 @@ export const ProfileOptions = ({
                 gap-4
             "
         >
-            <div
+            {/* 음악 자동 재생 */}
+            <OptionToggle
+                label="음악 자동 재생"
+                value={autoPlay}
+                onChange={setAutoPlay}
+            />
+
+            {/* 집중 모드 */}
+            <OptionToggle
+                label="집중 모드"
+                value={focusMode}
+                onChange={setFocusMode}
+            />
+        </div>
+    );
+};
+
+interface OptionToggleProps {
+    label: string;
+    value: boolean;
+    onChange: (value: boolean) => void;
+}
+
+const OptionToggle = ({ label, value, onChange }: OptionToggleProps) => {
+    return (
+        <div
+            className="
+                flex
+                items-center
+                justify-between
+                gap-4
+            "
+        >
+            <span className="text-sm sm:text-base">{label}</span>
+
+            <Panel
+                variant="clay"
+                inset
                 className="
+                    p-2
+                    px-4
                     flex
-                    justify-between
                     items-center
-                    gap-3
+                    gap-1
                 "
             >
-                <span>음악 자동 재생</span>
+                <Button
+                    onClick={() => onChange(true)}
+                    className={`
+                        transition-all
+                        duration-200
+                        rounded-2xl
+                        ${
+                            value
+                                ? `
+                                px-3
+                                py-1
+                                `
+                                : `
+                                px-3
+                                py-1
+                                 bg-transparent
+                                shadow-none
+                                border-none
+                               
+                                opacity-50
+                               
+                                `
+                        }
+                    `}
+                >
+                    ON
+                </Button>
 
                 <Button
-                    onClick={() => setAutoPlay(!autoPlay)}
-                    className="
-                        px-6
-                        py-3
-                        rounded-xl
-                        bg-[var(--color-clay-bg)]
-                        shadow-[var(--shadow-clay)]
-                    "
+                    onClick={() => onChange(false)}
+                    className={`
+                    
+                        transition-all
+                        duration-200
+                        ${
+                            !value
+                                ? `
+                                px-3
+                                py-1                      
+                                `
+                                : `
+                                px-3
+                                py-1
+                                bg-transparent
+                                shadow-none
+                                border-none
+                                
+                                opacity-50                      
+                                `
+                        }
+                    `}
                 >
-                    {autoPlay ? "ON" : "OFF"}
+                    OFF
                 </Button>
-            </div>
-
-            <div
-                className="
-                    flex
-                    justify-between
-                    items-center
-                "
-            >
-                <span>집중 모드</span>
-
-
-                <Button
-                    onClick={() => setFocusMode(!focusMode)}
-                    className="
-                        px-6
-                        py-3
-                        rounded-xl
-                        bg-[var(--color-clay-bg)]
-                        shadow-[var(--shadow-clay)]
-                    "
-                >
-                    {focusMode ? "ON" : "OFF"}
-                </Button>
-            </div>
+            </Panel>
         </div>
     );
 };

@@ -70,7 +70,7 @@ export const RetrospectHeatmap = () => {
             flex-col
             880:flex-row
 
-            gap-3
+            gap-2
             h-full
             min-h-0
             "
@@ -79,17 +79,17 @@ export const RetrospectHeatmap = () => {
                 variant="clay"
                 inset
                 className="
-flex-1
+                flex-1
 
-min-h-[180px]
-880:min-h-0
+                min-h-[180px]
+                880:min-h-0
 
-p-2
+                p-2
 
-flex
-items-center
-justify-center
-"
+                flex
+                items-center
+                justify-center
+                "
             >
                 {loading ? (
                     <div className="text-center text-text-muted text-sm">
@@ -98,12 +98,12 @@ justify-center
                 ) : year ? (
                     <div
                         className="
-w-full
-overflow-x-auto
+                        w-full
+                        overflow-x-auto
 
-flex
-justify-center
-"
+                        flex
+                        justify-center
+                        "
                     >
                         <CalendarHeatmap
                             startDate={new Date(`${year}-01-01`)}
@@ -147,38 +147,38 @@ justify-center
 
             <div
                 className="
-flex
-flex-row
-880:flex-col
+                flex
+                flex-row
+                880:flex-col
 
-gap-2
+                gap-2
 
-overflow-x-auto
+                overflow-x-auto
 
-scrollbar-hide
+                scrollbar-hide
 
-shrink-0
+                shrink-0
 
-pb-1
-"
+                pb-1
+                "
             >
                 {years.map((y) => (
                     <Button
                         key={y}
                         variant="clay"
                         className={`
-px-3
-py-1.5
+                        px-3
+                        py-1.5
 
-text-sm
+                        text-sm
 
-880:px-4
-880:py-2
-880:text-base
+                        880:px-4
+                        880:py-2
+                        880:text-base
 
-whitespace-nowrap
+                        whitespace-nowrap
 
-880:w-full
+                        880:w-full
                          ${year === y ? "bg-emerald-200 text-emerald-800 font-bold" : ""}`}
                         onClick={() => handleYearClick(y)}
                     >

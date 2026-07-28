@@ -124,21 +124,17 @@ export const ProfileEditor = () => {
             variant="clay"
             inset
             className="
-h-full
-
-min-h-[400px]
-880:min-h-0
-
-flex
-flex-col
-
-p-3
-sm:p-4
-880:p-6
-
-gap-4
-880:gap-6
-"
+            h-full
+            min-h-[400px]
+            880:min-h-0
+            flex
+            flex-col
+            p-3
+            sm:p-4
+            880:p-6
+            gap-4
+            880:gap-6
+            "
         >
             <ProfileImage
                 previewUrl={previewUrl}
@@ -157,10 +153,10 @@ gap-4
             />
             <div
                 className="
-        flex-1
-        min-h-0
-        overflow-hidden
-    "
+                    flex-1
+                    min-h-0
+                    overflow-hidden
+                "
             >
                 {isEditMode ? (
                     <PasswordForm

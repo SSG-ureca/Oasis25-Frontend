@@ -16,23 +16,23 @@ export const ProfileActions = ({
     return (
         <div
             className="
-flex
+            flex
 
-justify-center
-880:justify-end
+            justify-center
+            880:justify-end
 
-gap-2
+            gap-2
 
-shrink-0
-"
+            shrink-0
+            "
         >
             {isEditMode ? (
                 <>
                     <Button
                         className="
-        min-w-20
-        880:min-w-0
-    "
+                        min-w-20
+                        880:min-w-0
+                    "
                         variant="clay"
                         onClick={() => setIsEditMode(false)}
                     >
@@ -41,9 +41,9 @@ shrink-0
 
                     <Button
                         className="
-        min-w-20
-        880:min-w-0
-    "
+                        min-w-20
+                        880:min-w-0
+                    "
                         onClick={onComplete}
                     >
                         완료
@@ -51,10 +51,7 @@ shrink-0
                 </>
             ) : (
                 <Button
-                    className="
-        min-w-20
-        880:min-w-0
-    "
+                    className="w-full flex items-center px-4 h-11 text-sm font-bold rounded-xl  hover:bg-black/5 dark:hover:bg-white/10 "
                     onClick={() => setIsEditMode(true)}
                 >
                     수정

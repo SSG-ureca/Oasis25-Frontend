@@ -5,12 +5,14 @@ export const RetrospectPage = () => {
     return (
         <div
             className="
-    w-full
-    grid
-    grid-cols-1
-    gap-4
-    880:grid-cols-[2fr_3fr]
-"
+        
+
+        grid
+        grid-cols-1
+        gap-4
+
+        880:grid-cols-[2fr_3fr]
+    "
         >
             <RetrospectSearchPanel />
 

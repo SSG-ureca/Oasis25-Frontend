@@ -1,4 +1,3 @@
-import { Panel } from "../components/common/Panel";
 import { MusicController } from "../components/mypage/musicComponent/MusicController";
 import { OptionController } from "../components/mypage/OptionController";
 import { ProfileEditor } from "../components/mypage/profileComponent/ProfileEditor";
@@ -19,18 +18,12 @@ export const MyPage = () => {
                 880:gap-6
 
                 880:grid-rows-[180px_1fr]
+                
             "
         >
             {/* 히트맵 */}
-            <Panel
-                variant="clay"
-                className="
-                    p-3
-                    min-h-0
-                "
-            >
-                <RetrospectHeatmap />
-            </Panel>
+
+            <RetrospectHeatmap />
 
             {/* 하단 영역 */}
             <div

@@ -14,6 +14,24 @@ import { toast } from "../common/Toast";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import "./DatePicker.css";
+import VectorIcon from "../../assets/images/Vector.png";
+import { forwardRef } from "react";
+
+const CalendarButton = forwardRef<
+    HTMLButtonElement,
+    React.ButtonHTMLAttributes<HTMLButtonElement>
+>((props, ref) => (
+    <button
+        ref={ref}
+        type="button"
+        {...props}
+        className="flex h-10 w-10 items-center justify-center"
+    >
+        <img src={VectorIcon} alt="달력" className="h-6 w-6 object-contain" />
+    </button>
+));
+
+CalendarButton.displayName = "CalendarButton";
 
 // props 필요 title: 패널 이름, header: 상단 버튼, footer:하단버튼, 컨텐츠
 export const RetrospectSearchPanel = () => {
@@ -82,6 +100,7 @@ export const RetrospectSearchPanel = () => {
             toast.error("삭제 실패");
         }
     };
+
     //달력 날짜 함수
     const fetchHighlightedDates = async (year: number, month: number) => {
         const start = new Date(year, month, 1);
@@ -107,7 +126,7 @@ export const RetrospectSearchPanel = () => {
                             setSelectedDate(date);
                             handleSearch(date);
                         }}
-                        onMonthChange={(date: Date) =>
+                        onMonthChange={(date) =>
                             fetchHighlightedDates(
                                 date.getFullYear(),
                                 date.getMonth(),
@@ -122,21 +141,7 @@ export const RetrospectSearchPanel = () => {
                         dayClassName={(date) =>
                             isHighlightedDate(date) ? "highlighted-custom" : ""
                         }
-                        dateFormat="yyyy-MM-dd"
-                        className="
-            h-10
-            w-40
-            rounded-2xl
-            px-4
-            bg-clay-bg
-            border
-            border-clay-border
-            shadow-(--shadow-clay)
-            text-(--color-text)
-            outline-none
-            transition
-            focus:shadow-(--shadow-clay-inset)
-        "
+                        customInput={<CalendarButton />}
                     />
                 </div>
             }
