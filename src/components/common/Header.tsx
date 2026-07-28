@@ -118,7 +118,7 @@ const Header = ({ onStartTour }: { onStartTour?: () => void }) => {
                   "relative rounded-4xl px-5 py-2 transition-colors duration-200 select-none flex items-center justify-center",
                   "clay-hover",
                   isActive
-                    ? "text-primary font-bold"
+                    ? "text-text font-bold"
                     : "text-text-muted hover:text-text",
                 )}>
                 {isActive && (
@@ -178,7 +178,7 @@ const Header = ({ onStartTour }: { onStartTour?: () => void }) => {
                     className={cn(
                       "w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95",
                       location.pathname === item.to &&
-                        "bg-black/5 dark:bg-white/10 text-primary",
+                        "bg-black/5 dark:bg-white/10 text-text",
                     )}>
                     {item.label}
                   </Button>
@@ -273,7 +273,7 @@ const Header = ({ onStartTour }: { onStartTour?: () => void }) => {
                     setIsDropdownOpen(false);
                     setIsFeedbackOpen(true);
                   }}
-                  className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
+                  className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold hover:text-text rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
                   <MessageSquare className="w-4 h-4 transition-colors" />
                   VOC
                 </button>
@@ -286,7 +286,7 @@ const Header = ({ onStartTour }: { onStartTour?: () => void }) => {
                       setIsDropdownOpen(false);
                       navigate("/login");
                     }}
-                    className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold  hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
+                    className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold  hover:text-text rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
                     <LogIn className="w-4 h-4 transition-colors" />
                     로그인
                   </button>
@@ -296,7 +296,7 @@ const Header = ({ onStartTour }: { onStartTour?: () => void }) => {
                       setIsDropdownOpen(false);
                       handleLogout();
                     }}
-                    className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
+                    className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold hover:text-text rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
                     <LogOut className="w-4 h-4 transition-colors" />
                     로그아웃
                   </button>
