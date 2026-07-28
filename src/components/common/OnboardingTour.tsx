@@ -6,13 +6,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 
 const CustomTooltip = ({
-  index,
   step,
-  backProps,
-  primaryProps,
-  skipProps,
   tooltipProps,
-  isLastStep,
 }: TooltipRenderProps) => {
   const { isDark } = useTheme();
 
@@ -208,11 +203,13 @@ const steps: Step[] = [
   ...step,
   disableBeacon: true,
   disableArrow: true,
+  disableScrolling: true,
+  floaterProps: { hideArrow: true },
   spotlightRadius: 16,
   spotlightPadding: 8,
 }));
 
-const AutoClickBeacon = React.forwardRef<HTMLSpanElement, any>((props, ref) => {
+const AutoClickBeacon = React.forwardRef<HTMLSpanElement, any>((_, ref) => {
   const localRef = React.useRef<HTMLSpanElement>(null);
 
   React.useEffect(() => {
@@ -363,15 +360,10 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
         run={run}
         stepIndex={stepIndex}
         continuous
-        disableScrolling
         onEvent={handleJoyrideCallback}
         tooltipComponent={CustomTooltip}
         beaconComponent={AutoClickBeacon}
-        floaterProps={{ hideArrow: true }}
         styles={{
-          options: {
-            arrowColor: "transparent",
-          },
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
           },
