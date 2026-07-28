@@ -10,7 +10,7 @@ import {
   Loader2,
   Snowflake,
   Sun,
-  Thermometer,
+  MapPin,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Panel } from "../common/Panel";
@@ -26,57 +26,82 @@ const ICONS: Record<string, LucideIcon> = {
 };
 
 export function WeatherPanel() {
-  const [coords, setCoords] = useState({ lat: 37.5665, lon: 126.978 });
+  const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(
+    null,
+  );
 
   useEffect(() => {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      setCoords({ lat: 37.5665, lon: 126.978 });
+      return;
+    }
 
     navigator.geolocation.getCurrentPosition(
       (pos) =>
         setCoords({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
-      () => {},
+      () => setCoords({ lat: 37.5665, lon: 126.978 }),
       { timeout: 8000 },
     );
   }, []);
 
-  const weather = useWeather(coords.lat, coords.lon);
+  const weather = useWeather(coords?.lat, coords?.lon, coords != null);
   const Icon = ICONS[weather.iconName] ?? Cloud;
 
   return (
-    <div className="flex h-full w-full flex-col justify-between p-1">
-      <div className="text-sm font-medium text-slate-500">서울, 대한민국</div>
-      <div className="flex items-center justify-between p-2">
-        {weather.loading ? (
-          <Loader2 className="h-10 w-10 animate-spin text-slate-500" />
-        ) : (
-          <>
-            <Panel variant="clay" inset className="p-2 rounded-full">
-              <Icon className="h-14 w-14 text-slate-700" />
-            </Panel>
+    <div className="relative flex min-h-[140px] w-full items-center py-4 pl-0.5 pr-4">
+      {/* 위치 (패널 기준 우측 상단 고정) */}
+      <div className="absolute top-2 right-4 flex items-center justify-end gap-1 whitespace-nowrap">
+        <MapPin className="w-3.5 h-3.5 text-text/70 shrink-0" />
+        <span className="text-[11px] sm:text-xs font-bold text-text/70 tracking-tight">
+          서울, 대한민국
+        </span>
+      </div>
 
-            <div className="text-3xl font-bold text-slate-800">
+      {weather.loading ? (
+        <div className="flex w-full items-center justify-center mt-6">
+          <Loader2 className="h-8 w-8 animate-spin text-text/70" />
+        </div>
+      ) : (
+        <div className="flex w-full items-center mt-3">
+          {/* 날씨 아이콘 */}
+          <Panel
+            variant="clay"
+            inset
+            className="p-4 rounded-full shrink-0 flex items-center justify-center ml-0.5"
+          >
+            <Icon
+              className="h-12 w-12 text-text/80 drop-shadow-sm"
+              strokeWidth={1.5}
+            />
+          </Panel>
+
+          {/* 날씨 정보 (왼쪽으로 당김) */}
+          <div className="flex flex-col flex-1 ml-4 mt-2">
+            {/* 현재 온도 */}
+            <div className="text-[2.5rem] sm:text-4xl font-medium text-text tracking-tighter leading-none mb-2">
               {weather.temp !== null ? `${weather.temp}°` : "--"}
-              <span className="text-sm text-slate-600">{weather.skyText}</span>
             </div>
-          </>
-        )}
-      </div>
-      <div className="flex items-center justify-between p-2 text-xs text-slate-600">
-        <div className="flex items-center">
-          <Droplets className="h-4 w-4" />
-          <span>
-            습도 {weather.humidity !== null ? `${weather.humidity}%` : "--"}
-          </span>
+
+            {/* 부가 정보 (습도, 체감온도) */}
+            <div className="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-xs font-bold text-text/70 whitespace-nowrap">
+              <div className="flex items-center gap-1 shrink-0">
+                <Droplets className="w-3.5 h-3.5 text-text/70 fill-current" />
+                <span>
+                  습도{" "}
+                  {weather.humidity !== null ? `${weather.humidity}%` : "--"}
+                </span>
+              </div>
+              <span className="shrink-0">
+                체감{" "}
+                {weather.feelsLike !== null ? `${weather.feelsLike}°C` : "--"}
+              </span>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-1">
-          <Thermometer className="h-4 w-4" />
-          <span>
-            체감 {weather.feelsLike !== null ? `${weather.feelsLike}°` : "--"}
-          </span>
-        </div>
-      </div>
+      )}
+
       {weather.error && (
-        <div className="max-w-full truncate text-xs text-red-500">
+        <div className="absolute bottom-2 right-4 max-w-full truncate text-[10px] text-red-500">
           {weather.error}
         </div>
       )}

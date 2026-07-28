@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Panel } from "../components/common/Panel";
+import { clayVariants } from "../types/clayVariants";
+import { cn } from "../utils/cn";
 import { Clock, CloudSun, Palette, TrendingUp } from "lucide-react";
 import { useStats } from "../hooks/useStats";
 import { HourlyFocusChart } from "../components/stats/HourlyFocusChart";
@@ -14,9 +16,9 @@ export const StatsPage = () => {
     weeklyHourlyPaths,
     dailyHourDataList,
     getWeatherData,
-    getBarHeight,
     diaryScores,
     trendPaths,
+    trendMessage,
   } = useStats();
 
   useEffect(() => {
@@ -29,25 +31,25 @@ export const StatsPage = () => {
   }, [activeTab]);
 
   return (
-    <div className="w-full h-full flex flex-col gap-4 min-h-0 bg-transparent">
+    <div id="tour-stats-content" className="w-full h-full flex flex-col gap-4 min-h-0 bg-transparent">
       {/* 중앙 베이스 플레이트 패널 */}
       <div className="flex-1 min-h-0">
         <Panel
-          variant="neumorphism"
+          variant="clay"
           className="w-full h-full p-3 sm:p-4 rounded-[36px] flex flex-col min-h-0">
           {/* 스플릿 레이아웃 (모바일에서는 수직, 테블릿/PC(md)에서는 수평 배치) */}
           <div className="w-full flex-1 flex flex-col md:flex-row gap-3 min-h-0">
             {/* 좌측/상단 네비게이션 독 (반응형 대응) */}
             <Panel
-              variant="neumorphism"
+              variant="clay"
               inset
-              className="w-full md:w-[90px] h-auto md:h-full rounded-[20px] md:rounded-[24px] flex flex-row md:flex-col items-center justify-between px-4 py-3 md:px-3 md:py-6 shrink-0">
-              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)] hidden md:block" />
+              className="w-full md:w-[100px] h-auto md:h-full rounded-[20px] md:rounded-[24px] flex flex-row md:flex-col items-center justify-between px-2 py-2 md:px-2 md:py-4 shrink-0">
+              <div className="w-2.5 h-2.5 rounded-full bg-green-50 shadow-[0_0_8px_rgba(44,143,49,0.6)] hidden md:block" />
 
-              <div className="flex flex-row md:flex-col gap-4 md:gap-6 justify-around w-full md:w-auto">
+              <div className="flex flex-row md:flex-col gap-2 md:gap-3 justify-around w-full md:w-auto">
                 {[
                   { id: 0, icon: Clock, label: "시간대 분석" },
-                  { id: 1, icon: CloudSun, label: "날씨별 몰입" },
+                  { id: 1, icon: CloudSun, label: "날씨별 집중" },
                   { id: 2, icon: Palette, label: "감정 흐름" },
                   { id: 3, icon: TrendingUp, label: "성장 트렌드" },
                 ].map((item) => {
@@ -58,12 +60,15 @@ export const StatsPage = () => {
                       key={item.id}
                       onClick={() => setActiveTab(item.id)}
                       title={item.label}
-                      className={`w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                      className={cn(
+                        "w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center transition-all duration-300",
+                        clayVariants({ variant: "clay", inset: isActive }),
+                        "rounded-xl",
                         isActive
-                          ? "bg-bg-light text-emerald-600 shadow-[inset_-2px_-2px_5px_rgba(255,255,255,0.7),_inset_2px_2px_5px_rgba(0,0,0,0.08)]"
-                          : "bg-bg-light text-gray-400 hover:text-gray-600 shadow-[-3px_-3px_7px_rgba(255,255,255,0.8),_3px_3px_7px_rgba(0,0,0,0.08)] hover:scale-105 active:shadow-[inset_-1px_-1px_3px_rgba(255,255,255,0.7),_inset_1px_1px_3px_rgba(0,0,0,0.08)]"
-                      }`}>
-                      <Icon className="w-4.5 h-4.5 sm:w-5 md:w-5.5 md:h-5.5" />
+                          ? "text-green-50"
+                          : "text-text-muted hover:text-text hover:scale-105"
+                      )}>
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
                     </button>
                   );
                 })}
@@ -74,16 +79,16 @@ export const StatsPage = () => {
 
             {/* 우측/하단 디테일 분석 캔버스 (모바일에서 넘치면 스크롤되도록 overflow-y-auto 적용) */}
             <Panel
-              variant="neumorphism"
+              variant="clay"
               inset
               className="flex-1 h-full rounded-[28px] p-4 sm:p-6 md:p-8 flex flex-col min-h-0 justify-between relative overflow-y-auto md:overflow-hidden">
               {loading ? (
-                <div className="w-full h-full flex flex-col items-center justify-center text-gray-500 font-bold text-sm">
+                <div className="w-full h-full flex flex-col items-center justify-center text-text-muted font-bold text-sm">
                   <span>데이터를 불러오는 중입니다...</span>
                 </div>
               ) : (
                 <>
-                  {/* 시간대별 몰입 분석 */}
+                  {/* 시간대별 집중 분석 */}
                   {activeTab === 0 && (
                     <HourlyFocusChart
                       weeklyHourlyPaths={weeklyHourlyPaths}
@@ -91,11 +96,10 @@ export const StatsPage = () => {
                     />
                   )}
 
-                  {/* 날씨별 몰입도 비교 */}
+                  {/* 날씨별 집중도 비교 */}
                   {activeTab === 1 && (
                     <WeatherFocusChart
                       getWeatherData={getWeatherData}
-                      getBarHeight={getBarHeight}
                     />
                   )}
 
@@ -109,15 +113,14 @@ export const StatsPage = () => {
                     <div
                       className={`w-full h-full flex flex-col justify-between relative transition-all duration-[800ms] ease-out ${trendLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}>
                       <div className="z-10 space-y-1.5">
-                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
+                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-green-50">
                           30-Day Monthly Trend
                         </span>
-                        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">
-                          30일 몰입도 변화 트렌드
+                        <h2 className="text-base sm:text-lg font-extrabold text-text tracking-tight">
+                          30일 집중도 변화 트렌드
                         </h2>
-                        <p className="text-xs sm:text-sm font-semibold text-gray-600 leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
-                          최근 30일 동안의 평균 집중 지표 추이가 점진적인
-                          우상향의 안정적인 성장을 나타내고 있습니다.
+                        <p className="text-xs sm:text-sm font-semibold text-text-muted leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
+                          {trendMessage}
                         </p>
                       </div>
 
@@ -236,7 +239,7 @@ export const StatsPage = () => {
                         </svg>
                       </div>
 
-                      <div className="z-10 flex justify-between px-1 pb-1 text-[8.5px] sm:text-[9px] font-bold text-gray-400/80">
+                      <div className="z-10 flex justify-between px-1 pb-1 text-[8.5px] sm:text-[9px] font-bold text-text-muted/80">
                         <span>1일</span>
                         <span>3일</span>
                         <span>6일</span>

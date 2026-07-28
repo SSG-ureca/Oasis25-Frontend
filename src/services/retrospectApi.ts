@@ -59,3 +59,14 @@ export const uploadAttachment = async (
         },
     });
 };
+
+//날짜
+export const getRetrospectDates = async (
+    startDate: string,
+    endDate: string,
+): Promise<string[]> => {
+    const response = await api.get("/api/diaries/dates", {
+        params: { startDate, endDate },
+    });
+    return response.data.dates; // ["2026-07-20", "2026-07-21", ...]
+};

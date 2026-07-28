@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 
-export const neumophismVariants = cva(
+export const clayVariants = cva(
   [
     "transition-all",
     "duration-200",
@@ -11,20 +11,12 @@ export const neumophismVariants = cva(
   {
     variants: {
       variant: {
-        // 1. 순수 뉴모피즘 (기본 상태 - 튀어나온 느낌)
-        neumorphism: [
-          "bg-bg-light",
-          "border",
-          "border-white/20",
-          "shadow-[var(--shadow-neumorphism)]",
-        ],
-
-        // 2. 클레이모피즘 + 사막 (눈이 편안한)
+        // 클레이모피즘 + 사막 (눈이 편안한)
         clay: [
           "bg-clay-bg",
-          "shadow-clay",
-          "border border-clay-border/20",
+          "shadow-[var(--shadow-clay)]",
           "clay-surface",
+          "text-text",
         ],
         clayFlat: ["shadow-none", "border-none"],
       },
@@ -45,14 +37,9 @@ export const neumophismVariants = cva(
     // 💡 핵심: 특정 조건이 결합했을 때 적용할 섀도우를 분리해 줍니다.
     compoundVariants: [
       {
-        variant: "neumorphism",
-        inset: true,
-        className: ["shadow-[var(--shadow-neumorphism-inset)]"],
-      },
-      {
         variant: "clay",
         inset: true,
-        className: ["shadow-clay-inset"],
+        className: ["shadow-[var(--shadow-clay-inset)]"],
       },
     ],
 

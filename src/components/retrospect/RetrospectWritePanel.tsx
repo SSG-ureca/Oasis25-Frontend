@@ -73,7 +73,7 @@ export const RetrospectWritePanel = () => {
 
     return (
         <RetrospectPanel
-            title="회고 작성하기"
+            title="오늘 하루는 어땠나요?"
             header={
                 <EmotionSelector
                     value={emotionScore}
@@ -82,7 +82,21 @@ export const RetrospectWritePanel = () => {
             }
             footer={
                 <div className="flex justify-end gap-3">
-                    <Button variant="clay" onClick={handlePhotoClick}>
+                    <Button
+                        variant="clay"
+                        className="
+                        w-full
+                        flex
+                        items-center
+                        gap-2.5
+
+                        px-4
+                        h-8
+                        
+
+                        rounded-xl"
+                        onClick={handlePhotoClick}
+                    >
                         <input
                             ref={fileInputRef}
                             type="file"
@@ -90,20 +104,34 @@ export const RetrospectWritePanel = () => {
                             hidden
                             onChange={handleImageChange}
                         />
-                        사진 추가
+                        사진
                     </Button>
-                    <Button variant="clay" onClick={handleSubmit}>
-                        작성
+                    <Button
+                        variant="clay"
+                        className="
+                        w-full
+                        flex
+                        items-center
+                        gap-2.5
+
+                        px-4
+                        h-8
+                      
+
+                        rounded-xl"
+                        onClick={handleSubmit}
+                    >
+                        저장
                     </Button>
                 </div>
             }
         >
             <div
                 className="
-                    flex
+                     flex
                     flex-col
                     gap-6
-                    h-full
+                    min-w-0
                     w-full
                     min-h-0
                 "
@@ -112,8 +140,8 @@ export const RetrospectWritePanel = () => {
                     variant="clay"
                     inset
                     className="
+                        h-[240px]
                         p-4
-                        flex-[1.5]
                     "
                 >
                     <textarea
@@ -124,7 +152,7 @@ export const RetrospectWritePanel = () => {
                             bg-transparent
                             outline-none
                         "
-                        placeholder="오늘의 회고를 작성해보세요."
+                        placeholder="오늘의 몰입 상태와 컨디션을 간단히 기록해보세요..."
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                     />
@@ -134,8 +162,8 @@ export const RetrospectWritePanel = () => {
                     variant="clay"
                     inset
                     className="
+                        h-[280px]
                         p-4
-                        flex-1
                     "
                 >
                     {previewUrl ? (
@@ -145,7 +173,7 @@ export const RetrospectWritePanel = () => {
                             className="w-full h-full object-cover rounded-xl"
                         />
                     ) : (
-                        "사진 첨부"
+                        "첨부 사진"
                     )}
                 </Panel>
             </div>

@@ -10,10 +10,15 @@ import { StatsPage } from "../pages/StatsPage";
 import { MyPage } from "../pages/MyPage";
 import { SplashPage } from "../pages/SplashPage";
 import ProtectedRoute from "../components/common/ProtectedRoute";
+import HomeRedirect from "../components/common/HomeRedirect";
 
 export const router = createBrowserRouter([
   {
     path: "/",
+    element: <HomeRedirect />,
+  },
+  {
+    path: "/splash",
     element: <SplashPage />,
   },
 
@@ -28,16 +33,15 @@ export const router = createBrowserRouter([
   },
 
   {
-    path: "/main",
     element: <MainLayout />,
     children: [
-      { index: true, element: <Dashboard /> },
+      { path: "/main", element: <Dashboard /> },
       {
         element: <ProtectedRoute />,
         children: [
-          { path: "retrospect", element: <RetrospectPage /> },
-          { path: "stats", element: <StatsPage /> },
-          { path: "mypage", element: <MyPage /> },
+          { path: "/retrospect", element: <RetrospectPage /> },
+          { path: "/stats", element: <StatsPage /> },
+          { path: "/mypage", element: <MyPage /> },
         ],
       },
     ],

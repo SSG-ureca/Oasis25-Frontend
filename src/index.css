@@ -2,6 +2,9 @@
 
 @custom-variant dark (&:where(html.dark, html.dark *));
 
+/* ==========================================================================
+   1. 타이포그래피 (웹 폰트)
+   ========================================================================== */
 /* 로컬 src/assets/fonts/ 폴더에 담긴 Pretendard 웹폰트 5종 로드 */
 @font-face {
   font-family: "Pretendard";
@@ -14,11 +17,8 @@
 
 @font-face {
   font-family: "Pretendard";
-
   font-weight: 400;
-
   font-display: swap;
-
   src:
     local("Pretendard Regular"),
     url("./assets/fonts/Pretendard-Regular.woff2") format("woff2");
@@ -26,11 +26,8 @@
 
 @font-face {
   font-family: "Pretendard";
-
   font-weight: 500;
-
   font-display: swap;
-
   src:
     local("Pretendard Medium"),
     url("./assets/fonts/Pretendard-Medium.woff2") format("woff2");
@@ -38,11 +35,8 @@
 
 @font-face {
   font-family: "Pretendard";
-
   font-weight: 600;
-
   font-display: swap;
-
   src:
     local("Pretendard SemiBold"),
     url("./assets/fonts/Pretendard-SemiBold.woff2") format("woff2");
@@ -50,210 +44,142 @@
 
 @font-face {
   font-family: "Pretendard";
-
   font-weight: 700;
-
   font-display: swap;
-
   src:
     local("Pretendard Bold"),
     url("./assets/fonts/Pretendard-Bold.woff2") format("woff2");
 }
 
+/* ==========================================================================
+   2. 테마 변수 (Tailwind CSS v4)
+   ========================================================================== */
 @theme {
-  /* 기본 폰트 패밀리를 Pretendard로 매핑 */
-
+  /* --- 폰트 패밀리 --- */
   --font-sans: "Pretendard", system-ui, -apple-system, sans-serif;
 
-  /* Neutral */
-
+  /* --- 색상 팔레트: 무채색 (Neutral) --- */
   --color-gray-10: #1b1f33;
-
   --color-gray-20: #4e5266;
-
   --color-gray-30: #878a99;
-
   --color-gray-40: #c0c2cc;
-
   --color-gray-50: #d0d2d9;
-
   --color-gray-60: #e1e2e5;
-
   --color-gray-70: #eeeff2;
-
   --color-gray-80: #fafbff;
 
-  /* Primary */
-
+  /* --- 색상 팔레트: 메인 색상 (Pink) --- */
   --color-pink-10: #ff0051;
-
   --color-primary: #ff3776;
-
   --color-pink-50: #ff6f93;
-
   --color-pink-70: #ff91b4;
-
   --color-pink-90: #ffbdd2;
 
-  /* Secondary */
-
+  /* --- 색상 팔레트: 보조 색상 (Green) --- */
   --color-green-10: #1a521d;
-
   --color-green-50: #2c8f31;
-
   --color-green-90: #72c877;
 
-  /* Background */
-
+  /* --- 기본 배경색 --- */
   --color-bg-light: #d9d9d9;
-
   --color-bg-dark: #1b1f33;
 
-  /* Neumorphism sizes */
+  /* --- 텍스트 색상 --- */
+  --color-text: #1b1f33;
+  --color-text-muted: #878a99;
 
-  --size-neumorphism-sm-x: 1rem;
+  /* --- Claymorphism (사막 테마) --- */
+  --color-app-bg: #e8e2d3;      /* 앱 전체 배경색 */
+  --color-panel-bg: #e8e2d3;    /* 공통 패널 배경색 */
+  --color-clay-bg: #e8e2d3;     /* 클레이모피즘 표면색 */
+  --color-clay-border: #c4a27a; /* 클레이모피즘 테두리색 */
 
-  --size-neumorphism-sm-y: 0.5rem;
-
-  --size-neumorphism-md-x: 1.25rem;
-
-  --size-neumorphism-md-y: 0.75rem;
-
-  --size-neumorphism-lg-x: 1.5rem;
-
-  --size-neumorphism-lg-y: 1rem;
-
-  /* Neumorphism shadows */
-
-  --shadow-neumorphism:
-    6px 6px 12px rgba(163, 177, 198, 0.5), -6px -6px 12px rgba(255, 255, 255, 1);
-
-  --shadow-neumorphism-inset:
-    inset 6px 6px 12px rgba(163, 177, 198, 0.5),
-    inset -6px -6px 12px rgba(255, 255, 255, 1);
-
-  /* 클레이모피즘 + 사막 (눈이 편안한) */
-  --color-clay-bg: #f8e6ca;
-  --color-clay-border: #c4a27a;
-  --color-app-bg: #f8e6ca;
-
+  /* 클레이모피즘 기본 그림자 (튀어나온 효과) */
   --shadow-clay:
     14px 16px 28px rgba(150, 116, 83, 0.28),
     5px 7px 12px rgba(150, 116, 83, 0.14),
-    -8px -8px 12px rgba(255, 249, 239, 0.42),
-    inset 2px 2px 3px rgba(255, 255, 255, 0.3),
+    -8px -8px 14px rgba(232, 214, 187, 0.22),
+    inset 2px 2px 3px rgba(232, 214, 187, 0.5),
     inset -2px -3px 4px rgba(185, 149, 111, 0.12);
 
+  /* 클레이모피즘 눌린 그림자 (들어간 효과) */
   --shadow-clay-inset:
     inset 8px 9px 16px rgba(150, 116, 83, 0.24),
-    inset -6px -7px 12px rgba(255, 249, 239, 0.42),
+    inset -6px -7px 12px rgba(255, 249, 239, 0.29),
     inset 1px 1px 2px rgba(255, 255, 255, 0.22);
 
-  /* 커스텀 반응형 크기 */
+  /* --- 반응형 중단점 (Breakpoints) --- */
   --breakpoint-880: 880px;
   --breakpoint-680: 680px;
 }
 
-.neumorphism-size-sm {
-  padding: var(--size-neumorphism-sm-y) var(--size-neumorphism-sm-x);
+/* ==========================================================================
+   3. 테마 덮어쓰기 (다크모드)
+   ========================================================================== */
+html.dark {
+  /* 다크모드 전용 배경 및 텍스트 색상 */
+  --color-app-bg: #342e27;
+  --color-bg-light: #24283b;
+  --color-panel-bg: #342e27;
+  --color-text: #ddd7b9;
+  --color-text-muted: #a6a188;
+
+  /* 다크모드 전용 클레이모피즘 색상 */
+  --color-clay-bg: #342e27;
+  --color-clay-border: #4e5266;
+
+  /* 다크모드 클레이모피즘 그림자 */
+  --shadow-clay:
+    14px 16px 28px rgba(0, 0, 0, 0.25),
+    -8px -8px 14px rgba(0, 0, 0, 0.25);
+
+  --shadow-clay-inset:
+    inset 8px 9px 16px rgba(0, 0, 0, 0.25),
+    inset -6px -7px 12px rgba(0, 0, 0, 0.25);
 }
 
-.neumorphism-size-md {
-  padding: var(--size-neumorphism-md-y) var(--size-neumorphism-md-x);
-}
-
-.neumorphism-size-lg {
-  padding: var(--size-neumorphism-lg-y) var(--size-neumorphism-lg-x);
-}
-
+/* ==========================================================================
+   4. 클레이모피즘 핵심 클래스
+   ========================================================================== */
+/* 기본 표면 디자인 (반투명 오버레이를 통해 은은한 질감 표현) */
 .clay-surface {
   background-image: linear-gradient(
     145deg,
     rgba(255, 249, 239, 0.14) 0%,
-    rgba(232, 214, 187, 0.96) 42%,
-    rgba(218, 193, 158, 0.9) 100%
+    rgba(232, 214, 187, 0.3) 42%,
+    rgba(218, 193, 158, 0.25) 100%
   );
   background-clip: padding-box;
 }
 
+/* 마우스 오버 및 활성화(튀어나온) 상태 */
 .clay-active,
 .clay-hover:hover {
   background-color: var(--color-clay-bg);
   background-image: linear-gradient(
     145deg,
     rgba(255, 249, 239, 0.18) 0%,
-    rgba(232, 214, 187, 0.98) 45%,
-    rgba(218, 193, 158, 0.92) 100%
+    rgba(232, 214, 187, 0.4) 45%,
+    rgba(218, 193, 158, 0.34) 100%
   );
   box-shadow: var(--shadow-clay);
   transform: translateY(-1px);
 }
 
+/* 클릭(눌린) 상태 */
 .clay-active:active,
 .clay-hover:active {
   box-shadow: var(--shadow-clay-inset);
   transform: translateY(1px);
 }
 
-.neumorphism-active,
-.neumorphism-hover:hover {
-  background-color: var(--color-bg-light);
-
-  border-color: rgba(255, 255, 255, 0.3);
-
-  box-shadow: var(--shadow-neumorphism);
-}
-
-/* 사막 모래 질감: 노이즈 + 은은한 그라데이션 오버레이 */
-.desert-grain {
-  position: relative;
-}
-
-.sand-overlay {
-  position: absolute;
-  inset: 0;
-
-  background: url("/textures/3.png");
-  background-size: 500px;
-
-  opacity: 0.4;
-  mix-blend-mode: multiply;
-
-  pointer-events: none;
-}
-
-/* 다크모드 변수 오버라이드 */
-html.dark {
-  --color-app-bg: #1b1f33;
-  --color-bg-light: #24283b;
-  --color-clay-bg: #2a3048;
-  --color-clay-border: #4e5266;
-
-  --shadow-neumorphism:
-    6px 6px 12px rgba(0, 0, 0, 0.5), -6px -6px 12px rgba(255, 255, 255, 0.05);
-
-  --shadow-neumorphism-inset:
-    inset 6px 6px 12px rgba(0, 0, 0, 0.5),
-    inset -6px -6px 12px rgba(255, 255, 255, 0.05);
-
-  --shadow-clay:
-    14px 16px 28px rgba(0, 0, 0, 0.35), 5px 7px 12px rgba(0, 0, 0, 0.18),
-    -8px -8px 12px rgba(255, 255, 255, 0.04),
-    inset 2px 2px 3px rgba(255, 255, 255, 0.06),
-    inset -2px -3px 4px rgba(0, 0, 0, 0.2);
-
-  --shadow-clay-inset:
-    inset 8px 9px 16px rgba(0, 0, 0, 0.35),
-    inset -6px -7px 12px rgba(255, 255, 255, 0.04),
-    inset 1px 1px 2px rgba(255, 255, 255, 0.05);
-}
-
+/* 다크모드 전용 표면 디자인 덮어쓰기 */
 html.dark .clay-surface {
   background-image: linear-gradient(
     145deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(60, 66, 92, 0.96) 42%,
-    rgba(45, 52, 75, 0.9) 100%
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.01) 42%,
+    rgba(0, 0, 0, 0.2) 100%
   );
 }
 
@@ -263,8 +189,8 @@ html.dark .clay-hover:hover {
   background-image: linear-gradient(
     145deg,
     rgba(255, 255, 255, 0.08) 0%,
-    rgba(60, 66, 92, 0.98) 45%,
-    rgba(45, 52, 75, 0.92) 100%
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(0, 0, 0, 0.3) 100%
   );
   box-shadow: var(--shadow-clay);
 }
@@ -274,19 +200,32 @@ html.dark .clay-hover:active {
   box-shadow: var(--shadow-clay-inset);
 }
 
-html.dark .neumorphism-active,
-html.dark .neumorphism-hover:hover {
-  background-color: var(--color-bg-light);
-  border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: var(--shadow-neumorphism);
+/* ==========================================================================
+   5. 장식 효과 (사막 질감)
+   ========================================================================== */
+.desert-grain {
+  position: relative;
+}
+
+.sand-overlay {
+  position: absolute;
+  inset: 0;
+  background: url("/textures/3.png");
+  background-size: 500px;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  pointer-events: none; /* 클릭 이벤트 방해 방지 */
 }
 
 html.dark .sand-overlay {
   opacity: 0.12;
-  mix-blend-mode: screen;
+  mix-blend-mode: screen; /* 다크모드에서는 밝은 노이즈로 융화 */
 }
 
-/* 콕핏 뷰를 위한 브라우저 강제 스크롤 비활성화 및 미세 스크롤바 디자인 */
+/* ==========================================================================
+   6. 전역 설정 및 유틸리티
+   ========================================================================== */
+/* 콕핏 뷰를 위한 브라우저 강제 스크롤 비활성화 */
 html,
 body,
 #root {
@@ -294,9 +233,10 @@ body,
   height: 100dvh;
   overflow: hidden;
   margin: 0;
+  color: var(--color-text);
 }
 
-/* 글로벌 스크롤바 */
+/* 커스텀 미세 스크롤바 디자인 */
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;
@@ -312,8 +252,12 @@ body,
   background: rgba(113, 128, 150, 0.4);
 }
 
-/* (PomodoroOrb) 전용 애니메이션 */
+/* Time Input 네이티브 오전/오후(AM/PM) 필드 숨김 */
+.time-no-ampm::-webkit-datetime-edit-ampm-field {
+  display: none;
+}
 
+/* 뽀모도로(PomodoroOrb) 전용 회전 애니메이션 */
 @keyframes orb-rotate {
   to {
     transform: rotate(360deg);

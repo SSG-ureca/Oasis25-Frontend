@@ -1,5 +1,3 @@
-import { Button } from "../../common/Button";
-
 interface Props {
     previewUrl: string;
 
@@ -22,6 +20,8 @@ export const ProfileImage = ({
     fileInputRef,
 }: Props) => {
     const handleClick = () => {
+        if (!isEditMode) return;
+
         fileInputRef.current?.click();
     };
 
@@ -31,35 +31,62 @@ export const ProfileImage = ({
         if (!file) return;
 
         setImageFile(file);
-
         setPreviewUrl(URL.createObjectURL(file));
     };
 
     return (
         <div
             className="
-            flex
-            flex-col
-            items-center
-            gap-3
-            "
-        >
-            <img
-                src={previewUrl}
-                alt="프로필"
-                className="
-                w-28
-                h-28
-                rounded-full
-                object-cover
-                border
-                items-center
-                justify-center
-                "
-            />
+        flex
+        justify-center
+        shrink-0
 
-            {isEditMode && (
-                <>
+        pt-6
+        sm:pt-7
+        880:pt-8
+    "
+        >
+            <div
+                className="
+            relative
+
+            w-44
+            h-44
+
+            sm:w-48
+            sm:h-48
+
+            880:w-60
+            880:h-60
+        "
+            >
+                <img
+                    src={previewUrl}
+                    alt="프로필"
+                    onClick={handleClick}
+                    title={isEditMode ? "프로필 사진 변경" : undefined}
+                    className={`
+                    
+                        w-44
+                        h-44
+
+                        sm:w-48
+                        sm:h-48
+
+                        880:w-60
+                        880:h-60
+
+                    
+                    rounded-full
+                    object-cover
+                    border
+                    transition
+
+                    ${isEditMode ? "cursor-pointer hover:opacity-80" : ""}
+                `}
+                />
+
+                {isEditMode && (
                     <input
                         ref={fileInputRef}
                         type="file"
@@ -67,12 +94,8 @@ export const ProfileImage = ({
                         hidden
                         onChange={handleChange}
                     />
-
-                    <Button variant="clay" onClick={handleClick}>
-                        사진 변경
-                    </Button>
-                </>
-            )}
+                )}
+            </div>
         </div>
     );
 };

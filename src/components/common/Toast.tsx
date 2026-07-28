@@ -108,23 +108,21 @@ const ToastItem = ({
   return (
     <div
       className={`
-        relative flex items-center gap-3 w-[320px] rounded-xl overflow-hidden
-        ${config.bg} backdrop-blur-md
-        border border-white/40
-        shadow-[0_4px_20px_rgba(0,0,0,0.08)]
+        relative flex items-center gap-3 w-[320px] rounded-[16px] overflow-hidden
+        bg-white/95 dark:bg-stone-800/95 backdrop-blur-md
+        border border-black/5 dark:border-white/10
+        shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)]
         px-3.5 py-3
         transition-all duration-[380ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
         ${isEntering ? "opacity-0 -translate-y-3 scale-95" : ""}
         ${isExiting ? "opacity-0 translate-y-1 scale-95 !duration-[300ms] !ease-in" : ""}
         ${!isEntering && !isExiting ? "opacity-100 translate-y-0 scale-100" : ""}
       `}
-      role="alert"
-    >
+      role="alert">
       <div className="relative flex items-center justify-center shrink-0 w-5 h-5 ml-1">
         <svg
           className="absolute inset-0 w-full h-full -rotate-90"
-          viewBox="0 0 20 20"
-        >
+          viewBox="0 0 20 20">
           <circle
             cx="10"
             cy="10"
@@ -132,7 +130,7 @@ const ToastItem = ({
             fill="none"
             stroke="currentColor"
             strokeWidth="1.5"
-            className="text-gray-200"
+            className="text-text-muted"
           />
           <circle
             cx="10"
@@ -150,15 +148,14 @@ const ToastItem = ({
         <Icon className={`w-3.5 h-3.5 z-10 ${config.iconColor}`} />
       </div>
 
-      <p className="flex-1 text-[12.5px] font-medium text-gray-700 leading-snug break-keep">
+      <p className="flex-1 text-[12.5px] font-medium text-text leading-snug break-keep">
         {message}
       </p>
 
       <button
         onClick={handleClose}
-        className="shrink-0 text-gray-400 hover:text-gray-600 transition-colors duration-150 ml-1"
-        aria-label="닫기"
-      >
+        className="shrink-0 text-text-muted hover:text-text transition-colors duration-150 ml-1"
+        aria-label="닫기">
         <X className="w-4 h-4" strokeWidth={2.5} />
       </button>
     </div>
@@ -199,9 +196,8 @@ export const ToastContainer = () => {
 
   return createPortal(
     <div
-      className="fixed top-5 left-1/2 -translate-x-1/2 z-[9999] flex flex-col items-center gap-2 pointer-events-none"
-      aria-live="polite"
-    >
+      className="fixed top-5 left-1/2 -translate-x-1/2 z-[10000] flex flex-col items-center gap-2 pointer-events-none"
+      aria-live="polite">
       {toasts.map((t) => (
         <div key={t.id} className="pointer-events-auto">
           <ToastItem {...t} onRemove={removeToast} />

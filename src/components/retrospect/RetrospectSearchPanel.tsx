@@ -8,23 +8,46 @@ import {
     getRetrospect,
     updateRetrospect,
     deleteRetrospect,
+    getRetrospectDates,
 } from "../../services/retrospectApi";
 import { toast } from "../common/Toast";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import "./DatePicker.css";
+import VectorIcon from "../../assets/images/Vector.png";
+import { forwardRef } from "react";
+
+const CalendarButton = forwardRef<
+    HTMLButtonElement,
+    React.ButtonHTMLAttributes<HTMLButtonElement>
+>((props, ref) => (
+    <button
+        ref={ref}
+        type="button"
+        {...props}
+        className="flex h-10 w-10 items-center justify-center"
+    >
+        <img src={VectorIcon} alt="달력" className="h-6 w-6 object-contain" />
+    </button>
+));
+
+CalendarButton.displayName = "CalendarButton";
 
 // props 필요 title: 패널 이름, header: 상단 버튼, footer:하단버튼, 컨텐츠
 export const RetrospectSearchPanel = () => {
-    const [selectedDate, setSelectedDate] = useState(
-        new Date().toISOString().slice(0, 10),
-    );
     const [retrospect, setRetrospect] = useState<RetrospectResponse | null>(
         null,
     );
     const [editContent, setEditContent] = useState("");
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [highlightDates, setHighlightDates] = useState<Date[]>([]);
 
     // Get API 호출 함수
-    const handleSearch = async () => {
+    const handleSearch = async (date: Date) => {
         try {
-            const data = await getRetrospect(selectedDate);
+            const formattedDate = date.toISOString().slice(0, 10);
+
+            const data = await getRetrospect(formattedDate);
 
             setRetrospect(data);
             setEditContent(data.content);
@@ -77,32 +100,85 @@ export const RetrospectSearchPanel = () => {
             toast.error("삭제 실패");
         }
     };
+
+    //달력 날짜 함수
+    const fetchHighlightedDates = async (year: number, month: number) => {
+        const start = new Date(year, month, 1);
+        const end = new Date(year, month + 1, 1); // exclusive end
+        const startStr = start.toISOString().slice(0, 10);
+        const endStr = end.toISOString().slice(0, 10);
+        const dates = await getRetrospectDates(startStr, endStr);
+        setHighlightDates(dates.map((d) => new Date(d)));
+        console.log("API dates:", dates);
+    };
+    const isHighlightedDate = (date: Date) =>
+        highlightDates.some((d) => d.toDateString() === date.toDateString());
     return (
         <RetrospectPanel
             title="회고 찾아보기"
             header={
                 <div className="flex items-center gap-2">
-                    <input
-                        type="date"
-                        value={selectedDate}
-                        onChange={(e) => setSelectedDate(e.target.value)}
-                        className="
-                            h-10
-                            rounded-lg
-                            px-3
-                        "
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date: Date | null) => {
+                            if (!date) return;
+
+                            setSelectedDate(date);
+                            handleSearch(date);
+                        }}
+                        onMonthChange={(date) =>
+                            fetchHighlightedDates(
+                                date.getFullYear(),
+                                date.getMonth(),
+                            )
+                        }
+                        onCalendarOpen={() =>
+                            fetchHighlightedDates(
+                                selectedDate.getFullYear(),
+                                selectedDate.getMonth(),
+                            )
+                        }
+                        dayClassName={(date) =>
+                            isHighlightedDate(date) ? "highlighted-custom" : ""
+                        }
+                        customInput={<CalendarButton />}
                     />
-                    <Button variant="clay" onClick={handleSearch}>
-                        조회
-                    </Button>
                 </div>
             }
             footer={
                 <div className="flex justify-end gap-3">
-                    <Button variant="clay" onClick={handleUpdate}>
+                    <Button
+                        variant="clay"
+                        className="
+                        w-full
+                        flex
+                        items-center
+                        gap-2.5
+
+                        px-4
+                        h-8
+                    
+
+                        rounded-xl"
+                        onClick={handleUpdate}
+                    >
                         수정
                     </Button>
-                    <Button variant="clay" onClick={handleDelete}>
+                    <Button
+                        variant="clay"
+                        className="
+                        w-full
+                        flex
+                        items-center
+                        gap-2.5
+
+                        px-4
+                        h-8
+                        
+
+                        rounded-xl"
+                        onClick={handleDelete}
+                    >
                         삭제
                     </Button>
                 </div>
@@ -113,7 +189,7 @@ export const RetrospectSearchPanel = () => {
                     flex
                     flex-col
                     gap-6
-                    h-full
+                    min-w-0
                     w-full
                     min-h-0
                 "
@@ -122,8 +198,8 @@ export const RetrospectSearchPanel = () => {
                     variant="clay"
                     inset
                     className="
+                        h-[240px]
                         p-4
-                        flex-[1.5]
                     "
                 >
                     {retrospect ? (
@@ -147,8 +223,8 @@ export const RetrospectSearchPanel = () => {
                     variant="clay"
                     inset
                     className="
+                        h-[280px]
                         p-4
-                        flex-1
                     "
                 >
                     {retrospect?.attachmentUrl ? (

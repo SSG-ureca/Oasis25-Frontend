@@ -18,12 +18,11 @@ export const FloatingTooltip = ({
 
   return createPortal(
     <div
-      className="fixed pointer-events-none z-[9999] px-3.5 py-2 bg-white/90 backdrop-blur-sm text-[11px] font-bold rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.12)] flex items-center gap-1.5 transition-transform duration-75 ease-out select-none whitespace-nowrap"
+      className="fixed pointer-events-none z-[9999] px-3.5 py-2 bg-bg-light/95 backdrop-blur-sm text-[11px] font-bold rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.12)] flex items-center gap-1.5 transition-transform duration-75 ease-out select-none whitespace-nowrap"
       style={{
         left: `${x}px`,
         top: `${y}px`,
-      }}
-    >
+      }}>
       {children}
     </div>,
     document.body,
@@ -68,12 +67,11 @@ export const RestrictedArea = ({
       onMouseLeave={() => {
         setTooltip((prev) => ({ ...prev, show: false }));
       }}
-      className={`relative cursor-not-allowed ${className}`}
-    >
+      className={`relative cursor-not-allowed ${className}`}>
       <div className="pointer-events-none">{children}</div>
       <FloatingTooltip show={tooltip.show} x={tooltip.x} y={tooltip.y}>
         {tooltipText || (
-          <span className="text-gray-30">로그인이 필요한 기능입니다</span>
+          <span className="text-text-muted">로그인이 필요한 기능입니다</span>
         )}
       </FloatingTooltip>
     </div>

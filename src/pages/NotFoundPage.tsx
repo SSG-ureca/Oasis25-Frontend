@@ -1,48 +1,101 @@
 import { useNavigate } from "react-router-dom";
+import { TriangleAlert } from "lucide-react";
 
 import { Button } from "../components/common/Button";
 import { Panel } from "../components/common/Panel";
+import { Tumbleweeds } from "../components/common/Tumbleweeds";
 
 export default function NotFoundPage() {
     const navigate = useNavigate();
 
-    const handleGoHome = () => {
-        navigate("/");
-    };
-
     return (
-        <div className="flex h-full items-center justify-center">
-            <Panel
-                variant="clay"
+        <main
+            className="
+                relative
+                flex
+                h-screen
+                w-screen
+                items-center
+                justify-center
+                overflow-hidden
+
+                bg-[var(--color-app-bg)]
+
+                desert-grain
+            "
+        >
+            <div className="sand-overlay" />
+
+            <div
                 className="
-          flex
-          w-full
-          max-w-lg
-          flex-col
-          items-center
-          gap-4
-          p-8
-          text-center
-        "
-            >
-                <div className="text-5xl">🚫</div>
+                    absolute
+                    inset-0
+                    bg-[radial-gradient(circle_at_50%_30%,rgba(255,248,230,.22),transparent_65%)]
+                "
+            />
 
-                <h1 className="text-4xl font-bold tracking-wide">404</h1>
+            <Tumbleweeds />
 
-                <h2 className="text-xl font-semibold">
-                    페이지를 찾을 수 없습니다.
-                </h2>
+            <div className="relative z-10 w-full max-w-xl px-6">
+                <Panel
+                    variant="clay"
+                    className="
+                        flex
+                        flex-col
+                        items-center
+                        gap-6
+                        rounded-3xl
+                        p-10
+                        text-center
+                    "
+                >
+                    <TriangleAlert
+                        size={72}
+                        className="text-[var(--color-text-muted)]"
+                    />
 
-                <p className="text-sm text-gray-500">
-                    요청하신 페이지가 존재하지 않거나
-                    <br />
-                    삭제되었을 수 있습니다.
-                </p>
+                    <h1
+                        className="
+                            text-6xl
+                            font-bold
+                            tracking-wider
+                        "
+                    >
+                        404
+                    </h1>
 
-                <Button onClick={handleGoHome} className="mt-2 w-full">
-                    홈으로 이동
-                </Button>
-            </Panel>
-        </div>
+                    <div className="space-y-2">
+                        <h2 className="text-2xl font-semibold">
+                            잘못된 페이지 입니다.
+                        </h2>
+
+                        <p
+                            className="
+                                text-base
+                                leading-relaxed
+                                text-[var(--color-text-muted)]
+                            "
+                        >
+                            사막을 헤매는 동안
+                            <br />
+                            찾으시는 오아시스를 발견하지 못했습니다.
+                        </p>
+                    </div>
+
+                    <Button
+                        variant="clay"
+                        onClick={() => navigate("/")}
+                        className="
+                            mt-2
+                            w-full
+                            max-w-xs
+                            py-3
+                        "
+                    >
+                        Oasis25 로 돌아가기
+                    </Button>
+                </Panel>
+            </div>
+        </main>
     );
 }

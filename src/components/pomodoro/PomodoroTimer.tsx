@@ -1,19 +1,15 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  Check,
-  ChevronDown,
-  Clock,
-  Pencil,
-  Plus,
-  Settings,
-  X,
-} from "lucide-react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { Check, ChevronDown, Clock, Pencil, Plus, X } from "lucide-react";
 import { Button } from "../common/Button";
 import { usePomodoro } from "../../hooks/usePomodoro";
 import { MAX_CUSTOM_PRESETS } from "../../types/pomodoro";
 import type { PomodoroPreset } from "../../types/pomodoro";
 import PomodoroOrb from "./PomodoroOrb";
+import PomodoroAlarm from "./PomodoroAlarm";
 import { Panel } from "../common/Panel";
+import { cn } from "../../utils/cn";
+import { clayVariants } from "../../types/clayVariants";
 
 function formatTime(ms: number) {
   const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
@@ -32,7 +28,13 @@ const DEFAULT_PRESET: PomodoroPreset = {
   createdAt: "",
 };
 
-export default function PomodoroTimer() {
+interface PomodoroTimerProps {
+  onFocusModeChange?: (isFocusMode: boolean) => void;
+}
+
+export default function PomodoroTimer({
+  onFocusModeChange,
+}: PomodoroTimerProps = {}) {
   const {
     mode,
     remaining,
@@ -53,7 +55,6 @@ export default function PomodoroTimer() {
   const [selectedPresetName, setSelectedPresetName] = useState(
     DEFAULT_PRESET.name,
   );
-  const [presetMenuOpen, setPresetMenuOpen] = useState(false);
   const [manageMenuOpen, setManageMenuOpen] = useState(false);
 
   const [newPresetName, setNewPresetName] = useState("");
@@ -64,18 +65,15 @@ export default function PomodoroTimer() {
   const [editName, setEditName] = useState("");
   const [editFocusMinutes, setEditFocusMinutes] = useState(25);
   const [editBreakMinutes, setEditBreakMinutes] = useState(5);
+  const [summary, setSummary] = useState<{
+    focusSeconds: number;
+    breakSeconds: number;
+  } | null>(null);
 
-  const presetMenuRef = useRef<HTMLDivElement>(null);
   const manageMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (
-        presetMenuRef.current &&
-        !presetMenuRef.current.contains(e.target as Node)
-      ) {
-        setPresetMenuOpen(false);
-      }
       if (
         manageMenuRef.current &&
         !manageMenuRef.current.contains(e.target as Node)
@@ -90,15 +88,19 @@ export default function PomodoroTimer() {
 
   const customPresets = presets.filter((p) => !p.isDefault);
   const canAddPreset = customPresets.length < MAX_CUSTOM_PRESETS;
-  const selectablePresets = [DEFAULT_PRESET, ...customPresets];
 
   const isFocus = mode === "focus";
+  const isFocusMode = isFocus && isRunning;
+
+  useLayoutEffect(() => {
+    onFocusModeChange?.(isFocusMode);
+  }, [isFocusMode, onFocusModeChange]);
 
   function handleSelectPreset(preset: PomodoroPreset) {
     if (isRunning) return;
     applyPreset(preset);
     setSelectedPresetName(preset.name);
-    setPresetMenuOpen(false);
+    setManageMenuOpen(false);
   }
 
   function startEdit(preset: PomodoroPreset) {
@@ -138,195 +140,186 @@ export default function PomodoroTimer() {
     setNewBreakMinutes(5);
   }
 
+  async function handleReset() {
+    const totals = await reset();
+    setSummary({
+      focusSeconds: totals.focusSeconds,
+      breakSeconds: totals.breakSeconds,
+    });
+    setTimeout(() => setSummary(null), 3000);
+  }
+
   return (
-    <div className="flex flex-col items-center gap-6 w-full">
-      <div className="flex items-center gap-2">
-        {/* 프리셋 선택 드롭다운 */}
-        <div ref={presetMenuRef} className="relative">
+    <div className="flex flex-col w-full h-full relative">
+      {/* 상단 컨트롤 영역 (프리셋, 모드 토글) */}
+      <div className="flex items-center justify-center w-full relative z-30 h-[38px]">
+        <div ref={manageMenuRef} className="relative flex flex-col items-center">
+          {/* 현재 프리셋 표시 */}
           <Button
+            id="tour-preset"
             variant="clayFlat"
             type="button"
-            disabled={isRunning}
-            onClick={() => {
-              setPresetMenuOpen((v) => !v);
-              setManageMenuOpen(false);
-            }}
-            className="flex items-center gap-2 text-sm font-semibold text-gray-30 uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed border-none">
+            onClick={() => setManageMenuOpen((v) => !v)}
+            className="flex items-center gap-2 text-sm font-semibold text-text-muted uppercase tracking-wide border-none">
             <Clock className="w-4 h-4" />
             {selectedPresetName}
             <ChevronDown
-              className={`w-4 h-4 transition-transform ${presetMenuOpen ? "rotate-180" : ""}`}
+              className={`w-4 h-4 transition-transform ${manageMenuOpen ? "rotate-180" : ""}`}
             />
           </Button>
 
-          {presetMenuOpen && (
-            <Panel
-              variant="clayFlat"
-              className="absolute left-0 top-full mt-2 z-30 w-56 rounded-xl p-1">
-              {selectablePresets.map((preset) => (
-                <Button
-                  variant="clay"
-                  key={preset.id}
-                  type="button"
-                  onClick={() => handleSelectPreset(preset)}
-                  className={`border-none flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm hover:bg-gray-70 ${
-                    preset.name === selectedPresetName
-                      ? "text-primary font-semibold"
-                      : "text-gray-10"
-                  }`}>
-                  <span>{preset.name}</span>
-                  <span className="text-xs text-gray-30">
-                    {preset.focusMinutes}/{preset.breakMinutes}분
-                  </span>
-                </Button>
-              ))}
-              {loadingPresets && (
-                <div className="px-3 py-2 text-xs text-gray-30">
-                  불러오는 중...
-                </div>
-              )}
-            </Panel>
-          )}
-        </div>
-
-        {/* 프리셋 설정(추가/수정/삭제) 드롭다운 */}
-        <div ref={manageMenuRef} className="relative">
-          <Button
-            variant="clay"
-            type="button"
-            aria-label="프리셋 설정"
-            onClick={() => {
-              setManageMenuOpen((v) => !v);
-              setPresetMenuOpen(false);
-            }}
-            className="flex items-center justify-center w-8 h-8 rounded-full text-gray-30 hover:bg-gray-70">
-            <Settings className="w-4 h-4" />
-          </Button>
-
+          {/* 프리셋 관리 메뉴 (글래스 모피즘) */}
           {manageMenuOpen && (
-            <div className="absolute right-0 top-full mt-2 z-30 w-72 rounded-xl border border-gray-100 bg-white shadow-lg p-3 text-sm">
-              {!isLoggedIn ? (
-                <p className="text-xs text-center text-gray-400 py-2">
-                  프리셋 저장/수정은 로그인 후 사용할 수 있습니다.
-                </p>
-              ) : (
-                <>
-                  <span className="font-medium text-gray-700">프리셋 관리</span>
+            <div className="absolute top-full mt-3 z-40 w-72 md:w-80 rounded-2xl border border-white/30 dark:border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.08)] p-4 text-sm backdrop-blur-xl bg-[#e8e2d3]/85 dark:bg-[#342e27]/85">
+              <span className="font-bold text-text mb-3 block px-1">프리셋 설정</span>
 
-                  <div className="flex flex-col gap-1 mt-2">
-                    {/* 기본 프리셋: 수정/삭제 불가 */}
-                    <div className="flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg bg-gray-70">
-                      <span className="text-gray-10">
-                        {DEFAULT_PRESET.name}
-                      </span>
-                      <span className="text-xs text-gray-30">
-                        {DEFAULT_PRESET.focusMinutes}/
-                        {DEFAULT_PRESET.breakMinutes}분
-                      </span>
-                    </div>
-
-                    {loadingPresets ? (
-                      <span className="text-gray-400 text-xs py-1">
-                        불러오는 중...
-                      </span>
-                    ) : (
-                      customPresets.map((preset) =>
-                        editingId === preset.id ? (
-                          <div
-                            key={preset.id}
-                            className="flex flex-col gap-1 px-2 py-1.5 rounded-lg border border-gray-100">
-                            <input
-                              type="text"
-                              value={editName}
-                              onChange={(e) => setEditName(e.target.value)}
-                              className="px-2 py-1 rounded-md border border-gray-300 text-xs"
-                            />
-                            <div className="flex items-center gap-2">
-                              <input
-                                type="number"
-                                min={1}
-                                max={120}
-                                value={editFocusMinutes}
-                                onChange={(e) =>
-                                  setEditFocusMinutes(
-                                    Number(e.target.value) || 1,
-                                  )
-                                }
-                                className="w-14 px-2 py-1 rounded-md border border-gray-300 text-center text-xs"
-                              />
-                              <span className="text-xs text-gray-30">/</span>
-                              <input
-                                type="number"
-                                min={1}
-                                max={60}
-                                value={editBreakMinutes}
-                                onChange={(e) =>
-                                  setEditBreakMinutes(
-                                    Number(e.target.value) || 1,
-                                  )
-                                }
-                                className="w-14 px-2 py-1 rounded-md border border-gray-300 text-center text-xs"
-                              />
-                              <Button
-                                variant="clay"
-                                type="button"
-                                onClick={handleSaveEdit}
-                                className="ml-auto text-primary hover:opacity-80"
-                                aria-label="프리셋 저장">
-                                <Check className="w-4 h-4" />
-                              </Button>
-                              <Button
-                                variant="clay"
-                                type="button"
-                                onClick={() => setEditingId(null)}
-                                className="text-gray-30 hover:text-gray-10"
-                                aria-label="편집 취소">
-                                <X className="w-4 h-4" />
-                              </Button>
-                            </div>
-                          </div>
-                        ) : (
-                          <div
-                            key={preset.id}
-                            className="flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-70">
-                            <span className="text-gray-10">{preset.name}</span>
-                            <div className="flex items-center gap-2">
-                              <span className="text-xs text-gray-30">
-                                {preset.focusMinutes}/{preset.breakMinutes}분
-                              </span>
-                              <Button
-                                variant="clay"
-                                type="button"
-                                onClick={() => startEdit(preset)}
-                                className="text-gray-30 hover:text-primary"
-                                aria-label="프리셋 수정">
-                                <Pencil className="w-3.5 h-3.5" />
-                              </Button>
-                              <Button
-                                variant="clay"
-                                type="button"
-                                onClick={() => handleRemovePreset(preset)}
-                                className="text-gray-30 hover:text-red-500"
-                                aria-label="프리셋 삭제">
-                                <X className="w-3.5 h-3.5" />
-                              </Button>
-                            </div>
-                          </div>
-                        ),
-                      )
+              <div className="flex flex-col gap-1.5">
+              {/* 기본 프리셋 */}
+              <div title={isRunning ? "타이머가 실행 중일 때는 프리셋을 변경할 수 없습니다" : undefined}>
+                <button
+                  type="button"
+                  disabled={isRunning}
+                  onClick={() => handleSelectPreset(DEFAULT_PRESET)}
+                  className={`w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl text-left text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+                    selectedPresetName === DEFAULT_PRESET.name
+                      ? "bg-black/5 dark:bg-white/10 font-bold"
+                      : "text-text hover:bg-black/5 dark:hover:bg-white/5"
+                  }`}>
+                  <span className="flex items-center gap-2">
+                    {selectedPresetName === DEFAULT_PRESET.name && (
+                      <Check className="w-4 h-4 text-text" />
                     )}
-                  </div>
+                    {DEFAULT_PRESET.name}
+                  </span>
+                  <span className={`text-xs font-medium ${selectedPresetName === DEFAULT_PRESET.name ? "text-text" : "text-text-muted"}`}>
+                    {DEFAULT_PRESET.focusMinutes}/{DEFAULT_PRESET.breakMinutes}분
+                  </span>
+                </button>
+              </div>
 
-                  {canAddPreset ? (
-                    <div className="flex flex-col gap-1 mt-3 pt-3 border-t border-gray-100">
+              {loadingPresets ? (
+                <span className="text-text-muted text-xs py-1">
+                  불러오는 중...
+                </span>
+              ) : (
+                customPresets.map((preset) =>
+                  editingId === preset.id ? (
+                    <div
+                      key={preset.id}
+                      className="flex flex-col gap-2 p-3 rounded-xl border border-white/20 bg-white/40 dark:bg-black/20 shadow-sm backdrop-blur-sm">
                       <input
                         type="text"
-                        value={newPresetName}
-                        onChange={(e) => setNewPresetName(e.target.value)}
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        className="px-3 py-1.5 rounded-lg border border-white/30 bg-white/60 dark:bg-black/40 text-sm outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-text-muted/50"
                         placeholder="프리셋 이름"
-                        className="px-2 py-1 rounded-md border border-gray-300 text-xs"
                       />
                       <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1 bg-white/60 dark:bg-black/40 rounded-lg px-2 py-1 border border-white/30">
+                          <input
+                            type="number"
+                            min={1}
+                            max={120}
+                            value={editFocusMinutes}
+                            onChange={(e) =>
+                              setEditFocusMinutes(Number(e.target.value) || 1)
+                            }
+                            className="w-12 bg-transparent text-center text-sm outline-none font-medium"
+                          />
+                          <span className="text-xs text-text-muted/60 font-bold">/</span>
+                          <input
+                            type="number"
+                            min={1}
+                            max={60}
+                            value={editBreakMinutes}
+                            onChange={(e) =>
+                              setEditBreakMinutes(Number(e.target.value) || 1)
+                            }
+                            className="w-12 bg-transparent text-center text-sm outline-none font-medium"
+                          />
+                        </div>
+                        <div className="flex gap-1 ml-auto">
+                          <button
+                            type="button"
+                            onClick={handleSaveEdit}
+                            className="p-1.5 rounded-lg bg-black/10 dark:bg-white/10 text-text hover:bg-black/20 dark:hover:bg-white/20 transition-colors shadow-sm"
+                            aria-label="프리셋 저장">
+                            <Check className="w-4 h-4" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setEditingId(null)}
+                            className="p-1.5 rounded-lg bg-black/5 dark:bg-white/5 text-text hover:bg-black/15 dark:hover:bg-white/15 transition-colors"
+                            aria-label="편집 취소">
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      key={preset.id}
+                      title={isRunning ? "타이머가 실행 중일 때는 프리셋을 변경할 수 없습니다" : undefined}
+                      className={`flex items-center justify-between gap-2 px-1 py-1 rounded-xl transition-all duration-200 ${
+                        selectedPresetName === preset.name
+                          ? "bg-black/5 dark:bg-white/10"
+                          : "hover:bg-black/5 dark:hover:bg-white/5"
+                      }`}>
+                      <button
+                        type="button"
+                        disabled={isRunning}
+                        onClick={() => handleSelectPreset(preset)}
+                        className={`flex-1 text-left px-3 py-1.5 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed ${
+                          selectedPresetName === preset.name
+                            ? "font-bold text-text"
+                            : "text-text"
+                        }`}>
+                        <span className="flex items-center gap-2">
+                          {selectedPresetName === preset.name && (
+                            <Check className="w-4 h-4 text-text" />
+                          )}
+                          {preset.name}
+                        </span>
+                      </button>
+                      <span className={`text-xs font-medium px-2 ${selectedPresetName === preset.name ? "text-text" : "text-text-muted"}`}>
+                        {preset.focusMinutes}/{preset.breakMinutes}분
+                      </span>
+                      <div className="flex items-center pr-2 opacity-60 hover:opacity-100 transition-opacity">
+                        <button
+                          type="button"
+                          onClick={() => startEdit(preset)}
+                          className="p-1.5 text-text-muted hover:text-primary transition-colors rounded-md hover:bg-white/50 dark:hover:bg-black/50"
+                          aria-label="프리셋 수정">
+                          <Pencil className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleRemovePreset(preset)}
+                          className="p-1.5 text-text-muted hover:text-red-500 transition-colors rounded-md hover:bg-white/50 dark:hover:bg-black/50"
+                          aria-label="프리셋 삭제">
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ),
+                )
+              )}
+            </div>
+
+            {isLoggedIn ? (
+              canAddPreset ? (
+                <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-white/20 dark:border-white/10 relative">
+                  <div className="absolute -top-[1px] left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+                  <input
+                    type="text"
+                    value={newPresetName}
+                    onChange={(e) => setNewPresetName(e.target.value)}
+                    placeholder="새 프리셋 이름"
+                    className="px-3 py-2 rounded-xl border border-white/30 bg-white/50 dark:bg-black/30 text-sm outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-text-muted/60"
+                  />
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center bg-white/50 dark:bg-black/30 rounded-xl px-2 py-1.5 border border-white/30 flex-1 justify-center gap-0.5">
+                      <div className="flex items-center">
                         <input
                           type="number"
                           min={1}
@@ -335,9 +328,12 @@ export default function PomodoroTimer() {
                           onChange={(e) =>
                             setNewFocusMinutes(Number(e.target.value) || 1)
                           }
-                          className="w-14 px-2 py-1 rounded-md border border-gray-300 text-center text-xs"
+                          className="w-12 bg-transparent text-center text-sm outline-none font-semibold text-text"
                         />
-                        <span className="text-xs text-gray-30">/</span>
+                        <span className="text-xs text-text-muted">분</span>
+                      </div>
+                      <span className="text-xs text-text-muted font-bold mx-1">/</span>
+                      <div className="flex items-center">
                         <input
                           type="number"
                           min={1}
@@ -346,56 +342,109 @@ export default function PomodoroTimer() {
                           onChange={(e) =>
                             setNewBreakMinutes(Number(e.target.value) || 1)
                           }
-                          className="w-14 px-2 py-1 rounded-md border border-gray-300 text-center text-xs"
+                          className="w-12 bg-transparent text-center text-sm outline-none font-semibold text-text"
                         />
-                        <Button
-                          variant="clay"
-                          onClick={handleAddPreset}
-                          className="ml-auto px-2 py-1 text-xs rounded-md flex items-center gap-1">
-                          <Plus className="w-3 h-3" />
-                          추가
-                        </Button>
+                        <span className="text-xs text-text-muted">분</span>
                       </div>
                     </div>
-                  ) : (
-                    <span className="block text-xs text-gray-400 mt-3 pt-3 border-t border-gray-100">
-                      커스텀 프리셋은 최대 {MAX_CUSTOM_PRESETS}개까지 저장할 수
-                      있습니다.
-                    </span>
-                  )}
-                </>
+                    <button
+                      onClick={handleAddPreset}
+                      className="px-3 py-2 bg-black/10 dark:bg-white/10 text-text text-sm font-semibold rounded-xl flex items-center gap-1 hover:bg-black/20 dark:hover:bg-white/20 transition-colors shadow-sm shrink-0">
+                      <Plus className="w-4 h-4" />
+                      추가
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <span className="block text-xs text-text-muted mt-3 pt-3 border-t border-gray-100">
+                  커스텀 프리셋은 최대 {MAX_CUSTOM_PRESETS}개까지 저장할 수
+                  있습니다.
+                </span>
+              )
+            ) : (
+              <p className="text-xs text-center text-text-muted py-2 mt-2 border-t border-gray-100">
+                프리셋 저장/수정은 로그인 후 사용할 수 있습니다.
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+
+        {/* 집중/휴식 모드 토글 스위치 (오른쪽 고정) */}
+        <div className="absolute right-0 top-0">
+          <Panel
+            variant="clay"
+            inset
+            role="switch"
+            aria-checked={isFocus}
+            onClick={() => void skip()}
+            className="relative flex h-[38px] w-[120px] items-center rounded-full p-1 cursor-pointer shrink-0 shadow-inner">
+            <div
+              className={cn(
+                "absolute top-1 left-1 h-[30px] w-[56px] rounded-full transition-transform duration-300 ease-out z-0",
+                clayVariants({ variant: "clay" }),
+                isFocus ? "translate-x-0" : "translate-x-[56px]"
               )}
-            </div>
-          )}
+            />
+            <span
+              className={`relative z-10 flex-1 text-center text-xs font-bold transition-colors duration-300 ${
+                isFocus ? "text-primary drop-shadow-sm" : "text-text-muted"
+              }`}>
+              집중
+            </span>
+            <span
+              className={`relative z-10 flex-1 text-center text-xs font-bold transition-colors duration-300 ${
+                !isFocus ? "text-green-50 drop-shadow-sm" : "text-text-muted"
+              }`}>
+              휴식
+            </span>
+          </Panel>
         </div>
       </div>
 
-      <PomodoroOrb
-        timeLabel={formatTime(remaining)}
-        subLabel={isFocus ? "집중 모드" : "휴식 모드"}
-        isFocus={isFocus}
-        isRunning={isRunning}
-      />
+      <PomodoroAlarm mode={mode} />
 
-      <div className="flex gap-3">
+      {summary &&
+        createPortal(
+          <Panel
+            variant="clay"
+            className="fixed top-20 left-1/2 -translate-x-1/2 z-50 rounded-2xl px-6 py-4 text-center">
+            <p className="text-(--color-text) font-semibold">
+              오늘의 총 집중시간 : {formatTime(summary.focusSeconds * 1000)}
+            </p>
+            <p className="text-(--color-text) mt-1">
+              휴식시간 : {formatTime(summary.breakSeconds * 1000)}
+            </p>
+          </Panel>,
+          document.body,
+        )}
+
+      {/* 중앙 타이머 영역 */}
+      <div className="flex-1 flex flex-col items-center justify-center gap-10 pb-4 pt-6">
+        <PomodoroOrb
+          timeLabel={formatTime(remaining)}
+          subLabel={isFocus ? "집중 모드" : "휴식 모드"}
+          isFocus={isFocus}
+          isRunning={isRunning}
+        />
+
+        <div className="flex gap-4">
         <Button
           variant="clay"
-          onClick={isRunning ? pause : start}
+          onClick={() => {
+            if (isRunning) void pause();
+            else void start();
+          }}
           className="rounded-full px-6 py-2 text-sm font-semibold text-primary">
           {isRunning ? "일시정지" : "시작"}
         </Button>
         <Button
           variant="clay"
-          onClick={skip}
-          className="rounded-full px-6 py-2 text-sm font-semibold text-gray-20">
-          {isFocus ? "휴식" : "집중"}
-        </Button>
-        <Button
-          variant="clay"
-          onClick={reset}
-          className="rounded-full px-6 py-2 text-sm font-semibold text-gray-20">
+          onClick={() => void handleReset()}
+          className="rounded-full px-6 py-2 text-sm font-semibold">
           종료
         </Button>
+      </div>
       </div>
     </div>
   );

@@ -16,21 +16,46 @@ export const ProfileActions = ({
     return (
         <div
             className="
-flex
-justify-end
-gap-2
-"
+            flex
+
+            justify-center
+            880:justify-end
+
+            gap-2
+
+            shrink-0
+            "
         >
             {isEditMode ? (
                 <>
-                    <Button variant="clay" onClick={() => setIsEditMode(false)}>
+                    <Button
+                        className="
+                        min-w-20
+                        880:min-w-0
+                    "
+                        variant="clay"
+                        onClick={() => setIsEditMode(false)}
+                    >
                         취소
                     </Button>
 
-                    <Button onClick={onComplete}>완료</Button>
+                    <Button
+                        className="
+                        min-w-20
+                        880:min-w-0
+                    "
+                        onClick={onComplete}
+                    >
+                        완료
+                    </Button>
                 </>
             ) : (
-                <Button onClick={() => setIsEditMode(true)}>수정</Button>
+                <Button
+                    className="w-full flex items-center px-4 h-8 text-sm rounded-xl  hover:bg-black/5 dark:hover:bg-white/10 "
+                    onClick={() => setIsEditMode(true)}
+                >
+                    수정
+                </Button>
             )}
         </div>
     );

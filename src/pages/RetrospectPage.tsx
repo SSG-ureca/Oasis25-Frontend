@@ -4,18 +4,19 @@ import { RetrospectWritePanel } from "../components/retrospect/RetrospectWritePa
 export const RetrospectPage = () => {
     return (
         <div
+            id="tour-retrospect-content"
             className="
-                h-full
-                grid
-                grid-cols-[2fr_3fr]
-                gap-4
-                col-span-2
-            "
+        
+
+        grid
+        grid-cols-1
+        gap-4
+        pb-5
+        880:grid-cols-[2fr_3fr]
+    "
         >
-            {/* 이전 회고 조회 패널 */}
             <RetrospectSearchPanel />
 
-            {/* 회고 작성 패널 */}
             <RetrospectWritePanel />
         </div>
     );

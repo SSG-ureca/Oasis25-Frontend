@@ -1,12 +1,12 @@
 import { cn } from "../../utils/cn";
 import type { VariantProps } from "class-variance-authority";
-import { neumophismVariants } from "../../types/neumophismVariants";
+import { clayVariants } from "../../types/clayVariants";
 import { useTheme } from "../../hooks/useTheme";
 
 export interface PanelProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof neumophismVariants> {}
+    VariantProps<typeof clayVariants> {}
 
 function Panel({ className, variant, inset, theme, ...props }: PanelProps) {
   const { isDark } = useTheme();
@@ -16,7 +16,7 @@ function Panel({ className, variant, inset, theme, ...props }: PanelProps) {
     <div
       className={cn(
         "justify-center items-center",
-        neumophismVariants({
+        clayVariants({
           variant,
           inset,
           theme: resolvedTheme,

@@ -17,22 +17,69 @@ export const ProfileInfo = ({
     setNickname,
 }: Props) => {
     return (
-        <>
+        <div
+            className="
+                flex
+                flex-col
+                items-center
+
+                gap-1
+
+                text-center
+            "
+        >
+            <div
+                className="
+                    text-xs
+                    sm:text-sm
+
+                    text-text-muted
+
+                    break-all
+                "
+            >
+                {profile?.email}
+            </div>
+
             {isEditMode ? (
                 <input
                     value={nickname}
                     onChange={(e) => setNickname(e.target.value)}
                     className="
-rounded-lg
-p-2
-border
-"
+                    w-full
+
+                    rounded-xl
+
+                    px-4
+                    py-2
+
+                    bg-clay-bg
+
+                    text-text
+
+                    text-center
+
+                    outline-none
+
+                    shadow-(--shadow-clay-inset)
+
+                    transition
+
+                    placeholder:text-text-muted
+                "
                 />
             ) : (
-                <div className="text-xl font-semibold">{profile?.nickname}</div>
-            )}
+                <div
+                    className="
+                        text-lg
+                        880:text-xl
 
-            <div className="text-sm text-gray-500">{profile?.email}</div>
-        </>
+                        font-semibold
+                    "
+                >
+                    {profile?.nickname}
+                </div>
+            )}
+        </div>
     );
 };

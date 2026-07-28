@@ -1,85 +1,47 @@
 import { useState, useEffect } from "react";
-import { CloudRain, Sun, Cloud, Snowflake, CloudFog, CloudLightning, HelpCircle } from "lucide-react";
-
-interface WeatherData {
-  avgFocusMinutes: number;
-  totalSessions: number;
-  completedSessions: number;
-  completionRate: number;
-}
+import { Sun, Cloud, CloudRain } from "lucide-react";
+import { type WeatherStatsResponse } from "../../types/stats";
 
 interface WeatherFocusChartProps {
-  getWeatherData: (cond: string) => WeatherData | undefined;
-  getBarHeight: (cond: string) => number;
+  getWeatherData: (cond: string) => WeatherStatsResponse | undefined;
 }
 
-const WEATHER_ITEMS = [
+const WEATHER_CATEGORIES = [
   {
     key: "맑음",
     label: "맑음",
     icon: Sun,
-    gradient: "from-amber-500 to-orange-400",
+    keys: ["맑음"],
     iconColor: "text-amber-500",
-    shadow: "shadow-[inset_-2px_-2px_6px_rgba(0,0,0,0.12),_inset_2px_2px_6px_rgba(255,255,255,0.45),_0_4px_10px_rgba(245,158,11,0.2)]",
-    trackBg: "bg-amber-50/50"
+    bgColor: "bg-amber-500",
+    gradient: "bg-gradient-to-br from-amber-500/10 to-orange-400/5",
+    border: "border-amber-200/40 dark:border-amber-500/20",
   },
   {
     key: "흐림",
     label: "흐림",
     icon: Cloud,
-    gradient: "from-slate-500 to-gray-400",
+    keys: ["흐림", "안개", "알수없음", "기타"],
     iconColor: "text-slate-500",
-    shadow: "shadow-[inset_-2px_-2px_6px_rgba(0,0,0,0.12),_inset_2px_2px_6px_rgba(255,255,255,0.45),_0_4px_10px_rgba(100,116,139,0.2)]",
-    trackBg: "bg-slate-100/40"
+    bgColor: "bg-slate-500",
+    gradient: "bg-gradient-to-br from-slate-500/10 to-gray-400/5",
+    border: "border-slate-200/40 dark:border-slate-500/20",
   },
   {
-    key: "안개",
-    label: "안개",
-    icon: CloudFog,
-    gradient: "from-zinc-400 to-slate-300",
-    iconColor: "text-zinc-500",
-    shadow: "shadow-[inset_-2px_-2px_6px_rgba(0,0,0,0.12),_inset_2px_2px_6px_rgba(255,255,255,0.45),_0_4px_10px_rgba(161,161,170,0.2)]",
-    trackBg: "bg-zinc-50/50"
-  },
-  {
-    key: "비",
-    label: "비",
+    key: "눈비",
+    label: "눈/비",
     icon: CloudRain,
-    gradient: "from-blue-500 to-cyan-400",
+    keys: ["비", "눈", "천둥번개"],
     iconColor: "text-blue-500",
-    shadow: "shadow-[inset_-2px_-2px_6px_rgba(0,0,0,0.12),_inset_2px_2px_6px_rgba(255,255,255,0.45),_0_4px_10px_rgba(59,130,246,0.2)]",
-    trackBg: "bg-blue-50/50"
+    bgColor: "bg-blue-500",
+    gradient: "bg-gradient-to-br from-blue-500/10 to-cyan-400/5",
+    border: "border-blue-200/40 dark:border-blue-500/20",
   },
-  {
-    key: "천둥번개",
-    label: "천둥번개",
-    icon: CloudLightning,
-    gradient: "from-violet-500 to-fuchsia-400",
-    iconColor: "text-violet-500",
-    shadow: "shadow-[inset_-2px_-2px_6px_rgba(0,0,0,0.12),_inset_2px_2px_6px_rgba(255,255,255,0.45),_0_4px_10px_rgba(139,92,246,0.2)]",
-    trackBg: "bg-violet-50/50"
-  },
-  {
-    key: "눈",
-    label: "눈",
-    icon: Snowflake,
-    gradient: "from-sky-400 to-indigo-300",
-    iconColor: "text-sky-400",
-    shadow: "shadow-[inset_-2px_-2px_6px_rgba(0,0,0,0.12),_inset_2px_2px_6px_rgba(255,255,255,0.45),_0_4px_10px_rgba(56,189,248,0.2)]",
-    trackBg: "bg-sky-50/50"
-  },
-  {
-    key: "기타",
-    label: "기타",
-    icon: HelpCircle,
-    gradient: "from-teal-500 to-emerald-400",
-    iconColor: "text-teal-500",
-    shadow: "shadow-[inset_-2px_-2px_6px_rgba(0,0,0,0.12),_inset_2px_2px_6px_rgba(255,255,255,0.45),_0_4px_10px_rgba(20,184,166,0.2)]",
-    trackBg: "bg-teal-50/50"
-  }
 ];
 
-export const WeatherFocusChart = ({ getWeatherData }: WeatherFocusChartProps) => {
+export const WeatherFocusChart = ({
+  getWeatherData,
+}: WeatherFocusChartProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -87,70 +49,90 @@ export const WeatherFocusChart = ({ getWeatherData }: WeatherFocusChartProps) =>
     return () => clearTimeout(timer);
   }, []);
 
-  const allStats = WEATHER_ITEMS.map(item => getWeatherData(item.key)?.avgFocusMinutes ?? 0);
-  const maxFocus = Math.max(...allStats, 40);
-  const gridLines = [
-    Math.round(maxFocus),
-    Math.round(maxFocus * 0.66),
-    Math.round(maxFocus * 0.33),
-  ];
+  const categoryStats = WEATHER_CATEGORIES.map((cat) => {
+    let totalFocus = 0;
+    let validCategoriesCount = 0;
+
+    cat.keys.forEach((k) => {
+      const d = getWeatherData(k);
+      if (d && d.avgFocusMinutes > 0) {
+        totalFocus += d.avgFocusMinutes;
+        validCategoriesCount += 1;
+      }
+    });
+
+    const avgFocus =
+      validCategoriesCount > 0 ? totalFocus / validCategoriesCount : 0;
+    return { ...cat, avgFocus };
+  });
+
+  const maxAvgFocus = Math.max(...categoryStats.map((s) => s.avgFocus));
 
   return (
-    <div className="w-full h-full flex flex-col justify-between relative">
-      <div className="space-y-1.5">
-        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
+    <div className="w-full h-full flex flex-col relative select-none">
+      <div className="space-y-1.5 mb-2 sm:mb-4">
+        <span className="text-[10px] uppercase tracking-wider font-extrabold text-[var(--color-green-50)]">
           Weather Focus Analytics
         </span>
-        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">
-          날씨별 몰입도 비교
+        <h2 className="text-base sm:text-lg font-extrabold text-text tracking-tight">
+          날씨별 평균 집중 시간
         </h2>
-        <p className="text-xs sm:text-sm font-semibold text-gray-500 leading-relaxed break-keep max-w-[500px]">
-          날씨 환경에 따른 평균 집중 시간(분)입니다. 날씨에 적합한 몰입 상태를 확인해보세요.
+        <p className="text-xs sm:text-sm font-semibold text-text-muted leading-relaxed break-keep">
+          다양한 날씨 상태를 3가지 주요 카테고리로 묶어, 어떤 날씨에 집중 효율이 더 좋은지 직관적으로 보여줍니다.
         </p>
       </div>
 
-      <div className="relative flex-1 min-h-[200px] sm:min-h-[240px] mt-4 mb-2 flex items-end justify-between px-2 sm:px-6 md:px-12">
-        <div className="absolute inset-x-0 top-0 bottom-8 flex flex-col justify-between pointer-events-none select-none">
-          {gridLines.map((val, idx) => (
-            <div key={idx} className="w-full flex items-center gap-1 sm:gap-2">
-              <span className="text-[7.5px] sm:text-[8px] font-bold text-gray-400/80 w-6 text-right shrink-0">{val}분</span>
-              <div className="flex-1 border-b border-dashed border-gray-200/60" />
-            </div>
-          ))}
-          <div className="w-full flex items-center gap-1 sm:gap-2">
-            <span className="text-[7.5px] sm:text-[8px] font-bold text-gray-400/80 w-6 text-right shrink-0">0분</span>
-            <div className="flex-1 border-b border-gray-200/80" />
-          </div>
-        </div>
+      <div className="flex-1 flex flex-col sm:flex-row justify-center items-center gap-4 w-full px-2 sm:px-6">
+        {categoryStats.map((item, i) => {
+          const Icon = item.icon;
+          const displayAvg =
+            item.avgFocus > 0 ? `${Math.round(item.avgFocus)}분` : "기록 없음";
+          const ratio = maxAvgFocus > 0 ? (item.avgFocus / maxAvgFocus) * 100 : 0;
 
-        <div className="w-full h-[80%] flex items-end justify-around z-10">
-          {WEATHER_ITEMS.map((item) => {
-            const data = getWeatherData(item.key);
-            const avgFocus = data?.avgFocusMinutes ?? 0;
-            const percent = avgFocus > 0 ? (avgFocus / maxFocus) * 100 : 0;
-            const Icon = item.icon;
+          return (
+            <div
+              key={item.key}
+              className={`relative flex-1 w-full sm:w-auto h-52 sm:h-60 flex flex-col justify-between items-center p-6 rounded-[28px] border ${item.border} ${item.gradient} overflow-hidden transition-all duration-300 hover:scale-[1.03] ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+              style={{ transitionDelay: `${i * 100}ms` }}
+            >
+              {/* 은은한 배경 글로우 */}
+              <div className={`absolute -top-6 -right-6 w-32 h-32 rounded-full blur-[40px] opacity-30 ${item.bgColor} pointer-events-none`} />
+              
+              <div className="flex flex-col items-center justify-center gap-1.5 sm:gap-2 mt-2 z-10">
+                <div className={`p-3 rounded-2xl bg-white/40 dark:bg-black/20 shadow-sm backdrop-blur-md border ${item.border}`}>
+                  <Icon className={`w-8 h-8 sm:w-10 sm:h-10 ${item.iconColor}`} />
+                </div>
+                <span className="text-sm sm:text-base font-extrabold text-text-muted mt-2">
+                  {item.label}
+                </span>
+              </div>
 
-            return (
-              <div key={item.key} className="flex flex-col items-center gap-1.5 w-8 sm:w-12 group relative">
-                <span className="text-[8.5px] sm:text-[10px] font-extrabold text-emerald-600 tracking-tight transition-opacity duration-200 opacity-0 group-hover:opacity-100 h-4 flex items-center justify-center whitespace-nowrap">
-                  {avgFocus > 0 ? `${avgFocus.toFixed(1)}분` : "기록 없음"}
+              <div className="flex flex-col items-center w-full z-10">
+                <span
+                  className={`text-2xl sm:text-4xl font-black tracking-tight ${item.avgFocus > 0 ? "text-text" : "text-text-muted/60"}`}
+                >
+                  {displayAvg}
                 </span>
 
-                <div className={`w-4 sm:w-6 h-[140px] sm:h-[180px] ${item.trackBg} rounded-full flex items-end overflow-hidden border border-gray-200/40 relative shadow-[inset_1px_2px_4px_rgba(0,0,0,0.06)]`}>
-                  <div
-                    className={`w-full bg-gradient-to-t ${item.gradient} ${item.shadow} rounded-full transition-all duration-[1000ms] ease-out origin-bottom group-hover:scale-y-[1.03]`}
-                    style={{ height: isLoaded ? `${Math.min(100, Math.max(0, percent))}%` : "0%" }}
-                  />
-                </div>
-
-                <div className="flex flex-col items-center gap-1 mt-0.5">
-                  <Icon className={`w-4 h-4 ${item.iconColor} transition-all group-hover:scale-115 group-hover:-translate-y-0.5 duration-300`} />
-                  <span className="text-[11px] font-bold text-gray-600 transition-colors group-hover:text-gray-900">{item.label}</span>
-                </div>
+                {/* 프로그레스 바 (가장 높은 날씨 대비 비율) */}
+                {maxAvgFocus > 0 && (
+                  <div className="w-full mt-4 flex flex-col gap-1.5">
+                    <div className="flex justify-between items-center text-[10px] font-bold text-text-muted px-1">
+                      <span>비율</span>
+                      <span>{Math.round(ratio)}%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-black/5 dark:bg-white/10 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full rounded-full transition-all duration-1000 ease-out ${item.bgColor}`} 
+                        style={{ width: `${isLoaded ? ratio : 0}%`, transitionDelay: `${400 + i * 100}ms` }}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

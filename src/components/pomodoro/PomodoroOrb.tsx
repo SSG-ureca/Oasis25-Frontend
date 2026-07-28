@@ -1,5 +1,5 @@
 import { cn } from "../../utils/cn";
-import { neumophismVariants } from "../../types/neumophismVariants";
+import { clayVariants } from "../../types/clayVariants";
 
 interface PomodoroOrbProps {
   timeLabel: string;
@@ -16,7 +16,7 @@ export default function PomodoroOrb({
   isRunning,
 }: PomodoroOrbProps) {
   return (
-    <div className="relative w-60 h-60">
+    <div className="relative w-[260px] h-[260px] 880:w-[280px] 880:h-[280px] mx-auto">
       {/* 집중/휴식 모드 색상 그라데이션 링 - 타이머가 진행 중일 때만 원을 따라 천천히 회전 */}
       <div
         className="absolute inset-0 rounded-full animate-orb-rotate transition-colors duration-700"
@@ -36,13 +36,13 @@ export default function PomodoroOrb({
       {/* neumophismVariants의 inset 글래스-뉴모피즘 원 안에 타이머 */}
       <div
         className={cn(
-          neumophismVariants({ variant: "clay", inset: true }),
+          clayVariants({ variant: "clay", inset: true }),
           "absolute inset-2 rounded-full flex flex-col items-center justify-center",
         )}>
-        <span className="text-4xl font-sans tabular-nums text-gray-10 drop-shadow-sm">
+        <span className="text-4xl 880:text-5xl font-sans tabular-nums drop-shadow-sm">
           {timeLabel}
         </span>
-        <span className="text-xs text-gray-20 mt-1 font-medium">
+        <span className="text-xs 880:text-sm text-text-muted mt-1 font-medium">
           {subLabel}
         </span>
       </div>

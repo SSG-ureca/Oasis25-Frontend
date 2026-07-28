@@ -17,6 +17,7 @@ import { ProfileInfo } from "./ProfileInfo";
 import { PasswordForm } from "./PasswordForm";
 import { ProfileActions } from "./ProfileActions";
 import logoImage from "../../../assets/images/logo.png";
+import { ProfileOptions } from "./ProfileOptions";
 
 const DEFAULT_PROFILE_IMAGE = logoImage;
 
@@ -38,6 +39,9 @@ export const ProfileEditor = () => {
     const [imageFile, setImageFile] = useState<File | null>(null);
 
     const [previewUrl, setPreviewUrl] = useState(DEFAULT_PROFILE_IMAGE);
+
+    const [autoPlay, setAutoPlay] = useState(false);
+    const [focusMode, setFocusMode] = useState(false);
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -120,11 +124,16 @@ export const ProfileEditor = () => {
             variant="clay"
             inset
             className="
-                flex
-                flex-1
-                flex-col
-                gap-6
-                p-6
+            h-full
+            min-h-[400px]
+            880:min-h-0
+            flex
+            flex-col
+            p-3
+            sm:p-4
+            880:p-6
+            gap-4
+            880:gap-6
             "
         >
             <ProfileImage
@@ -142,15 +151,29 @@ export const ProfileEditor = () => {
                 nickname={editNickname}
                 setNickname={setEditNickname}
             />
-
-            {isEditMode && (
-                <PasswordForm
-                    currentPassword={currentPassword}
-                    newPassword={newPassword}
-                    setCurrentPassword={setCurrentPassword}
-                    setNewPassword={setNewPassword}
-                />
-            )}
+            <div
+                className="
+                    flex-1
+                    min-h-0
+                    overflow-hidden
+                "
+            >
+                {isEditMode ? (
+                    <PasswordForm
+                        currentPassword={currentPassword}
+                        newPassword={newPassword}
+                        setCurrentPassword={setCurrentPassword}
+                        setNewPassword={setNewPassword}
+                    />
+                ) : (
+                    <ProfileOptions
+                        autoPlay={autoPlay}
+                        setAutoPlay={setAutoPlay}
+                        focusMode={focusMode}
+                        setFocusMode={setFocusMode}
+                    />
+                )}
+            </div>
 
             <ProfileActions
                 isEditMode={isEditMode}

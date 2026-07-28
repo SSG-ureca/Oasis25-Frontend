@@ -1,7 +1,7 @@
 //회고 페이지에서 사용할 타입입니다.
 
 //작성용 타입
-export interface RetrospectCreateRequest {   
+export interface RetrospectCreateRequest {
     diaryDate: string;
     content: string;
     emotionScore: number;
@@ -17,4 +17,8 @@ export interface RetrospectResponse {
     attachmentUrl?: string;
     createdAt: string;
     updatedAt: string;
+}
+
+export interface RetrospectDateListResponse {
+    dates: string[];
 }

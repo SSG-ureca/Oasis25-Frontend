@@ -6,8 +6,13 @@ import { InputField } from "../components/common/InputField";
 import { registerApi } from "../services/authApi";
 import { toast } from "../components/common/Toast";
 import { Sparkles, Mail, Lock, User, Loader2 } from "lucide-react";
+import { Tumbleweeds } from "../components/common/Tumbleweeds";
+import oasis25Light from "../assets/images/Oasis25-lightmode.png";
+import oasis25Dark from "../assets/images/Oasis25-darkmode.png";
+import { useTheme } from "../hooks/useTheme";
 
 export const RegisterPage: React.FC = () => {
+  const { isDark } = useTheme();
   const navigate = useNavigate();
 
   // 상태 선언 (이메일, 닉네임, 비밀번호, 비밀번호 확인, 로딩, 에러/성공 메시지)
@@ -54,20 +59,20 @@ export const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-bg-light animate-in fade-in duration-300">
-      <div className="w-full max-w-md p-4">
+    <div className="w-screen h-screen flex items-center justify-center bg-[var(--color-app-bg)] overflow-hidden animate-in fade-in duration-300 desert-grain">
+      <div className="sand-overlay" />
+      <Tumbleweeds />
+      <div className="w-full max-w-md p-4 z-10 relative">
         <Panel
-          variant="neumorphism"
-          className="p-8 rounded-[36px] flex flex-col space-y-4"
-        >
+          variant="clay"
+          className="p-8 rounded-[36px] flex flex-col space-y-4">
           {/* 헤더 영역 */}
-          <div className="text-center space-y-2">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center bg-bg-light shadow-[var(--shadow-neumorphism)] mx-auto text-2xl">
-              로고
-            </div>
-            <h2 className="text-xl font-bold text-gray-20 tracking-tight">
-              Sign Up
-            </h2>
+          <div className="text-center mb-8 mt-2">
+            <img
+              src={isDark ? oasis25Dark : oasis25Light}
+              alt="OASIS25"
+              className="h-7 object-contain mx-auto drop-shadow-sm"
+            />
           </div>
 
           {/* 회원가입 폼 */}
@@ -120,9 +125,8 @@ export const RegisterPage: React.FC = () => {
             <Button
               type="submit"
               disabled={isLoading}
-              variant="neumorphism"
-              className="w-full py-3 rounded-2xl text-xs font-bold tracking-widest text-gray-20 bg-bg-light shadow-[var(--shadow-neumorphism)] hover:scale-[1.01] active:shadow-[var(--shadow-neumorphism-inset)] transition-all flex items-center justify-center gap-1.5"
-            >
+              variant="clay"
+              className="w-full py-3 rounded-2xl text-xs font-bold tracking-widest text-text bg-[var(--color-app-bg)] shadow-[var(--shadow-clay)] hover:scale-[1.01] active:shadow-[var(--shadow-clay-inset)] transition-all flex items-center justify-center gap-1.5">
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin text-primary" />
               ) : (
@@ -135,13 +139,12 @@ export const RegisterPage: React.FC = () => {
           </form>
 
           {/* 로그인 링크 */}
-          <p className="text-[10px] text-center text-gray-30">
+          <p className="text-[10px] text-center text-text-muted">
             이미 계정이 있으신가요?
             <button
               type="button"
               onClick={() => navigate("/login")}
-              className="text-primary font-bold hover:underline cursor-pointer ml-1"
-            >
+              className="text-primary font-bold hover:underline cursor-pointer ml-1">
               로그인하기
             </button>
           </p>

@@ -21,8 +21,8 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
 
   const getLocalDateString = (date: Date) => {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
@@ -38,10 +38,13 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
     3: "보통",
     4: "차분함",
     5: "행복",
-    "none": "기록 없음"
+    none: "기록 없음",
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, idx: number) => {
+  const handleMouseMove = (
+    e: React.MouseEvent<HTMLDivElement>,
+    idx: number,
+  ) => {
     const gridEl = e.currentTarget.closest(".emotion-grid-container");
     const parentEl = e.currentTarget.closest(".emotion-calendar-container");
     if (gridEl && parentEl) {
@@ -58,21 +61,28 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
   };
 
   const getSpotlightColor = (score: number | string) => {
-    if (score === 1) return "bg-[#e65959]/40 shadow-[0_0_20px_rgba(230,89,89,0.7)]";
-    if (score === 2) return "bg-[#f19a6c]/40 shadow-[0_0_20px_rgba(241,154,108,0.7)]";
-    if (score === 3) return "bg-[#fcdb94]/45 shadow-[0_0_20px_rgba(252,219,148,0.7)]";
-    if (score === 4) return "bg-[#b3c69f]/45 shadow-[0_0_20px_rgba(179,198,159,0.7)]";
-    if (score === 5) return "bg-[#7d9c68]/40 shadow-[0_0_20px_rgba(125,156,104,0.7)]";
+    if (score === 1)
+      return "bg-[#e65959]/40 shadow-[0_0_20px_rgba(230,89,89,0.7)]";
+    if (score === 2)
+      return "bg-[#f19a6c]/40 shadow-[0_0_20px_rgba(241,154,108,0.7)]";
+    if (score === 3)
+      return "bg-[#fcdb94]/45 shadow-[0_0_20px_rgba(252,219,148,0.7)]";
+    if (score === 4)
+      return "bg-[#b3c69f]/45 shadow-[0_0_20px_rgba(179,198,159,0.7)]";
+    if (score === 5)
+      return "bg-[#7d9c68]/40 shadow-[0_0_20px_rgba(125,156,104,0.7)]";
     return "bg-white/20 shadow-[0_0_15px_rgba(255,255,255,0.4)]";
   };
 
   const getEmotionSummary = () => {
-    const validScores = diaryScores.filter((s): s is number => typeof s === "number");
+    const validScores = diaryScores.filter(
+      (s): s is number => typeof s === "number",
+    );
     if (validScores.length === 0) {
       return {
         text: "최근 기록된 감정이 없어 한줄평이 준비 중입니다. 감정 일기를 작성해 보세요.",
-        labelColor: "text-gray-500",
-        label: "분석 대기 중"
+        labelColor: "text-text-muted",
+        label: "분석 대기 중",
       };
     }
     const sum = validScores.reduce((acc, curr) => acc + curr, 0);
@@ -81,20 +91,20 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
     if (avg >= 3.8) {
       return {
         text: "행복하고 차분한 긍정적 에너지가 주를 이루는 아주 맑고 안정적인 한 달을 보냈습니다.",
-        labelColor: "text-emerald-600",
-        label: "긍정 & 평온"
+        labelColor: "text-green-50",
+        label: "긍정 & 평온",
       };
     } else if (avg >= 2.8) {
       return {
         text: "보통 수준의 정서적 흐름을 유지하며 무난하고 균형 잡힌 한 달의 나날들을 보냈습니다.",
         labelColor: "text-amber-600",
-        label: "평온 & 조화"
+        label: "평온 & 조화",
       };
     } else {
       return {
         text: "평소보다 스트레스나 슬픈 지표가 감지되었으니 따뜻한 쉼과 마음 충전을 추천합니다.",
         labelColor: "text-rose-500",
-        label: "쉼과 충전 필요"
+        label: "쉼과 충전 필요",
       };
     }
   };
@@ -103,17 +113,16 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
 
   return (
     <div className="w-full h-auto md:h-full grid grid-cols-1 md:grid-cols-[29%_66%] md:grid-rows-[auto_1fr] justify-between gap-6 relative emotion-calendar-container">
-      
       {/* 1. 타이틀 영역 (좌측 상단 고정) */}
       <div className="space-y-1.5 md:col-start-1 md:row-start-1">
-        <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-600">
+        <span className="text-[10px] uppercase tracking-wider font-extrabold text-green-50">
           30-Day Emotion Trend
         </span>
-        <h2 className="text-base sm:text-lg font-extrabold text-gray-800 tracking-tight">
+        <h2 className="text-base sm:text-lg font-extrabold text-text tracking-tight">
           감정 흐름 달력
         </h2>
-        <p className="text-xs sm:text-sm font-semibold text-gray-500 leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
-          최근 30일간 작성한 일기 기록에 근거한 감정 변화 추이입니다.
+        <p className="text-xs sm:text-sm font-semibold text-text-muted leading-relaxed break-keep whitespace-normal lg:whitespace-nowrap">
+          최근 30일간 작성한 회고 기록에 따른 감정 달력입니다.
         </p>
       </div>
 
@@ -150,8 +159,7 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
                 key={idx}
                 className="relative w-full h-full flex items-center justify-center overflow-visible cursor-pointer"
                 onMouseMove={(e) => handleMouseMove(e, idx)}
-                onMouseLeave={() => setHoveredCell(null)}
-              >
+                onMouseLeave={() => setHoveredCell(null)}>
                 {colorHex && (
                   <div
                     className={`absolute w-[220%] h-[220%] rounded-full filter blur-[12px] sm:blur-[16px] pointer-events-none transition-all duration-[800ms] ease-out ${colorHex} ${
@@ -168,16 +176,22 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
 
       {/* 3. 하단 영역: 한줄평 요약과 범례 (모바일에서는 맨 마지막(3번째), 데스크톱에서는 좌측 하단 고정) */}
       <div className="space-y-4 md:col-start-1 md:row-start-2 md:self-end">
-        {/* 한 달 감정 요약 순수 텍스트 */}
-        <div className="pt-5 border-t border-black/10 space-y-1.5 pb-3">
-          <span className={`text-[10px] font-extrabold uppercase tracking-wider block ${summary.labelColor}`}>{summary.label}</span>
-          <p className="text-xs sm:text-sm font-semibold text-gray-700 leading-relaxed break-keep">
-            {summary.text}
-          </p>
+        {/* 한 달 감정 요약 패널 */}
+        <div className="pt-5 border-t border-black/10 dark:border-white/10 pb-3">
+          <div className="bg-white/40 dark:bg-white/5 border border-gray-200/50 dark:border-white/10 p-3 sm:p-4 rounded-[18px] flex flex-col gap-1.5 shadow-sm">
+            <span
+              className={`text-xs sm:text-sm font-extrabold flex items-center gap-1.5 ${summary.labelColor}`}>
+              <span className="text-[10px] sm:text-xs text-text-muted opacity-80 font-bold">한줄평 |</span>
+              {summary.label}
+            </span>
+            <p className="text-sm sm:text-base font-bold text-text leading-relaxed break-keep mt-0.5">
+              {summary.text}
+            </p>
+          </div>
         </div>
 
         {/* 감정 범례 목록 */}
-        <div className="flex flex-wrap md:flex-col gap-2.5 pt-4 md:border-t border-black/10 text-[9px] sm:text-[10px] font-bold text-gray-500/80">
+        <div className="flex flex-wrap md:flex-col gap-2.5 pt-4 md:border-t border-black/10 dark:border-white/10 text-[9px] sm:text-[10px] font-bold text-text-muted/80">
           <div className="flex items-center gap-1.5 shrink-0">
             <span className="w-2.5 h-2.5 rounded-full bg-[#e65959]/80 shadow-[0_0_6px_rgba(230,89,89,0.3)]" />
             <span>스트레스</span>
@@ -203,21 +217,20 @@ export const EmotionCalendar = ({ diaryScores }: EmotionCalendarProps) => {
 
       {hoveredCell !== null && (
         <div
-          className="absolute pointer-events-none bg-white/35 backdrop-blur-md border border-white/40 text-gray-800 rounded-xl px-3 py-1.5 text-[9px] font-bold shadow-[0_8px_20px_rgba(0,0,0,0.06)] z-50 flex flex-col items-center whitespace-nowrap transition-[left,top] duration-[400ms] ease-out"
+          className="absolute pointer-events-none bg-bg-light/80 backdrop-blur-md border border-white/40 text-text rounded-xl px-3 py-1.5 text-[9px] font-bold shadow-[0_8px_20px_rgba(0,0,0,0.06)] z-50 flex flex-col items-center whitespace-nowrap transition-[left,top] duration-[400ms] ease-out"
           style={{
             left: `${hoveredCell.parentX}px`,
             top: `${hoveredCell.parentY - 28}px`,
             transform: "translate(-50%, -50%)",
-          }}
-        >
-          <span className="text-gray-400 font-semibold">
+          }}>
+          <span className="text-text-muted font-semibold">
             {(() => {
               const dateStr = past35Days[hoveredCell.idx];
               const dateObj = new Date(dateStr);
               return `${dateObj.getMonth() + 1}월 ${dateObj.getDate()}일`;
             })()}
           </span>
-          <span className="text-gray-700 mt-0.5 font-extrabold text-[10px]">
+          <span className="text-text mt-0.5 font-extrabold text-[10px]">
             {emotionMap[diaryScores[hoveredCell.idx]] ?? "기록 없음"}
           </span>
         </div>
