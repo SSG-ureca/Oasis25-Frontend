@@ -7,6 +7,7 @@ import { RetrospectHeatmap } from "../components/mypage/RetrospectHeatmap";
 export const MyPage = () => {
     return (
         <div
+            id="tour-mypage-content"
             className="
                 h-full
                 min-h-0
