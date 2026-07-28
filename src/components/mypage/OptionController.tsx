@@ -20,7 +20,7 @@ export const OptionController = () => {
             variant="clay"
             inset
             className="
-            h-full
+           
             880:h-full
 
             flex
@@ -69,7 +69,7 @@ export const OptionController = () => {
                 flex-1
                 min-h-0
                 w-full
-                overflow-hidden
+                
             "
             >
                 <AlarmController

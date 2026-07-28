@@ -26,6 +26,7 @@ export const MyPage = () => {
                 sm:gap-4
 
                 880:grid-cols-[1.1fr_1fr_0.9fr]
+                
             "
             >
                 {/* 프로필 */}
@@ -40,6 +41,7 @@ export const MyPage = () => {
             680:grid-cols-2
 
             880:contents
+             gap-3
         "
                 >
                     <MusicController />
