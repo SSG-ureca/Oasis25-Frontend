@@ -43,7 +43,7 @@ export default function Dashboard() {
           <PomodoroTimer onFocusModeChange={setIsFocusMode} />
         </Panel>
         {!isFocusMode && (
-          <Panel variant="clay" className="min-w-[290px] flex-1 p-4">
+          <Panel variant="clay" className="min-w-[290px] max-h-25 flex-1 p-2">
             <div className="background-container">
               <div className="liquid-glass">
                 {/* 텍스트나 아이콘을 넣을 수 있습니다 */}
