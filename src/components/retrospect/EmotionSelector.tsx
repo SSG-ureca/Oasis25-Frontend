@@ -33,12 +33,27 @@ export const EmotionSelector = ({ value, onChange }: EmotionSelectorProps) => {
                     key={emotion.score}
                     variant={value === emotion.score ? "clay" : "clayFlat"}
                     className={`
-                        w-10
-                        h-10
-                        p-0
-                        rounded-full
-                        ${value === emotion.score ? "" : "shadow-none border-none"}
-                    `}
+                w-10
+                h-10
+                p-0
+                rounded-full
+                transition-all
+                duration-200
+    ${
+        value === emotion.score
+            ? `
+            
+            shadow-[var(--shadow-clay)]
+            `
+            : `
+            opacity-40
+            hover:opacity-150
+            shadow-none
+            border-none
+            `
+    }
+    active:scale-95
+`}
                     onClick={() => onChange(emotion.score)}
                 >
                     <img
@@ -52,3 +67,4 @@ export const EmotionSelector = ({ value, onChange }: EmotionSelectorProps) => {
         </div>
     );
 };
+//

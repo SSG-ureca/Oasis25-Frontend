@@ -20,15 +20,20 @@ import { forwardRef } from "react";
 const CalendarButton = forwardRef<
     HTMLButtonElement,
     React.ButtonHTMLAttributes<HTMLButtonElement>
->((props, ref) => (
-    <button
-        ref={ref}
-        type="button"
+>((props) => (
+    <Button
         {...props}
-        className="flex h-10 w-10 items-center justify-center"
+        className="
+                        w-full
+                        flex
+                        items-center
+                        gap-2.5
+                        px-4
+                        h-8
+                        rounded-xl"
     >
-        <img src={VectorIcon} alt="달력" className="h-6 w-6 object-contain" />
-    </button>
+        <img className="dark:invert" src={VectorIcon} />
+    </Button>
 ));
 
 CalendarButton.displayName = "CalendarButton";
@@ -117,7 +122,7 @@ export const RetrospectSearchPanel = () => {
         <RetrospectPanel
             title="회고 찾아보기"
             header={
-                <div className="flex items-center gap-2">
+                <div className="flex items-center shrink-0">
                     <DatePicker
                         selected={selectedDate}
                         onChange={(date: Date | null) => {
@@ -198,7 +203,7 @@ export const RetrospectSearchPanel = () => {
                     variant="clay"
                     inset
                     className="
-                        h-[240px]
+                        h-[200px]
                         p-4
                     "
                 >
@@ -223,7 +228,7 @@ export const RetrospectSearchPanel = () => {
                     variant="clay"
                     inset
                     className="
-                        h-[280px]
+                        h-[240px]
                         p-4
                     "
                 >

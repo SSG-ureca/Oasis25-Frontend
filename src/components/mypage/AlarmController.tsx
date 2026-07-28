@@ -74,9 +74,10 @@ export const AlarmController = ({
                 flex
                 flex-col
                 justify-start
-        translate-y-10
+                
             "
             >
+                <div className="pt-10" />
                 {ALARM_LIST.map((alarm) => (
                     <div
                         key={alarm.id}

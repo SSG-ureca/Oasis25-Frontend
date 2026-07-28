@@ -123,8 +123,8 @@ export const BgmController = ({
     return (
         <div
             className="
-            h-full
-            min-h-0
+           
+            
             flex
             flex-col
         "
@@ -133,16 +133,18 @@ export const BgmController = ({
                 className="
         flex-1
         min-h-0
-        overflow-y-auto
+        
         space-y-2
         pr-1
 
         flex
         flex-col
         justify-start
-        translate-y-10
+        
+        
     "
             >
+                <div className="pt-10" />
                 <DndContext
                     sensors={sensors}
                     collisionDetection={closestCenter}

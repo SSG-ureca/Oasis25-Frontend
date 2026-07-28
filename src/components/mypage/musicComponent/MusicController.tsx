@@ -24,7 +24,7 @@ export const MusicController = () => {
             variant="clay"
             inset
             className="
-            h-full
+           
             880:h-full
 
             flex
@@ -40,11 +40,14 @@ export const MusicController = () => {
             py-4
             880:pt-8
             880:pb-2
+          
+            
             "
         >
             {/* 헤더 */}
             <div
                 className="
+                
                 flex
                 w-full
                 880:w-auto

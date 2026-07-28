@@ -119,7 +119,7 @@ export const RetrospectHeatmap = () => {
                 inset
                 className="
                     flex-1
-                    min-h-[180px]
+                    h-fit
                     880:min-h-0
 
                     p-2
