@@ -51,7 +51,7 @@ export const ProfileActions = ({
                 </>
             ) : (
                 <Button
-                    className="w-full flex items-center px-4 h-11 text-sm font-bold rounded-xl  hover:bg-black/5 dark:hover:bg-white/10 "
+                    className="w-full flex items-center px-4 h-8 text-sm rounded-xl  hover:bg-black/5 dark:hover:bg-white/10 "
                     onClick={() => setIsEditMode(true)}
                 >
                     수정

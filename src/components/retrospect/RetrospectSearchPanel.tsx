@@ -147,10 +147,38 @@ export const RetrospectSearchPanel = () => {
             }
             footer={
                 <div className="flex justify-end gap-3">
-                    <Button variant="clay" onClick={handleUpdate}>
+                    <Button
+                        variant="clay"
+                        className="
+                        w-full
+                        flex
+                        items-center
+                        gap-2.5
+
+                        px-4
+                        h-8
+                    
+
+                        rounded-xl"
+                        onClick={handleUpdate}
+                    >
                         수정
                     </Button>
-                    <Button variant="clay" onClick={handleDelete}>
+                    <Button
+                        variant="clay"
+                        className="
+                        w-full
+                        flex
+                        items-center
+                        gap-2.5
+
+                        px-4
+                        h-8
+                        
+
+                        rounded-xl"
+                        onClick={handleDelete}
+                    >
                         삭제
                     </Button>
                 </div>

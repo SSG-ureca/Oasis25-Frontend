@@ -139,7 +139,8 @@ export const BgmController = ({
 
         flex
         flex-col
-        justify-center
+        justify-start
+        translate-y-10
     "
             >
                 <DndContext

@@ -10,7 +10,7 @@ export const RetrospectPage = () => {
         grid
         grid-cols-1
         gap-4
-
+        pb-5
         880:grid-cols-[2fr_3fr]
     "
         >

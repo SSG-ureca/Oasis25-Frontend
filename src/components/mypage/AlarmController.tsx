@@ -73,7 +73,8 @@ export const AlarmController = ({
                 
                 flex
                 flex-col
-                justify-center
+                justify-start
+        translate-y-10
             "
             >
                 {ALARM_LIST.map((alarm) => (
@@ -94,12 +95,12 @@ export const AlarmController = ({
                     >
                         <label
                             className="
-        flex
-        items-center
-        gap-3
-        cursor-pointer
-        text-sm
-    "
+                            flex
+                            items-center
+                            gap-3
+                            cursor-pointer
+                            text-sm
+                        "
                         >
                             <input
                                 type="radio"
