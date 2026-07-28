@@ -66,6 +66,8 @@ export const AnalogClock: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // Mount 시 오늘 집중 시간을 불러오는 데이터 fetch
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadTotals();
     const handleUpdate = () => loadTotals();
     window.addEventListener("pomodoro-today-totals-updated", handleUpdate);
