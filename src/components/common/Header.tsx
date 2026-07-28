@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Panel } from "./Panel";
 import { cn } from "../../utils/cn";
 import { Button } from "./Button";
-import { Sun, Moon, LogOut, Menu, X, LogIn, User, HelpCircle } from "lucide-react";
+import { Sun, Moon, LogOut, Menu, X, LogIn, User, HelpCircle, MessageSquare } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
 import { useAuth } from "../../contexts/AuthContext";
 import { FeedbackModal } from "./FeedbackModal";
@@ -249,21 +249,6 @@ const Header = ({ onStartTour }: { onStartTour?: () => void }) => {
             className="rounded-full w-12 h-12 p-0 bg-panel-bg">
             <HelpCircle className="w-6 h-6 text-text-muted" />
           </Button>
-          <RestrictedArea
-            isRestricted={isGuest}
-            className="rounded-full"
-            tooltipText={
-              <span className="text-text-muted">
-                로그인 후 이용할 수 있습니다
-              </span>
-            }>
-            <Button
-              variant="clay"
-              onClick={() => setIsFeedbackOpen(true)}
-              className="rounded-full px-4 h-12 text-xs font-bold text-text-muted bg-panel-bg">
-              VOC
-            </Button>
-          </RestrictedArea>
           <div className="relative" ref={dropdownRef}>
             <Button
               variant="clay"
@@ -278,7 +263,23 @@ const Header = ({ onStartTour }: { onStartTour?: () => void }) => {
             {isDropdownOpen && (
               <Panel
                 variant="clay"
-                className="absolute right-0 mt-3 w-40 rounded-2xl p-2 border border-white/40 z-50">
+                className="absolute right-0 mt-3 w-40 rounded-2xl p-2 border border-white/40 z-50 flex flex-col gap-1">
+                <button
+                  onClick={() => {
+                    if (isGuest) {
+                      toast.error("로그인 후 이용할 수 있습니다.", 2000);
+                      return;
+                    }
+                    setIsDropdownOpen(false);
+                    setIsFeedbackOpen(true);
+                  }}
+                  className="w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold hover:text-primary rounded-xl transition-all duration-200 cursor-pointer hover:bg-black/5">
+                  <MessageSquare className="w-4 h-4 transition-colors" />
+                  VOC
+                </button>
+                
+                <div className="h-px w-[90%] bg-black/5 dark:bg-white/5 mx-auto my-1" />
+
                 {isGuest ? (
                   <button
                     onClick={() => {
