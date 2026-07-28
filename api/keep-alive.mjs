@@ -1,13 +1,11 @@
-const axios = require('axios');
-
 const DEFAULT_TARGET_URL = 'https://oasis25-backend.onrender.com';
 const TARGET_URL = process.env.PING_URL || DEFAULT_TARGET_URL;
 
-module.exports = async function handler(_req, res) {
+export default async function handler(_req, res) {
   try {
-    const response = await axios.get(TARGET_URL, { timeout: 10000 });
+    const response = await fetch(TARGET_URL, { method: 'GET' });
 
-    if (response.status >= 200 && response.status < 300) {
+    if (response.ok) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({ status: 'ok', target: TARGET_URL }));
@@ -21,4 +19,4 @@ module.exports = async function handler(_req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({ status: 'error', message }));
   }
-};
+}
