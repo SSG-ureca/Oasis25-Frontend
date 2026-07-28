@@ -54,7 +54,7 @@ export function CactusStatus({ water, caffeine }: CactusStatusProps) {
       <img
         src={photoSrc}
         alt={label}
-        className="mx-auto h-48 w-auto object-contain transition-all duration-500"
+        className="mx-auto h-full max-h-48 w-auto object-contain transition-all duration-500"
       />
     );
   }
@@ -64,7 +64,7 @@ export function CactusStatus({ water, caffeine }: CactusStatusProps) {
   return (
     <svg
       viewBox="0 0 120 200"
-      className="mx-auto h-48 w-auto transition-all duration-500"
+      className="mx-auto h-full max-h-48 w-auto transition-all duration-500"
       aria-label={label}>
       <ellipse cx="60" cy="185" rx="32" ry="8" fill="#c4a27a" opacity="0.4" />
       <path

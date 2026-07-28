@@ -15,7 +15,7 @@ export default function Dashboard() {
 
   return (
     <div
-      className={`grid h-full w-full gap-6 transition-all duration-300 ${
+      className={`grid min-h-full w-full gap-6 pb-8 transition-all duration-300 ${
         isFocusMode
           ? "grid-cols-1 680:grid-cols-[1fr_300px]"
           : "grid-cols-1 max-880:h-auto max-880:content-start 680:grid-cols-[290px_minmax(290px,1fr)] 880:grid-cols-[290px_minmax(290px,2fr)_minmax(175px,1fr)]"
