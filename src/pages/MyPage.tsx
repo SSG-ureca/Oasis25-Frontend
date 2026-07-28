@@ -7,40 +7,44 @@ export const MyPage = () => {
     return (
         <div
             className="
-                h-full
-                min-h-0
-
+                pb-5
                 grid
                 grid-cols-1
 
                 gap-3
                 sm:gap-4
-                880:gap-6
-
-                880:grid-rows-[minmax(180px,auto)_1fr]
+                880:gap-6           
             "
         >
             <RetrospectHeatmap />
 
             <div
                 className="
-                min-h-0
                 grid
                 grid-cols-1
                 gap-3
                 sm:gap-4
 
-                680:grid-cols-2
-                880:grid-cols-3
-
-                pb-5
+                880:grid-cols-[1.1fr_1fr_0.9fr]
             "
             >
+                {/* 프로필 */}
                 <ProfileEditor />
 
-                <MusicController />
+                {/* BGM + 알람 그룹 */}
+                <div
+                    className="
+            grid
+            grid-cols-1
 
-                <OptionController />
+            680:grid-cols-2
+
+            880:contents
+        "
+                >
+                    <MusicController />
+                    <OptionController />
+                </div>
             </div>
         </div>
     );

@@ -140,7 +140,7 @@ export const RetrospectWritePanel = () => {
                     variant="clay"
                     inset
                     className="
-                        h-[240px]
+                        h-[200px]
                         p-4
                     "
                 >
@@ -162,7 +162,7 @@ export const RetrospectWritePanel = () => {
                     variant="clay"
                     inset
                     className="
-                        h-[280px]
+                        h-[240px]
                         p-4
                     "
                 >
