@@ -16,7 +16,7 @@ export default function PomodoroOrb({
   isRunning,
 }: PomodoroOrbProps) {
   return (
-    <div className="relative w-60 h-60">
+    <div className="relative w-[260px] h-[260px] 880:w-[280px] 880:h-[280px] mx-auto">
       {/* 집중/휴식 모드 색상 그라데이션 링 - 타이머가 진행 중일 때만 원을 따라 천천히 회전 */}
       <div
         className="absolute inset-0 rounded-full animate-orb-rotate transition-colors duration-700"
