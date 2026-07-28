@@ -378,12 +378,12 @@ export default function PomodoroTimer({
             role="switch"
             aria-checked={isFocus}
             onClick={() => void skip()}
-            className="relative flex h-[38px] w-[140px] items-center rounded-full p-1 cursor-pointer shrink-0 shadow-inner">
+            className="relative flex h-[38px] w-[120px] items-center rounded-full p-1 cursor-pointer shrink-0 shadow-inner">
             <div
               className={cn(
-                "absolute top-1 left-1 h-[30px] w-[64px] rounded-full transition-transform duration-300 ease-out z-0",
+                "absolute top-1 left-1 h-[30px] w-[56px] rounded-full transition-transform duration-300 ease-out z-0",
                 clayVariants({ variant: "clay" }),
-                isFocus ? "translate-x-0" : "translate-x-[68px]"
+                isFocus ? "translate-x-0" : "translate-x-[56px]"
               )}
             />
             <span
