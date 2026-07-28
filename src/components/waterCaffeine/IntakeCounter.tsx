@@ -16,8 +16,8 @@ export function IntakeCounter({
   label,
   value,
   unit,
-  onIncrease,
   onDecrease,
+  onIncrease,
   canDecrease,
   disabled = false,
 }: IntakeCounterProps) {
@@ -34,18 +34,6 @@ export function IntakeCounter({
         <Button
           variant="clay"
           type="button"
-          onClick={onIncrease}
-          disabled={disabled}
-          aria-label={`${label} 증가`}
-          className={cn(
-            "flex h-9 w-9 items-center justify-center rounded-full ",
-            disabled ? "cursor-not-allowed opacity-50" : "clay-hover",
-          )}>
-          <Plus className="h-4 w-4 " />
-        </Button>
-        <Button
-          variant="clay"
-          type="button"
           onClick={onDecrease}
           disabled={!canDecrease || disabled}
           aria-label={`${label} 감소`}
@@ -56,6 +44,18 @@ export function IntakeCounter({
               : "cursor-not-allowed opacity-50",
           )}>
           <Minus className="h-4 w-4 " />
+        </Button>
+        <Button
+          variant="clay"
+          type="button"
+          onClick={onIncrease}
+          disabled={disabled}
+          aria-label={`${label} 증가`}
+          className={cn(
+            "flex h-9 w-9 items-center justify-center rounded-full ",
+            disabled ? "cursor-not-allowed opacity-50" : "clay-hover",
+          )}>
+          <Plus className="h-4 w-4 " />
         </Button>
       </div>
     </div>

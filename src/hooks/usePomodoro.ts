@@ -213,7 +213,7 @@ export function usePomodoro() {
       localStorage.setItem(TODAY_TOTALS_KEY, JSON.stringify(base));
       window.dispatchEvent(new Event("pomodoro-today-totals-updated"));
 
-      if (sessionId == null) return;
+      if (!isAuthenticated || sessionId == null) return;
       const request: PomodoroElapsedRequest =
         mode === "focus"
           ? { elapsedFocusSeconds: seconds, elapsedBreakSeconds: 0 }
@@ -224,7 +224,7 @@ export function usePomodoro() {
         toast.error("시간 저장에 실패했습니다.");
       }
     },
-    [mode, endAt, sessionId],
+    [mode, endAt, sessionId, isAuthenticated],
   );
 
   const tick = useCallback(() => {
@@ -340,7 +340,7 @@ export function usePomodoro() {
   const reset = useCallback(async () => {
     const now = Date.now();
     await flushElapsed(now);
-    if (sessionId != null) {
+    if (isAuthenticated && sessionId != null) {
       try {
         await completePomodoroLog(sessionId);
       } catch {
@@ -353,7 +353,7 @@ export function usePomodoro() {
     setSessionId(null);
     modeStartAtRef.current = null;
     return todayTotalsRef.current;
-  }, [durationFor, mode, sessionId, flushElapsed]);
+  }, [durationFor, mode, sessionId, flushElapsed, isAuthenticated]);
 
   const skip = useCallback(async () => {
     const now = Date.now();
