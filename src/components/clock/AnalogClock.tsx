@@ -1,40 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { RefreshCw } from "lucide-react";
 import { Panel } from "../common/Panel";
 import { getDailyPomodoroLogs } from "../../services/pomodoroLogApi";
+import { useAuth } from "../../contexts/AuthContext";
 
 export const AnalogClock: React.FC = () => {
   const [time, setTime] = useState<Date>(new Date());
   const [focusSeconds, setFocusSeconds] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const { isAuthenticated } = useAuth();
 
-  const loadTotals = async () => {
+  const loadTotals = useCallback(async () => {
     setIsRefreshing(true);
-    try {
-      const today = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
-      const logs = await getDailyPomodoroLogs(today);
-      if (Array.isArray(logs)) {
-        const total = logs.reduce((acc, log) => acc + (log.elapsedFocusSeconds || 0), 0);
-        setFocusSeconds(total);
-      } else {
-        setFocusSeconds(0);
+    const today = new Date().toLocaleDateString("sv-SE", {
+      timeZone: "Asia/Seoul",
+    });
+    let total = 0;
+    let fetched = false;
+
+    if (isAuthenticated) {
+      try {
+        const logs = await getDailyPomodoroLogs(today);
+        if (Array.isArray(logs)) {
+          total = logs.reduce(
+            (acc, log) => acc + (log.elapsedFocusSeconds || 0),
+            0,
+          );
+          fetched = true;
+        }
+      } catch (e) {
+        console.error("Failed to fetch daily logs:", e);
       }
-    } catch (e) {
-      console.error("Failed to fetch daily logs:", e);
-      // API 호출 실패 시 로컬스토리지 값으로 폴백
+    }
+
+    if (!fetched) {
+      // 비로그인이거나 API 호출 실패 시 로컬스토리지 값으로 폴백
       try {
         const raw = localStorage.getItem("pomodoro-today-totals");
         if (raw) {
           const parsed = JSON.parse(raw);
-          const today = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
-          if (parsed.date === today && typeof parsed.focusSeconds === "number") {
-            setFocusSeconds(parsed.focusSeconds);
+          if (
+            parsed.date === today &&
+            typeof parsed.focusSeconds === "number"
+          ) {
+            total = parsed.focusSeconds;
           }
         }
-      } catch {}
+      } catch {
+        // localStorage fallback is optional
+      }
     }
+
+    setFocusSeconds(total);
     setTimeout(() => setIsRefreshing(false), 500);
-  };
+  }, [isAuthenticated]);
 
   useEffect(() => {
     let animationFrameId: number;
@@ -47,11 +66,14 @@ export const AnalogClock: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // Mount 시 오늘 집중 시간을 불러오는 데이터 fetch
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadTotals();
     const handleUpdate = () => loadTotals();
     window.addEventListener("pomodoro-today-totals-updated", handleUpdate);
-    return () => window.removeEventListener("pomodoro-today-totals-updated", handleUpdate);
-  }, []);
+    return () =>
+      window.removeEventListener("pomodoro-today-totals-updated", handleUpdate);
+  }, [loadTotals]);
 
   // 각도 계산
   const ms = time.getMilliseconds();
@@ -103,13 +125,11 @@ export const AnalogClock: React.FC = () => {
           />
         </Panel>
 
-        <div className="text-3xl font-bold tracking-wider">
-          {digitalTime}
-        </div>
+        <div className="text-3xl font-bold tracking-wider">{digitalTime}</div>
       </div>
 
       <div className="h-px w-full bg-black/5 dark:bg-white/5 mx-auto my-1" />
-      
+
       <div className="flex flex-col items-center justify-center h-[80px] gap-0.5 p-2 relative overflow-hidden group select-none">
         <div className="flex items-center gap-1.5 ml-4">
           <span className="text-[10px] font-extrabold text-text-muted uppercase tracking-wider">
@@ -118,20 +138,25 @@ export const AnalogClock: React.FC = () => {
           <button
             onClick={loadTotals}
             className="p-1 rounded-full text-text-muted hover:text-primary transition-all active:scale-95 cursor-pointer"
-            title="새로고침"
-          >
-            <RefreshCw className={`w-3 h-3 ${isRefreshing ? "animate-spin text-primary" : ""}`} />
+            title="새로고침">
+            <RefreshCw
+              className={`w-3 h-3 ${isRefreshing ? "animate-spin text-primary" : ""}`}
+            />
           </button>
         </div>
         <div className="flex items-baseline gap-0.5">
           <span className="text-3xl font-black text-text tracking-tighter">
             {focusHours}
           </span>
-          <span className="text-xs font-bold text-text-muted mr-1.5 mb-1">h</span>
+          <span className="text-xs font-bold text-text-muted mr-1.5 mb-1">
+            h
+          </span>
           <span className="text-3xl font-black text-text tracking-tighter">
             {String(focusMinutes).padStart(2, "0")}
           </span>
-          <span className="text-xs font-bold text-text-muted mr-1.5 mb-1">m</span>
+          <span className="text-xs font-bold text-text-muted mr-1.5 mb-1">
+            m
+          </span>
           <span className="text-3xl font-black text-text tracking-tighter">
             {String(focusSecs).padStart(2, "0")}
           </span>

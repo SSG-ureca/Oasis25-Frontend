@@ -117,7 +117,7 @@ export function WaterCaffeinePanel() {
           disabled={!authenticated}
         />
       </div>
-      <div className="mt-auto flex flex-1 items-end justify-center pb-2">
+      <div className="flex min-h-0 flex-1 items-center justify-center pb-2">
         <CactusStatus water={totals.water} caffeine={totals.caffeine} />
       </div>
     </div>
