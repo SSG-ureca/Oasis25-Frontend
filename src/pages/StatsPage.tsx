@@ -31,7 +31,7 @@ export const StatsPage = () => {
   }, [activeTab]);
 
   return (
-    <div className="w-full h-full flex flex-col gap-4 min-h-0 bg-transparent">
+    <div id="tour-stats-content" className="w-full h-full flex flex-col gap-4 min-h-0 bg-transparent">
       {/* 중앙 베이스 플레이트 패널 */}
       <div className="flex-1 min-h-0">
         <Panel
