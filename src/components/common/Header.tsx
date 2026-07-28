@@ -187,16 +187,25 @@ const Header = ({ onStartTour }: { onStartTour?: () => void }) => {
                 {/* 구분선 */}
                 <div className="h-px w-[90%] bg-black/5 dark:bg-white/5 mx-auto my-1" />
 
-                <Button
-                  variant="clayFlat"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    onStartTour?.();
-                  }}
-                  className="w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95">
-                  <HelpCircle className="w-4 h-4 text-text-muted" />
-                  도움말
-                </Button>
+                <RestrictedArea
+                  isRestricted={isGuest}
+                  className="w-full"
+                  tooltipText={
+                    <span className="text-text-muted">
+                      로그인 후 이용할 수 있습니다
+                    </span>
+                  }>
+                  <Button
+                    variant="clayFlat"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      onStartTour?.();
+                    }}
+                    className="w-full flex items-center gap-2.5 px-4 h-11 text-sm font-bold rounded-xl justify-start hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95">
+                    <HelpCircle className="w-4 h-4 text-text-muted" />
+                    도움말
+                  </Button>
+                </RestrictedArea>
                 <Button
                   variant="clayFlat"
                   onClick={toggleTheme}
@@ -243,12 +252,21 @@ const Header = ({ onStartTour }: { onStartTour?: () => void }) => {
               <Moon className="w-6 h-6 text-text-muted" />
             )}
           </Button>
-          <Button
-            variant="clay"
-            onClick={() => onStartTour?.()}
-            className="rounded-full w-12 h-12 p-0 bg-panel-bg">
-            <HelpCircle className="w-6 h-6 text-text-muted" />
-          </Button>
+          <RestrictedArea
+            isRestricted={isGuest}
+            className="rounded-full"
+            tooltipText={
+              <span className="text-text-muted">
+                로그인 후 이용할 수 있습니다
+              </span>
+            }>
+            <Button
+              variant="clay"
+              onClick={() => onStartTour?.()}
+              className="rounded-full w-12 h-12 p-0 bg-panel-bg">
+              <HelpCircle className="w-6 h-6 text-text-muted" />
+            </Button>
+          </RestrictedArea>
           <div className="relative" ref={dropdownRef}>
             <Button
               variant="clay"

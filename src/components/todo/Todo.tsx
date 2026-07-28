@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { Panel } from "../common/Panel";
 import { toast } from "../common/Toast";
 import { TimePicker } from "./TimePicker";
+import { RestrictedArea } from "../common/RestrictedArea";
 
 interface TodoItem {
   id: number;
@@ -27,7 +28,9 @@ const loadTodos = (): TodoItem[] => {
   }
 };
 
-export function Todo() {
+export const Todo = () => {
+  const { isAuthenticated } = useAuth();
+  const isGuest = !isAuthenticated;
   const [todos, setTodos] = useState<TodoItem[]>(loadTodos);
   const [newTime, setNewTime] = useState("--:--");
   const [newText, setNewText] = useState("");
@@ -41,8 +44,7 @@ export function Todo() {
   const [pickerAnchorEl, setPickerAnchorEl] = useState<HTMLElement | null>(
     null,
   );
-  const { isAuthenticated, isLoading } = useAuth();
-  const isGuest = !isAuthenticated;
+  const { isLoading } = useAuth();
   const timeRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   useEffect(() => {
@@ -97,7 +99,15 @@ export function Todo() {
   }
 
   return (
-    <div className="flex h-full w-auto flex-col relative -mx-1.5">
+    <RestrictedArea
+      isRestricted={isGuest}
+      className="h-full"
+      tooltipText={
+        <span className="text-text-muted">
+          로그인 후 이용할 수 있습니다
+        </span>
+      }>
+      <div className="flex h-full w-auto flex-col relative -mx-1.5">
       <div
         className={`shrink-0 flex items-center justify-center pt-1 pb-3 mb-2 relative z-20 transition-all duration-300 ${
           isScrolled ? "shadow-[0_8px_12px_-8px_rgba(0,0,0,0.12)]" : ""
@@ -299,6 +309,7 @@ export function Todo() {
           로그인 후 이용할 수 있습니다.
         </div>
       )}
-    </div>
+      </div>
+    </RestrictedArea>
   );
-}
+};

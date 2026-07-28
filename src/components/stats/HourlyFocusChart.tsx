@@ -213,11 +213,17 @@ export const HourlyFocusChart = ({
 
       <div className="z-10 w-full space-y-1.5 pt-1">
         <div className="flex justify-between px-1 text-[9px] sm:text-xs font-semibold text-text-muted/80 w-full select-none pointer-events-none pb-0.5">
-          {Array.from({ length: 24 }, (_, i) => (
-            <span key={i} className="text-center flex-1">
-              {i}시
-            </span>
-          ))}
+          {Array.from({ length: 24 }, (_, i) => {
+            let displayClass = "inline-block whitespace-nowrap";
+            if (i % 2 !== 0) {
+              displayClass = "hidden lg:inline-block whitespace-nowrap";
+            }
+            return (
+              <span key={i} className="text-center flex-1">
+                <span className={displayClass}>{i}시</span>
+              </span>
+            );
+          })}
         </div>
 
         <div className="text-xs sm:text-sm text-text font-semibold text-center select-none mt-2">

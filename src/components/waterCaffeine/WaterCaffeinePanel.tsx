@@ -12,6 +12,7 @@ import {
 import { IntakeCounter } from "./IntakeCounter";
 import { CactusStatus } from "./CactusStatus";
 import { useAuth } from "../../contexts/AuthContext";
+import { RestrictedArea } from "../common/RestrictedArea";
 
 const WATER_STEP = 100;
 const CAFFEINE_STEP = 10;
@@ -92,7 +93,15 @@ export function WaterCaffeinePanel() {
   };
 
   return (
-    <div className="flex h-full flex-col">
+    <RestrictedArea
+      isRestricted={!authenticated}
+      className="h-full"
+      tooltipText={
+        <span className="text-text-muted">
+          로그인 후 이용할 수 있습니다
+        </span>
+      }>
+      <div className="flex h-full flex-col">
       <div className="mb-3 flex items-center gap-2 text-sm font-bold ">
         <Heart className="h-4 w-4 fill-primary text-primary" />
         <span>웰빙 밸런스 케어</span>
@@ -120,6 +129,7 @@ export function WaterCaffeinePanel() {
       <div className="flex min-h-0 flex-1 items-center justify-center pb-2">
         <CactusStatus water={totals.water} caffeine={totals.caffeine} />
       </div>
-    </div>
+      </div>
+    </RestrictedArea>
   );
 }

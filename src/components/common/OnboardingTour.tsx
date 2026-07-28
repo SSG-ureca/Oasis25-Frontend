@@ -61,6 +61,21 @@ const steps: Step[] = [
     route: "/main",
   } as any,
   {
+    target: "#tour-preset",
+    content: (
+      <div className="flex flex-col gap-2 text-left">
+        <h3 className="text-xl font-extrabold">
+          나만의 <span className="text-[#72c877]">뽀모도로 프리셋</span>
+        </h3>
+        <p className="text-[15px] leading-relaxed opacity-90">
+          원하는 집중 시간과 휴식 시간을 설정하여 나만의 타이머를 만들 수 있습니다. 여기를 클릭하여 나에게 딱 맞는 <strong className="font-bold text-[#72c877]">프리셋을 추가</strong>해보세요!
+        </p>
+      </div>
+    ),
+    placement: "bottom",
+    route: "/main",
+  } as any,
+  {
     target: "#tour-todo",
     content: (
       <div className="flex flex-col gap-2 text-left">
