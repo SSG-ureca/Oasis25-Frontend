@@ -20,57 +20,57 @@ export const OptionController = () => {
             variant="clay"
             inset
             className="
-h-full
-880:h-full
+            h-full
+            880:h-full
 
-flex
-flex-col
+            flex
+            flex-col
 
-min-h-[420px]
-880:min-h-0
+            min-h-0
+            880:min-h-0
 
-px-3
-sm:px-4
-880:px-6
+            px-3
+            sm:px-4
+            880:px-6
 
-py-4
-880:pt-8
-880:pb-2
-"
+            py-4
+            880:pt-8
+            880:pb-2
+            "
         >
             {/* 헤더 */}
             <div
                 className="
-flex
-w-full
-880:w-auto
+                flex
+                w-full
+                880:w-auto
 
-items-center
-justify-center
+                items-center
+                justify-center
 
-gap-3
+                gap-3
+                pt-3
 
-shrink-0
-"
+                shrink-0
+                "
             >
                 <Panel
                     variant="clay"
                     className="
-px-4
-py-2
-"
+                    px-6
+                    py-3
+                    "
                 >
                     <h3 className="text-lg font-semibold">알람음 관리</h3>
                 </Panel>
             </div>
             <div
                 className="
-        flex-1
-
-        min-h-0
-
-        overflow-hidden
-    "
+                flex-1
+                min-h-0
+                w-full
+                overflow-hidden
+            "
             >
                 <AlarmController
                     musicSetting={musicSetting}

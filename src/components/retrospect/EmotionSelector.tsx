@@ -25,7 +25,7 @@ export const EmotionSelector = ({ value, onChange }: EmotionSelectorProps) => {
             className="
                 flex
                 items-center
-                gap-2
+                gap-1
             "
         >
             {emotions.map((emotion) => (

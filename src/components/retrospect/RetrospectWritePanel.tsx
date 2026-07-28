@@ -82,7 +82,21 @@ export const RetrospectWritePanel = () => {
             }
             footer={
                 <div className="flex justify-end gap-3">
-                    <Button variant="clay" onClick={handlePhotoClick}>
+                    <Button
+                        variant="clay"
+                        className="
+                        w-full
+                        flex
+                        items-center
+                        gap-2.5
+
+                        px-4
+                        h-8
+                        
+
+                        rounded-xl"
+                        onClick={handlePhotoClick}
+                    >
                         <input
                             ref={fileInputRef}
                             type="file"
@@ -90,9 +104,23 @@ export const RetrospectWritePanel = () => {
                             hidden
                             onChange={handleImageChange}
                         />
-                        사진 추가
+                        사진
                     </Button>
-                    <Button variant="clay" onClick={handleSubmit}>
+                    <Button
+                        variant="clay"
+                        className="
+                        w-full
+                        flex
+                        items-center
+                        gap-2.5
+
+                        px-4
+                        h-8
+                      
+
+                        rounded-xl"
+                        onClick={handleSubmit}
+                    >
                         저장
                     </Button>
                 </div>

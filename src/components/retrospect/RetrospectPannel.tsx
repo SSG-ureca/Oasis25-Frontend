@@ -26,7 +26,6 @@ export const RetrospectPanel = ({
         flex-col
         gap-6
 
-        overflow-hidden
     "
         >
             {/* 헤더 */}

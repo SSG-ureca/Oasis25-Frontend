@@ -49,21 +49,15 @@ export const SortableBgmItem = ({
                 flex
                 items-center
                 justify-between
-
                 px-3
-
-py-2
-880:py-0
-
-880:h-12
-
+                py-2
+                880:py-0
+                880:h-12
                 rounded-xl
                 cursor-pointer
-
                 bg-[var(--color-clay-bg)]
                 border
                 border-[var(--color-clay-border)]
-
                 transition-shadow
                 duration-150
                 ${excluded ? "opacity-60" : ""}
@@ -77,16 +71,12 @@ py-2
         >
             <div
                 className="
-flex
-
-items-center
-
-gap-3
-
-flex-1
-
-min-w-0
-"
+            flex
+            items-center
+            gap-3
+            flex-1
+            min-w-0
+            "
             >
                 <div
                     {...attributes}
@@ -102,9 +92,9 @@ min-w-0
 
                 <span
                     className={`
-        text-sm
-        font-medium
-        transition
+                    text-sm
+                    font-medium
+                    transition
 
         ${excluded ? "text-gray-400 line-through" : ""}
     `}

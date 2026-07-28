@@ -35,3 +35,12 @@
     rx: 2;
     ry: 2;
 }
+.heatmap-wrapper {
+    width: 100%;
+    transform-origin: center;
+}
+
+.heatmap-wrapper svg {
+    width: 100%;
+    height: auto;
+}

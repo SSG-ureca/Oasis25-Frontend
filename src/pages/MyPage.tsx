@@ -1,4 +1,3 @@
-import { Panel } from "../components/common/Panel";
 import { MusicController } from "../components/mypage/musicComponent/MusicController";
 import { OptionController } from "../components/mypage/OptionController";
 import { ProfileEditor } from "../components/mypage/profileComponent/ProfileEditor";
@@ -19,45 +18,29 @@ export const MyPage = () => {
                 sm:gap-4
                 880:gap-6
 
-                880:grid-rows-[180px_1fr]
+                880:grid-rows-[minmax(180px,auto)_1fr]
             "
         >
-            {/* 히트맵 */}
-            <Panel
-                variant="clay"
-                className="
-                    p-3
-                    min-h-0
-                "
-            >
-                <RetrospectHeatmap />
-            </Panel>
+            <RetrospectHeatmap />
 
-            {/* 하단 영역 */}
             <div
                 className="
-        min-h-0
+                min-h-0
+                grid
+                grid-cols-1
+                gap-3
+                sm:gap-4
 
-        grid
-        grid-cols-1
+                680:grid-cols-2
+                880:grid-cols-3
 
-        gap-3
-        sm:gap-4
-        880:gap-6
-
-        680:grid-cols-2
-        880:grid-cols-[1.1fr_1fr_0.9fr]
-    "
+                pb-5
+            "
             >
-                {/* Profile */}
-                <div className="680:col-span-2 880:col-span-1">
-                    <ProfileEditor />
-                </div>
+                <ProfileEditor />
 
-                {/* BGM */}
                 <MusicController />
 
-                {/* Alarm */}
                 <OptionController />
             </div>
         </div>
