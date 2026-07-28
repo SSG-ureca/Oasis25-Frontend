@@ -65,7 +65,7 @@ export default function Dashboard() {
             <AnalogClock />
           </Panel>
         )}
-        <Panel variant="clay" className="flex-1 p-4">
+        <Panel id="tour-cactus" variant="clay" className="flex-1 p-4">
           <WaterCaffeinePanel />
         </Panel>
       </div>
