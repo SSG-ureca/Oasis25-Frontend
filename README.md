@@ -31,12 +31,15 @@
 ## 🌟 핵심 기능 (Core Features)
 
 ### 1. 메인 대시보드 (통합 생산성 관리)
-
 > 하나의 화면에서 타이머, 건강 트래커, 날씨, 명언을 모두 관리할 수 있는 클레이모피즘 기반의 올인원 홈 화면입니다.
 
-<img width="1076" alt="메인 대시보드" src="https://github.com/user-attachments/assets/7b028970-a5de-4d6b-8f76-71cf39f6b746" />
+| ☀️ 라이트 모드 (Light Mode) | 🌙 다크 모드 (Dark Mode) |
+| :---: | :---: |
+| <img width="1073" height="761" alt="image" src="https://github.com/user-attachments/assets/2a6c489a-8f09-4e87-ac45-f041953d129b" />
+ | <img width="1072" height="762" alt="image" src="https://github.com/user-attachments/assets/c613fed5-44dd-4707-99e5-d7295065bf36" />
+ |
 
-- **스마트 뽀모도로 타이머:** 작업/휴식 사이클 관리 및 당일 총 집중 시간 자동 동기화
+*   **스마트 뽀모도로 타이머:** 작업/휴식 사이클 관리 및 당일 총 집중 시간 자동 동기화
 - **수분/카페인 트래커:** 게이지 뱃지를 통한 일일 목표 달성률 시각화
 - **외부 API 연동:** 실시간 기상청 단기예보 날씨 및 오늘의 명언 연동
 - **클레이모피즘 UI:** 다크/라이트 모드를 완벽 지원하는 둥글고 부드러운 3D 패널 디자인
@@ -48,9 +51,11 @@
 
 #### 통계 차트
 *   **커스텀 SVG 차트:** 외부 무거운 라이브러리 없이 직접 수학적으로 계산하여 렌더링한 부드러운 꺾은선 차트
-|  [image1] | <!-- 💡 캡처본 2 --> [image2] |
+|  <img width="1073" height="762" alt="image" src="https://github.com/user-attachments/assets/320b96f4-97dc-487b-955e-eb88eb7ae6dc" /> | <img width="1073" height="762" alt="image" src="https://github.com/user-attachments/assets/184b6e8c-a0ca-49a0-bbc4-74a31a39e0b3" />
+ |
 | :---: | :---: |
-|  [image3] | <!-- 💡 캡처본 4 --> [image4] |
+| <img width="1073" height="765" alt="image" src="https://github.com/user-attachments/assets/4e2eb6ed-5b29-4ee3-beb3-d5eff80d8b9a" /> | <img width="1075" height="762" alt="image" src="https://github.com/user-attachments/assets/01c0e6c6-bd98-4d12-9531-54854d167929" />
+ |
 
 
 #### 잔디
@@ -63,7 +68,7 @@
 
 > 하루의 끝에서 나의 감정과 생산성을 돌아보는 다이어리 기능입니다.
 
-[image]
+<img width="1072" height="762" alt="image" src="https://github.com/user-attachments/assets/8c9164c2-fb0b-42e7-9d5c-f21f3b639b5f" />
 
 - **감정 태그 시스템:** 감정 태그를 선택하여 하루의 기분을 직관적으로 기록
 - **인사이트 제공:** 그날의 집중 시간과 감정의 연관성을 스스로 회고할 수 있는 환경 제공
