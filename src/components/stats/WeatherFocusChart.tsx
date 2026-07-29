@@ -66,6 +66,7 @@ export const WeatherFocusChart = ({
     return { ...cat, avgFocus };
   });
 
+  const maxAvgFocus = Math.max(...categoryStats.map((s) => s.avgFocus));
 
   return (
     <div className="w-full h-full flex flex-col relative select-none">
@@ -86,6 +87,7 @@ export const WeatherFocusChart = ({
           const Icon = item.icon;
           const displayAvg =
             item.avgFocus > 0 ? `${Math.round(item.avgFocus)}분` : "기록 없음";
+          const ratio = maxAvgFocus > 0 ? (item.avgFocus / maxAvgFocus) * 100 : 0;
 
           return (
             <div
@@ -112,7 +114,21 @@ export const WeatherFocusChart = ({
                   {displayAvg}
                 </span>
 
-
+                {/* 프로그레스 바 (가장 높은 날씨 대비 비율) */}
+                {maxAvgFocus > 0 && (
+                  <div className="w-full mt-4 flex flex-col gap-1.5">
+                    <div className="flex justify-between items-center text-[10px] font-bold text-text-muted px-1">
+                      <span>비율</span>
+                      <span>{Math.round(ratio)}%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-black/5 dark:bg-white/10 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full rounded-full transition-all duration-1000 ease-out ${item.bgColor}`} 
+                        style={{ width: `${isLoaded ? ratio : 0}%`, transitionDelay: `${400 + i * 100}ms` }}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           );

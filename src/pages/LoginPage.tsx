@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Panel } from "../components/common/Panel";
 import { Button } from "../components/common/Button";
@@ -18,14 +18,6 @@ export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useAuth();
-
-  useEffect(() => {
-    if (sessionStorage.getItem("auth:expired")) {
-      toast.error("로그인 세션이 만료되었습니다. 다시 로그인해 주세요.");
-      sessionStorage.removeItem("auth:expired");
-    }
-  }, []);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
