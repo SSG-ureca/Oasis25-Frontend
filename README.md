@@ -1,5 +1,10 @@
 # 🏜️ 웰니스 & 생산성 통합 플랫폼, OASIS25
 
+<div align="left">
+  <a href="https://app.notion.com/p/Oasis25-39ceadb9c0768030bb14fb2cc416a028"><img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white" alt="Notion" /></a>
+  <a href="https://ssg-frontend-eight.vercel.app/"><img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel Deploy" /></a>
+</div>
+
 > 파편화된 생산성 관리 툴을 한곳에 모으고, 감성적인 디자인과 자체 통계/회고 요소를 결합한
 > **뽀모도로 통합 플랫폼 오아시스(Oasis25)** 입니다.
 > (프로젝트 진행 기간: 2026.07.16 ~ 2026.07.29)
@@ -117,13 +122,52 @@
 **해결 방안:**  
 단순한 동기화 하나를 위해 Zustand나 Redux 같은 무거운 전역 상태 라이브러리를 추가하는 것은 오버엔지니어링이라 판단했습니다. 대신, 브라우저 내장 **Custom Event API(`window.addEventListener`)를 활용한 Pub/Sub(발행-구독) 패턴을 직접 구현**했습니다. 타이머 종료 시 이벤트를 발생(`dispatch`)시키고 시계 컴포넌트에서 이를 감지해 실시간으로 데이터를 갱신하게 함으로써, **외부 의존성 없이 순수 자바스크립트 기술만으로 우아하게 문제를 해결**했습니다.
 
-### 2. 프로덕션 환경에서의 Mixed Content 보안 에러 해결
+```typescript
+// 1. PomodoroTimer.tsx (집중 완료 시 이벤트 발행)
+const dispatchUpdate = () => {
+  window.dispatchEvent(new Event("pomodoro-today-totals-updated"));
+};
+
+// 2. AnalogClock.tsx (이벤트 구독 및 실시간 데이터 갱신)
+useEffect(() => {
+  const handleUpdate = () => loadTotals(); // API 재호출
+  window.addEventListener("pomodoro-today-totals-updated", handleUpdate);
+
+  return () => {
+    window.removeEventListener("pomodoro-today-totals-updated", handleUpdate);
+  };
+}, [loadTotals]);
+```
+
+### 2. 무거운 차트 라이브러리 없는 커스텀 SVG 차트 렌더링
 
 **문제 상황:**  
-개발 환경(Local)에서는 기상청 API가 정상 호출되었으나, Vercel로 배포한 프로덕션(HTTPS) 환경에서는 외부 기상청 API(HTTP)를 호출할 때 `Mixed Content` 통신 차단 에러가 발생하며 날씨 데이터가 렌더링되지 않았습니다.
+유저의 집중 시간 통계를 보여주기 위해 부드러운 꺾은선 차트가 필요했습니다. 하지만 Chart.js나 Recharts 같은 무거운 외부 라이브러리를 도입하면 번들 사이즈가 불필요하게 커져 초기 로딩 성능이 저하되는 문제가 있었습니다.
 
 **해결 방안:**  
-프론트엔드 내의 엔드포인트 URL 프로토콜을 공공 데이터 포털에서 제공하는 보안 포트(HTTPS) 기준으로 전면 수정했습니다. 브라우저의 엄격한 혼합 콘텐츠 보안 정책을 깊이 이해하고, Vercel 환경 변수 세팅을 재구성하여 네트워크 통신 규격을 완벽하게 동기화했습니다.
+외부 의존성을 완전히 배제하고, **순수 자바스크립트 수학 연산을 통해 SVG 경로(Path)를 직접 생성**했습니다. 가우시안 스무딩(Gaussian Smoothing) 알고리즘으로 원시 데이터를 부드럽게 가공하고, Catmull-Rom 스플라인을 적용해 자연스러운 베지에 곡선(`C` 커맨드)을 수학적으로 도출했습니다. 결과적으로 성능과 디자인을 모두 잡은 최적화된 커스텀 차트를 구현할 수 있었습니다.
+
+```typescript
+// src/utils/statsUtils.ts (SVG 베지에 곡선 생성 로직 일부)
+export const generateSvgPath = (data: number[], globalMax?: number) => {
+  // 1. 가우시안 스무딩 적용하여 완만한 곡선 흐름 생성
+  const smoothed = smoothData(data);
+  const maxVal = globalMax ?? Math.max(...smoothed, 1);
+
+  // 2. SVG 좌표계로 매핑
+  const points = smoothed.map((val, hour) => {
+    const x = (hour / 23) * 400;
+    const y = Math.min(145, 145 - (val / maxVal) * 135);
+    return { x, y };
+  });
+
+  // 3. Catmull-Rom 스플라인을 이용한 부드러운 베지에 곡선(M, C) 렌더링
+  let pathD = `M ${points[0].x},${points[0].y}`;
+  const tension = 0.22;
+  // ... 중략 (제어점 연산 로직)
+  return { line: pathD, fill: `${pathD} L 400,145 L 0,145 Z` };
+};
+```
 
 <br>
 
@@ -147,3 +191,47 @@ SSG-Frontend/
 ├── tailwind.css          # 글로벌 스타일 및 커스텀 유틸리티 클래스
 └── vite.config.ts        # Vite 빌드 설정 및 플러그인 관리
 ```
+
+<br>
+
+## 🚀 시작하기 (Getting Started)
+
+### 사전 요구사항 (Prerequisites)
+
+- **Node.js**: `v18.0.0` 이상
+- **npm** 또는 **yarn** 패키지 매니저
+
+### 설치 및 실행 가이드 (Installation & Run)
+
+1. **저장소 클론** (Clone the repository)
+
+```bash
+git clone https://github.com/[YOUR-GITHUB-ID]/SSG-Frontend.git
+```
+
+2. **프로젝트 폴더로 이동** (Navigate to the directory)
+
+```bash
+cd SSG-Frontend
+```
+
+3. **의존성 패키지 설치** (Install dependencies)
+
+```bash
+npm install
+```
+
+4. **환경변수 설정** (Set Environment Variables)
+   루트 디렉토리에 `.env` 파일을 생성하고 아래 발급받은 API 키를 입력하세요.
+
+```env
+VITE_KMA_SERVICE_KEY=기상청_단기예보_API_발급키
+```
+
+5. **로컬 개발 서버 실행** (Run development server)
+
+```bash
+npm run dev
+```
+
+로컬 서버가 실행되면 브라우저에서 `http://localhost:5173` 으로 접속하여 프로젝트를 확인할 수 있습니다.
