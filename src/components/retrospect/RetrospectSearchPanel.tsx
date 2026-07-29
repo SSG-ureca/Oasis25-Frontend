@@ -46,19 +46,31 @@ export const RetrospectSearchPanel = () => {
     const [editContent, setEditContent] = useState("");
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [highlightDates, setHighlightDates] = useState<Date[]>([]);
-
+    const [searchedDate, setSearchedDate] = useState<Date | null>(null);
     // Get API 호출 함수
     const handleSearch = async (date: Date) => {
         try {
-            const formattedDate = date.toISOString().slice(0, 10);
+            const formatApiDate = (date: Date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, "0");
+                const day = String(date.getDate()).padStart(2, "0");
 
+                return `${year}-${month}-${day}`;
+            };
+            const formattedDate = formatApiDate(date);
             const data = await getRetrospect(formattedDate);
 
             setRetrospect(data);
             setEditContent(data.content);
+
+            // 조회한 날짜 저장
+            setSearchedDate(date);
         } catch (error) {
             console.error(error);
             setRetrospect(null);
+
+            // 조회 실패 시 초기화
+            setSearchedDate(null);
         }
     };
     //Put API로 수정 함수
@@ -120,7 +132,15 @@ export const RetrospectSearchPanel = () => {
         highlightDates.some((d) => d.toDateString() === date.toDateString());
     return (
         <RetrospectPanel
-            title="회고 찾아보기"
+            title={
+                searchedDate
+                    ? `${searchedDate.getFullYear()}-${String(
+                          searchedDate.getMonth() + 1,
+                      ).padStart(2, "0")}-${String(
+                          searchedDate.getDate(),
+                      ).padStart(2, "0")} 회고`
+                    : "회고 찾아보기"
+            }
             header={
                 <div className="flex items-center shrink-0">
                     <DatePicker
