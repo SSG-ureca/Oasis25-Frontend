@@ -5,13 +5,12 @@
 > (프로젝트 진행 기간: 2026.07.16 ~ 2026.07.29)
 
 <br>
+
 ## 👥 팀원 소개
 
 | 고유정(팀장) | 소윤서 | 송동현 |
 | :---: | :---: | :---: |
-| <img width="364" height="364" alt="image" src="https://github.com/user-attachments/assets/444f70fd-636d-4ade-a7d9-b12cc5422897" /> |
- | <img width="420" height="420" alt="image" src="https://github.com/user-attachments/assets/18d97620-f988-4aaa-9521-9d7acb587021" /> |
- | <img width="420" height="420" alt="image" src="https://github.com/user-attachments/assets/4c7b948c-2831-441b-8729-23236fc997e5" /> |
+| <img width="364" height="364" alt="image" src="https://github.com/user-attachments/assets/444f70fd-636d-4ade-a7d9-b12cc5422897" /> | <img width="420" height="420" alt="image" src="https://github.com/user-attachments/assets/18d97620-f988-4aaa-9521-9d7acb587021" /> | <img width="420" height="420" alt="image" src="https://github.com/user-attachments/assets/4c7b948c-2831-441b-8729-23236fc997e5" /> |
 | [@daenggg](https://github.com/daenggg) | [@HITS-SO](https://github.com/HITS-SO) | [@donghyeon01](https://github.com/donghyeon01) |
 | Figma, UX 고도화 및 통계 페이지 구현 | 회고 페이지 및 마이페이지 구현 | 홈 페이지 및 백엔드 전반 구현 |
 
