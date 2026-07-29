@@ -1,7 +1,16 @@
 # 🏜️ 웰니스 & 생산성 통합 플랫폼, OASIS25
 
 > 파편화된 생산성 관리 툴을 한곳에 모으고, 감성적인 디자인과 자체 통계/회고 요소를 결합한
-> **프리미엄 뽀모도로 & 다이어리 통합 플랫폼 오아시스(Oasis25)** 입니다.
+> **뽀모도로 통합 플랫폼 오아시스(Oasis25)** 입니다.
+> (프로젝트 진행 기간: 2026.07.16 ~ 2026.07.29)
+
+<br>
+## 👥 팀원 소개
+
+| 고유정(팀장) | 소윤서 | 송동현 |
+| :---: | :---: | :---: |
+| [@daenggg](https://github.com/daenggg) | [@HITS-SO](https://github.com/HITS-SO) | [@donghyeon01](https://github.com/donghyeon01) |
+| Figma, UX 고도화 및 통계 페이지 구현 | 회고 페이지 및 마이페이지 구현 | 홈 페이지 및 백엔드 전반 구현 |
 
 <br>
 
@@ -10,8 +19,8 @@
 **Pain Point:** 기존의 뽀모도로 타이머 앱은 딱딱한 시간 측정에만 그치며, 하루의 전반적인 건강 상태(수분/카페인 섭취)나 감정 상태(회고)를 종합적으로 파악하기 어려웠습니다.
 **Our Solution:**
 1.  **통합 대시보드 제공:** 흩어져 있던 타이머, 할 일(ToDo), 건강 트래커를 메인 홈 화면 한곳에서 직관적으로 관리할 수 있도록 설계했습니다.
-2.  **프리미엄 감성 경험 (UX):** 투명한 글래스모피즘(Glassmorphism)과 마이크로 애니메이션, 다크/라이트 모드를 통해 유저가 계속 머물고 싶어 하는 시각적 만족감을 제공합니다.
-3.  **데이터 기반의 성장:** 단순 기록을 넘어, 유저의 실제 집중 시간과 날씨/시간대/감정 간의 상관관계를 분석한 통계 및 히트맵을 시각화합니다.
+2.  **감성 경험 (UX):** 클레이모피즘(Claymorphism)과 마이크로 애니메이션, 다크/라이트 모드를 통해 유저가 계속 머물고 싶어 하는 시각적 만족감을 제공합니다.
+3.  **데이터 기반의 성장:** 단순 기록을 넘어, 유저의 실제 집중 시간과 날씨/시간대/감정 간의 상관관계를 분석한 통계 및 히트맵을 시각화합니다. 이로 인해 사용자의 꾸준한 이용을 유도합니다.
 
 <br>
 
@@ -19,18 +28,18 @@
 
 | 01. 스마트 뽀모도로 타이머 | 02. 수분 및 카페인 트래커 |
 | :--- | :--- |
-| ![image](https://via.placeholder.com/400x200?text=Pomodoro+Timer) | ![image](https://via.placeholder.com/400x200?text=Water+Caffeine+Tracker) |
+| [image] | [image] |
 | 사용자의 작업/휴식 사이클을 관리하며, 종료 시 브라우저 백그라운드에서 실시간으로 당일 총 집중 시간을 계산하여 자동 동기화합니다. | 하루 목표 수분량과 카페인 섭취량을 클릭 한 번으로 기록하고, 시각적인 게이지 차트로 달성률을 직관적으로 확인합니다. |
 
 | 03. 인터랙티브 통계 대시보드 | 04. 감성 회고 다이어리 |
 | :--- | :--- |
-| ![image](https://via.placeholder.com/400x200?text=Analytics+Dashboard) | ![image](https://via.placeholder.com/400x200?text=Retrospect+Diary) |
+| [image] | [image] |
 | 라이브러리에 의존하지 않고 수학적으로 직접 계산한 커스텀 SVG 꺾은선 차트와 깃허브 스타일의 잔디(히트맵) 그래프를 제공합니다. | 하루를 마무리하며 긍정/부정 감정 태그를 선택하고 회고 일기를 작성하여 생산성과 감정의 상관관계를 파악합니다. |
 
-| 05. 글래스모피즘 & 커스텀 테마 | 06. 외부 Open API 자동 연동 |
+| 05. 클레이모피즘 & 커스텀 테마 | 06. 외부 Open API 자동 연동 |
 | :--- | :--- |
-| ![image](https://via.placeholder.com/400x200?text=Glassmorphism+Theme) | ![image](https://via.placeholder.com/400x200?text=Open+API+Integration) |
-| TailwindCSS와 Framer Motion을 결합하여 유리 질감의 투명한 패널 UI와 부드러운 다크/라이트 모드 전환을 완벽하게 지원합니다. | 실시간 기상청 단기예보 데이터와 오늘의 명언 API를 프론트엔드 단에서 직접 호출하여 사용자 맞춤형 환경을 조성합니다. |
+| [image] | [image] |
+| TailwindCSS와 Framer Motion을 결합하여 동그랗고 입체적인 패널 UI와 부드러운 다크/라이트 모드 전환을 완벽하게 지원합니다. | 실시간 기상청 단기예보 데이터와 오늘의 명언 API를 프론트엔드 단에서 직접 호출하여 사용자 맞춤형 환경을 조성합니다. |
 
 
 <br>
@@ -39,45 +48,16 @@
 
 ### [ 시스템 구조 ]
 *   **Frontend**: React 19, TypeScript, Vite, TailwindCSS, Framer Motion
-*   **Backend**: Spring Boot 3, Spring Security(JWT), MySQL, Spring Data JPA
+*   **Backend**: Spring Boot 3, Spring Security(JWT), PostgreSQL, Spring Data JPA
 
-```mermaid
-graph TD
-    subgraph Client ["🖥️ Frontend (React)"]
-        UI["UI / UX (TailwindCSS)"]
-        State["State (Context API)"]
-        Fetch["Network (Axios, Fetch)"]
-        UI --> State --> Fetch
-    end
+<img width="2818" height="2598" alt="image" src="https://github.com/user-attachments/assets/a6a45e72-0855-4dce-9d3f-c6b542c6d291" />
 
-    subgraph External ["🌐 External Open APIs"]
-        Weather["기상청 날씨 API"]
-        Quote["오늘의 명언 API"]
-    end
-
-    subgraph Server ["⚙️ Backend (Spring Boot)"]
-        Security["Auth (Spring Security + JWT)"]
-        Domains["Domain (Pomodoro, Drink, Diary)"]
-        ORM["ORM (Spring Data JPA)"]
-        Security --> Domains --> ORM
-    end
-
-    Fetch -- "Fetch API" --> External
-    Fetch -- "REST API (Axios)" --> Security
-```
 
 ### [ 유저 서비스 Flow ]
 방사형(Hub and Spoke) 구조로 설계되어 메인 대시보드를 기점으로 모든 기능이 매끄럽게 연결됩니다.
 
-```mermaid
-flowchart LR
-    Login[로그인 / 게스트] --> Home{오아시스 홈}
-    Home -->|작업| Timer[뽀모도로 타이머] --> DB1[(집중 DB)]
-    Home -->|기록| Drink[수분/카페인 섭취] --> DB2[(섭취 DB)]
-    Home -->|마무리| Retro[회고 일기 작성] --> DB3[(회고 DB)]
-    Home -->|통계| Stats[통계 대시보드]
-    DB1 & DB2 & DB3 -.-> Stats
-```
+<img width="2366" height="2150" alt="image" src="https://github.com/user-attachments/assets/59e9d6eb-50c6-4671-b694-fe4469228d99" />
+
 
 <br>
 
