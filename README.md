@@ -1,0 +1,132 @@
+# 🏜️ 웰니스 & 생산성 통합 플랫폼, OASIS25
+
+> 파편화된 생산성 관리 툴을 한곳에 모으고, 감성적인 디자인과 자체 통계/회고 요소를 결합한
+> **프리미엄 뽀모도로 & 다이어리 통합 플랫폼 오아시스(Oasis25)** 입니다.
+
+<br>
+
+## 📌 기획 배경 및 해결책
+
+**Pain Point:** 기존의 뽀모도로 타이머 앱은 딱딱한 시간 측정에만 그치며, 하루의 전반적인 건강 상태(수분/카페인 섭취)나 감정 상태(회고)를 종합적으로 파악하기 어려웠습니다.
+**Our Solution:**
+1.  **통합 대시보드 제공:** 흩어져 있던 타이머, 할 일(ToDo), 건강 트래커를 메인 홈 화면 한곳에서 직관적으로 관리할 수 있도록 설계했습니다.
+2.  **프리미엄 감성 경험 (UX):** 투명한 글래스모피즘(Glassmorphism)과 마이크로 애니메이션, 다크/라이트 모드를 통해 유저가 계속 머물고 싶어 하는 시각적 만족감을 제공합니다.
+3.  **데이터 기반의 성장:** 단순 기록을 넘어, 유저의 실제 집중 시간과 날씨/시간대/감정 간의 상관관계를 분석한 통계 및 히트맵을 시각화합니다.
+
+<br>
+
+## 🌟 핵심 기능 (Core Features)
+
+| 01. 스마트 뽀모도로 타이머 | 02. 수분 및 카페인 트래커 |
+| :--- | :--- |
+| ![image](https://via.placeholder.com/400x200?text=Pomodoro+Timer) | ![image](https://via.placeholder.com/400x200?text=Water+Caffeine+Tracker) |
+| 사용자의 작업/휴식 사이클을 관리하며, 종료 시 브라우저 백그라운드에서 실시간으로 당일 총 집중 시간을 계산하여 자동 동기화합니다. | 하루 목표 수분량과 카페인 섭취량을 클릭 한 번으로 기록하고, 시각적인 게이지 차트로 달성률을 직관적으로 확인합니다. |
+
+| 03. 인터랙티브 통계 대시보드 | 04. 감성 회고 다이어리 |
+| :--- | :--- |
+| ![image](https://via.placeholder.com/400x200?text=Analytics+Dashboard) | ![image](https://via.placeholder.com/400x200?text=Retrospect+Diary) |
+| 라이브러리에 의존하지 않고 수학적으로 직접 계산한 커스텀 SVG 꺾은선 차트와 깃허브 스타일의 잔디(히트맵) 그래프를 제공합니다. | 하루를 마무리하며 긍정/부정 감정 태그를 선택하고 회고 일기를 작성하여 생산성과 감정의 상관관계를 파악합니다. |
+
+| 05. 글래스모피즘 & 커스텀 테마 | 06. 외부 Open API 자동 연동 |
+| :--- | :--- |
+| ![image](https://via.placeholder.com/400x200?text=Glassmorphism+Theme) | ![image](https://via.placeholder.com/400x200?text=Open+API+Integration) |
+| TailwindCSS와 Framer Motion을 결합하여 유리 질감의 투명한 패널 UI와 부드러운 다크/라이트 모드 전환을 완벽하게 지원합니다. | 실시간 기상청 단기예보 데이터와 오늘의 명언 API를 프론트엔드 단에서 직접 호출하여 사용자 맞춤형 환경을 조성합니다. |
+
+
+<br>
+
+## 🛠️ 시스템 아키텍처 & 유저 플로우
+
+### [ 시스템 구조 ]
+*   **Frontend**: React 19, TypeScript, Vite, TailwindCSS, Framer Motion
+*   **Backend**: Spring Boot 3, Spring Security(JWT), MySQL, Spring Data JPA
+
+```mermaid
+graph TD
+    subgraph Client ["🖥️ Frontend (React)"]
+        UI["UI / UX (TailwindCSS)"]
+        State["State (Context API)"]
+        Fetch["Network (Axios, Fetch)"]
+        UI --> State --> Fetch
+    end
+
+    subgraph External ["🌐 External Open APIs"]
+        Weather["기상청 날씨 API"]
+        Quote["오늘의 명언 API"]
+    end
+
+    subgraph Server ["⚙️ Backend (Spring Boot)"]
+        Security["Auth (Spring Security + JWT)"]
+        Domains["Domain (Pomodoro, Drink, Diary)"]
+        ORM["ORM (Spring Data JPA)"]
+        Security --> Domains --> ORM
+    end
+
+    Fetch -- "Fetch API" --> External
+    Fetch -- "REST API (Axios)" --> Security
+```
+
+### [ 유저 서비스 Flow ]
+방사형(Hub and Spoke) 구조로 설계되어 메인 대시보드를 기점으로 모든 기능이 매끄럽게 연결됩니다.
+
+```mermaid
+flowchart LR
+    Login[로그인 / 게스트] --> Home{오아시스 홈}
+    Home -->|작업| Timer[뽀모도로 타이머] --> DB1[(집중 DB)]
+    Home -->|기록| Drink[수분/카페인 섭취] --> DB2[(섭취 DB)]
+    Home -->|마무리| Retro[회고 일기 작성] --> DB3[(회고 DB)]
+    Home -->|통계| Stats[통계 대시보드]
+    DB1 & DB2 & DB3 -.-> Stats
+```
+
+<br>
+
+## 🧩 Frontend 기술적 핵심 구현 사항
+
+### 1. 시각적 몰입감을 높이는 UI/UX 설계
+*   **글래스모피즘(Glassmorphism) 구현:** 단순히 반투명을 넘어서 배경의 블러(Blur) 처리와 미세한 노이즈(Noise) 텍스처를 조합하여, 어떤 배경 위에서도 고급스러운 입체감을 띠는 `Panel` 컴포넌트를 자체 제작했습니다.
+*   **Framer Motion 기반의 매끄러운 트랜지션:** 라우터 이동 시 화면이 덜컥거리는 현상(Layout Shift)을 방지하기 위해 `layoutId`와 `AnimatePresence`를 적극 도입하여, 컴포넌트 간 이동이 물리적으로 이어지는 듯한 마이크로 애니메이션을 구현했습니다.
+
+### 2. 컴포넌트 생명주기 및 의존성 최적화
+*   **독립적 위젯 캡슐화:** 대시보드 내부의 날씨, 타이머, 할 일 등의 모듈을 완벽하게 독립적인 컴포넌트로 분리했습니다. 부모(`Dashboard.tsx`)가 무거운 상태를 쥐고 뿌리는 Props Drilling을 원천 차단하고, 각 컴포넌트가 독립적으로 API와 통신하여 유지보수성을 극대화했습니다.
+
+<br>
+
+## 🚀 기술적 챌린지 및 트러블슈팅
+
+### 1. 무거운 상태 관리 라이브러리 없는 "컴포넌트 간 실시간 동기화"
+**문제 상황:**  
+위젯들을 철저히 독립(캡슐화)시키다 보니, `PomodoroTimer`에서 집중을 완료했을 때 형제 컴포넌트인 `AnalogClock`(오늘의 총 집중 시간)이 즉시 데이터를 갱신하지 못해 새로고침을 해야만 반영되는 동기화 지연 문제가 발생했습니다.
+
+**해결 방안:**  
+단순한 동기화 하나를 위해 Zustand나 Redux 같은 무거운 전역 상태 라이브러리를 추가하는 것은 오버엔지니어링이라 판단했습니다. 대신, 브라우저 내장 **Custom Event API(`window.addEventListener`)를 활용한 Pub/Sub(발행-구독) 패턴을 직접 구현**했습니다. 타이머 종료 시 이벤트를 발생(`dispatch`)시키고 시계 컴포넌트에서 이를 감지해 실시간으로 데이터를 갱신하게 함으로써, **외부 의존성 없이 순수 자바스크립트 기술만으로 우아하게 문제를 해결**했습니다.
+
+### 2. 프로덕션 환경에서의 Mixed Content 보안 에러 해결
+**문제 상황:**  
+개발 환경(Local)에서는 기상청 API가 정상 호출되었으나, Vercel로 배포한 프로덕션(HTTPS) 환경에서는 외부 기상청 API(HTTP)를 호출할 때 `Mixed Content` 통신 차단 에러가 발생하며 날씨 데이터가 렌더링되지 않았습니다.
+
+**해결 방안:**  
+프론트엔드 내의 엔드포인트 URL 프로토콜을 공공 데이터 포털에서 제공하는 보안 포트(HTTPS) 기준으로 전면 수정했습니다. 브라우저의 엄격한 혼합 콘텐츠 보안 정책을 깊이 이해하고, Vercel 환경 변수 세팅을 재구성하여 네트워크 통신 규격을 완벽하게 동기화했습니다.
+
+<br>
+
+## 📂 프론트엔드 폴더 구조 (Project Structure)
+
+```text
+SSG-Frontend/
+├── src/
+│   ├── assets/           # 이미지 자원 및 아이콘 세트 (Light/Dark 테마 에셋)
+│   ├── components/       # 재사용 가능한 UI 모듈
+│   │   ├── clock/        # 아날로그 시계 및 총 집중 시간 모듈
+│   │   ├── common/       # Panel, Button 등 공통 UI 요소 및 Header 레이아웃
+│   │   ├── pomodoro/     # 뽀모도로 타이머 엔진
+│   │   ├── retrospect/   # 일기 작성 폼 및 데이터 바인딩
+│   │   └── weather/      # 외부 API 연동 날씨 위젯
+│   ├── contexts/         # React Context API (Auth, Theme 상태 관리)
+│   ├── hooks/            # 커스텀 훅 (useTheme 등)
+│   ├── pages/            # 라우팅 단위의 전체 페이지 구성 (Dashboard, Splash 등)
+│   ├── services/         # Axios 인스턴스 및 백엔드/외부 API 통신 컨트롤러
+│   └── types/            # TypeScript 인터페이스 (데이터 구조 정의)
+├── tailwind.css          # 글로벌 스타일 및 커스텀 유틸리티 클래스
+└── vite.config.ts        # Vite 빌드 설정 및 플러그인 관리
+```
