@@ -32,6 +32,11 @@ export const updateProfileImage = async (
   const response = await api.patch<UploadProfileImageResponse>(
     `${PROFILE_API}/profile-image`,
     formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    },
   );
 
   return response.data;

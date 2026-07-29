@@ -53,7 +53,11 @@ export const uploadAttachment = async (
 
   formData.append("attachment", file);
 
-  await api.post(`${DIARY_API}/${id}/attachment`, formData);
+  await api.post(`${DIARY_API}/${id}/attachment`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
 
 //날짜
