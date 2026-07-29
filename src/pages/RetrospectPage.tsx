@@ -7,7 +7,8 @@ export const RetrospectPage = () => {
             id="tour-retrospect-content"
             className="
         
-        
+        min-h-full
+min-h-0
         grid
         grid-cols-1
         gap-4

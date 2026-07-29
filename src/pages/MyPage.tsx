@@ -8,6 +8,9 @@ export const MyPage = () => {
         <div
             id="tour-mypage-content"
             className="
+           
+           min-h-full
+            min-h-0
                 pb-5
                 grid
                 grid-cols-1
