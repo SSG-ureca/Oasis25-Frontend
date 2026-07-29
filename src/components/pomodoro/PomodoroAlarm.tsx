@@ -6,7 +6,7 @@ interface PomodoroAlarmProps {
   completedAt?: number | null;
 }
 
-const DEFAULT_ALARM_SRC = "/mp3/alarm/종_3.mp3";
+const DEFAULT_ALARM_SRC = ALARM_LIST[0]?.path ?? "";
 
 export default function PomodoroAlarm({ completedAt }: PomodoroAlarmProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
