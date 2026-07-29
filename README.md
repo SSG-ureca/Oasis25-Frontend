@@ -1,0 +1,237 @@
+# 🏜️ 웰니스 & 생산성 통합 플랫폼, OASIS25
+
+<div align="left">
+  <a href="https://app.notion.com/p/Oasis25-39ceadb9c0768030bb14fb2cc416a028"><img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white" alt="Notion" /></a>
+  <a href="https://ssg-frontend-eight.vercel.app/"><img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel Deploy" /></a>
+</div>
+
+> 파편화된 생산성 관리 툴을 한곳에 모으고, 감성적인 디자인과 자체 통계/회고 요소를 결합한
+> **뽀모도로 통합 플랫폼 오아시스(Oasis25)** 입니다.
+> (프로젝트 진행 기간: 2026.07.16 ~ 2026.07.29)
+
+<br>
+
+## 👥 팀원 소개
+
+|                                                            고유정(팀장)                                                            |                                                               소윤서                                                               |                                                               송동현                                                               |
+| :--------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: |
+| <img width="364" height="364" alt="image" src="https://github.com/user-attachments/assets/444f70fd-636d-4ade-a7d9-b12cc5422897" /> | <img width="420" height="420" alt="image" src="https://github.com/user-attachments/assets/18d97620-f988-4aaa-9521-9d7acb587021" /> | <img width="420" height="420" alt="image" src="https://github.com/user-attachments/assets/4c7b948c-2831-441b-8729-23236fc997e5" /> |
+|                                               [@daenggg](https://github.com/daenggg)                                               |                                               [@HITS-SO](https://github.com/HITS-SO)                                               |                                           [@donghyeon01](https://github.com/donghyeon01)                                           |
+|                                                Figma, UX 고도화 및 통계 페이지 구현                                                |                                                   회고 페이지 및 마이페이지 구현                                                   |                                                      홈 페이지 및 백엔드 구현                                                      |
+
+<br>
+
+## 📌 기획 배경 및 해결책
+
+**Pain Point:** 기존의 뽀모도로 타이머 앱은 딱딱한 시간 측정에만 그치며, 하루의 전반적인 건강 상태(수분/카페인 섭취)나 감정 상태(회고)를 종합적으로 파악하기 어려웠습니다.
+
+**Our Solution:**
+
+1.  **통합 대시보드 제공:** 흩어져 있던 타이머, 할 일(ToDo), 건강 트래커를 메인 홈 화면 한곳에서 직관적으로 관리할 수 있도록 설계했습니다.
+2.  **감성 경험 (UX):** 클레이모피즘(Claymorphism)과 마이크로 애니메이션, 다크/라이트 모드를 통해 유저가 계속 머물고 싶어 하는 시각적 만족감을 제공합니다.
+3.  **데이터 기반의 성장:** 단순 기록을 넘어, 유저의 실제 집중 시간과 날씨/시간대/감정 간의 상관관계를 분석한 통계 및 히트맵을 시각화합니다. 이로 인해 사용자의 꾸준한 이용을 유도합니다.
+
+<br>
+
+## 🌟 핵심 기능 (Core Features)
+
+### 1. 메인 대시보드 (통합 생산성 관리)
+
+> 하나의 화면에서 타이머, 건강 트래커, 날씨, 명언을 모두 관리할 수 있는 클레이모피즘 기반의 올인원 홈 화면입니다.
+
+|                                              ☀️ 라이트 모드 (Light Mode)                                              |                                               🌙 다크 모드 (Dark Mode)                                                |
+| :-------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: |
+| <img width="48%" alt="image" src="https://github.com/user-attachments/assets/2a6c489a-8f09-4e87-ac45-f041953d129b" /> | <img width="48%" alt="image" src="https://github.com/user-attachments/assets/c613fed5-44dd-4707-99e5-d7295065bf36" /> |
+
+- **스마트 뽀모도로 타이머:** 작업/휴식 사이클 관리 및 당일 총 집중 시간 자동 동기화
+
+* **수분/카페인 트래커:** 게이지 뱃지를 통한 일일 목표 달성률 시각화
+* **외부 API 연동:** 실시간 기상청 단기예보 날씨 및 오늘의 명언 연동
+* **클레이모피즘 UI:** 다크/라이트 모드를 완벽 지원하는 둥글고 부드러운 3D 패널 디자인
+
+<br>
+
+### 2. 인터랙티브 통계 대시보드
+
+> 누적된 집중 시간과 감정 기록을 바탕으로 유저의 생산성 트렌드를 시각화합니다.
+
+#### 통계 차트
+
+- **커스텀 SVG 차트:** 외부 무거운 라이브러리 없이 직접 수학적으로 계산하여 렌더링한 부드러운 꺾은선 차트
+
+|                                                        <!-- -->                                                        |                                                        <!-- -->                                                        |
+| :--------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------: |
+| <img width="100%" alt="image" src="https://github.com/user-attachments/assets/320b96f4-97dc-487b-955e-eb88eb7ae6dc" /> | <img width="100%" alt="image" src="https://github.com/user-attachments/assets/184b6e8c-a0ca-49a0-bbc4-74a31a39e0b3" /> |
+| <img width="100%" alt="image" src="https://github.com/user-attachments/assets/4e2eb6ed-5b29-4ee3-beb3-d5eff80d8b9a" /> | <img width="100%" alt="image" src="https://github.com/user-attachments/assets/01c0e6c6-bd98-4d12-9531-54854d167929" /> |
+
+#### 잔디
+
+- **잔디 히트맵:** 깃허브(GitHub) 스타일의 히트맵을 제공하여 꾸준한 사용 및 성장 동기 부여
+  [image5]
+
+<br>
+
+### 3. 감성 회고 다이어리
+
+> 하루의 끝에서 나의 감정과 생산성을 돌아보는 다이어리 기능입니다.
+
+<img width="1072" height="762" alt="image" src="https://github.com/user-attachments/assets/8c9164c2-fb0b-42e7-9d5c-f21f3b639b5f" />
+
+- **감정 태그 시스템:** 감정 태그를 선택하여 하루의 기분을 직관적으로 기록
+- **인사이트 제공:** 그날의 집중 시간과 감정의 연관성을 스스로 회고할 수 있는 환경 제공
+
+<br>
+
+## 🛠️ 시스템 아키텍처 & 유저 플로우
+
+### [ 시스템 구조 ]
+
+- **Frontend**: React 19, TypeScript, Vite, TailwindCSS, Framer Motion
+- **Backend**: Spring Boot 3, Spring Security(JWT), PostgreSQL, Spring Data JPA
+
+<img width="2818" height="2598" alt="image" src="https://github.com/user-attachments/assets/a6a45e72-0855-4dce-9d3f-c6b542c6d291" />
+
+### [ 유저 서비스 Flow ]
+
+방사형(Hub and Spoke) 구조로 설계되어 메인 대시보드를 기점으로 모든 기능이 매끄럽게 연결됩니다.
+
+<img width="2366" height="2150" alt="image" src="https://github.com/user-attachments/assets/59e9d6eb-50c6-4671-b694-fe4469228d99" />
+
+<br>
+
+## 🎆 핵심 구현 사항
+
+### 1. 시각적 몰입감을 높이는 UI/UX 설계
+
+- **클레이모피즘(Claymorphism) 구현:** 단순한 플랫 디자인을 넘어, 둥글고 부드러운 3D 질감과 미세한 내부 그림자(Inner Shadow)를 조합하여 시각적 피로도를 낮추면서도 포근하고 고급스러운 입체감을 띠는 `Panel` 컴포넌트를 자체 제작했습니다.
+- **Framer Motion 기반의 매끄러운 트랜지션:** 라우터 이동 시 화면이 덜컥거리는 현상(Layout Shift)을 방지하기 위해 `layoutId`와 `AnimatePresence`를 적극 도입하여, 컴포넌트 간 이동이 물리적으로 이어지는 듯한 마이크로 애니메이션을 구현했습니다.
+
+### 2. 컴포넌트 생명주기 및 의존성 최적화
+
+- **독립적 위젯 캡슐화:** 대시보드 내부의 날씨, 타이머, 할 일 등의 모듈을 완벽하게 독립적인 컴포넌트로 분리했습니다. 부모(`Dashboard.tsx`)가 무거운 상태를 쥐고 뿌리는 Props Drilling을 원천 차단하고, 각 컴포넌트가 독립적으로 API와 통신하여 유지보수성을 극대화했습니다.
+
+<br>
+
+## 🌊 트러블슈팅
+
+### 1. 무거운 상태 관리 라이브러리 없는 "컴포넌트 간 실시간 동기화"
+
+**문제 상황:**  
+위젯들을 철저히 독립(캡슐화)시키다 보니, `PomodoroTimer`에서 집중을 완료했을 때 형제 컴포넌트인 `AnalogClock`(오늘의 총 집중 시간)이 즉시 데이터를 갱신하지 못해 새로고침을 해야만 반영되는 동기화 지연 문제가 발생했습니다.
+
+**해결 방안:**  
+단순한 동기화 하나를 위해 Zustand나 Redux 같은 무거운 전역 상태 라이브러리를 추가하는 것은 오버엔지니어링이라 판단했습니다. 대신, 브라우저 내장 **Custom Event API(`window.addEventListener`)를 활용한 Pub/Sub(발행-구독) 패턴을 직접 구현**했습니다. 타이머 종료 시 이벤트를 발생(`dispatch`)시키고 시계 컴포넌트에서 이를 감지해 실시간으로 데이터를 갱신하게 함으로써, **외부 의존성 없이 순수 자바스크립트 기술만으로 우아하게 문제를 해결**했습니다.
+
+```typescript
+// 1. PomodoroTimer.tsx (집중 완료 시 이벤트 발행)
+const dispatchUpdate = () => {
+  window.dispatchEvent(new Event("pomodoro-today-totals-updated"));
+};
+
+// 2. AnalogClock.tsx (이벤트 구독 및 실시간 데이터 갱신)
+useEffect(() => {
+  const handleUpdate = () => loadTotals(); // API 재호출
+  window.addEventListener("pomodoro-today-totals-updated", handleUpdate);
+
+  return () => {
+    window.removeEventListener("pomodoro-today-totals-updated", handleUpdate);
+  };
+}, [loadTotals]);
+```
+
+### 2. 무거운 차트 라이브러리 없는 커스텀 SVG 차트 렌더링
+
+**문제 상황:**  
+유저의 집중 시간 통계를 보여주기 위해 부드러운 꺾은선 차트가 필요했습니다. 하지만 Chart.js나 Recharts 같은 무거운 외부 라이브러리를 도입하면 번들 사이즈가 불필요하게 커져 초기 로딩 성능이 저하되는 문제가 있었습니다.
+
+**해결 방안:**  
+외부 의존성을 완전히 배제하고, **순수 자바스크립트 수학 연산을 통해 SVG 경로(Path)를 직접 생성**했습니다. 가우시안 스무딩(Gaussian Smoothing) 알고리즘으로 원시 데이터를 부드럽게 가공하고, Catmull-Rom 스플라인을 적용해 자연스러운 베지에 곡선(`C` 커맨드)을 수학적으로 도출했습니다. 결과적으로 성능과 디자인을 모두 잡은 최적화된 커스텀 차트를 구현할 수 있었습니다.
+
+```typescript
+// src/utils/statsUtils.ts (SVG 베지에 곡선 생성 로직 일부)
+export const generateSvgPath = (data: number[], globalMax?: number) => {
+  // 1. 가우시안 스무딩 적용하여 완만한 곡선 흐름 생성
+  const smoothed = smoothData(data);
+  const maxVal = globalMax ?? Math.max(...smoothed, 1);
+
+  // 2. SVG 좌표계로 매핑
+  const points = smoothed.map((val, hour) => {
+    const x = (hour / 23) * 400;
+    const y = Math.min(145, 145 - (val / maxVal) * 135);
+    return { x, y };
+  });
+
+  // 3. Catmull-Rom 스플라인을 이용한 부드러운 베지에 곡선(M, C) 렌더링
+  let pathD = `M ${points[0].x},${points[0].y}`;
+  const tension = 0.22;
+  // ... 중략 (제어점 연산 로직)
+  return { line: pathD, fill: `${pathD} L 400,145 L 0,145 Z` };
+};
+```
+
+<br>
+
+## 📂 프론트엔드 폴더 구조
+
+```text
+SSG-Frontend/
+├── src/
+│   ├── assets/           # 이미지 자원 및 아이콘 세트 (Light/Dark 테마 에셋)
+│   ├── components/       # 재사용 가능한 UI 모듈
+│   │   ├── clock/        # 아날로그 시계 및 총 집중 시간 모듈
+│   │   ├── common/       # Panel, Button 등 공통 UI 요소 및 Header 레이아웃
+│   │   ├── pomodoro/     # 뽀모도로 타이머 엔진
+│   │   ├── retrospect/   # 일기 작성 폼 및 데이터 바인딩
+│   │   └── weather/      # 외부 API 연동 날씨 위젯
+│   ├── contexts/         # React Context API (Auth, Theme 상태 관리)
+│   ├── hooks/            # 커스텀 훅 (useTheme 등)
+│   ├── pages/            # 라우팅 단위의 전체 페이지 구성 (Dashboard, Splash 등)
+│   ├── services/         # Axios 인스턴스 및 백엔드/외부 API 통신 컨트롤러
+│   └── types/            # TypeScript 인터페이스 (데이터 구조 정의)
+├── tailwind.css          # 글로벌 스타일 및 커스텀 유틸리티 클래스
+└── vite.config.ts        # Vite 빌드 설정 및 플러그인 관리
+```
+
+<br>
+
+## 🚀 시작하기 (Getting Started)
+
+### 사전 요구사항 (Prerequisites)
+
+- **Node.js**: `v18.0.0` 이상
+- **npm** 또는 **yarn** 패키지 매니저
+
+### 설치 및 실행 가이드 (Installation & Run)
+
+1. **저장소 클론** (Clone the repository)
+
+```bash
+git clone https://github.com/[YOUR-GITHUB-ID]/SSG-Frontend.git
+```
+
+2. **프로젝트 폴더로 이동** (Navigate to the directory)
+
+```bash
+cd SSG-Frontend
+```
+
+3. **의존성 패키지 설치** (Install dependencies)
+
+```bash
+npm install
+```
+
+4. **환경변수 설정** (Set Environment Variables)
+   루트 디렉토리에 `.env` 파일을 생성하고 아래 발급받은 API 키를 입력하세요.
+
+```env
+VITE_KMA_SERVICE_KEY=기상청_단기예보_API_발급키
+```
+
+5. **로컬 개발 서버 실행** (Run development server)
+
+```bash
+npm run dev
+```
+
+로컬 서버가 실행되면 브라우저에서 `http://localhost:5173` 으로 접속하여 프로젝트를 확인할 수 있습니다.
