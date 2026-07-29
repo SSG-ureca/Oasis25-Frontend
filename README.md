@@ -9,6 +9,10 @@
 
 | 고유정(팀장) | 소윤서 | 송동현 |
 | :---: | :---: | :---: |
+| <img width="364" height="364" alt="image" src="https://github.com/user-attachments/assets/444f70fd-636d-4ade-a7d9-b12cc5422897" />
+ | <img width="420" height="420" alt="image" src="https://github.com/user-attachments/assets/18d97620-f988-4aaa-9521-9d7acb587021" />
+ | <img width="420" height="420" alt="image" src="https://github.com/user-attachments/assets/4c7b948c-2831-441b-8729-23236fc997e5" />
+ |
 | [@daenggg](https://github.com/daenggg) | [@HITS-SO](https://github.com/HITS-SO) | [@donghyeon01](https://github.com/donghyeon01) |
 | Figma, UX 고도화 및 통계 페이지 구현 | 회고 페이지 및 마이페이지 구현 | 홈 페이지 및 백엔드 전반 구현 |
 
@@ -28,10 +32,11 @@
 
 | 01. 스마트 뽀모도로 타이머 | 02. 수분 및 카페인 트래커 |
 | :--- | :--- |
-| [image] | [image] |
+| <img width="1076" height="830" alt="image" src="https://github.com/user-attachments/assets/7b028970-a5de-4d6b-8f76-71cf39f6b746" />
+ |
 | 사용자의 작업/휴식 사이클을 관리하며, 종료 시 브라우저 백그라운드에서 실시간으로 당일 총 집중 시간을 계산하여 자동 동기화합니다. | 하루 목표 수분량과 카페인 섭취량을 클릭 한 번으로 기록하고, 시각적인 게이지 차트로 달성률을 직관적으로 확인합니다. |
 
-| 03. 인터랙티브 통계 대시보드 | 04. 감성 회고 다이어리 |
+| 03. 인터랙티브 통계 대시보드 | 04. 회고 다이어리 |
 | :--- | :--- |
 | [image] | [image] |
 | 라이브러리에 의존하지 않고 수학적으로 직접 계산한 커스텀 SVG 꺾은선 차트와 깃허브 스타일의 잔디(히트맵) 그래프를 제공합니다. | 하루를 마무리하며 긍정/부정 감정 태그를 선택하고 회고 일기를 작성하여 생산성과 감정의 상관관계를 파악합니다. |
