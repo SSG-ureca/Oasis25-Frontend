@@ -77,6 +77,7 @@ const OptionToggle = ({ label, value, onChange }: OptionToggleProps) => {
                         transition-all
                         duration-200
                         rounded-2xl
+                        shadow-md
                         ${
                             value
                                 ? `
@@ -105,6 +106,7 @@ const OptionToggle = ({ label, value, onChange }: OptionToggleProps) => {
                     
                         transition-all
                         duration-200
+                        shadow-md
                         ${
                             !value
                                 ? `
