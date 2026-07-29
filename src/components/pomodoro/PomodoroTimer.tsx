@@ -10,6 +10,7 @@ import PomodoroAlarm from "./PomodoroAlarm";
 import { Panel } from "../common/Panel";
 import { cn } from "../../utils/cn";
 import { clayVariants } from "../../types/clayVariants";
+import { loadUserOption } from "../../types/profileOption";
 
 function formatTime(ms: number) {
   const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
@@ -27,13 +28,13 @@ const DEFAULT_PRESET: PomodoroPreset = {
   isDefault: true,
   createdAt: "",
 };
-
 interface PomodoroTimerProps {
   onFocusModeChange?: (isFocusMode: boolean) => void;
+  onAutoPlay?: () => void;
 }
-
 export default function PomodoroTimer({
   onFocusModeChange,
+  onAutoPlay,
 }: PomodoroTimerProps = {}) {
   const {
     mode,
@@ -91,7 +92,9 @@ export default function PomodoroTimer({
   const canAddPreset = customPresets.length < MAX_CUSTOM_PRESETS;
 
   const isFocus = mode === "focus";
-  const isFocusMode = isFocus && isRunning;
+  const { focusMode } = loadUserOption();
+
+  const isFocusMode = focusMode && isFocus && isRunning;
 
   useLayoutEffect(() => {
     onFocusModeChange?.(isFocusMode);
@@ -453,8 +456,17 @@ export default function PomodoroTimer({
           <Button
             variant="clay"
             onClick={() => {
-              if (isRunning) void pause();
-              else void start();
+              if (isRunning) {
+                void pause();
+              } else {
+                const { autoPlay } = loadUserOption();
+
+                if (autoPlay) {
+                  onAutoPlay?.();
+                }
+
+                void start();
+              }
             }}
             className="rounded-full px-6 py-2 text-sm font-semibold text-primary">
             {isRunning ? "일시정지" : "시작"}

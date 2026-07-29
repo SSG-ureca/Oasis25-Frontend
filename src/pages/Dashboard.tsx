@@ -1,6 +1,5 @@
 // [pages] 대시보드, 로그인 등 독립된 개별 화면 페이지들을 담는 공간입니다.
 
-import { useState } from "react";
 import { Panel } from "../components/common/Panel";
 import PomodoroTimer from "../components/pomodoro/PomodoroTimer";
 
@@ -9,9 +8,16 @@ import { WeatherPanel } from "../components/weather/WeatherPanel";
 import { Todo } from "../components/todo/Todo";
 import { QuoteCard } from "../components/splash/QuoteCard";
 import { WaterCaffeinePanel } from "../components/waterCaffeine/WaterCaffeinePanel";
+import { useOutletContext } from "react-router-dom";
 
 export default function Dashboard() {
-  const [isFocusMode, setIsFocusMode] = useState(false);
+  interface DashboardContext {
+    triggerAutoPlay: () => void;
+    isFocusMode: boolean;
+    setFocusMode: (value: boolean) => void;
+  }
+  const { triggerAutoPlay, isFocusMode, setFocusMode } =
+    useOutletContext<DashboardContext>();
 
   return (
     <div
@@ -41,7 +47,10 @@ export default function Dashboard() {
               ? "flex min-h-[480px] p-4"
               : "min-h-[380px] min-w-[290px]"
           }`}>
-          <PomodoroTimer onFocusModeChange={setIsFocusMode} />
+          <PomodoroTimer
+            onAutoPlay={triggerAutoPlay}
+            onFocusModeChange={setFocusMode}
+          />
         </Panel>
         {!isFocusMode && (
           <Panel variant="clay" className="min-w-[290px] h-auto shrink-0 p-2">
