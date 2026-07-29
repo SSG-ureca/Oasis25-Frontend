@@ -89,9 +89,9 @@
   --color-text-muted: #878a99;
 
   /* --- Claymorphism (사막 테마) --- */
-  --color-app-bg: #e8e2d3;      /* 앱 전체 배경색 */
-  --color-panel-bg: #e8e2d3;    /* 공통 패널 배경색 */
-  --color-clay-bg: #e8e2d3;     /* 클레이모피즘 표면색 */
+  --color-app-bg: #e8e2d3; /* 앱 전체 배경색 */
+  --color-panel-bg: #e8e2d3; /* 공통 패널 배경색 */
+  --color-clay-bg: #e8e2d3; /* 클레이모피즘 표면색 */
   --color-clay-border: #c4a27a; /* 클레이모피즘 테두리색 */
 
   /* 클레이모피즘 기본 그림자 (튀어나온 효과) */
@@ -111,6 +111,9 @@
   /* --- 반응형 중단점 (Breakpoints) --- */
   --breakpoint-880: 880px;
   --breakpoint-680: 680px;
+
+  /* --- 높은 z-index --- */
+  --z-10002: 10002;
 }
 
 /* ==========================================================================
@@ -130,8 +133,7 @@ html.dark {
 
   /* 다크모드 클레이모피즘 그림자 */
   --shadow-clay:
-    14px 16px 28px rgba(0, 0, 0, 0.25),
-    -8px -8px 14px rgba(0, 0, 0, 0.25);
+    14px 16px 28px rgba(0, 0, 0, 0.25), -8px -8px 14px rgba(0, 0, 0, 0.25);
 
   --shadow-clay-inset:
     inset 8px 9px 16px rgba(0, 0, 0, 0.25),

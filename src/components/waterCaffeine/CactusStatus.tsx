@@ -1,25 +1,21 @@
 import { useMemo } from "react";
 
-export type CactusState = "cactus1" | "cactus2" | "cactus3" | "cactus4";
+const WATER_GOAL = 2000;
+const CAFFEINE_LIMIT = 400;
 
-function getCactusState(water: number, caffeine: number): CactusState {
-  const WATER_GOAL = 2000;
-  const CAFFEINE_LIMIT = 400;
-  const waterAchieved = water >= WATER_GOAL;
-  const caffeineExceeded = caffeine > CAFFEINE_LIMIT;
+function getCactusFile(water: number, caffeine: number) {
+  const waterStep = WATER_GOAL / 5;
+  const b = Math.min(5, Math.floor(water / waterStep));
 
-  if (caffeineExceeded && !waterAchieved) return "cactus1";
-  if (caffeineExceeded) return "cactus2";
-  if (!waterAchieved) return "cactus3";
-  return "cactus4";
+  let a = 1;
+  if (caffeine > CAFFEINE_LIMIT) {
+    a = 3;
+  } else if (caffeine > CAFFEINE_LIMIT * 0.75) {
+    a = 2;
+  }
+
+  return { a, b, fileName: `인장이_${a}_${b}.png` };
 }
-
-const CACTUS_FILES: Record<CactusState, string> = {
-  cactus1: "인장이1.png",
-  cactus2: "인장이2.png",
-  cactus3: "인장이3.png",
-  cactus4: "인장이 4.png",
-};
 
 interface CactusStatusProps {
   water: number;
@@ -27,27 +23,26 @@ interface CactusStatusProps {
 }
 
 export function CactusStatus({ water, caffeine }: CactusStatusProps) {
-  const state = getCactusState(water, caffeine);
-
   const modules = import.meta.glob<{ default: string }>(
     "../../assets/images/cactus/*.png",
     { eager: true },
   );
 
+  const { b, fileName } = getCactusFile(water, caffeine);
+
   const photoSrc = useMemo(() => {
-    const fileName = CACTUS_FILES[state];
     const matched = Object.entries(modules).find(([path]) =>
       path.endsWith(fileName),
     );
     if (matched) return matched[1].default;
 
     const fallback = Object.entries(modules).find(([path]) =>
-      path.endsWith("cactus.png"),
+      path.endsWith("인장이_1_1.png"),
     );
     return fallback?.[1].default;
-  }, [modules, state]);
+  }, [modules, fileName]);
 
-  const label = `선인장 ${state.replace("cactus", "")}`;
+  const label = `선인장 ${b}`;
 
   if (photoSrc) {
     return (

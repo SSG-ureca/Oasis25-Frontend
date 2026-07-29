@@ -18,7 +18,6 @@ import { PasswordForm } from "./PasswordForm";
 import { ProfileActions } from "./ProfileActions";
 import logoImage from "../../../assets/images/logo.png";
 import { ProfileOptions } from "./ProfileOptions";
-import { loadUserOption, saveUserOption } from "../../../types/profileOption";
 
 const DEFAULT_PROFILE_IMAGE = logoImage;
 
@@ -41,20 +40,11 @@ export const ProfileEditor = () => {
 
     const [previewUrl, setPreviewUrl] = useState(DEFAULT_PROFILE_IMAGE);
 
-    const option = loadUserOption();
-
-    const [autoPlay, setAutoPlay] = useState(option.autoPlay);
-    const [focusMode, setFocusMode] = useState(option.focusMode);
+    const [autoPlay, setAutoPlay] = useState(false);
+    const [focusMode, setFocusMode] = useState(false);
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-    //옵션 전송
-    useEffect(() => {
-        saveUserOption({
-            autoPlay,
-            focusMode,
-        });
-    }, [autoPlay, focusMode]);
     // 프로필 데이터 갱신 함수
     const loadProfile = async () => {
         const data = await getProfile();
