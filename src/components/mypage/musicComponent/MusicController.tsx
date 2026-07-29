@@ -9,7 +9,7 @@ import {
 } from "../../../utils/musicStorage";
 
 import type { MusicSetting } from "../../../types/music";
-// import { Button } from "../../common/Button";
+import { Button } from "../../common/Button";
 
 export const MusicController = () => {
     const [musicSetting, setMusicSetting] =
@@ -72,16 +72,7 @@ export const MusicController = () => {
                     <h3 className="text-lg font-semibold">ASMR 목록</h3>
                 </Panel>
             </div>
-            {/* <Button
-                variant="clay"
-                className="
-                w-full
-                880:w-auto
-                "
-                onClick={() => window.location.reload()}
-            >
-                설정 적용
-            </Button> */}
+
             {/* BGM 리스트 */}
             <div
                 className="
@@ -96,6 +87,17 @@ export const MusicController = () => {
                     setMusicSetting={setMusicSetting}
                 />
             </div>
+            <Button
+                variant="clay"
+                className="
+                mb-3
+                w-auto
+                880:w-auto
+                flex items-center px-4 h-8 text-sm rounded-xl  hover:bg-black/5 dark:hover:bg-white/10 "
+                onClick={() => window.location.reload()}
+            >
+                적용
+            </Button>
         </Panel>
     );
 };

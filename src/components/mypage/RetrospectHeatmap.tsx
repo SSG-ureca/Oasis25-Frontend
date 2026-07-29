@@ -48,6 +48,9 @@ export const RetrospectHeatmap = () => {
         if (wrapperRef.current) {
             observer.observe(wrapperRef.current);
         }
+        if (heatmapRef.current) {
+            observer.observe(heatmapRef.current);
+        }
 
         window.addEventListener("resize", resize);
 
@@ -119,7 +122,7 @@ export const RetrospectHeatmap = () => {
                 inset
                 className="
                     flex-1
-                    h-fit
+                   min-h-[100px]
                     880:min-h-0
 
                     p-2
@@ -130,8 +133,26 @@ export const RetrospectHeatmap = () => {
                 "
             >
                 {loading ? (
-                    <div className="text-center text-text-muted text-sm">
-                        데이터를 불러오는 중입니다...
+                    <div
+                        className="
+                    w-full
+                    h-full
+                    flex
+                    items-center
+                    justify-center
+                "
+                    >
+                        <div
+                            className="
+                w-[95%]
+                h-full
+                880:h-25
+                rounded-xl
+                bg-black/10
+                dark:bg-white/10
+                animate-pulse
+            "
+                        />
                     </div>
                 ) : year ? (
                     <div
@@ -162,7 +183,7 @@ export const RetrospectHeatmap = () => {
                                 showMonthLabels={false}
                                 classForValue={(value) => {
                                     if (!value || !value.count) {
-                                        return "color-empty";
+                                        return "color-empty ";
                                     }
 
                                     if (value.count < 30) {
@@ -225,10 +246,16 @@ export const RetrospectHeatmap = () => {
 
                             whitespace-nowrap
                             880:w-full
+                            shadow-md
 
                             ${
                                 year === y
-                                    ? "bg-emerald-200 text-emerald-800 font-bold"
+                                    ? `
+        
+                            text-black
+                            font-bold
+                            dark:text-white
+        `
                                     : ""
                             }
                         `}

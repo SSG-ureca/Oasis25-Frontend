@@ -30,9 +30,8 @@ export const ProfileActions = ({
                 <>
                     <Button
                         className="
-                        min-w-20
-                        880:min-w-0
-                    "
+                        shadow-lg
+                        w-full flex items-center px-4 h-8 text-sm rounded-xl  hover:bg-black/5 dark:hover:bg-white/10 "
                         variant="clay"
                         onClick={() => setIsEditMode(false)}
                     >
@@ -41,9 +40,10 @@ export const ProfileActions = ({
 
                     <Button
                         className="
-                        min-w-20
-                        880:min-w-0
+                        shadow-lg
+                        w-full flex items-center px-4 h-8 text-sm rounded-xl  hover:bg-black/5 dark:hover:bg-white/10 
                     "
+                        variant="clay"
                         onClick={onComplete}
                     >
                         완료

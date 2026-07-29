@@ -20,7 +20,7 @@ export const PasswordForm = ({
             flex
             flex-col
 
-            gap-4
+            gap-3
 
             justify-start
          
@@ -64,7 +64,7 @@ export const PasswordForm = ({
 
                 rounded-xl
                 px-4
-                py-3
+                py-2
 
                 bg-clay-bg
 
