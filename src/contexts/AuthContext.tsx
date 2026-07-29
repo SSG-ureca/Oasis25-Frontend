@@ -22,12 +22,6 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 const REFRESH_BUFFER_MS = 60_000;
 
-interface MyProfileResponse {
-  email: string;
-  nickname: string;
-  profileImage: string | null;
-}
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -92,14 +86,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem("tokenType");
 
     api
-      .get<MyProfileResponse>("/api/users/me", {
+      .post<AuthStatusResponse>("/api/auth/reissue", null, {
         __noRedirect: true,
       } as AxiosRequestConfig & { __noRedirect?: boolean })
       .then((response) => {
-        if (cancelled || hasLoggedIn.current) return;
-        const { email, nickname, profileImage } = response.data;
-        setUser({ email, nickname, profileImageUrl: profileImage });
-        setIsAuthenticated(true);
+        if (cancelled) return;
+        handleLogin(response.data);
       })
       .catch(() => {
         if (cancelled || hasLoggedIn.current) return;
@@ -114,7 +106,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       cancelled = true;
       clearRefreshTimeout();
     };
-  }, [clearRefreshTimeout]);
+  }, [clearRefreshTimeout, handleLogin]);
 
   const value: AuthContextValue = {
     isAuthenticated,

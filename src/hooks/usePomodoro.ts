@@ -126,6 +126,7 @@ export function usePomodoro() {
   const [presets, setPresets] = useState<PomodoroPreset[]>([]);
   const [loadingPresets, setLoadingPresets] = useState(false);
   const [sessionId, setSessionId] = useState<number | null>(initial.sessionId);
+  const [completedAt, setCompletedAt] = useState<number | null>(null);
 
   const intervalRef = useRef<number | null>(null);
   const modeStartAtRef = useRef<number | null>(initial.modeStartAt);
@@ -238,6 +239,8 @@ export function usePomodoro() {
       } else {
         toast.info("휴식 끝! 다시 집중해볼까요 💪");
       }
+
+      setCompletedAt(Date.now());
 
       if (AUTO_SWITCH_ON_COMPLETE) {
         switchMode(mode === "focus" ? "break" : "focus", true);
@@ -472,6 +475,7 @@ export function usePomodoro() {
     presets,
     loadingPresets,
     isLoggedIn: isAuthenticated,
+    completedAt,
     start,
     pause,
     reset,

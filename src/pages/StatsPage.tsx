@@ -31,7 +31,7 @@ export const StatsPage = () => {
   }, [activeTab]);
 
   return (
-    <div className="w-full h-full flex flex-col gap-4 min-h-0 bg-transparent">
+    <div id="tour-stats-content" className="w-full h-full flex flex-col gap-4 min-h-0 bg-transparent">
       {/* 중앙 베이스 플레이트 패널 */}
       <div className="flex-1 min-h-0">
         <Panel
@@ -66,7 +66,7 @@ export const StatsPage = () => {
                         "rounded-xl",
                         isActive
                           ? "text-green-50"
-                          : "text-text-muted hover:text-text hover:scale-105"
+                          : "text-text-muted"
                       )}>
                       <Icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
                     </button>
@@ -231,8 +231,8 @@ export const StatsPage = () => {
                             filter="url(#neon-glow)"
                             className="transition-all duration-[2000ms] ease-out"
                             style={{
-                              strokeDasharray: 1200,
-                              strokeDashoffset: trendLoaded ? 0 : 1200,
+                              strokeDasharray: 5000,
+                              strokeDashoffset: trendLoaded ? 0 : 5000,
                               transitionDelay: "100ms",
                             }}
                           />

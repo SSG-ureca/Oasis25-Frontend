@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const KMA_BASE_URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0";
+const KMA_BASE_URL = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0";
 const SERVICE_KEY = import.meta.env.VITE_KMA_SERVICE_KEY as string | undefined;
 
 interface KmaItem {
