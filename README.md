@@ -226,7 +226,7 @@ npm install
    루트 디렉토리에 `.env` 파일을 생성하고 백엔드 주소와 발급받은 기상청 API 키를 입력하세요.
 
 ```env
-VITE_API_BASE_URL= 백엔드_API_주소
+VITE_API_BASE_URL=백엔드_API_주소
 VITE_KMA_SERVICE_KEY=기상청_단기예보_API_발급키
 ```
 
