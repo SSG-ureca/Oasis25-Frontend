@@ -172,6 +172,8 @@ export const generateSvgPath = (data: number[], globalMax?: number) => {
 
 <br>
 
+<br>
+
 ## 📂 프론트엔드 폴더 구조
 
 ```text
@@ -195,7 +197,7 @@ SSG-Frontend/
 
 <br>
 
-## 🚀 시작하기 (Getting Started)
+## 🚘 시작하기
 
 ### 사전 요구사항 (Prerequisites)
 
@@ -237,3 +239,49 @@ npm run dev
 ```
 
 로컬 서버가 실행되면 브라우저에서 `http://localhost:5173` 으로 접속하여 프로젝트를 확인할 수 있습니다.
+
+<br>
+
+## 📦 포팅 매뉴얼
+
+본 프로젝트는 Vercel, Netlify 등 정적 웹 호스팅 서비스에 최적화되어 있습니다. 프로덕션(운영) 환경에 배포하기 위한 포팅 절차는 다음과 같습니다.
+
+### 1. 프로덕션 빌드 (Production Build)
+
+터미널에서 아래 빌드 스크립트를 실행하여 배포용 정적 파일을 생성합니다.
+
+```bash
+npm run build
+```
+
+빌드가 성공적으로 완료되면 최적화된 파일들이 `/dist` 폴더에 생성됩니다.
+
+### 2. 프로덕션 환경 변수 설정 (Environment Variables)
+
+배포하시는 플랫폼(예: Vercel)의 대시보드 환경 변수 설정(Settings > Environment Variables) 메뉴에서 아래 변수를 반드시 등록해야 합니다.
+
+- `VITE_KMA_SERVICE_KEY`: 기상청 단기예보 API 발급키 (필수)
+- **주의사항:** `.env` 파일은 깃허브에 올라가지 않으므로, 배포 서버에 직접 키를 입력해야 합니다.
+
+### 3. 클라우드 플랫폼 배포 설정 (Vercel 기준)
+
+Vercel 등에 레포지토리를 연결한 후, 다음 설정값들을 확인하고 배포(Deploy)합니다.
+
+- **Framework Preset**: `Vite`
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **Install Command**: `npm install`
+
+설정을 마친 후 Deploy 버튼을 누르면 클라우드 환경에 성공적으로 포팅 및 호스팅됩니다!
+
+## 🌱 (+) 향후 고도화 계획
+
+### 프론트엔드 API Key 노출 보안 이슈 개선
+
+**현재 상태 (As-Is):**  
+실시간 날씨 위젯을 띄우기 위해 프론트엔드에서 기상청 API를 직접 호출하고 있습니다. 하지만 클라이언트 사이드 렌더링(CSR) 특성상 `.env`에 환경변수(`VITE_KMA_SERVICE_KEY`)로 숨기더라도 빌드 후 브라우저 네트워크 탭에 API 발급키가 노출되는 근본적인 보안 취약점이 존재합니다.
+
+**개선 목표 (To-Be):**
+
+- **API Proxy 서버 연동:** 백엔드에 날씨 조회용 Proxy API(예: `GET /api/weather`) 구축을 요청하고, 서버 대 서버(Server-to-Server) 통신으로 구조를 변경합니다.
+- **프론트엔드 키 은닉:** 프론트엔드에서는 자체 백엔드 API만을 호출하도록 변경하여 클라이언트 측에서의 공공데이터 API 키 노출을 100% 원천 차단하고 웹 보안을 강화합니다.
