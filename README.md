@@ -68,7 +68,8 @@
 #### 잔디
 
 - **잔디 히트맵:** 깃허브(GitHub) 스타일의 히트맵을 제공하여 꾸준한 사용 및 성장 동기 부여
-  [image5]
+  <img width="913" height="216" alt="image" src="https://github.com/user-attachments/assets/36187c7c-13de-424f-8eb2-a093d0c14f75" />
+
 
 <br>
 
